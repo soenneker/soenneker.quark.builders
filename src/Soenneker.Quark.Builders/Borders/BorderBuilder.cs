@@ -18,7 +18,7 @@ public sealed class BorderBuilder : ICssBuilder
     private BreakpointType? _pendingBreakpoint;
 
     // ----- Class tokens -----
-    private const string _baseToken = "b";
+    private const string _baseToken = "border";
 
     // ----- Side tokens -----
     private const string _sideT = "t";
@@ -207,19 +207,21 @@ public sealed class BorderBuilder : ICssBuilder
             else
                 first = false;
 
-            sb.Append(_baseToken);
-
-            if (sideTok.Length != 0)
-                sb.Append(sideTok);
-
-            sb.Append('-');
-
             if (bpTok.Length != 0)
             {
                 sb.Append(bpTok);
-                sb.Append('-');
+                sb.Append(':');
             }
 
+            sb.Append(_baseToken);
+
+            if (sideTok.Length != 0)
+            {
+                sb.Append('-');
+                sb.Append(sideTok);
+            }
+
+            sb.Append('-');
             sb.Append(sizeTok);
         }
 
