@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <Platforms>AnyCPU</Platforms>
+        <NoWarn>$(NoWarn);1591</NoWarn>
+        <RootNamespace>Soenneker.Quark</RootNamespace>
+        <GenerateDefaultNamespace>false</GenerateDefaultNamespace>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <Description>Builders that allow for Quark fluent chaining of Shadcn and Tailwind classes</Description>
+        <Version Condition="'$(BUILD_VERSION)' == ''">4.0.0</Version>
+        <Version Condition="'$(BUILD_VERSION)' != ''">$(BUILD_VERSION)</Version>
+        <AssemblyName>Soenneker.Quark.Builders</AssemblyName>
+        <PackageId>Soenneker.Quark.Builders</PackageId>
+        <PackageTags>quark builders builder fluent tailwind shadcn quarkbuilders util csharp dotnet c# .net</PackageTags>
+        <Copyright>Copyright © 2026 Jake Soenneker</Copyright>
+        <Authors>Jake Soenneker</Authors>
+        <Company>https://soenneker.com</Company>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <EmbedUntrackedSources>true</EmbedUntrackedSources>
+        <IncludeSymbols>true</IncludeSymbols>
+        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+        <IsPackable>true</IsPackable>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <PackageProjectUrl>https://github.com/soenneker/soenneker.quark.builders</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/soenneker/soenneker.quark.builders</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <RepositoryBranch>main</RepositoryBranch>
+        <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+        <PublishRepositoryUrl>true</PublishRepositoryUrl>
+        <LangVersion>latest</LangVersion>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <PackageIcon>icon.png</PackageIcon>
+        <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <None Include="..\..\README.md" Pack="true" PackagePath="\" />
+        <None Include="..\..\LICENSE" Pack="true" PackagePath="\" />
+        <None Include="..\..\icon.png" Pack="true" PackagePath="\" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Soenneker.Extensions.String" Version="4.0.665" />
+        <PackageReference Include="Soenneker.Quark.Enums.BoxShadows" Version="4.0.45" />
+        <PackageReference Include="Soenneker.Quark.Enums.Breakpoints" Version="4.0.42" />
+        <PackageReference Include="Soenneker.Quark.Enums.ButtonTypes" Version="4.0.33" />
+        <PackageReference Include="Soenneker.Quark.Enums.ColorTypes" Version="4.0.35" />
+        <PackageReference Include="Soenneker.Quark.Enums.ColumnAlignments" Version="4.0.34" />
+        <PackageReference Include="Soenneker.Quark.Enums.Cursor" Version="4.0.50" />
+        <PackageReference Include="Soenneker.Quark.Enums.DisplayTypes" Version="4.0.48" />
+        <PackageReference Include="Soenneker.Quark.Enums.ElementSides" Version="4.0.36" />
+        <PackageReference Include="Soenneker.Quark.Enums.Flexes" Version="4.0.45" />
+        <PackageReference Include="Soenneker.Quark.Enums.Floats" Version="4.0.47" />
+        <PackageReference Include="Soenneker.Quark.Enums.FontStyles" Version="4.0.42" />
+        <PackageReference Include="Soenneker.Quark.Enums.FontWeights" Version="4.0.44" />
+        <PackageReference Include="Soenneker.Quark.Enums.HtmlElementTypes" Version="4.0.32" />
+        <PackageReference Include="Soenneker.Quark.Enums.InputTypes" Version="4.0.32" />
+        <PackageReference Include="Soenneker.Quark.Enums.ObjectFits" Version="4.0.44" />
+        <PackageReference Include="Soenneker.Quark.Enums.Overflows" Version="4.0.44" />
+        <PackageReference Include="Soenneker.Quark.Enums.Placements" Version="4.0.34" />
+        <PackageReference Include="Soenneker.Quark.Enums.PointerEvents" Version="4.0.43" />
+        <PackageReference Include="Soenneker.Quark.Enums.Positions" Version="4.0.44" />
+        <PackageReference Include="Soenneker.Quark.Enums.Scales" Version="4.0.35" />
+        <PackageReference Include="Soenneker.Quark.Enums.Size" Version="4.0.36" />
+        <PackageReference Include="Soenneker.Quark.Enums.TextAlignments" Version="4.0.45" />
+        <PackageReference Include="Soenneker.Quark.Enums.TextBreaks" Version="4.0.43" />
+        <PackageReference Include="Soenneker.Quark.Enums.TextDecorations.Line" Version="4.0.44" />
+        <PackageReference Include="Soenneker.Quark.Enums.TextDecorations.Style" Version="4.0.43" />
+        <PackageReference Include="Soenneker.Quark.Enums.TextOverflows" Version="4.0.33" />
+        <PackageReference Include="Soenneker.Quark.Enums.TextTransforms" Version="4.0.43" />
+        <PackageReference Include="Soenneker.Quark.Enums.TextWraps" Version="4.0.43" />
+        <PackageReference Include="Soenneker.Quark.Enums.UserSelects" Version="4.0.47" />
+        <PackageReference Include="Soenneker.Quark.Enums.VerticalAligns" Version="4.0.45" />
+        <PackageReference Include="Soenneker.Quark.Enums.Visibilities" Version="4.0.45" />
+    </ItemGroup>
+</Project>

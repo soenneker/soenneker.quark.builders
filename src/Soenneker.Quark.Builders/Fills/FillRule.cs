@@ -1,0 +1,3 @@
+namespace Soenneker.Quark;
+
+internal readonly record struct FillRule(string Utility, string Value, BreakpointType? Breakpoint);
