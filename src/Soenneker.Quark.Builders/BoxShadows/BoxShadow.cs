@@ -10,6 +10,10 @@ public static class BoxShadow
     /// </summary>
     public static BoxShadowBuilder None => new(BoxShadowKeyword.NoneValue);
     /// <summary>
+    /// Gets a box shadow builder with extra small value.
+    /// </summary>
+    public static BoxShadowBuilder Xs => new("xs");
+    /// <summary>
     /// Gets a box shadow builder with base value (default shadow).
     /// </summary>
     public static BoxShadowBuilder Base => new("base");

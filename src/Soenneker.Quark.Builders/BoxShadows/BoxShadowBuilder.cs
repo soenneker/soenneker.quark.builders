@@ -17,6 +17,7 @@ public sealed class BoxShadowBuilder : ICssBuilder
 
     // ----- Class name constants -----
     private const string _classNone = "shadow-none";
+    private const string _classXs = "shadow-xs";
     private const string _classBase = "shadow";
     private const string _classSm = "shadow-sm";
     private const string _classLg = "shadow-lg";
@@ -36,6 +37,10 @@ public sealed class BoxShadowBuilder : ICssBuilder
     /// Sets the box shadow to none.
     /// </summary>
     public BoxShadowBuilder None => Chain("none");
+    /// <summary>
+    /// Sets the box shadow to extra small.
+    /// </summary>
+    public BoxShadowBuilder Xs => Chain("xs");
     /// <summary>
     /// Sets the box shadow to base.
     /// </summary>
@@ -109,6 +114,7 @@ public sealed class BoxShadowBuilder : ICssBuilder
             var baseClass = rule.Value switch
             {
                 "none" => _classNone,
+                "xs" => _classXs,
                 "base" => _classBase,
                 "sm" => _classSm,
                 "lg" => _classLg,
