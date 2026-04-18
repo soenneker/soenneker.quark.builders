@@ -67,10 +67,14 @@ public sealed class GapBuilder : ICssBuilder
     /// </summary>
     public GapBuilder X => ChainWithAxis(GapAxisEnum.X);
 
+    public GapBuilder Column => X;
+
     /// <summary>
     /// Apply to row gap only.
     /// </summary>
     public GapBuilder Y => ChainWithAxis(GapAxisEnum.Y);
+
+    public GapBuilder Row => Y;
 
     /// <summary>
     /// Applies on the base breakpoint.

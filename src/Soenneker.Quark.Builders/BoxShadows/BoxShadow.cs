@@ -20,10 +20,14 @@ public static class BoxShadow
     /// </summary>
     public static BoxShadowBuilder Sm => new(BoxShadowEnum.Sm);
 
+    public static BoxShadowBuilder Small => Sm;
+
     /// <summary>
     /// Default shadow.
     /// </summary>
     public static BoxShadowBuilder Default => new(BoxShadowEnum.Default);
+
+    public static BoxShadowBuilder Base => Default;
 
     /// <summary>
     /// Medium shadow.
