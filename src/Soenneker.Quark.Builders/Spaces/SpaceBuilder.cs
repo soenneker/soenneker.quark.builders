@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
-
 using Soenneker.Utils.PooledStringBuilders;
 
 namespace Soenneker.Quark;
@@ -11,56 +10,83 @@ public sealed class SpaceBuilder : ICssBuilder
     private readonly List<SpaceRule> _rules = new(6);
     private BreakpointType? _pendingBreakpoint;
 
-    internal SpaceBuilder(string utility, string value = "", BreakpointType? breakpoint = null)
+    internal SpaceBuilder(SpaceEnum value, BreakpointType? breakpoint = null)
     {
-        _rules.Add(new SpaceRule(utility, value, breakpoint));
+        _rules.Add(new SpaceRule(value.Value, breakpoint));
+    }
+
+    internal SpaceBuilder(string value, BreakpointType? breakpoint = null)
+    {
+        if (value.Length != 0)
+            _rules.Add(new SpaceRule(value, breakpoint));
     }
 
     /// <summary>
     /// Fluent step for `XReverse` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public SpaceBuilder XReverse => Chain("space-x-reverse", "");
+    public SpaceBuilder XReverse => Chain(SpaceEnum.XReverse);
+
     /// <summary>
     /// Fluent step for `YReverse` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public SpaceBuilder YReverse => Chain("space-y-reverse", "");
+    public SpaceBuilder YReverse => Chain(SpaceEnum.YReverse);
+
     /// <summary>
     /// Tailwind token segment (spacing scale step, arbitrary value like `[17rem]`, or theme key). Builds the matching utility class for this builder.
     /// </summary>
     /// <param name="value">Suffix/token after the utility prefix (see Tailwind docs for this family).</param>
-    public SpaceBuilder Token(string value) => Chain(_rules.Count > 0 ? _rules[^1].Utility : "space-x", value);
+    public SpaceBuilder Token(string value)
+    {
+        string prefix = _rules.Count > 0 && _rules[^1].Value.StartsWith("space-y", System.StringComparison.Ordinal) ? "space-y-" : "space-x-";
+        return ChainClass(prefix + value);
+    }
 
     /// <summary>
     /// Scopes the next utility to the default (unprefixed) breakpoint. In Tailwind’s mobile‑first model, unprefixed utilities apply from 0px unless a larger breakpoint overrides them.
     /// </summary>
     public SpaceBuilder OnBase => ChainBreakpoint(BreakpointType.Base);
+
     /// <summary>
     /// Applies the preceding utility from the `sm` breakpoint and up (`sm:` prefix). Tailwind default: `min-width: 40rem` (640px).
     /// </summary>
     public SpaceBuilder OnSm => ChainBreakpoint(BreakpointType.Sm);
+
     /// <summary>
     /// Applies from the `md` breakpoint and up (`md:`). Tailwind default: `min-width: 48rem` (768px).
     /// </summary>
     public SpaceBuilder OnMd => ChainBreakpoint(BreakpointType.Md);
+
     /// <summary>
     /// Applies from the `lg` breakpoint and up (`lg:`). Tailwind default: `min-width: 64rem` (1024px).
     /// </summary>
     public SpaceBuilder OnLg => ChainBreakpoint(BreakpointType.Lg);
+
     /// <summary>
     /// Applies from the `xl` breakpoint and up (`xl:`). Tailwind default: `min-width: 80rem` (1280px).
     /// </summary>
     public SpaceBuilder OnXl => ChainBreakpoint(BreakpointType.Xl);
+
     /// <summary>
     /// Applies from the `2xl` breakpoint and up (`2xl:`). Tailwind default: `min-width: 96rem` (1536px).
     /// </summary>
     public SpaceBuilder On2xl => ChainBreakpoint(BreakpointType.Xxl);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private SpaceBuilder Chain(string utility, string value)
+    private SpaceBuilder Chain(SpaceEnum value)
     {
         BreakpointType? breakpoint = _pendingBreakpoint;
         _pendingBreakpoint = null;
-        _rules.Add(new SpaceRule(utility, value, breakpoint));
+        _rules.Add(new SpaceRule(value.Value, breakpoint));
+        return this;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private SpaceBuilder ChainClass(string value)
+    {
+        BreakpointType? breakpoint = _pendingBreakpoint;
+        _pendingBreakpoint = null;
+        if (value.Length != 0)
+            _rules.Add(new SpaceRule(value, breakpoint));
         return this;
     }
 
@@ -77,11 +103,12 @@ public sealed class SpaceBuilder : ICssBuilder
             return string.Empty;
 
         using var sb = new PooledStringBuilder();
+
         var first = true;
         for (var i = 0; i < _rules.Count; i++)
         {
             SpaceRule rule = _rules[i];
-            string cls = rule.Value.Length == 0 ? rule.Utility : $"{rule.Utility}-{rule.Value}";
+            string cls = rule.Value;
             string bp = BreakpointUtil.GetBreakpointClass(rule.Breakpoint);
             if (bp.Length != 0)
                 cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, bp);

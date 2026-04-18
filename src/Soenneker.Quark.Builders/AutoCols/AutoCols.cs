@@ -2,9 +2,9 @@ namespace Soenneker.Quark;
 
 public static class AutoCols
 {
-    public static AutoColsBuilder Auto => new("auto");
-    public static AutoColsBuilder Min => new("min");
-    public static AutoColsBuilder Max => new("max");
-    public static AutoColsBuilder Fr => new("fr");
-    public static AutoColsBuilder Token(string value) => new(value);
+    public static AutoColsBuilder Auto => new(AutoColsEnum.Auto);
+    public static AutoColsBuilder Min => new(AutoColsEnum.Min);
+    public static AutoColsBuilder Max => new(AutoColsEnum.Max);
+    public static AutoColsBuilder Fr => new(AutoColsEnum.Fr);
+    public static AutoColsBuilder Token(string value) => new($"auto-cols-{value}");
 }

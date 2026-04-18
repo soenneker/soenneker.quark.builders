@@ -11,9 +11,9 @@ public sealed class FlexWrapBuilder : ResponsiveUtilityBuilder<FlexWrapBuilder>
     {
     }
 
-    public FlexWrapBuilder Wrap => ChainValue(FlexWrapEnum.Wrap.Value);
-    public FlexWrapBuilder WrapReverse => ChainValue(FlexWrapEnum.WrapReverse.Value);
-    public FlexWrapBuilder NoWrap => ChainValue(FlexWrapEnum.NoWrap.Value);
+    public FlexWrapBuilder Wrap => ChainValue(FlexWrapEnum.WrapValue);
+    public FlexWrapBuilder WrapReverse => ChainValue(FlexWrapEnum.WrapReverseValue);
+    public FlexWrapBuilder NoWrap => ChainValue(FlexWrapEnum.NoWrapValue);
     public FlexWrapBuilder Token(string value) => ChainValue(value);
 
     public FlexWrapBuilder OnBase => SetPendingBreakpoint(BreakpointType.Base);

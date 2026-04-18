@@ -11,11 +11,11 @@ public sealed class ItemsBuilder : ResponsiveUtilityBuilder<ItemsBuilder>
     {
     }
 
-    public ItemsBuilder Start => ChainValue(ItemsEnum.Start.Value);
-    public ItemsBuilder End => ChainValue(ItemsEnum.End.Value);
-    public ItemsBuilder Center => ChainValue(ItemsEnum.Center.Value);
-    public ItemsBuilder Baseline => ChainValue(ItemsEnum.Baseline.Value);
-    public ItemsBuilder Stretch => ChainValue(ItemsEnum.Stretch.Value);
+    public ItemsBuilder Start => ChainValue(ItemsEnum.StartValue);
+    public ItemsBuilder End => ChainValue(ItemsEnum.EndValue);
+    public ItemsBuilder Center => ChainValue(ItemsEnum.CenterValue);
+    public ItemsBuilder Baseline => ChainValue(ItemsEnum.BaselineValue);
+    public ItemsBuilder Stretch => ChainValue(ItemsEnum.StretchValue);
     public ItemsBuilder Token(string value) => ChainValue(value);
 
     public ItemsBuilder OnBase => SetPendingBreakpoint(BreakpointType.Base);

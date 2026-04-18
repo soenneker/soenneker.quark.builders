@@ -11,7 +11,7 @@ public sealed class RoundedBuilder : ICssBuilder
 {
     private readonly List<RoundedRule> _rules = new(4);
 
-    private string? _pendingPosition;
+    private RoundedPositionEnum _pendingPosition = RoundedPositionEnum.All;
     private BreakpointType? _pendingBreakpoint;
 
     private const string _base = "rounded";
@@ -20,12 +20,12 @@ public sealed class RoundedBuilder : ICssBuilder
     {
     }
 
-    internal RoundedBuilder(List<RoundedRule> rules, string? position = null, BreakpointType? bp = null)
+    internal RoundedBuilder(List<RoundedRule> rules, RoundedPositionEnum? position = null, BreakpointType? bp = null)
     {
         if (rules.Count > 0)
             _rules.AddRange(rules);
 
-        _pendingPosition = position;
+        _pendingPosition = position ?? RoundedPositionEnum.All;
         _pendingBreakpoint = bp;
     }
 
@@ -34,40 +34,40 @@ public sealed class RoundedBuilder : ICssBuilder
     /// <summary>
     /// Targets all corners (`rounded-*` with no corner suffix).
     /// </summary>
-    public RoundedBuilder All => SetPosition(null);
+    public RoundedBuilder All => SetPosition(RoundedPositionEnum.All);
     /// <summary>
     /// Top corners only (`rounded-t-*`).
     /// </summary>
-    public RoundedBuilder Top => SetPosition("t");
+    public RoundedBuilder Top => SetPosition(RoundedPositionEnum.Top);
     /// <summary>
     /// Bottom corners only (`rounded-b-*`).
     /// </summary>
-    public RoundedBuilder Bottom => SetPosition("b");
+    public RoundedBuilder Bottom => SetPosition(RoundedPositionEnum.Bottom);
     /// <summary>
     /// Left corners only (`rounded-l-*`).
     /// </summary>
-    public RoundedBuilder Left => SetPosition("l");
+    public RoundedBuilder Left => SetPosition(RoundedPositionEnum.Left);
     /// <summary>
     /// Right corners only (`rounded-r-*`).
     /// </summary>
-    public RoundedBuilder Right => SetPosition("r");
+    public RoundedBuilder Right => SetPosition(RoundedPositionEnum.Right);
 
     /// <summary>
     /// Top-left corner only (`rounded-tl-*`).
     /// </summary>
-    public RoundedBuilder TopLeft => SetPosition("tl");
+    public RoundedBuilder TopLeft => SetPosition(RoundedPositionEnum.TopLeft);
     /// <summary>
     /// Top-right corner only (`rounded-tr-*`).
     /// </summary>
-    public RoundedBuilder TopRight => SetPosition("tr");
+    public RoundedBuilder TopRight => SetPosition(RoundedPositionEnum.TopRight);
     /// <summary>
     /// Bottom-left corner only (`rounded-bl-*`).
     /// </summary>
-    public RoundedBuilder BottomLeft => SetPosition("bl");
+    public RoundedBuilder BottomLeft => SetPosition(RoundedPositionEnum.BottomLeft);
     /// <summary>
     /// Bottom-right corner only (`rounded-br-*`).
     /// </summary>
-    public RoundedBuilder BottomRight => SetPosition("br");
+    public RoundedBuilder BottomRight => SetPosition(RoundedPositionEnum.BottomRight);
 
     // ----- Sizes -----
 
@@ -143,7 +143,7 @@ public sealed class RoundedBuilder : ICssBuilder
     // ----- Core -----
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private RoundedBuilder SetPosition(string? pos)
+    private RoundedBuilder SetPosition(RoundedPositionEnum pos)
     {
         _pendingPosition = pos;
         return this;
@@ -161,7 +161,7 @@ public sealed class RoundedBuilder : ICssBuilder
     {
         _rules.Add(new RoundedRule(size, _pendingPosition, _pendingBreakpoint));
 
-        _pendingPosition = null;
+        _pendingPosition = RoundedPositionEnum.All;
         _pendingBreakpoint = null;
 
         return this;
@@ -194,10 +194,10 @@ public sealed class RoundedBuilder : ICssBuilder
 
             sb.Append(_base);
 
-            if (rule.PositionToken is { Length: > 0 })
+            if (rule.Position.Value.Length > 0)
             {
                 sb.Append('-');
-                sb.Append(rule.PositionToken);
+                sb.Append(rule.Position.Value);
             }
 
             if (rule.SizeToken is { Length: > 0 })

@@ -11,14 +11,14 @@ public sealed class JustifyBuilder : ResponsiveUtilityBuilder<JustifyBuilder>
     {
     }
 
-    public JustifyBuilder Normal => ChainValue(JustifyEnum.Normal.Value);
-    public JustifyBuilder Start => ChainValue(JustifyEnum.Start.Value);
-    public JustifyBuilder End => ChainValue(JustifyEnum.End.Value);
-    public JustifyBuilder Center => ChainValue(JustifyEnum.Center.Value);
-    public JustifyBuilder Between => ChainValue(JustifyEnum.Between.Value);
-    public JustifyBuilder Around => ChainValue(JustifyEnum.Around.Value);
-    public JustifyBuilder Evenly => ChainValue(JustifyEnum.Evenly.Value);
-    public JustifyBuilder Stretch => ChainValue(JustifyEnum.Stretch.Value);
+    public JustifyBuilder Normal => ChainValue(JustifyEnum.NormalValue);
+    public JustifyBuilder Start => ChainValue(JustifyEnum.StartValue);
+    public JustifyBuilder End => ChainValue(JustifyEnum.EndValue);
+    public JustifyBuilder Center => ChainValue(JustifyEnum.CenterValue);
+    public JustifyBuilder Between => ChainValue(JustifyEnum.BetweenValue);
+    public JustifyBuilder Around => ChainValue(JustifyEnum.AroundValue);
+    public JustifyBuilder Evenly => ChainValue(JustifyEnum.EvenlyValue);
+    public JustifyBuilder Stretch => ChainValue(JustifyEnum.StretchValue);
     public JustifyBuilder Token(string value) => ChainValue(value);
 
     public JustifyBuilder OnBase => SetPendingBreakpoint(BreakpointType.Base);

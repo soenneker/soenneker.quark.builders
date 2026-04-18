@@ -26,7 +26,7 @@ public sealed class PaddingBuilder : ICssBuilder
 
     internal PaddingBuilder(string size, BreakpointType? breakpoint = null)
     {
-        _rules.Add(new PaddingRule(size, ElementSideType.All, breakpoint));
+        _rules.Add(new PaddingRule(size, ElementSideEnum.All, breakpoint));
     }
 
     internal PaddingBuilder(List<PaddingRule> rules)
@@ -38,64 +38,64 @@ public sealed class PaddingBuilder : ICssBuilder
 	/// <summary>
 	/// Applies padding from the top side.
 	/// </summary>
-    public PaddingBuilder FromTop => AddRule(ElementSideType.Top);
+    public PaddingBuilder FromTop => AddRule(ElementSideEnum.Top);
 	/// <summary>
 	/// Applies padding from the right side.
 	/// </summary>
-    public PaddingBuilder FromRight => AddRule(ElementSideType.Right);
+    public PaddingBuilder FromRight => AddRule(ElementSideEnum.Right);
 	/// <summary>
 	/// Applies padding from the bottom side.
 	/// </summary>
-    public PaddingBuilder FromBottom => AddRule(ElementSideType.Bottom);
+    public PaddingBuilder FromBottom => AddRule(ElementSideEnum.Bottom);
 	/// <summary>
 	/// Applies padding from the left side.
 	/// </summary>
-    public PaddingBuilder FromLeft => AddRule(ElementSideType.Left);
+    public PaddingBuilder FromLeft => AddRule(ElementSideEnum.Left);
 	/// <summary>
 	/// Applies padding on the horizontal axis (left and right).
 	/// </summary>
-    public PaddingBuilder OnX => AddRule(ElementSideType.Horizontal);
+    public PaddingBuilder OnX => AddRule(ElementSideEnum.Horizontal);
 	/// <summary>
 	/// Applies padding on the vertical axis (top and bottom).
 	/// </summary>
-    public PaddingBuilder OnY => AddRule(ElementSideType.Vertical);
+    public PaddingBuilder OnY => AddRule(ElementSideEnum.Vertical);
 	/// <summary>
 	/// Applies padding on all sides.
 	/// </summary>
-    public PaddingBuilder OnAll => AddRule(ElementSideType.All);
+    public PaddingBuilder OnAll => AddRule(ElementSideEnum.All);
 	/// <summary>
 	/// Applies padding from the inline start.
 	/// </summary>
-    public PaddingBuilder FromStart => AddRule(ElementSideType.InlineStart);
+    public PaddingBuilder FromStart => AddRule(ElementSideEnum.InlineStart);
 	/// <summary>
 	/// Applies padding from the inline end.
 	/// </summary>
-    public PaddingBuilder FromEnd => AddRule(ElementSideType.InlineEnd);
+    public PaddingBuilder FromEnd => AddRule(ElementSideEnum.InlineEnd);
 
 	/// <summary>
 	/// Sets the padding size from an arbitrary Tailwind spacing token.
 	/// </summary>
-    public PaddingBuilder Is0 => ChainWithSize(ScaleType.Is0);
+    public PaddingBuilder Is0 => ChainWithSize(PaddingScaleEnum.Is0);
     /// <summary>
     /// Spacing/sizing scale step `1` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 1` for integer spacing utilities unless overridden).
     /// </summary>
-    public PaddingBuilder Is1 => ChainWithSize(ScaleType.Is1);
+    public PaddingBuilder Is1 => ChainWithSize(PaddingScaleEnum.Is1);
     /// <summary>
     /// Spacing/sizing scale step `2` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 2` for integer spacing utilities unless overridden).
     /// </summary>
-    public PaddingBuilder Is2 => ChainWithSize(ScaleType.Is2);
+    public PaddingBuilder Is2 => ChainWithSize(PaddingScaleEnum.Is2);
     /// <summary>
     /// Spacing/sizing scale step `3` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 3` for integer spacing utilities unless overridden).
     /// </summary>
-    public PaddingBuilder Is3 => ChainWithSize(ScaleType.Is3);
+    public PaddingBuilder Is3 => ChainWithSize(PaddingScaleEnum.Is3);
     /// <summary>
     /// Spacing/sizing scale step `4` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 4` for integer spacing utilities unless overridden).
     /// </summary>
-    public PaddingBuilder Is4 => ChainWithSize(ScaleType.Is4);
+    public PaddingBuilder Is4 => ChainWithSize(PaddingScaleEnum.Is4);
     /// <summary>
     /// Spacing/sizing scale step `5` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 5` for integer spacing utilities unless overridden).
     /// </summary>
-    public PaddingBuilder Is5 => ChainWithSize(ScaleType.Is5);
+    public PaddingBuilder Is5 => ChainWithSize(PaddingScaleEnum.Is5);
     /// <summary>
     /// Spacing/sizing scale step `6` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 6` for integer spacing utilities unless overridden).
     /// </summary>
@@ -141,15 +141,14 @@ public sealed class PaddingBuilder : ICssBuilder
     public PaddingBuilder On2xl => SetPendingBreakpoint(BreakpointType.Xxl);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private PaddingBuilder AddRule(ElementSideType side)
+    private PaddingBuilder AddRule(ElementSideEnum side)
     {
-        // Use last size & BreakpointType if present; default to ScaleType.Is0Value When absent
-        string size = _rules.Count > 0 ? _rules[^1].Size : ScaleType.Is0Value;
+        string size = _rules.Count > 0 ? _rules[^1].Size : PaddingScaleEnum.Is0Value;
         BreakpointType? existingBp = _rules.Count > 0 ? _rules[^1].Breakpoint : null;
         BreakpointType? bp = _pendingBreakpoint ?? existingBp;
         _pendingBreakpoint = null;
 
-        if (_rules.Count > 0 && _rules[^1].Side == ElementSideType.All)
+        if (_rules.Count > 0 && ReferenceEquals(_rules[^1].Side, ElementSideEnum.All))
         {
             // Replace last "All" with specific side using same size/bp
             _rules[^1] = new PaddingRule(size, side, bp);
@@ -167,16 +166,16 @@ public sealed class PaddingBuilder : ICssBuilder
     {
         BreakpointType? bp = _pendingBreakpoint;
         _pendingBreakpoint = null;
-        _rules.Add(new PaddingRule(size, ElementSideType.All, bp));
+        _rules.Add(new PaddingRule(size, ElementSideEnum.All, bp));
         return this;
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private PaddingBuilder ChainWithSize(ScaleType scale)
+    private PaddingBuilder ChainWithSize(PaddingScaleEnum scale)
     {
         BreakpointType? bp = _pendingBreakpoint;
         _pendingBreakpoint = null;
-        _rules.Add(new PaddingRule(scale.Value, ElementSideType.All, bp));
+        _rules.Add(new PaddingRule(scale.Value, ElementSideEnum.All, bp));
         return this;
     }
 
@@ -227,12 +226,12 @@ public sealed class PaddingBuilder : ICssBuilder
     {
         return size switch
         {
-            ScaleType.Is0Value => _token0,
-            ScaleType.Is1Value => ScaleType.Is1Value,
-            ScaleType.Is2Value => ScaleType.Is2Value,
-            ScaleType.Is3Value => ScaleType.Is3Value,
-            ScaleType.Is4Value => ScaleType.Is4Value,
-            ScaleType.Is5Value => ScaleType.Is5Value,
+            PaddingScaleEnum.Is0Value => _token0,
+            PaddingScaleEnum.Is1Value => PaddingScaleEnum.Is1Value,
+            PaddingScaleEnum.Is2Value => PaddingScaleEnum.Is2Value,
+            PaddingScaleEnum.Is3Value => PaddingScaleEnum.Is3Value,
+            PaddingScaleEnum.Is4Value => PaddingScaleEnum.Is4Value,
+            PaddingScaleEnum.Is5Value => PaddingScaleEnum.Is5Value,
             "6" => _token6,
             "8" => _token8,
             "16" => _token16,

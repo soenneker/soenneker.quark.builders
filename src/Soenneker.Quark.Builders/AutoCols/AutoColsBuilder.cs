@@ -1,17 +1,16 @@
 namespace Soenneker.Quark;
 
 [TailwindPrefix("auto-cols-", Responsive = true)]
-public sealed class AutoColsBuilder : ResponsiveUtilityBuilder<AutoColsBuilder>
+public sealed class AutoColsBuilder : FinalClassUtilityBuilder<AutoColsBuilder>
 {
-    internal AutoColsBuilder(string value, BreakpointType? breakpoint = null) : base("auto-cols-", value, breakpoint)
-    {
-    }
+    internal AutoColsBuilder(AutoColsEnum value, BreakpointType? breakpoint = null) : base(value.Value, breakpoint) {}
+    internal AutoColsBuilder(string value, BreakpointType? breakpoint = null) : base(value, breakpoint) {}
 
-    public AutoColsBuilder Auto => ChainValue("auto");
-    public AutoColsBuilder Min => ChainValue("min");
-    public AutoColsBuilder Max => ChainValue("max");
-    public AutoColsBuilder Fr => ChainValue("fr");
-    public AutoColsBuilder Token(string value) => ChainValue(value);
+    public AutoColsBuilder Auto => ChainClass(AutoColsEnum.AutoValue);
+    public AutoColsBuilder Min => ChainClass(AutoColsEnum.MinValue);
+    public AutoColsBuilder Max => ChainClass(AutoColsEnum.MaxValue);
+    public AutoColsBuilder Fr => ChainClass(AutoColsEnum.FrValue);
+    public AutoColsBuilder Token(string value) => ChainClass("auto-cols-" + value);
 
     public AutoColsBuilder OnBase => SetPendingBreakpoint(BreakpointType.Base);
     public AutoColsBuilder OnSm => SetPendingBreakpoint(BreakpointType.Sm);

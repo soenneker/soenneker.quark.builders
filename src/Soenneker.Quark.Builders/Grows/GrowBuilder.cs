@@ -1,19 +1,27 @@
+using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+using Soenneker.Utils.PooledStringBuilders;
+
 namespace Soenneker.Quark;
 
-[TailwindPrefix("", Responsive = true)]
-public sealed class GrowBuilder : ResponsiveUtilityBuilder<GrowBuilder>
+public sealed class GrowBuilder : ICssBuilder
 {
-    internal GrowBuilder(GrowEnum value, BreakpointType? breakpoint = null) : base("", value.Value, breakpoint)
+    private readonly List<GrowRule> _rules = new(4);
+    private BreakpointType? _pendingBreakpoint;
+
+    internal GrowBuilder(GrowEnum value, BreakpointType? breakpoint = null)
     {
+        _rules.Add(new GrowRule(value, breakpoint));
     }
 
-    internal GrowBuilder(string value, BreakpointType? breakpoint = null) : base("", Normalize(value), breakpoint)
+    internal GrowBuilder(List<GrowRule> rules)
     {
+        if (rules is { Count: > 0 })
+            _rules.AddRange(rules);
     }
 
-    public GrowBuilder Is1 => ChainValue(GrowEnum.Is1.Value);
-    public GrowBuilder Is0 => ChainValue(GrowEnum.Is0.Value);
-    public GrowBuilder Token(string value) => ChainValue(Normalize(value));
+    public GrowBuilder Is1 => Chain(GrowEnum.Is1);
+    public GrowBuilder Is0 => Chain(GrowEnum.Is0);
 
     public GrowBuilder OnBase => SetPendingBreakpoint(BreakpointType.Base);
     public GrowBuilder OnSm => SetPendingBreakpoint(BreakpointType.Sm);
@@ -22,14 +30,55 @@ public sealed class GrowBuilder : ResponsiveUtilityBuilder<GrowBuilder>
     public GrowBuilder OnXl => SetPendingBreakpoint(BreakpointType.Xl);
     public GrowBuilder On2xl => SetPendingBreakpoint(BreakpointType.Xxl);
 
-    private static string Normalize(string value)
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private GrowBuilder Chain(GrowEnum value)
     {
-        return value switch
-        {
-            "1" => GrowEnum.Is1Value,
-            "0" => GrowEnum.Is0Value,
-            _ when value.StartsWith("grow") => value,
-            _ => "grow-" + value
-        };
+        _rules.Add(new GrowRule(value, ConsumePendingBreakpoint()));
+        return this;
     }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private GrowBuilder SetPendingBreakpoint(BreakpointType breakpoint)
+    {
+        _pendingBreakpoint = breakpoint;
+        return this;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private BreakpointType? ConsumePendingBreakpoint()
+    {
+        BreakpointType? breakpoint = _pendingBreakpoint;
+        _pendingBreakpoint = null;
+        return breakpoint;
+    }
+
+    public string ToClass()
+    {
+        if (_rules.Count == 0)
+            return string.Empty;
+
+        using var sb = new PooledStringBuilder();
+        var first = true;
+
+        foreach (GrowRule rule in _rules)
+        {
+            string cls = rule.Value.Value;
+            string breakpoint = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
+            if (breakpoint.Length != 0)
+                cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, breakpoint);
+
+            if (!first)
+                sb.Append(' ');
+            else
+                first = false;
+
+            sb.Append(cls);
+        }
+
+        return sb.ToString();
+    }
+
+    public string ToStyle() => string.Empty;
+
+    public override string ToString() => ToClass();
 }

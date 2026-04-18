@@ -17,7 +17,7 @@ public sealed class ScrollPaddingBuilder : ICssBuilder
     private const string _baseToken = "scroll-p";
     internal ScrollPaddingBuilder(string size, BreakpointType? breakpoint = null)
     {
-        _rules.Add(new ScrollPaddingRule(size, ElementSideType.All, breakpoint));
+        _rules.Add(new ScrollPaddingRule(size, ElementSideEnum.All, breakpoint));
     }
 
     internal ScrollPaddingBuilder(List<ScrollPaddingRule> rules)
@@ -29,64 +29,64 @@ public sealed class ScrollPaddingBuilder : ICssBuilder
     /// <summary>
     /// Fluent step for `From Top` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public ScrollPaddingBuilder FromTop => AddRule(ElementSideType.Top);
+    public ScrollPaddingBuilder FromTop => AddRule(ElementSideEnum.Top);
     /// <summary>
     /// Fluent step for `From Right` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public ScrollPaddingBuilder FromRight => AddRule(ElementSideType.Right);
+    public ScrollPaddingBuilder FromRight => AddRule(ElementSideEnum.Right);
     /// <summary>
     /// Fluent step for `From Bottom` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public ScrollPaddingBuilder FromBottom => AddRule(ElementSideType.Bottom);
+    public ScrollPaddingBuilder FromBottom => AddRule(ElementSideEnum.Bottom);
     /// <summary>
     /// Fluent step for `From Left` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public ScrollPaddingBuilder FromLeft => AddRule(ElementSideType.Left);
+    public ScrollPaddingBuilder FromLeft => AddRule(ElementSideEnum.Left);
     /// <summary>
     /// Fluent step for `On X` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public ScrollPaddingBuilder OnX => AddRule(ElementSideType.Horizontal);
+    public ScrollPaddingBuilder OnX => AddRule(ElementSideEnum.Horizontal);
     /// <summary>
     /// Fluent step for `On Y` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public ScrollPaddingBuilder OnY => AddRule(ElementSideType.Vertical);
+    public ScrollPaddingBuilder OnY => AddRule(ElementSideEnum.Vertical);
     /// <summary>
     /// Fluent step for `On All` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public ScrollPaddingBuilder OnAll => AddRule(ElementSideType.All);
+    public ScrollPaddingBuilder OnAll => AddRule(ElementSideEnum.All);
     /// <summary>
     /// Fluent step for `From Start` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public ScrollPaddingBuilder FromStart => AddRule(ElementSideType.InlineStart);
+    public ScrollPaddingBuilder FromStart => AddRule(ElementSideEnum.InlineStart);
     /// <summary>
     /// Fluent step for `From End` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public ScrollPaddingBuilder FromEnd => AddRule(ElementSideType.InlineEnd);
+    public ScrollPaddingBuilder FromEnd => AddRule(ElementSideEnum.InlineEnd);
 
     /// <summary>
     /// Spacing/sizing scale step `0` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 0` for integer spacing utilities unless overridden).
     /// </summary>
-    public ScrollPaddingBuilder Is0 => ChainWithSize(ScaleType.Is0);
+    public ScrollPaddingBuilder Is0 => ChainWithSize(ScrollPaddingScaleEnum.Is0);
     /// <summary>
     /// Spacing/sizing scale step `1` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 1` for integer spacing utilities unless overridden).
     /// </summary>
-    public ScrollPaddingBuilder Is1 => ChainWithSize(ScaleType.Is1);
+    public ScrollPaddingBuilder Is1 => ChainWithSize(ScrollPaddingScaleEnum.Is1);
     /// <summary>
     /// Spacing/sizing scale step `2` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 2` for integer spacing utilities unless overridden).
     /// </summary>
-    public ScrollPaddingBuilder Is2 => ChainWithSize(ScaleType.Is2);
+    public ScrollPaddingBuilder Is2 => ChainWithSize(ScrollPaddingScaleEnum.Is2);
     /// <summary>
     /// Spacing/sizing scale step `3` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 3` for integer spacing utilities unless overridden).
     /// </summary>
-    public ScrollPaddingBuilder Is3 => ChainWithSize(ScaleType.Is3);
+    public ScrollPaddingBuilder Is3 => ChainWithSize(ScrollPaddingScaleEnum.Is3);
     /// <summary>
     /// Spacing/sizing scale step `4` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 4` for integer spacing utilities unless overridden).
     /// </summary>
-    public ScrollPaddingBuilder Is4 => ChainWithSize(ScaleType.Is4);
+    public ScrollPaddingBuilder Is4 => ChainWithSize(ScrollPaddingScaleEnum.Is4);
     /// <summary>
     /// Spacing/sizing scale step `5` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 5` for integer spacing utilities unless overridden).
     /// </summary>
-    public ScrollPaddingBuilder Is5 => ChainWithSize(ScaleType.Is5);
+    public ScrollPaddingBuilder Is5 => ChainWithSize(ScrollPaddingScaleEnum.Is5);
     /// <summary>
     /// One pixel (`px` unit) — hairline borders, fixed 1px tracks, etc.
     /// </summary>
@@ -114,12 +114,12 @@ public sealed class ScrollPaddingBuilder : ICssBuilder
     public ScrollPaddingBuilder On2xl => SetPendingBreakpoint(BreakpointType.Xxl);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private ScrollPaddingBuilder AddRule(ElementSideType side)
+    private ScrollPaddingBuilder AddRule(ElementSideEnum side)
     {
         BreakpointType? pending = ConsumePendingBreakpoint();
-        string size = _rules.Count > 0 ? _rules[^1].Size : ScaleType.Is0Value;
+        string size = _rules.Count > 0 ? _rules[^1].Size : ScrollPaddingScaleEnum.Is0Value;
         BreakpointType? bp = pending ?? (_rules.Count > 0 ? _rules[^1].Breakpoint : null);
-        if (_rules.Count > 0 && _rules[^1].Side == ElementSideType.All)
+        if (_rules.Count > 0 && ReferenceEquals(_rules[^1].Side, ElementSideEnum.All))
             _rules[^1] = new ScrollPaddingRule(size, side, bp);
         else
             _rules.Add(new ScrollPaddingRule(size, side, bp));
@@ -129,14 +129,14 @@ public sealed class ScrollPaddingBuilder : ICssBuilder
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private ScrollPaddingBuilder ChainWithSize(string size)
     {
-        _rules.Add(new ScrollPaddingRule(size, ElementSideType.All, ConsumePendingBreakpoint()));
+        _rules.Add(new ScrollPaddingRule(size, ElementSideEnum.All, ConsumePendingBreakpoint()));
         return this;
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private ScrollPaddingBuilder ChainWithSize(ScaleType scale)
+    private ScrollPaddingBuilder ChainWithSize(ScrollPaddingScaleEnum scale)
     {
-        _rules.Add(new ScrollPaddingRule(scale.Value, ElementSideType.All, ConsumePendingBreakpoint()));
+        _rules.Add(new ScrollPaddingRule(scale.Value, ElementSideEnum.All, ConsumePendingBreakpoint()));
         return this;
     }
 
@@ -182,12 +182,12 @@ public sealed class ScrollPaddingBuilder : ICssBuilder
 
     private static string GetSizeToken(string size) => size switch
     {
-        ScaleType.Is0Value => "0",
-        ScaleType.Is1Value => "1",
-        ScaleType.Is2Value => "2",
-        ScaleType.Is3Value => "3",
-        ScaleType.Is4Value => "4",
-        ScaleType.Is5Value => "5",
+        ScrollPaddingScaleEnum.Is0Value => "0",
+        ScrollPaddingScaleEnum.Is1Value => "1",
+        ScrollPaddingScaleEnum.Is2Value => "2",
+        ScrollPaddingScaleEnum.Is3Value => "3",
+        ScrollPaddingScaleEnum.Is4Value => "4",
+        ScrollPaddingScaleEnum.Is5Value => "5",
         "px" => "px",
         _ => string.Empty
     };

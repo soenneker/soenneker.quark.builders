@@ -2,8 +2,6 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Soenneker.Utils.PooledStringBuilders;
 
-
-
 namespace Soenneker.Quark;
 
 /// <summary>
@@ -15,11 +13,7 @@ public sealed class PointerEventsBuilder : ICssBuilder
     private readonly List<PointerEventsRule> _rules = new(4);
     private BreakpointType? _pendingBreakpoint;
 
-    // ----- Class constants -----
-    private const string _classNone = "pointer-events-none";
-    private const string _classAuto = "pointer-events-auto";
-
-    internal PointerEventsBuilder(string value, BreakpointType? breakpoint = null)
+    internal PointerEventsBuilder(PointerEventsEnum value, BreakpointType? breakpoint = null)
     {
         _rules.Add(new PointerEventsRule(value, breakpoint));
     }
@@ -33,12 +27,12 @@ public sealed class PointerEventsBuilder : ICssBuilder
     /// <summary>
     /// Sets the pointer events to none.
     /// </summary>
-    public PointerEventsBuilder None => Chain(PointerEventsKeyword.None);
+    public PointerEventsBuilder None => Chain(PointerEventsEnum.None);
 
     /// <summary>
     /// Sets the pointer events to auto.
     /// </summary>
-    public PointerEventsBuilder Auto => Chain(PointerEventsKeyword.Auto);
+    public PointerEventsBuilder Auto => Chain(PointerEventsEnum.Auto);
 
     /// <summary>
     /// Applies the pointer events on phone breakpoint.
@@ -71,7 +65,7 @@ public sealed class PointerEventsBuilder : ICssBuilder
     public PointerEventsBuilder On2xl => SetPendingBreakpoint(BreakpointType.Xxl);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private PointerEventsBuilder Chain(string value)
+    private PointerEventsBuilder Chain(PointerEventsEnum value)
     {
         _rules.Add(new PointerEventsRule(value, ConsumePendingBreakpoint()));
         return this;
@@ -107,13 +101,7 @@ public sealed class PointerEventsBuilder : ICssBuilder
         for (var i = 0; i < _rules.Count; i++)
         {
             PointerEventsRule rule = _rules[i];
-
-            string baseClass = rule.Value switch
-            {
-                PointerEventsKeyword.NoneValue => _classNone,
-                PointerEventsKeyword.AutoValue => _classAuto,
-                _ => string.Empty
-            };
+            string baseClass = rule.Value.Value;
 
             if (baseClass.Length == 0)
                 continue;
@@ -135,10 +123,7 @@ public sealed class PointerEventsBuilder : ICssBuilder
     /// Gets the CSS style string for the current configuration.
     /// </summary>
     /// <returns>The CSS style string.</returns>
-    public string ToStyle()
-    {
-        return string.Empty;
-    }
+    public string ToStyle() => string.Empty;
 
     public override string ToString() => ToClass();
 }

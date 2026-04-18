@@ -11,11 +11,11 @@ public sealed class DecorationStyleBuilder : ResponsiveUtilityBuilder<Decoration
     {
     }
 
-    public DecorationStyleBuilder Solid => ChainValue(DecorationStyleEnum.Solid.Value);
-    public DecorationStyleBuilder Double => ChainValue(DecorationStyleEnum.Double.Value);
-    public DecorationStyleBuilder Dotted => ChainValue(DecorationStyleEnum.Dotted.Value);
-    public DecorationStyleBuilder Dashed => ChainValue(DecorationStyleEnum.Dashed.Value);
-    public DecorationStyleBuilder Wavy => ChainValue(DecorationStyleEnum.Wavy.Value);
+    public DecorationStyleBuilder Solid => ChainValue(DecorationStyleEnum.SolidValue);
+    public DecorationStyleBuilder Double => ChainValue(DecorationStyleEnum.DoubleValue);
+    public DecorationStyleBuilder Dotted => ChainValue(DecorationStyleEnum.DottedValue);
+    public DecorationStyleBuilder Dashed => ChainValue(DecorationStyleEnum.DashedValue);
+    public DecorationStyleBuilder Wavy => ChainValue(DecorationStyleEnum.WavyValue);
     public DecorationStyleBuilder Token(string value) => ChainValue(value);
 
     public DecorationStyleBuilder OnBase => SetPendingBreakpoint(BreakpointType.Base);

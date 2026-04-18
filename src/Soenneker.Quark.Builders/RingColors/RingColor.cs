@@ -8,97 +8,97 @@ public static class RingColor
     /// <summary>
     /// Fluent step for `Primary` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public static RingColorBuilder Primary => new("primary");
+    public static RingColorBuilder Primary => new(RingColorEnum.Primary);
     /// <summary>
     /// Fluent step for `Primary Foreground` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public static RingColorBuilder PrimaryForeground => new("primary-foreground");
+    public static RingColorBuilder PrimaryForeground => new(RingColorEnum.PrimaryForeground);
     /// <summary>
     /// Fluent step for `Secondary` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public static RingColorBuilder Secondary => new("secondary");
+    public static RingColorBuilder Secondary => new(RingColorEnum.Secondary);
     /// <summary>
     /// Fluent step for `Secondary Foreground` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public static RingColorBuilder SecondaryForeground => new("secondary-foreground");
+    public static RingColorBuilder SecondaryForeground => new(RingColorEnum.SecondaryForeground);
     /// <summary>
     /// Fluent step for `Destructive` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public static RingColorBuilder Destructive => new("destructive");
+    public static RingColorBuilder Destructive => new(RingColorEnum.Destructive);
     /// <summary>
     /// Fluent step for `Destructive Foreground` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public static RingColorBuilder DestructiveForeground => new("destructive-foreground");
+    public static RingColorBuilder DestructiveForeground => new(RingColorEnum.DestructiveForeground);
     /// <summary>
     /// Fluent step for `Muted` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public static RingColorBuilder Muted => new("muted");
+    public static RingColorBuilder Muted => new(RingColorEnum.Muted);
     /// <summary>
     /// Fluent step for `Muted Foreground` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public static RingColorBuilder MutedForeground => new("muted-foreground");
+    public static RingColorBuilder MutedForeground => new(RingColorEnum.MutedForeground);
     /// <summary>
     /// Fluent step for `Accent` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public static RingColorBuilder Accent => new("accent");
+    public static RingColorBuilder Accent => new(RingColorEnum.Accent);
     /// <summary>
     /// Fluent step for `Accent Foreground` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public static RingColorBuilder AccentForeground => new("accent-foreground");
+    public static RingColorBuilder AccentForeground => new(RingColorEnum.AccentForeground);
     /// <summary>
     /// Fluent step for `Popover` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public static RingColorBuilder Popover => new("popover");
+    public static RingColorBuilder Popover => new(RingColorEnum.Popover);
     /// <summary>
     /// Fluent step for `Popover Foreground` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public static RingColorBuilder PopoverForeground => new("popover-foreground");
+    public static RingColorBuilder PopoverForeground => new(RingColorEnum.PopoverForeground);
     /// <summary>
     /// Fluent step for `Card` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public static RingColorBuilder Card => new("card");
+    public static RingColorBuilder Card => new(RingColorEnum.Card);
     /// <summary>
     /// Fluent step for `Card Foreground` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public static RingColorBuilder CardForeground => new("card-foreground");
+    public static RingColorBuilder CardForeground => new(RingColorEnum.CardForeground);
     /// <summary>
     /// Fluent step for `Background` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public static RingColorBuilder Background => new("background");
+    public static RingColorBuilder Background => new(RingColorEnum.Background);
     /// <summary>
     /// Fluent step for `Foreground` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public static RingColorBuilder Foreground => new("foreground");
+    public static RingColorBuilder Foreground => new(RingColorEnum.Foreground);
     /// <summary>
     /// Fluent step for `Border` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public static RingColorBuilder Border => new("border");
+    public static RingColorBuilder Border => new(RingColorEnum.Border);
     /// <summary>
     /// Fluent step for `Input` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public static RingColorBuilder Input => new("input");
+    public static RingColorBuilder Input => new(RingColorEnum.Input);
     /// <summary>
     /// Fluent step for `Ring` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public static RingColorBuilder Ring => new("ring");
+    public static RingColorBuilder Ring => new(RingColorEnum.Ring);
     /// <summary>
     /// Fluent step for `Success` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public static RingColorBuilder Success => new("success");
+    public static RingColorBuilder Success => new(RingColorEnum.Success);
     /// <summary>
     /// Fluent step for `Warning` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public static RingColorBuilder Warning => new("warning");
+    public static RingColorBuilder Warning => new(RingColorEnum.Warning);
     /// <summary>
     /// Fluent step for `Info` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public static RingColorBuilder Info => new("info");
+    public static RingColorBuilder Info => new(RingColorEnum.Info);
     /// <summary>
     /// Fluent step for `White` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public static RingColorBuilder White => new("white");
+    public static RingColorBuilder White => new(RingColorEnum.White);
     /// <summary>
     /// Fluent step for `Black` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public static RingColorBuilder Black => new("black");
+    public static RingColorBuilder Black => new(RingColorEnum.Black);
 }

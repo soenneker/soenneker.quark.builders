@@ -14,8 +14,6 @@ public sealed class TruncateBuilder : ICssBuilder
 {
     private readonly List<TruncateRule> _rules = new(4);
 
-    private const string _classTextTruncate = "truncate";
-
     internal TruncateBuilder(BreakpointType? breakpoint = null)
     {
         _rules.Add(new TruncateRule(breakpoint));
@@ -82,7 +80,7 @@ public sealed class TruncateBuilder : ICssBuilder
         for (var i = 0; i < _rules.Count; i++)
         {
             TruncateRule rule = _rules[i];
-            string cls = _classTextTruncate;
+            string cls = TruncateEnum.DefaultValue;
 
             string bp = BreakpointUtil.GetBreakpointClass(rule.Breakpoint);
             if (bp.Length != 0)

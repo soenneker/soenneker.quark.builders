@@ -8,17 +8,17 @@ public static class StrokeLineJoin
     /// <summary>
     /// `auto` — browser-default sizing/behavior for the underlying utility.
     /// </summary>
-    public static StrokeLineJoinBuilder Auto => new("auto");
+    public static StrokeLineJoinBuilder Auto => new(StrokeLineJoinEnum.Auto);
     /// <summary>
     /// Fluent step for `Round` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public static StrokeLineJoinBuilder Round => new("round");
+    public static StrokeLineJoinBuilder Round => new(StrokeLineJoinEnum.Round);
     /// <summary>
     /// Fluent step for `Bevel` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public static StrokeLineJoinBuilder Bevel => new("bevel");
+    public static StrokeLineJoinBuilder Bevel => new(StrokeLineJoinEnum.Bevel);
     /// <summary>
     /// Fluent step for `Miter` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public static StrokeLineJoinBuilder Miter => new("miter");
+    public static StrokeLineJoinBuilder Miter => new(StrokeLineJoinEnum.Miter);
 }

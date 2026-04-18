@@ -28,34 +28,40 @@ public sealed class TextColorBuilder : ICssBuilder
 
     private const string Prefix = "text-";
 
-    private readonly List<ColorRule> _rules = new(4);
+    private readonly List<TextColorRule> _rules = new(4);
     private BreakpointType? _pendingBreakpoint;
 
-    internal TextColorBuilder(string value, BreakpointType? breakpoint = null, bool isUtility = false)
+    internal TextColorBuilder(TextColorEnum value, BreakpointType? breakpoint = null)
     {
-        _rules.Add(new ColorRule(value, breakpoint, isUtility));
+        _rules.Add(new TextColorRule(value.Value, breakpoint));
     }
 
-    internal TextColorBuilder(List<ColorRule> rules)
+    internal TextColorBuilder(string value, BreakpointType? breakpoint = null)
+    {
+        if (value.Length != 0)
+            _rules.Add(new TextColorRule(value, breakpoint));
+    }
+
+    internal TextColorBuilder(List<TextColorRule> rules)
     {
         if (rules is { Count: > 0 })
             _rules.AddRange(rules);
     }
 
-    public TextColorBuilder Primary => ChainValue("primary");
-    public TextColorBuilder PrimaryForeground => ChainValue("primary-foreground");
-    public TextColorBuilder Secondary => ChainValue("secondary");
-    public TextColorBuilder SecondaryForeground => ChainValue("secondary-foreground");
-    public TextColorBuilder Destructive => ChainValue("destructive");
-    public TextColorBuilder DestructiveForeground => ChainValue("destructive-foreground");
-    public TextColorBuilder MutedForeground => ChainValue("muted-foreground");
-    public TextColorBuilder Accent => ChainValue("accent");
-    public TextColorBuilder AccentForeground => ChainValue("accent-foreground");
-    public TextColorBuilder PopoverForeground => ChainValue("popover-foreground");
-    public TextColorBuilder CardForeground => ChainValue("card-foreground");
-    public TextColorBuilder Foreground => ChainValue("foreground");
-    public TextColorBuilder White => ChainValue("white");
-    public TextColorBuilder Black => ChainValue("black");
+    public TextColorBuilder Primary => ChainValue(TextColorEnum.Primary);
+    public TextColorBuilder PrimaryForeground => ChainValue(TextColorEnum.PrimaryForeground);
+    public TextColorBuilder Secondary => ChainValue(TextColorEnum.Secondary);
+    public TextColorBuilder SecondaryForeground => ChainValue(TextColorEnum.SecondaryForeground);
+    public TextColorBuilder Destructive => ChainValue(TextColorEnum.Destructive);
+    public TextColorBuilder DestructiveForeground => ChainValue(TextColorEnum.DestructiveForeground);
+    public TextColorBuilder MutedForeground => ChainValue(TextColorEnum.MutedForeground);
+    public TextColorBuilder Accent => ChainValue(TextColorEnum.Accent);
+    public TextColorBuilder AccentForeground => ChainValue(TextColorEnum.AccentForeground);
+    public TextColorBuilder PopoverForeground => ChainValue(TextColorEnum.PopoverForeground);
+    public TextColorBuilder CardForeground => ChainValue(TextColorEnum.CardForeground);
+    public TextColorBuilder Foreground => ChainValue(TextColorEnum.Foreground);
+    public TextColorBuilder White => ChainValue(TextColorEnum.White);
+    public TextColorBuilder Black => ChainValue(TextColorEnum.Black);
 
     public TextColorBuilder OnBase => SetPendingBreakpoint(BreakpointType.Base);
     public TextColorBuilder OnSm => SetPendingBreakpoint(BreakpointType.Sm);
@@ -64,16 +70,26 @@ public sealed class TextColorBuilder : ICssBuilder
     public TextColorBuilder OnXl => SetPendingBreakpoint(BreakpointType.Xl);
     public TextColorBuilder On2xl => SetPendingBreakpoint(BreakpointType.Xxl);
 
-    public TextColorBuilder Token(string token) => ChainValue(token);
+    public TextColorBuilder Token(string token) => ChainClass(ColorUtility.CreateClass(Prefix, token, SemanticTokens));
 
-    public TextColorBuilder Utility(string utility) => ChainValue(utility, isUtility: true);
+    public TextColorBuilder Utility(string utility) => ChainClass(ColorUtility.CreateUtilityClass(Prefix, utility));
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private TextColorBuilder ChainValue(string value, bool isUtility = false)
+    private TextColorBuilder ChainValue(TextColorEnum value)
     {
         BreakpointType? bp = _pendingBreakpoint;
         _pendingBreakpoint = null;
-        _rules.Add(new ColorRule(value, bp, isUtility));
+        _rules.Add(new TextColorRule(value.Value, bp));
+        return this;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private TextColorBuilder ChainClass(string value)
+    {
+        BreakpointType? bp = _pendingBreakpoint;
+        _pendingBreakpoint = null;
+        if (value.Length != 0)
+            _rules.Add(new TextColorRule(value, bp));
         return this;
     }
 
@@ -94,8 +110,8 @@ public sealed class TextColorBuilder : ICssBuilder
 
         for (var i = 0; i < _rules.Count; i++)
         {
-            ColorRule rule = _rules[i];
-            string cls = ColorUtility.GetClass(Prefix, rule, SemanticTokens);
+            TextColorRule rule = _rules[i];
+            string cls = rule.Value;
             if (cls.Length == 0)
                 continue;
 

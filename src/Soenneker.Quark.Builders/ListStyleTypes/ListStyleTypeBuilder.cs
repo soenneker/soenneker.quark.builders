@@ -30,15 +30,7 @@ public sealed class ListStyleTypeBuilder : ICssBuilder
     /// Gets the CSS style string for the current configuration.
     /// </summary>
     /// <returns>The CSS style string.</returns>
-    public string ToStyle()
-    {
-        string valueStr = _value.Value;
-        
-        if (valueStr == "none" || string.IsNullOrEmpty(valueStr))
-            return string.Empty;
-
-        return $"list-style-type: {valueStr}";
-    }
+    public string ToStyle() => string.Empty;
 
     /// <summary>
     /// Returns the CSS style string representation of this list style type builder.

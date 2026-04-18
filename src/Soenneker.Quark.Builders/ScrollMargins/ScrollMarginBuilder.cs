@@ -17,7 +17,7 @@ public sealed class ScrollMarginBuilder : ICssBuilder
     private const string _baseToken = "scroll-m";
     internal ScrollMarginBuilder(string size, BreakpointType? breakpoint = null)
     {
-        _rules.Add(new ScrollMarginRule(size, ElementSideType.All, breakpoint));
+        _rules.Add(new ScrollMarginRule(size, ElementSideEnum.All, breakpoint));
     }
 
     internal ScrollMarginBuilder(List<ScrollMarginRule> rules)
@@ -29,64 +29,64 @@ public sealed class ScrollMarginBuilder : ICssBuilder
     /// <summary>
     /// Fluent step for `From Top` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public ScrollMarginBuilder FromTop => AddRule(ElementSideType.Top);
+    public ScrollMarginBuilder FromTop => AddRule(ElementSideEnum.Top);
     /// <summary>
     /// Fluent step for `From Right` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public ScrollMarginBuilder FromRight => AddRule(ElementSideType.Right);
+    public ScrollMarginBuilder FromRight => AddRule(ElementSideEnum.Right);
     /// <summary>
     /// Fluent step for `From Bottom` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public ScrollMarginBuilder FromBottom => AddRule(ElementSideType.Bottom);
+    public ScrollMarginBuilder FromBottom => AddRule(ElementSideEnum.Bottom);
     /// <summary>
     /// Fluent step for `From Left` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public ScrollMarginBuilder FromLeft => AddRule(ElementSideType.Left);
+    public ScrollMarginBuilder FromLeft => AddRule(ElementSideEnum.Left);
     /// <summary>
     /// Fluent step for `On X` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public ScrollMarginBuilder OnX => AddRule(ElementSideType.Horizontal);
+    public ScrollMarginBuilder OnX => AddRule(ElementSideEnum.Horizontal);
     /// <summary>
     /// Fluent step for `On Y` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public ScrollMarginBuilder OnY => AddRule(ElementSideType.Vertical);
+    public ScrollMarginBuilder OnY => AddRule(ElementSideEnum.Vertical);
     /// <summary>
     /// Fluent step for `On All` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public ScrollMarginBuilder OnAll => AddRule(ElementSideType.All);
+    public ScrollMarginBuilder OnAll => AddRule(ElementSideEnum.All);
     /// <summary>
     /// Fluent step for `From Start` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public ScrollMarginBuilder FromStart => AddRule(ElementSideType.InlineStart);
+    public ScrollMarginBuilder FromStart => AddRule(ElementSideEnum.InlineStart);
     /// <summary>
     /// Fluent step for `From End` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public ScrollMarginBuilder FromEnd => AddRule(ElementSideType.InlineEnd);
+    public ScrollMarginBuilder FromEnd => AddRule(ElementSideEnum.InlineEnd);
 
     /// <summary>
     /// Spacing/sizing scale step `0` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 0` for integer spacing utilities unless overridden).
     /// </summary>
-    public ScrollMarginBuilder Is0 => ChainWithSize(ScaleType.Is0);
+    public ScrollMarginBuilder Is0 => ChainWithSize(ScrollMarginScaleEnum.Is0);
     /// <summary>
     /// Spacing/sizing scale step `1` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 1` for integer spacing utilities unless overridden).
     /// </summary>
-    public ScrollMarginBuilder Is1 => ChainWithSize(ScaleType.Is1);
+    public ScrollMarginBuilder Is1 => ChainWithSize(ScrollMarginScaleEnum.Is1);
     /// <summary>
     /// Spacing/sizing scale step `2` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 2` for integer spacing utilities unless overridden).
     /// </summary>
-    public ScrollMarginBuilder Is2 => ChainWithSize(ScaleType.Is2);
+    public ScrollMarginBuilder Is2 => ChainWithSize(ScrollMarginScaleEnum.Is2);
     /// <summary>
     /// Spacing/sizing scale step `3` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 3` for integer spacing utilities unless overridden).
     /// </summary>
-    public ScrollMarginBuilder Is3 => ChainWithSize(ScaleType.Is3);
+    public ScrollMarginBuilder Is3 => ChainWithSize(ScrollMarginScaleEnum.Is3);
     /// <summary>
     /// Spacing/sizing scale step `4` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 4` for integer spacing utilities unless overridden).
     /// </summary>
-    public ScrollMarginBuilder Is4 => ChainWithSize(ScaleType.Is4);
+    public ScrollMarginBuilder Is4 => ChainWithSize(ScrollMarginScaleEnum.Is4);
     /// <summary>
     /// Spacing/sizing scale step `5` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 5` for integer spacing utilities unless overridden).
     /// </summary>
-    public ScrollMarginBuilder Is5 => ChainWithSize(ScaleType.Is5);
+    public ScrollMarginBuilder Is5 => ChainWithSize(ScrollMarginScaleEnum.Is5);
     /// <summary>
     /// Spacing/sizing scale step `24` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 24` for integer spacing utilities unless overridden).
     /// </summary>
@@ -118,13 +118,13 @@ public sealed class ScrollMarginBuilder : ICssBuilder
     public ScrollMarginBuilder On2xl => SetPendingBreakpoint(BreakpointType.Xxl);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private ScrollMarginBuilder AddRule(ElementSideType side)
+    private ScrollMarginBuilder AddRule(ElementSideEnum side)
     {
-        string size = _rules.Count > 0 ? _rules[^1].Size : ScaleType.Is0Value;
+        string size = _rules.Count > 0 ? _rules[^1].Size : ScrollMarginScaleEnum.Is0Value;
         BreakpointType? existingBp = _rules.Count > 0 ? _rules[^1].Breakpoint : null;
         BreakpointType? bp = _pendingBreakpoint ?? existingBp;
         _pendingBreakpoint = null;
-        if (_rules.Count > 0 && _rules[^1].Side == ElementSideType.All)
+        if (_rules.Count > 0 && ReferenceEquals(_rules[^1].Side, ElementSideEnum.All))
             _rules[^1] = new ScrollMarginRule(size, side, bp);
         else
             _rules.Add(new ScrollMarginRule(size, side, bp));
@@ -136,16 +136,16 @@ public sealed class ScrollMarginBuilder : ICssBuilder
     {
         BreakpointType? bp = _pendingBreakpoint;
         _pendingBreakpoint = null;
-        _rules.Add(new ScrollMarginRule(size, ElementSideType.All, bp));
+        _rules.Add(new ScrollMarginRule(size, ElementSideEnum.All, bp));
         return this;
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private ScrollMarginBuilder ChainWithSize(ScaleType scale)
+    private ScrollMarginBuilder ChainWithSize(ScrollMarginScaleEnum scale)
     {
         BreakpointType? bp = _pendingBreakpoint;
         _pendingBreakpoint = null;
-        _rules.Add(new ScrollMarginRule(scale.Value, ElementSideType.All, bp));
+        _rules.Add(new ScrollMarginRule(scale.Value, ElementSideEnum.All, bp));
         return this;
     }
 
@@ -183,12 +183,12 @@ public sealed class ScrollMarginBuilder : ICssBuilder
 
     private static string GetSizeToken(string size) => size switch
     {
-        ScaleType.Is0Value => "0",
-        ScaleType.Is1Value => "1",
-        ScaleType.Is2Value => "2",
-        ScaleType.Is3Value => "3",
-        ScaleType.Is4Value => "4",
-        ScaleType.Is5Value => "5",
+        ScrollMarginScaleEnum.Is0Value => "0",
+        ScrollMarginScaleEnum.Is1Value => "1",
+        ScrollMarginScaleEnum.Is2Value => "2",
+        ScrollMarginScaleEnum.Is3Value => "3",
+        ScrollMarginScaleEnum.Is4Value => "4",
+        ScrollMarginScaleEnum.Is5Value => "5",
         "24" => "24",
         "px" => "px",
         _ => string.Empty

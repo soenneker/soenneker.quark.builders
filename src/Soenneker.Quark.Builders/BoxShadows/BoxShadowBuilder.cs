@@ -156,8 +156,5 @@ public sealed class BoxShadowBuilder : ICssBuilder
     /// Shadow utilities are class-first; no inline style mapping.
     /// </summary>
     /// <returns>An empty string as shadow utilities are class-first.</returns>
-    public string ToStyle()
-    {
-        return string.Empty;
-    }
+    public string ToStyle() => string.Empty;
 }

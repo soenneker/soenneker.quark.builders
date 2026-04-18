@@ -11,10 +11,10 @@ public sealed class DecorationLineBuilder : ResponsiveUtilityBuilder<DecorationL
     {
     }
 
-    public DecorationLineBuilder None => ChainValue(DecorationLineEnum.None.Value);
-    public DecorationLineBuilder Underline => ChainValue(DecorationLineEnum.Underline.Value);
-    public DecorationLineBuilder LineThrough => ChainValue(DecorationLineEnum.LineThrough.Value);
-    public DecorationLineBuilder Overline => ChainValue(DecorationLineEnum.Overline.Value);
+    public DecorationLineBuilder None => ChainValue(DecorationLineEnum.NoneValue);
+    public DecorationLineBuilder Underline => ChainValue(DecorationLineEnum.UnderlineValue);
+    public DecorationLineBuilder LineThrough => ChainValue(DecorationLineEnum.LineThroughValue);
+    public DecorationLineBuilder Overline => ChainValue(DecorationLineEnum.OverlineValue);
     public DecorationLineBuilder Token(string value) => ChainValue(value);
 
     public DecorationLineBuilder OnBase => SetPendingBreakpoint(BreakpointType.Base);

@@ -17,15 +17,15 @@ public sealed class TransformBuilder : ResponsiveUtilityBuilder<TransformBuilder
     /// <summary>
     /// Sets the transform to none.
     /// </summary>
-    public TransformBuilder None => ChainValue(TransformEnum.None.Value);
+    public TransformBuilder None => ChainValue(TransformEnum.NoneValue);
     /// <summary>
     /// Uses the GPU transform utility.
     /// </summary>
-    public TransformBuilder Gpu => ChainValue(TransformEnum.Gpu.Value);
+    public TransformBuilder Gpu => ChainValue(TransformEnum.GpuValue);
     /// <summary>
     /// Uses the CPU transform utility.
     /// </summary>
-    public TransformBuilder Cpu => ChainValue(TransformEnum.Cpu.Value);
+    public TransformBuilder Cpu => ChainValue(TransformEnum.CpuValue);
 
     /// <summary>
     /// Applies the transform value suffix after the `transform-` prefix, including arbitrary values.

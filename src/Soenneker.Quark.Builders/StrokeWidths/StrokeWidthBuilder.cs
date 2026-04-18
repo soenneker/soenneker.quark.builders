@@ -14,7 +14,7 @@ public sealed class StrokeWidthBuilder : ICssBuilder
     private readonly List<StrokeWidthRule> _rules = new(4);
     private BreakpointType? _pendingBreakpoint;
 
-    internal StrokeWidthBuilder(string value, BreakpointType? breakpoint = null)
+    internal StrokeWidthBuilder(StrokeWidthEnum value, BreakpointType? breakpoint = null)
     {
         _rules.Add(new StrokeWidthRule(value, breakpoint));
     }
@@ -28,15 +28,15 @@ public sealed class StrokeWidthBuilder : ICssBuilder
     /// <summary>
     /// Spacing/sizing scale step `0` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 0` for integer spacing utilities unless overridden).
     /// </summary>
-    public StrokeWidthBuilder Is0 => Chain("0");
+    public StrokeWidthBuilder Is0 => Chain(StrokeWidthEnum.Is0);
     /// <summary>
     /// Spacing/sizing scale step `1` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 1` for integer spacing utilities unless overridden).
     /// </summary>
-    public StrokeWidthBuilder Is1 => Chain("1");
+    public StrokeWidthBuilder Is1 => Chain(StrokeWidthEnum.Is1);
     /// <summary>
     /// Spacing/sizing scale step `2` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 2` for integer spacing utilities unless overridden).
     /// </summary>
-    public StrokeWidthBuilder Is2 => Chain("2");
+    public StrokeWidthBuilder Is2 => Chain(StrokeWidthEnum.Is2);
 
     /// <summary>
     /// Scopes the next utility to the default (unprefixed) breakpoint.
@@ -64,7 +64,7 @@ public sealed class StrokeWidthBuilder : ICssBuilder
     public StrokeWidthBuilder On2xl => ChainBp(BreakpointType.Xxl);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private StrokeWidthBuilder Chain(string value)
+    private StrokeWidthBuilder Chain(StrokeWidthEnum value)
     {
         BreakpointType? breakpoint = _pendingBreakpoint;
         _pendingBreakpoint = null;
@@ -86,7 +86,7 @@ public sealed class StrokeWidthBuilder : ICssBuilder
         var first = true;
         foreach (StrokeWidthRule rule in _rules)
         {
-            string cls = rule.Value switch { "0" => "stroke-0", "1" => "stroke-1", "2" => "stroke-2", _ => string.Empty };
+            string cls = rule.Value.Value;
             if (cls.Length == 0) continue;
             string b = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
             if (b.Length != 0) cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, b);
@@ -97,10 +97,7 @@ public sealed class StrokeWidthBuilder : ICssBuilder
         return sb.ToString();
     }
 
-    public string ToStyle()
-    {
-        return string.Empty;
-    }
+    public string ToStyle() => string.Empty;
 
     public override string ToString() => ToClass();
 }

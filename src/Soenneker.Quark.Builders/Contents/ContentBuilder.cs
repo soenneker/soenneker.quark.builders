@@ -11,15 +11,15 @@ public sealed class ContentBuilder : ResponsiveUtilityBuilder<ContentBuilder>
     {
     }
 
-    public ContentBuilder Normal => ChainValue(ContentEnum.Normal.Value);
-    public ContentBuilder Center => ChainValue(ContentEnum.Center.Value);
-    public ContentBuilder Start => ChainValue(ContentEnum.Start.Value);
-    public ContentBuilder End => ChainValue(ContentEnum.End.Value);
-    public ContentBuilder Between => ChainValue(ContentEnum.Between.Value);
-    public ContentBuilder Around => ChainValue(ContentEnum.Around.Value);
-    public ContentBuilder Evenly => ChainValue(ContentEnum.Evenly.Value);
-    public ContentBuilder Stretch => ChainValue(ContentEnum.Stretch.Value);
-    public ContentBuilder Baseline => ChainValue(ContentEnum.Baseline.Value);
+    public ContentBuilder Normal => ChainValue(ContentEnum.NormalValue);
+    public ContentBuilder Center => ChainValue(ContentEnum.CenterValue);
+    public ContentBuilder Start => ChainValue(ContentEnum.StartValue);
+    public ContentBuilder End => ChainValue(ContentEnum.EndValue);
+    public ContentBuilder Between => ChainValue(ContentEnum.BetweenValue);
+    public ContentBuilder Around => ChainValue(ContentEnum.AroundValue);
+    public ContentBuilder Evenly => ChainValue(ContentEnum.EvenlyValue);
+    public ContentBuilder Stretch => ChainValue(ContentEnum.StretchValue);
+    public ContentBuilder Baseline => ChainValue(ContentEnum.BaselineValue);
     public ContentBuilder Token(string value) => ChainValue(value);
 
     public ContentBuilder OnBase => SetPendingBreakpoint(BreakpointType.Base);

@@ -8,58 +8,58 @@ public static class ColumnSpan
     /// <summary>
     /// Spacing/sizing scale step `1` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 1` for integer spacing utilities unless overridden).
     /// </summary>
-    public static ColumnSpanBuilder Is1 => new("1");
+    public static ColumnSpanBuilder Is1 => new(ColumnSpanEnum.Is1);
     /// <summary>
     /// Spacing/sizing scale step `2` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 2` for integer spacing utilities unless overridden).
     /// </summary>
-    public static ColumnSpanBuilder Is2 => new("2");
+    public static ColumnSpanBuilder Is2 => new(ColumnSpanEnum.Is2);
     /// <summary>
     /// Spacing/sizing scale step `3` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 3` for integer spacing utilities unless overridden).
     /// </summary>
-    public static ColumnSpanBuilder Is3 => new("3");
+    public static ColumnSpanBuilder Is3 => new(ColumnSpanEnum.Is3);
     /// <summary>
     /// Spacing/sizing scale step `4` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 4` for integer spacing utilities unless overridden).
     /// </summary>
-    public static ColumnSpanBuilder Is4 => new("4");
+    public static ColumnSpanBuilder Is4 => new(ColumnSpanEnum.Is4);
     /// <summary>
     /// Spacing/sizing scale step `5` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 5` for integer spacing utilities unless overridden).
     /// </summary>
-    public static ColumnSpanBuilder Is5 => new("5");
+    public static ColumnSpanBuilder Is5 => new(ColumnSpanEnum.Is5);
     /// <summary>
     /// Spacing/sizing scale step `6` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 6` for integer spacing utilities unless overridden).
     /// </summary>
-    public static ColumnSpanBuilder Is6 => new("6");
+    public static ColumnSpanBuilder Is6 => new(ColumnSpanEnum.Is6);
     /// <summary>
     /// Spacing/sizing scale step `7` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 7` for integer spacing utilities unless overridden).
     /// </summary>
-    public static ColumnSpanBuilder Is7 => new("7");
+    public static ColumnSpanBuilder Is7 => new(ColumnSpanEnum.Is7);
     /// <summary>
     /// Spacing/sizing scale step `8` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 8` for integer spacing utilities unless overridden).
     /// </summary>
-    public static ColumnSpanBuilder Is8 => new("8");
+    public static ColumnSpanBuilder Is8 => new(ColumnSpanEnum.Is8);
     /// <summary>
     /// Spacing/sizing scale step `9` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 9` for integer spacing utilities unless overridden).
     /// </summary>
-    public static ColumnSpanBuilder Is9 => new("9");
+    public static ColumnSpanBuilder Is9 => new(ColumnSpanEnum.Is9);
     /// <summary>
     /// Spacing/sizing scale step `10` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 10` for integer spacing utilities unless overridden).
     /// </summary>
-    public static ColumnSpanBuilder Is10 => new("10");
+    public static ColumnSpanBuilder Is10 => new(ColumnSpanEnum.Is10);
     /// <summary>
     /// Spacing/sizing scale step `11` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 11` for integer spacing utilities unless overridden).
     /// </summary>
-    public static ColumnSpanBuilder Is11 => new("11");
+    public static ColumnSpanBuilder Is11 => new(ColumnSpanEnum.Is11);
     /// <summary>
     /// Spacing/sizing scale step `12` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 12` for integer spacing utilities unless overridden).
     /// </summary>
-    public static ColumnSpanBuilder Is12 => new("12");
+    public static ColumnSpanBuilder Is12 => new(ColumnSpanEnum.Is12);
     /// <summary>
     /// “Full” extremum for this utility. For border radius this is `rounded-full` (`border-radius: 9999px`), producing pills/circles; for width/height often `100%` (`w-full` / `h-full`).
     /// </summary>
-    public static ColumnSpanBuilder Full => new("full");
+    public static ColumnSpanBuilder Full => new(ColumnSpanEnum.Full);
 
     /// <summary>
     /// Create from a numeric grid column span.
     /// </summary>
-    public static ColumnSpanBuilder Count(int value) => new(value.ToString());
+    public static ColumnSpanBuilder Count(int value) => new($"col-span-{value}");
 }

@@ -23,7 +23,7 @@ public sealed class BorderBuilder : ICssBuilder
     internal BorderBuilder(string size, BreakpointType? breakpoint = null)
     {
         if (size.HasContent())
-            _rules.Add(new BorderRule(size, ElementSideType.All, breakpoint));
+            _rules.Add(new BorderRule(size, ElementSideEnum.All, breakpoint));
     }
 
     internal BorderBuilder(List<BorderRule> rules)
@@ -35,64 +35,64 @@ public sealed class BorderBuilder : ICssBuilder
 	/// <summary>
 	/// Applies border from the top side.
 	/// </summary>
-    public BorderBuilder FromTop => AddRule(ElementSideType.Top);
+    public BorderBuilder FromTop => AddRule(ElementSideEnum.Top);
 	/// <summary>
 	/// Applies border from the right side.
 	/// </summary>
-    public BorderBuilder FromRight => AddRule(ElementSideType.Right);
+    public BorderBuilder FromRight => AddRule(ElementSideEnum.Right);
 	/// <summary>
 	/// Applies border from the bottom side.
 	/// </summary>
-    public BorderBuilder FromBottom => AddRule(ElementSideType.Bottom);
+    public BorderBuilder FromBottom => AddRule(ElementSideEnum.Bottom);
 	/// <summary>
 	/// Applies border from the left side.
 	/// </summary>
-    public BorderBuilder FromLeft => AddRule(ElementSideType.Left);
+    public BorderBuilder FromLeft => AddRule(ElementSideEnum.Left);
 	/// <summary>
 	/// Applies border on the horizontal axis (left and right).
 	/// </summary>
-    public BorderBuilder OnX => AddRule(ElementSideType.Horizontal);
+    public BorderBuilder OnX => AddRule(ElementSideEnum.Horizontal);
 	/// <summary>
 	/// Applies border on the vertical axis (top and bottom).
 	/// </summary>
-    public BorderBuilder OnY => AddRule(ElementSideType.Vertical);
+    public BorderBuilder OnY => AddRule(ElementSideEnum.Vertical);
 	/// <summary>
 	/// Applies border on all sides.
 	/// </summary>
-    public BorderBuilder OnAll => AddRule(ElementSideType.All);
+    public BorderBuilder OnAll => AddRule(ElementSideEnum.All);
 	/// <summary>
 	/// Applies border from the inline start.
 	/// </summary>
-    public BorderBuilder FromStart => AddRule(ElementSideType.InlineStart);
+    public BorderBuilder FromStart => AddRule(ElementSideEnum.InlineStart);
 	/// <summary>
 	/// Applies border from the inline end.
 	/// </summary>
-    public BorderBuilder FromEnd => AddRule(ElementSideType.InlineEnd);
+    public BorderBuilder FromEnd => AddRule(ElementSideEnum.InlineEnd);
 
 	/// <summary>
 	/// Sets the border width from an arbitrary Tailwind border token.
 	/// </summary>
-    public BorderBuilder Is0 => ChainWithSize(ScaleType.Is0);
+    public BorderBuilder Is0 => ChainWithSize(BorderScaleEnum.Is0);
     /// <summary>
     /// Spacing/sizing scale step `1` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 1` for integer spacing utilities unless overridden).
     /// </summary>
-    public BorderBuilder Is1 => ChainWithSize(ScaleType.Is1);
+    public BorderBuilder Is1 => ChainWithSize(BorderScaleEnum.Is1);
     /// <summary>
     /// Spacing/sizing scale step `2` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 2` for integer spacing utilities unless overridden).
     /// </summary>
-    public BorderBuilder Is2 => ChainWithSize(ScaleType.Is2);
+    public BorderBuilder Is2 => ChainWithSize(BorderScaleEnum.Is2);
     /// <summary>
     /// Spacing/sizing scale step `3` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 3` for integer spacing utilities unless overridden).
     /// </summary>
-    public BorderBuilder Is3 => ChainWithSize(ScaleType.Is3);
+    public BorderBuilder Is3 => ChainWithSize(BorderScaleEnum.Is3);
     /// <summary>
     /// Spacing/sizing scale step `4` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 4` for integer spacing utilities unless overridden).
     /// </summary>
-    public BorderBuilder Is4 => ChainWithSize(ScaleType.Is4);
+    public BorderBuilder Is4 => ChainWithSize(BorderScaleEnum.Is4);
     /// <summary>
     /// Spacing/sizing scale step `5` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 5` for integer spacing utilities unless overridden).
     /// </summary>
-    public BorderBuilder Is5 => ChainWithSize(ScaleType.Is5);
+    public BorderBuilder Is5 => ChainWithSize(BorderScaleEnum.Is5);
 
     /// <summary>
     /// Tailwind token segment (spacing scale step, arbitrary value like `[17rem]`, or theme key). Builds the matching utility class for this builder.
@@ -126,13 +126,13 @@ public sealed class BorderBuilder : ICssBuilder
     public BorderBuilder On2xl => SetPendingBreakpoint(BreakpointType.Xxl);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private BorderBuilder AddRule(ElementSideType side)
+    private BorderBuilder AddRule(ElementSideEnum side)
     {
         BreakpointType? pending = ConsumePendingBreakpoint();
         string size = _rules.Count > 0 ? _rules[^1].Size : "0";
         BreakpointType? bp = pending ?? (_rules.Count > 0 ? _rules[^1].Breakpoint : null);
 
-        if (_rules.Count > 0 && _rules[^1].Side == ElementSideType.All)
+        if (_rules.Count > 0 && ReferenceEquals(_rules[^1].Side, ElementSideEnum.All))
         {
             _rules[^1] = new BorderRule(size, side, bp);
         }
@@ -145,16 +145,16 @@ public sealed class BorderBuilder : ICssBuilder
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private BorderBuilder ChainWithSize(ScaleType scale)
+    private BorderBuilder ChainWithSize(BorderScaleEnum scale)
     {
-        _rules.Add(new BorderRule(scale.Value, ElementSideType.All, ConsumePendingBreakpoint()));
+        _rules.Add(new BorderRule(scale.Value, ElementSideEnum.All, ConsumePendingBreakpoint()));
         return this;
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private BorderBuilder ChainWithSize(string value)
     {
-        _rules.Add(new BorderRule(value, ElementSideType.All, ConsumePendingBreakpoint()));
+        _rules.Add(new BorderRule(value, ElementSideEnum.All, ConsumePendingBreakpoint()));
         return this;
     }
 

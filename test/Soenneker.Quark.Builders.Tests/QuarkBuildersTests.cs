@@ -93,8 +93,32 @@ public sealed class QuarkBuildersTests : FixturedUnitTest
     [Fact]
     public void GapBuilder_builds_directional_tailwind_gap_classes()
     {
-        string result = Gap.Is2.Row.OnMd.Token("6").ToClass();
+        string result = Gap.Is2.Y.OnMd.Token("6").ToClass();
 
         Assert.Equal("gap-y-2 md:gap-6", result);
+    }
+
+    [Fact]
+    public void ScaleBuilder_builds_tailwind_transform_scale_classes()
+    {
+        string result = Scale.Scale95.Scale125.ToClass();
+
+        Assert.Equal("scale-95 scale-125", result);
+    }
+
+    [Fact]
+    public void OutlineStyleBuilder_builds_tailwind_outline_classes()
+    {
+        string result = OutlineStyle.None.OnMd.Double.ToClass();
+
+        Assert.Equal("outline-none md:outline-double", result);
+    }
+
+    [Fact]
+    public void StrokeLineCapBuilder_builds_tailwind_stroke_cap_classes()
+    {
+        string result = StrokeLineCap.Auto.OnSm.Butt.ToClass();
+
+        Assert.Equal("stroke-cap-auto sm:stroke-cap-butt", result);
     }
 }

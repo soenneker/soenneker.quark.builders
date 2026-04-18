@@ -8,9 +8,9 @@ public static class ScrollSnapStop
     /// <summary>
     /// Fluent step for `Normal` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public static ScrollSnapStopBuilder Normal => new("normal");
+    public static ScrollSnapStopBuilder Normal => new(ScrollSnapStopEnum.Normal);
     /// <summary>
     /// Fluent step for `Always` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public static ScrollSnapStopBuilder Always => new("always");
+    public static ScrollSnapStopBuilder Always => new(ScrollSnapStopEnum.Always);
 }

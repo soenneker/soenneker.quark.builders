@@ -11,10 +11,10 @@ public sealed class FlexDirectionBuilder : ResponsiveUtilityBuilder<FlexDirectio
     {
     }
 
-    public FlexDirectionBuilder Row => ChainValue(FlexDirectionEnum.Row.Value);
-    public FlexDirectionBuilder RowReverse => ChainValue(FlexDirectionEnum.RowReverse.Value);
-    public FlexDirectionBuilder Col => ChainValue(FlexDirectionEnum.Col.Value);
-    public FlexDirectionBuilder ColReverse => ChainValue(FlexDirectionEnum.ColReverse.Value);
+    public FlexDirectionBuilder Row => ChainValue(FlexDirectionEnum.RowValue);
+    public FlexDirectionBuilder RowReverse => ChainValue(FlexDirectionEnum.RowReverseValue);
+    public FlexDirectionBuilder Col => ChainValue(FlexDirectionEnum.ColValue);
+    public FlexDirectionBuilder ColReverse => ChainValue(FlexDirectionEnum.ColReverseValue);
     public FlexDirectionBuilder Token(string value) => ChainValue(value);
 
     public FlexDirectionBuilder OnBase => SetPendingBreakpoint(BreakpointType.Base);

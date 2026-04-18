@@ -8,27 +8,27 @@ public static class Padding
     /// <summary>
     /// Spacing/sizing scale step `0` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 0` for integer spacing utilities unless overridden).
     /// </summary>
-    public static PaddingBuilder Is0 => new(ScaleType.Is0Value);
+    public static PaddingBuilder Is0 => new(PaddingScaleEnum.Is0Value);
     /// <summary>
     /// Spacing/sizing scale step `1` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 1` for integer spacing utilities unless overridden).
     /// </summary>
-    public static PaddingBuilder Is1 => new(ScaleType.Is1Value);
+    public static PaddingBuilder Is1 => new(PaddingScaleEnum.Is1Value);
     /// <summary>
     /// Spacing/sizing scale step `2` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 2` for integer spacing utilities unless overridden).
     /// </summary>
-    public static PaddingBuilder Is2 => new(ScaleType.Is2Value);
+    public static PaddingBuilder Is2 => new(PaddingScaleEnum.Is2Value);
     /// <summary>
     /// Spacing/sizing scale step `3` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 3` for integer spacing utilities unless overridden).
     /// </summary>
-    public static PaddingBuilder Is3 => new(ScaleType.Is3Value);
+    public static PaddingBuilder Is3 => new(PaddingScaleEnum.Is3Value);
     /// <summary>
     /// Spacing/sizing scale step `4` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 4` for integer spacing utilities unless overridden).
     /// </summary>
-    public static PaddingBuilder Is4 => new(ScaleType.Is4Value);
+    public static PaddingBuilder Is4 => new(PaddingScaleEnum.Is4Value);
     /// <summary>
     /// Spacing/sizing scale step `5` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 5` for integer spacing utilities unless overridden).
     /// </summary>
-    public static PaddingBuilder Is5 => new(ScaleType.Is5Value);
+    public static PaddingBuilder Is5 => new(PaddingScaleEnum.Is5Value);
     /// <summary>
     /// Spacing/sizing scale step `6` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 6` for integer spacing utilities unless overridden).
     /// </summary>

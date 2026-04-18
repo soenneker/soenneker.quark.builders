@@ -14,15 +14,7 @@ public sealed class FontWeightBuilder : ICssBuilder
     private readonly List<FontWeightRule> _rules = new(6);
     private BreakpointType? _pendingBreakpoint;
 
-    // Tailwind font-weight utilities (for Quark Suite / shadcn)
-    private const string _classExtralight = "font-extralight";
-    private const string _classLight = "font-light";
-    private const string _classNormal = "font-normal";
-    private const string _classMedium = "font-medium";
-    private const string _classSemibold = "font-semibold";
-    private const string _classBold = "font-bold";
-    private const string _classExtrabold = "font-extrabold";
-    internal FontWeightBuilder(string value, BreakpointType? breakpoint = null)
+    internal FontWeightBuilder(FontWeightEnum value, BreakpointType? breakpoint = null)
     {
         _rules.Add(new FontWeightRule(value, breakpoint));
     }
@@ -36,31 +28,31 @@ public sealed class FontWeightBuilder : ICssBuilder
     /// <summary>
     /// Sets the font weight to extralight.
     /// </summary>
-    public FontWeightBuilder Extralight => Chain("extralight");
+    public FontWeightBuilder Extralight => Chain(FontWeightEnum.Extralight);
     /// <summary>
     /// Sets the font weight to light.
     /// </summary>
-    public FontWeightBuilder Light => Chain(FontWeightKeyword.LightValue);
+    public FontWeightBuilder Light => Chain(FontWeightEnum.Light);
     /// <summary>
     /// Sets the font weight to normal.
     /// </summary>
-    public FontWeightBuilder Normal => Chain(FontWeightKeyword.NormalValue);
+    public FontWeightBuilder Normal => Chain(FontWeightEnum.Normal);
     /// <summary>
     /// Sets the font weight to medium.
     /// </summary>
-    public FontWeightBuilder Medium => Chain("medium");
+    public FontWeightBuilder Medium => Chain(FontWeightEnum.Medium);
     /// <summary>
     /// Sets the font weight to semibold.
     /// </summary>
-    public FontWeightBuilder Semibold => Chain(FontWeightKeyword.SemiboldValue);
+    public FontWeightBuilder Semibold => Chain(FontWeightEnum.Semibold);
     /// <summary>
     /// Sets the font weight to bold.
     /// </summary>
-    public FontWeightBuilder Bold => Chain(FontWeightKeyword.BoldValue);
+    public FontWeightBuilder Bold => Chain(FontWeightEnum.Bold);
     /// <summary>
     /// Sets the font weight to extrabold.
     /// </summary>
-    public FontWeightBuilder Extrabold => Chain("extrabold");
+    public FontWeightBuilder Extrabold => Chain(FontWeightEnum.Extrabold);
     /// <summary>
     /// Applies the font weight on phone breakpoint.
     /// </summary>
@@ -92,7 +84,7 @@ public sealed class FontWeightBuilder : ICssBuilder
     public FontWeightBuilder On2xl => SetPendingBreakpoint(BreakpointType.Xxl);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private FontWeightBuilder Chain(string value)
+    private FontWeightBuilder Chain(FontWeightEnum value)
     {
         BreakpointType? bp = _pendingBreakpoint;
         _pendingBreakpoint = null;
@@ -120,17 +112,7 @@ public sealed class FontWeightBuilder : ICssBuilder
         for (var i = 0; i < _rules.Count; i++)
         {
             FontWeightRule rule = _rules[i];
-            string cls = rule.Value switch
-            {
-                "extralight" => _classExtralight,
-                FontWeightKeyword.LightValue => _classLight,
-                FontWeightKeyword.NormalValue => _classNormal,
-                "medium" => _classMedium,
-                FontWeightKeyword.SemiboldValue => _classSemibold,
-                FontWeightKeyword.BoldValue => _classBold,
-                "extrabold" => _classExtrabold,
-                _ => string.Empty
-            };
+            string cls = rule.Value.Value;
             if (cls.Length == 0)
                 continue;
 
@@ -150,9 +132,6 @@ public sealed class FontWeightBuilder : ICssBuilder
     /// Gets the CSS style string for the current configuration.
     /// </summary>
     /// <returns>The CSS style string.</returns>
-    public string ToStyle()
-    {
-        return string.Empty;
-    }
+    public string ToStyle() => string.Empty;
     public override string ToString() => ToClass();
 }

@@ -11,13 +11,13 @@ public sealed class DecorationThicknessBuilder : ResponsiveUtilityBuilder<Decora
     {
     }
 
-    public DecorationThicknessBuilder Auto => ChainValue(DecorationThicknessEnum.Auto.Value);
-    public DecorationThicknessBuilder FromFont => ChainValue(DecorationThicknessEnum.FromFont.Value);
-    public DecorationThicknessBuilder Is0 => ChainValue(DecorationThicknessEnum.Is0.Value);
-    public DecorationThicknessBuilder Is1 => ChainValue(DecorationThicknessEnum.Is1.Value);
-    public DecorationThicknessBuilder Is2 => ChainValue(DecorationThicknessEnum.Is2.Value);
-    public DecorationThicknessBuilder Is4 => ChainValue(DecorationThicknessEnum.Is4.Value);
-    public DecorationThicknessBuilder Is8 => ChainValue(DecorationThicknessEnum.Is8.Value);
+    public DecorationThicknessBuilder Auto => ChainValue(DecorationThicknessEnum.AutoValue);
+    public DecorationThicknessBuilder FromFont => ChainValue(DecorationThicknessEnum.FromFontValue);
+    public DecorationThicknessBuilder Is0 => ChainValue(DecorationThicknessEnum.Is0Value);
+    public DecorationThicknessBuilder Is1 => ChainValue(DecorationThicknessEnum.Is1Value);
+    public DecorationThicknessBuilder Is2 => ChainValue(DecorationThicknessEnum.Is2Value);
+    public DecorationThicknessBuilder Is4 => ChainValue(DecorationThicknessEnum.Is4Value);
+    public DecorationThicknessBuilder Is8 => ChainValue(DecorationThicknessEnum.Is8Value);
     public DecorationThicknessBuilder Token(string value) => ChainValue(value);
 
     public DecorationThicknessBuilder OnBase => SetPendingBreakpoint(BreakpointType.Base);

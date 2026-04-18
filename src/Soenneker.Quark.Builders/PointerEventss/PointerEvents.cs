@@ -8,9 +8,9 @@ public static class PointerEvents
     /// <summary>
     /// Gets a pointer events builder with none value (element does not respond to pointer events).
     /// </summary>
-    public static PointerEventsBuilder None => new("none");
+    public static PointerEventsBuilder None => new(PointerEventsEnum.None);
     /// <summary>
     /// Gets a pointer events builder with auto value (element responds to pointer events normally).
     /// </summary>
-    public static PointerEventsBuilder Auto => new("auto");
+    public static PointerEventsBuilder Auto => new(PointerEventsEnum.Auto);
 }

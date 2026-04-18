@@ -8,27 +8,27 @@ public static class Border
     /// <summary>
     /// Spacing/sizing scale step `0` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 0` for integer spacing utilities unless overridden).
     /// </summary>
-    public static BorderBuilder Is0 => new(ScaleType.Is0.Value);
+    public static BorderBuilder Is0 => new(BorderScaleEnum.Is0Value);
     /// <summary>
     /// Spacing/sizing scale step `1` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 1` for integer spacing utilities unless overridden).
     /// </summary>
-    public static BorderBuilder Is1 => new(ScaleType.Is1.Value);
+    public static BorderBuilder Is1 => new(BorderScaleEnum.Is1Value);
     /// <summary>
     /// Spacing/sizing scale step `2` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 2` for integer spacing utilities unless overridden).
     /// </summary>
-    public static BorderBuilder Is2 => new(ScaleType.Is2.Value);
+    public static BorderBuilder Is2 => new(BorderScaleEnum.Is2Value);
     /// <summary>
     /// Spacing/sizing scale step `3` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 3` for integer spacing utilities unless overridden).
     /// </summary>
-    public static BorderBuilder Is3 => new(ScaleType.Is3.Value);
+    public static BorderBuilder Is3 => new(BorderScaleEnum.Is3Value);
     /// <summary>
     /// Spacing/sizing scale step `4` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 4` for integer spacing utilities unless overridden).
     /// </summary>
-    public static BorderBuilder Is4 => new(ScaleType.Is4.Value);
+    public static BorderBuilder Is4 => new(BorderScaleEnum.Is4Value);
     /// <summary>
     /// Spacing/sizing scale step `5` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 5` for integer spacing utilities unless overridden).
     /// </summary>
-    public static BorderBuilder Is5 => new(ScaleType.Is5.Value);
+    public static BorderBuilder Is5 => new(BorderScaleEnum.Is5Value);
 
     /// <summary>
     /// Creates a border width utility from an arbitrary Tailwind token.

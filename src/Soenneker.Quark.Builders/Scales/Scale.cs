@@ -5,43 +5,18 @@ namespace Soenneker.Quark;
 /// </summary>
 public static class Scale
 {
-    /// <summary>
-    /// Scale 0 (no scaling).
-    /// </summary>
-    public static ScaleBuilder Is0 => new(ScaleType.Is0);
+    public static ScaleBuilder Scale50 => new(ScaleEnum.Scale50);
+    public static ScaleBuilder Scale75 => new(ScaleEnum.Scale75);
+    public static ScaleBuilder Scale90 => new(ScaleEnum.Scale90);
+    public static ScaleBuilder Scale95 => new(ScaleEnum.Scale95);
+    public static ScaleBuilder Scale100 => new(ScaleEnum.Scale100);
+    public static ScaleBuilder Scale105 => new(ScaleEnum.Scale105);
+    public static ScaleBuilder Scale110 => new(ScaleEnum.Scale110);
+    public static ScaleBuilder Scale125 => new(ScaleEnum.Scale125);
+    public static ScaleBuilder Scale150 => new(ScaleEnum.Scale150);
 
     /// <summary>
-    /// Scale 1 (normal size).
+    /// Create from a ScaleEnum value.
     /// </summary>
-    public static ScaleBuilder Is1 => new(ScaleType.Is1);
-
-    /// <summary>
-    /// Scale 2 (2x scaling).
-    /// </summary>
-    public static ScaleBuilder Is2 => new(ScaleType.Is2);
-
-    /// <summary>
-    /// Scale 3 (3x scaling).
-    /// </summary>
-    public static ScaleBuilder Is3 => new(ScaleType.Is3);
-
-    /// <summary>
-    /// Scale 4 (4x scaling).
-    /// </summary>
-    public static ScaleBuilder Is4 => new(ScaleType.Is4);
-
-    /// <summary>
-    /// Scale 5 (5x scaling).
-    /// </summary>
-    public static ScaleBuilder Is5 => new(ScaleType.Is5);
-
-    /// <summary>
-    /// Scale 6 (6x scaling).
-    /// </summary>
-    public static ScaleBuilder Is6 => new(ScaleType.Is6);
-
-    /// <summary>
-    /// Create from a ScaleType enum value.
-    /// </summary>
-    public static ScaleBuilder From(ScaleType scaleType) => new(scaleType);
+    public static ScaleBuilder From(ScaleEnum scaleType) => new(scaleType);
 }

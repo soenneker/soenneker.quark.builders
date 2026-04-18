@@ -96,21 +96,7 @@ public sealed class FillRuleBuilder : ICssBuilder
         return sb.ToString();
     }
 
-    public string ToStyle()
-    {
-        if (_rules.Count == 0) return string.Empty;
-        using var sb = new PooledStringBuilder();
-        var first = true;
-        foreach (FillRuleRule rule in _rules)
-        {
-            if (!rule.Value.StartsWith(_prefix, System.StringComparison.Ordinal)) continue;
-            if (!first) sb.Append("; ");
-            else first = false;
-            sb.Append("fill-rule: ");
-            sb.Append(rule.Value.Substring(_prefix.Length));
-        }
-        return sb.ToString();
-    }
+    public string ToStyle() => string.Empty;
 
     public override string ToString() => ToClass();
 }

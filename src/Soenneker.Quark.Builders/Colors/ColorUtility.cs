@@ -14,12 +14,14 @@ internal static partial class ColorUtility
         "white"
     };
 
-    public static string GetClass(string prefix, ColorRule rule, HashSet<string> semanticTokens)
+    public static string CreateClass(string prefix, string value, HashSet<string> semanticTokens)
     {
-        if (rule.IsUtility)
-            return rule.Value.StartsWith(prefix, System.StringComparison.Ordinal) ? rule.Value : string.Empty;
+        return IsTokenAllowed(value, semanticTokens) ? $"{prefix}{value}" : string.Empty;
+    }
 
-        return IsTokenAllowed(rule.Value, semanticTokens) ? $"{prefix}{rule.Value}" : string.Empty;
+    public static string CreateUtilityClass(string prefix, string value)
+    {
+        return value.StartsWith(prefix, System.StringComparison.Ordinal) ? value : string.Empty;
     }
 
     private static bool IsTokenAllowed(string token, HashSet<string> semanticTokens)
@@ -73,5 +75,3 @@ internal static partial class ColorUtility
     [GeneratedRegex(@"^(?:0|5|10|15|20|25|30|35|40|45|50|55|60|65|70|75|80|85|90|95|100)$", RegexOptions.CultureInvariant)]
     private static partial Regex OpacityModifierRegex();
 }
-
-internal readonly record struct ColorRule(string Value, BreakpointType? Breakpoint, bool IsUtility = false);

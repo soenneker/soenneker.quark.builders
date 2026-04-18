@@ -25,32 +25,38 @@ public sealed class BackgroundColorBuilder : ICssBuilder
 
     private const string Prefix = "bg-";
 
-    private readonly List<ColorRule> _rules = new(4);
+    private readonly List<BackgroundColorRule> _rules = new(4);
     private BreakpointType? _pendingBreakpoint;
 
-    internal BackgroundColorBuilder(string value, BreakpointType? breakpoint = null, bool isUtility = false)
+    internal BackgroundColorBuilder(BackgroundColorEnum value, BreakpointType? breakpoint = null)
     {
-        _rules.Add(new ColorRule(value, breakpoint, isUtility));
+        _rules.Add(new BackgroundColorRule(value.Value, breakpoint));
     }
 
-    internal BackgroundColorBuilder(List<ColorRule> rules)
+    internal BackgroundColorBuilder(string value, BreakpointType? breakpoint = null)
+    {
+        if (value.Length != 0)
+            _rules.Add(new BackgroundColorRule(value, breakpoint));
+    }
+
+    internal BackgroundColorBuilder(List<BackgroundColorRule> rules)
     {
         if (rules is { Count: > 0 })
             _rules.AddRange(rules);
     }
 
-    public BackgroundColorBuilder Primary => ChainValue("primary");
-    public BackgroundColorBuilder Secondary => ChainValue("secondary");
-    public BackgroundColorBuilder Destructive => ChainValue("destructive");
-    public BackgroundColorBuilder Muted => ChainValue("muted");
-    public BackgroundColorBuilder Accent => ChainValue("accent");
-    public BackgroundColorBuilder Popover => ChainValue("popover");
-    public BackgroundColorBuilder Card => ChainValue("card");
-    public BackgroundColorBuilder Background => ChainValue("background");
+    public BackgroundColorBuilder Primary => ChainValue(BackgroundColorEnum.Primary);
+    public BackgroundColorBuilder Secondary => ChainValue(BackgroundColorEnum.Secondary);
+    public BackgroundColorBuilder Destructive => ChainValue(BackgroundColorEnum.Destructive);
+    public BackgroundColorBuilder Muted => ChainValue(BackgroundColorEnum.Muted);
+    public BackgroundColorBuilder Accent => ChainValue(BackgroundColorEnum.Accent);
+    public BackgroundColorBuilder Popover => ChainValue(BackgroundColorEnum.Popover);
+    public BackgroundColorBuilder Card => ChainValue(BackgroundColorEnum.Card);
+    public BackgroundColorBuilder Background => ChainValue(BackgroundColorEnum.Background);
 
-    public BackgroundColorBuilder White => ChainValue("white");
-    public BackgroundColorBuilder Black => ChainValue("black");
-    public BackgroundColorBuilder Transparent => ChainValue("transparent");
+    public BackgroundColorBuilder White => ChainValue(BackgroundColorEnum.White);
+    public BackgroundColorBuilder Black => ChainValue(BackgroundColorEnum.Black);
+    public BackgroundColorBuilder Transparent => ChainValue(BackgroundColorEnum.Transparent);
 
     public BackgroundColorBuilder OnBase => SetPendingBreakpoint(BreakpointType.Base);
     public BackgroundColorBuilder OnSm => SetPendingBreakpoint(BreakpointType.Sm);
@@ -59,16 +65,26 @@ public sealed class BackgroundColorBuilder : ICssBuilder
     public BackgroundColorBuilder OnXl => SetPendingBreakpoint(BreakpointType.Xl);
     public BackgroundColorBuilder On2xl => SetPendingBreakpoint(BreakpointType.Xxl);
 
-    public BackgroundColorBuilder Token(string token) => ChainValue(token);
+    public BackgroundColorBuilder Token(string token) => ChainClass(ColorUtility.CreateClass(Prefix, token, SemanticTokens));
 
-    public BackgroundColorBuilder Utility(string utility) => ChainValue(utility, isUtility: true);
+    public BackgroundColorBuilder Utility(string utility) => ChainClass(ColorUtility.CreateUtilityClass(Prefix, utility));
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private BackgroundColorBuilder ChainValue(string value, bool isUtility = false)
+    private BackgroundColorBuilder ChainValue(BackgroundColorEnum value)
     {
         BreakpointType? bp = _pendingBreakpoint;
         _pendingBreakpoint = null;
-        _rules.Add(new ColorRule(value, bp, isUtility));
+        _rules.Add(new BackgroundColorRule(value.Value, bp));
+        return this;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private BackgroundColorBuilder ChainClass(string value)
+    {
+        BreakpointType? bp = _pendingBreakpoint;
+        _pendingBreakpoint = null;
+        if (value.Length != 0)
+            _rules.Add(new BackgroundColorRule(value, bp));
         return this;
     }
 
@@ -89,8 +105,8 @@ public sealed class BackgroundColorBuilder : ICssBuilder
 
         for (var i = 0; i < _rules.Count; i++)
         {
-            ColorRule rule = _rules[i];
-            string cls = ColorUtility.GetClass(Prefix, rule, SemanticTokens);
+            BackgroundColorRule rule = _rules[i];
+            string cls = rule.Value;
             if (cls.Length == 0)
                 continue;
 
@@ -107,10 +123,7 @@ public sealed class BackgroundColorBuilder : ICssBuilder
         return sb.ToString();
     }
 
-    public string ToStyle()
-    {
-        return string.Empty;
-    }
+    public string ToStyle() => string.Empty;
 
     public override string ToString() => ToClass();
 }

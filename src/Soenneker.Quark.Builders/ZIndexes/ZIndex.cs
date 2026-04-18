@@ -9,25 +9,25 @@ public static class ZIndex
     /// <summary>
     /// Gets a Z-index builder with value -1.
     /// </summary>
-    public static ZIndexBuilder N1 => new(-1);
+    public static ZIndexBuilder N1 => new(ZIndexEnum.N1);
 
     /// <summary>
     /// Gets a Z-index builder with value 0.
     /// </summary>
-    public static ZIndexBuilder Z0 => new(0);
+    public static ZIndexBuilder Z0 => new(ZIndexEnum.Z0);
 
     /// <summary>
     /// Gets a Z-index builder with value 1.
     /// </summary>
-    public static ZIndexBuilder Z1 => new(1);
+    public static ZIndexBuilder Z1 => new(ZIndexEnum.Z1);
 
     /// <summary>
     /// Gets a Z-index builder with value 2.
     /// </summary>
-    public static ZIndexBuilder Z2 => new(2);
+    public static ZIndexBuilder Z2 => new(ZIndexEnum.Z2);
 
     /// <summary>
     /// Gets a Z-index builder with value 3.
     /// </summary>
-    public static ZIndexBuilder Z3 => new(3);
+    public static ZIndexBuilder Z3 => new(ZIndexEnum.Z3);
 }

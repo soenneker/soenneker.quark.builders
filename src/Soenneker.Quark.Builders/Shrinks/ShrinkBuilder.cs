@@ -1,19 +1,27 @@
+using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+using Soenneker.Utils.PooledStringBuilders;
+
 namespace Soenneker.Quark;
 
-[TailwindPrefix("", Responsive = true)]
-public sealed class ShrinkBuilder : ResponsiveUtilityBuilder<ShrinkBuilder>
+public sealed class ShrinkBuilder : ICssBuilder
 {
-    internal ShrinkBuilder(ShrinkEnum value, BreakpointType? breakpoint = null) : base("", value.Value, breakpoint)
+    private readonly List<ShrinkRule> _rules = new(4);
+    private BreakpointType? _pendingBreakpoint;
+
+    internal ShrinkBuilder(ShrinkEnum value, BreakpointType? breakpoint = null)
     {
+        _rules.Add(new ShrinkRule(value, breakpoint));
     }
 
-    internal ShrinkBuilder(string value, BreakpointType? breakpoint = null) : base("", Normalize(value), breakpoint)
+    internal ShrinkBuilder(List<ShrinkRule> rules)
     {
+        if (rules is { Count: > 0 })
+            _rules.AddRange(rules);
     }
 
-    public ShrinkBuilder Is1 => ChainValue(ShrinkEnum.Is1.Value);
-    public ShrinkBuilder Is0 => ChainValue(ShrinkEnum.Is0.Value);
-    public ShrinkBuilder Token(string value) => ChainValue(Normalize(value));
+    public ShrinkBuilder Is1 => Chain(ShrinkEnum.Is1);
+    public ShrinkBuilder Is0 => Chain(ShrinkEnum.Is0);
 
     public ShrinkBuilder OnBase => SetPendingBreakpoint(BreakpointType.Base);
     public ShrinkBuilder OnSm => SetPendingBreakpoint(BreakpointType.Sm);
@@ -22,14 +30,55 @@ public sealed class ShrinkBuilder : ResponsiveUtilityBuilder<ShrinkBuilder>
     public ShrinkBuilder OnXl => SetPendingBreakpoint(BreakpointType.Xl);
     public ShrinkBuilder On2xl => SetPendingBreakpoint(BreakpointType.Xxl);
 
-    private static string Normalize(string value)
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private ShrinkBuilder Chain(ShrinkEnum value)
     {
-        return value switch
-        {
-            "1" => ShrinkEnum.Is1Value,
-            "0" => ShrinkEnum.Is0Value,
-            _ when value.StartsWith("shrink") => value,
-            _ => "shrink-" + value
-        };
+        _rules.Add(new ShrinkRule(value, ConsumePendingBreakpoint()));
+        return this;
     }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private ShrinkBuilder SetPendingBreakpoint(BreakpointType breakpoint)
+    {
+        _pendingBreakpoint = breakpoint;
+        return this;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private BreakpointType? ConsumePendingBreakpoint()
+    {
+        BreakpointType? breakpoint = _pendingBreakpoint;
+        _pendingBreakpoint = null;
+        return breakpoint;
+    }
+
+    public string ToClass()
+    {
+        if (_rules.Count == 0)
+            return string.Empty;
+
+        using var sb = new PooledStringBuilder();
+        var first = true;
+
+        foreach (ShrinkRule rule in _rules)
+        {
+            string cls = rule.Value.Value;
+            string breakpoint = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
+            if (breakpoint.Length != 0)
+                cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, breakpoint);
+
+            if (!first)
+                sb.Append(' ');
+            else
+                first = false;
+
+            sb.Append(cls);
+        }
+
+        return sb.ToString();
+    }
+
+    public string ToStyle() => string.Empty;
+
+    public override string ToString() => ToClass();
 }

@@ -11,7 +11,7 @@ public sealed class ScaleBuilder : ICssBuilder
 {
     private readonly List<ScaleRule> _rules = new(4);
 
-    internal ScaleBuilder(ScaleType scale)
+    internal ScaleBuilder(ScaleEnum scale)
     {
         _rules.Add(new ScaleRule(scale));
     }
@@ -22,37 +22,18 @@ public sealed class ScaleBuilder : ICssBuilder
             _rules.AddRange(rules);
     }
 
-    /// <summary>
-    /// Sets the scale to 0.
-    /// </summary>
-    public ScaleBuilder Is0 => ChainWithScale(ScaleType.Is0);
-    /// <summary>
-    /// Sets the scale to 1.
-    /// </summary>
-    public ScaleBuilder Is1 => ChainWithScale(ScaleType.Is1);
-    /// <summary>
-    /// Sets the scale to 2.
-    /// </summary>
-    public ScaleBuilder Is2 => ChainWithScale(ScaleType.Is2);
-    /// <summary>
-    /// Sets the scale to 3.
-    /// </summary>
-    public ScaleBuilder Is3 => ChainWithScale(ScaleType.Is3);
-    /// <summary>
-    /// Sets the scale to 4.
-    /// </summary>
-    public ScaleBuilder Is4 => ChainWithScale(ScaleType.Is4);
-    /// <summary>
-    /// Sets the scale to 5.
-    /// </summary>
-    public ScaleBuilder Is5 => ChainWithScale(ScaleType.Is5);
-    /// <summary>
-    /// Sets the scale to 6.
-    /// </summary>
-    public ScaleBuilder Is6 => ChainWithScale(ScaleType.Is6);
+    public ScaleBuilder Scale50 => ChainWithScale(ScaleEnum.Scale50);
+    public ScaleBuilder Scale75 => ChainWithScale(ScaleEnum.Scale75);
+    public ScaleBuilder Scale90 => ChainWithScale(ScaleEnum.Scale90);
+    public ScaleBuilder Scale95 => ChainWithScale(ScaleEnum.Scale95);
+    public ScaleBuilder Scale100 => ChainWithScale(ScaleEnum.Scale100);
+    public ScaleBuilder Scale105 => ChainWithScale(ScaleEnum.Scale105);
+    public ScaleBuilder Scale110 => ChainWithScale(ScaleEnum.Scale110);
+    public ScaleBuilder Scale125 => ChainWithScale(ScaleEnum.Scale125);
+    public ScaleBuilder Scale150 => ChainWithScale(ScaleEnum.Scale150);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private ScaleBuilder ChainWithScale(ScaleType scale)
+    private ScaleBuilder ChainWithScale(ScaleEnum scale)
     {
         _rules.Add(new ScaleRule(scale));
         return this;

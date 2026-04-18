@@ -105,10 +105,7 @@ public sealed class PositionBuilder : ICssBuilder
     }
 
     /// <summary>Gets the CSS style string for the current configuration.</summary>
-    public string ToStyle()
-    {
-        return string.Empty;
-    }
+    public string ToStyle() => string.Empty;
 
     public override string ToString() => ToClass();
 }

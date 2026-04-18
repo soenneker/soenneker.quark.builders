@@ -14,7 +14,7 @@ public sealed class ScrollSnapStopBuilder : ICssBuilder
     private readonly List<ScrollSnapStopRule> _rules = new(4);
     private BreakpointType? _pendingBreakpoint;
 
-    internal ScrollSnapStopBuilder(string value, BreakpointType? breakpoint = null)
+    internal ScrollSnapStopBuilder(ScrollSnapStopEnum value, BreakpointType? breakpoint = null)
     {
         _rules.Add(new ScrollSnapStopRule(value, breakpoint));
     }
@@ -28,11 +28,11 @@ public sealed class ScrollSnapStopBuilder : ICssBuilder
     /// <summary>
     /// Fluent step for `Normal` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public ScrollSnapStopBuilder Normal => Chain("normal");
+    public ScrollSnapStopBuilder Normal => Chain(ScrollSnapStopEnum.Normal);
     /// <summary>
     /// Fluent step for `Always` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public ScrollSnapStopBuilder Always => Chain("always");
+    public ScrollSnapStopBuilder Always => Chain(ScrollSnapStopEnum.Always);
 
     /// <summary>
     /// Scopes the next utility to the default (unprefixed) breakpoint.
@@ -60,7 +60,7 @@ public sealed class ScrollSnapStopBuilder : ICssBuilder
     public ScrollSnapStopBuilder On2xl => ChainBp(BreakpointType.Xxl);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private ScrollSnapStopBuilder Chain(string value)
+    private ScrollSnapStopBuilder Chain(ScrollSnapStopEnum value)
     {
         BreakpointType? breakpoint = _pendingBreakpoint;
         _pendingBreakpoint = null;
@@ -82,7 +82,7 @@ public sealed class ScrollSnapStopBuilder : ICssBuilder
         var first = true;
         foreach (ScrollSnapStopRule rule in _rules)
         {
-            string cls = rule.Value switch { "normal" => "snap-stop-normal", "always" => "snap-stop-always", _ => string.Empty };
+            string cls = rule.Value.Value;
             if (cls.Length == 0) continue;
             string b = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
             if (b.Length != 0) cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, b);

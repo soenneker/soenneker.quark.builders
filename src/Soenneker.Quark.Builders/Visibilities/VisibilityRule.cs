@@ -1,4 +1,4 @@
 namespace Soenneker.Quark;
 
-internal readonly record struct VisibilityRule(string Value, BreakpointType? Breakpoint);
+internal readonly record struct VisibilityRule(VisibilityEnum Value, BreakpointType? Breakpoint);
 

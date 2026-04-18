@@ -1,4 +1,3 @@
-
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Soenneker.Utils.PooledStringBuilders;
@@ -14,12 +13,7 @@ public sealed class StartBuilder : ICssBuilder
     private readonly List<StartRule> _rules = new(4);
     private BreakpointType? _pendingBreakpoint;
 
-    internal StartBuilder(ScaleType scale, BreakpointType? breakpoint = null)
-    {
-        _rules.Add(new StartRule(scale.Value, breakpoint));
-    }
-
-    internal StartBuilder(string value, BreakpointType? breakpoint = null)
+    internal StartBuilder(StartEnum value, BreakpointType? breakpoint = null)
     {
         _rules.Add(new StartRule(value, breakpoint));
     }
@@ -30,72 +24,24 @@ public sealed class StartBuilder : ICssBuilder
             _rules.AddRange(rules);
     }
 
-    /// <summary>
-    /// Spacing/sizing scale step `0` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 0` for integer spacing utilities unless overridden).
-    /// </summary>
-    public StartBuilder Is0 => Chain(ScaleType.Is0);
-    /// <summary>
-    /// Spacing/sizing scale step `1` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 1` for integer spacing utilities unless overridden).
-    /// </summary>
-    public StartBuilder Is1 => Chain(ScaleType.Is1);
-    /// <summary>
-    /// Spacing/sizing scale step `2` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 2` for integer spacing utilities unless overridden).
-    /// </summary>
-    public StartBuilder Is2 => Chain(ScaleType.Is2);
-    /// <summary>
-    /// Spacing/sizing scale step `3` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 3` for integer spacing utilities unless overridden).
-    /// </summary>
-    public StartBuilder Is3 => Chain(ScaleType.Is3);
-    /// <summary>
-    /// Spacing/sizing scale step `4` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 4` for integer spacing utilities unless overridden).
-    /// </summary>
-    public StartBuilder Is4 => Chain(ScaleType.Is4);
-    /// <summary>
-    /// Spacing/sizing scale step `5` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 5` for integer spacing utilities unless overridden).
-    /// </summary>
-    public StartBuilder Is5 => Chain(ScaleType.Is5);
-    /// <summary>
-    /// `auto` — browser-default sizing/behavior for the underlying utility.
-    /// </summary>
-    public StartBuilder Auto => Chain("auto");
-    /// <summary>
-    /// One pixel (`px` unit) — hairline borders, fixed 1px tracks, etc.
-    /// </summary>
-    public StartBuilder Px => Chain("px");
+    public StartBuilder Is0 => Chain(StartEnum.Is0);
+    public StartBuilder Is1 => Chain(StartEnum.Is1);
+    public StartBuilder Is2 => Chain(StartEnum.Is2);
+    public StartBuilder Is3 => Chain(StartEnum.Is3);
+    public StartBuilder Is4 => Chain(StartEnum.Is4);
+    public StartBuilder Is5 => Chain(StartEnum.Is5);
+    public StartBuilder Auto => Chain(StartEnum.Auto);
+    public StartBuilder Px => Chain(StartEnum.Px);
 
-    /// <summary>
-    /// Scopes the next utility to the default (unprefixed) breakpoint.
-    /// </summary>
     public StartBuilder OnBase => ChainBp(BreakpointType.Base);
-    /// <summary>
-    /// Applies the preceding utility from the `sm` breakpoint and up (`sm:` prefix). Tailwind default: `min-width: 40rem` (640px).
-    /// </summary>
     public StartBuilder OnSm => ChainBp(BreakpointType.Sm);
-    /// <summary>
-    /// Applies from the `md` breakpoint and up (`md:`). Tailwind default: `min-width: 48rem` (768px).
-    /// </summary>
     public StartBuilder OnMd => ChainBp(BreakpointType.Md);
-    /// <summary>
-    /// Applies from the `lg` breakpoint and up (`lg:`). Tailwind default: `min-width: 64rem` (1024px).
-    /// </summary>
     public StartBuilder OnLg => ChainBp(BreakpointType.Lg);
-    /// <summary>
-    /// Applies from the `xl` breakpoint and up (`xl:`). Tailwind default: `min-width: 80rem` (1280px).
-    /// </summary>
     public StartBuilder OnXl => ChainBp(BreakpointType.Xl);
-    /// <summary>
-    /// Applies from the `2xl` breakpoint and up (`2xl:`). Tailwind default: `min-width: 96rem` (1536px).
-    /// </summary>
     public StartBuilder On2xl => ChainBp(BreakpointType.Xxl);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private StartBuilder Chain(ScaleType scale)
-    {
-        return Chain(scale.Value);
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private StartBuilder Chain(string value)
+    private StartBuilder Chain(StartEnum value)
     {
         BreakpointType? breakpoint = _pendingBreakpoint;
         _pendingBreakpoint = null;
@@ -117,14 +63,7 @@ public sealed class StartBuilder : ICssBuilder
         var first = true;
         foreach (StartRule rule in _rules)
         {
-            string cls = rule.Value switch
-            {
-                "auto" => "start-auto",
-                "px" => "start-px",
-                _ when !string.IsNullOrWhiteSpace(rule.Value) => $"start-{rule.Value}",
-                _ => string.Empty
-            };
-
+            string cls = rule.Value.Value;
             if (cls.Length == 0) continue;
             string b = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
             if (b.Length != 0) cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, b);

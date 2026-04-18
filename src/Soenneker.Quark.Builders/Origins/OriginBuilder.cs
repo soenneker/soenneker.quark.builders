@@ -11,15 +11,15 @@ public sealed class OriginBuilder : ResponsiveUtilityBuilder<OriginBuilder>
     {
     }
 
-    public OriginBuilder Center => ChainValue(OriginEnum.Center.Value);
-    public OriginBuilder Top => ChainValue(OriginEnum.Top.Value);
-    public OriginBuilder TopRight => ChainValue(OriginEnum.TopRight.Value);
-    public OriginBuilder Right => ChainValue(OriginEnum.Right.Value);
-    public OriginBuilder BottomRight => ChainValue(OriginEnum.BottomRight.Value);
-    public OriginBuilder Bottom => ChainValue(OriginEnum.Bottom.Value);
-    public OriginBuilder BottomLeft => ChainValue(OriginEnum.BottomLeft.Value);
-    public OriginBuilder Left => ChainValue(OriginEnum.Left.Value);
-    public OriginBuilder TopLeft => ChainValue(OriginEnum.TopLeft.Value);
+    public OriginBuilder Center => ChainValue(OriginEnum.CenterValue);
+    public OriginBuilder Top => ChainValue(OriginEnum.TopValue);
+    public OriginBuilder TopRight => ChainValue(OriginEnum.TopRightValue);
+    public OriginBuilder Right => ChainValue(OriginEnum.RightValue);
+    public OriginBuilder BottomRight => ChainValue(OriginEnum.BottomRightValue);
+    public OriginBuilder Bottom => ChainValue(OriginEnum.BottomValue);
+    public OriginBuilder BottomLeft => ChainValue(OriginEnum.BottomLeftValue);
+    public OriginBuilder Left => ChainValue(OriginEnum.LeftValue);
+    public OriginBuilder TopLeft => ChainValue(OriginEnum.TopLeftValue);
     public OriginBuilder Token(string value) => ChainValue(value);
 
     public OriginBuilder OnBase => SetPendingBreakpoint(BreakpointType.Base);

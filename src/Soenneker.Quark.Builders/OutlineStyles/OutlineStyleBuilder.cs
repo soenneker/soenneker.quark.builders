@@ -14,7 +14,7 @@ public sealed class OutlineStyleBuilder : ICssBuilder
     private readonly List<OutlineStyleRule> _rules = new(4);
     private BreakpointType? _pendingBreakpoint;
 
-    internal OutlineStyleBuilder(string value, BreakpointType? breakpoint = null)
+    internal OutlineStyleBuilder(OutlineStyleEnum value, BreakpointType? breakpoint = null)
     {
         _rules.Add(new OutlineStyleRule(value, breakpoint));
     }
@@ -28,23 +28,23 @@ public sealed class OutlineStyleBuilder : ICssBuilder
     /// <summary>
     /// Disables the effect (`none` token) or sets size to zero, depending on the utility.
     /// </summary>
-    public OutlineStyleBuilder None => Chain("none");
+    public OutlineStyleBuilder None => Chain(OutlineStyleEnum.None);
     /// <summary>
     /// Fluent step for `Solid` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public OutlineStyleBuilder Solid => Chain("solid");
+    public OutlineStyleBuilder Solid => Chain(OutlineStyleEnum.Solid);
     /// <summary>
     /// Fluent step for `Dashed` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public OutlineStyleBuilder Dashed => Chain("dashed");
+    public OutlineStyleBuilder Dashed => Chain(OutlineStyleEnum.Dashed);
     /// <summary>
     /// Fluent step for `Dotted` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public OutlineStyleBuilder Dotted => Chain("dotted");
+    public OutlineStyleBuilder Dotted => Chain(OutlineStyleEnum.Dotted);
     /// <summary>
     /// Fluent step for `Double` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public OutlineStyleBuilder Double => Chain("double");
+    public OutlineStyleBuilder Double => Chain(OutlineStyleEnum.Double);
 
     /// <summary>
     /// Applies the preceding utility from the `sm` breakpoint and up (`sm:` prefix). Tailwind default: `min-width: 40rem` (640px).
@@ -68,7 +68,7 @@ public sealed class OutlineStyleBuilder : ICssBuilder
     public OutlineStyleBuilder On2xl => SetPendingBreakpoint(BreakpointType.Xxl);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private OutlineStyleBuilder Chain(string value)
+    private OutlineStyleBuilder Chain(OutlineStyleEnum value)
     {
         _rules.Add(new OutlineStyleRule(value, ConsumePendingBreakpoint()));
         return this;
@@ -96,15 +96,7 @@ public sealed class OutlineStyleBuilder : ICssBuilder
         var first = true;
         foreach (OutlineStyleRule rule in _rules)
         {
-            string cls = rule.Value switch
-            {
-                "none" => "outline-none",
-                "solid" => "outline",
-                "dashed" => "outline-dashed",
-                "dotted" => "outline-dotted",
-                "double" => "outline-double",
-                _ => string.Empty
-            };
+            string cls = rule.Value.Value;
             if (cls.Length == 0) continue;
             string b = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
             if (b.Length != 0) cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, b);
@@ -115,21 +107,7 @@ public sealed class OutlineStyleBuilder : ICssBuilder
         return sb.ToString();
     }
 
-    public string ToStyle()
-    {
-        if (_rules.Count == 0) return string.Empty;
-        using var sb = new PooledStringBuilder();
-        var first = true;
-        foreach (OutlineStyleRule rule in _rules)
-        {
-            if (rule.Value is not ("none" or "solid" or "dashed" or "dotted" or "double")) continue;
-            if (!first) sb.Append("; ");
-            else first = false;
-            sb.Append("outline-style: ");
-            sb.Append(rule.Value);
-        }
-        return sb.ToString();
-    }
+    public string ToStyle() => string.Empty;
 
     public override string ToString() => ToClass();
 }

@@ -15,13 +15,9 @@ public sealed class PositionOffsetBuilder : ICssBuilder
     private readonly List<PositionOffsetRule> _rules = new(6);
     private BreakpointType? _pendingBreakpoint;
 
-    private const string _classTranslateMiddle = "translate-middle";
-    private const string _classTranslateMiddleX = "translate-middle-x";
-    private const string _classTranslateMiddleY = "translate-middle-y";
-
-    internal PositionOffsetBuilder(string property, string value, BreakpointType? breakpoint = null)
+    internal PositionOffsetBuilder(PositionOffsetEnum value, BreakpointType? breakpoint = null)
     {
-        _rules.Add(new PositionOffsetRule(property, value, breakpoint));
+        _rules.Add(new PositionOffsetRule(value, breakpoint));
     }
 
     internal PositionOffsetBuilder(List<PositionOffsetRule> rules)
@@ -33,77 +29,77 @@ public sealed class PositionOffsetBuilder : ICssBuilder
     /// <summary>
     /// Sets the top offset to 0.
     /// </summary>
-    public PositionOffsetBuilder Top0 => Chain("top", "0");
+    public PositionOffsetBuilder Top0 => Chain(PositionOffsetEnum.Top0);
 
     /// <summary>
     /// Sets the top offset to 50%.
     /// </summary>
-    public PositionOffsetBuilder Top50 => Chain("top", "50");
+    public PositionOffsetBuilder Top50 => Chain(PositionOffsetEnum.Top50);
 
     /// <summary>
     /// Sets the top offset to 100%.
     /// </summary>
-    public PositionOffsetBuilder Top100 => Chain("top", "100");
+    public PositionOffsetBuilder Top100 => Chain(PositionOffsetEnum.Top100);
 
     /// <summary>
     /// Sets the bottom offset to 0.
     /// </summary>
-    public PositionOffsetBuilder Bottom0 => Chain("bottom", "0");
+    public PositionOffsetBuilder Bottom0 => Chain(PositionOffsetEnum.Bottom0);
 
     /// <summary>
     /// Sets the bottom offset to 50%.
     /// </summary>
-    public PositionOffsetBuilder Bottom50 => Chain("bottom", "50");
+    public PositionOffsetBuilder Bottom50 => Chain(PositionOffsetEnum.Bottom50);
 
     /// <summary>
     /// Sets the bottom offset to 100%.
     /// </summary>
-    public PositionOffsetBuilder Bottom100 => Chain("bottom", "100");
+    public PositionOffsetBuilder Bottom100 => Chain(PositionOffsetEnum.Bottom100);
 
     /// <summary>
     /// Sets the start (inline-start) offset to 0.
     /// </summary>
-    public PositionOffsetBuilder Start0 => Chain("start", "0");
+    public PositionOffsetBuilder Start0 => Chain(PositionOffsetEnum.Start0);
 
     /// <summary>
     /// Sets the start (inline-start) offset to 50%.
     /// </summary>
-    public PositionOffsetBuilder Start50 => Chain("start", "50");
+    public PositionOffsetBuilder Start50 => Chain(PositionOffsetEnum.Start50);
 
     /// <summary>
     /// Sets the start (inline-start) offset to 100%.
     /// </summary>
-    public PositionOffsetBuilder Start100 => Chain("start", "100");
+    public PositionOffsetBuilder Start100 => Chain(PositionOffsetEnum.Start100);
 
     /// <summary>
     /// Sets the end (inline-end) offset to 0.
     /// </summary>
-    public PositionOffsetBuilder End0 => Chain("end", "0");
+    public PositionOffsetBuilder End0 => Chain(PositionOffsetEnum.End0);
 
     /// <summary>
     /// Sets the end (inline-end) offset to 50%.
     /// </summary>
-    public PositionOffsetBuilder End50 => Chain("end", "50");
+    public PositionOffsetBuilder End50 => Chain(PositionOffsetEnum.End50);
 
     /// <summary>
     /// Sets the end (inline-end) offset to 100%.
     /// </summary>
-    public PositionOffsetBuilder End100 => Chain("end", "100");
+    public PositionOffsetBuilder End100 => Chain(PositionOffsetEnum.End100);
 
     /// <summary>
     /// Sets the translate transform to middle (both X and Y).
     /// </summary>
-    public PositionOffsetBuilder TranslateMiddle => Chain("translate", "middle");
+    public PositionOffsetBuilder TranslateMiddle => Chain(PositionOffsetEnum.TranslateMiddle);
 
     /// <summary>
     /// Sets the translate transform to middle X.
     /// </summary>
-    public PositionOffsetBuilder TranslateMiddleX => Chain("translate", "middle-x");
+    public PositionOffsetBuilder TranslateMiddleX => Chain(PositionOffsetEnum.TranslateMiddleX);
 
     /// <summary>
     /// Sets the translate transform to middle Y.
     /// </summary>
-    public PositionOffsetBuilder TranslateMiddleY => Chain("translate", "middle-y");
+    public PositionOffsetBuilder TranslateMiddleY => Chain(PositionOffsetEnum.TranslateMiddleY);
 
     /// <summary>
     /// Applies the position offset on phone breakpoint.
@@ -136,11 +132,11 @@ public sealed class PositionOffsetBuilder : ICssBuilder
     public PositionOffsetBuilder On2xl => ChainBp(BreakpointType.Xxl);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private PositionOffsetBuilder Chain(string property, string value)
+    private PositionOffsetBuilder Chain(PositionOffsetEnum value)
     {
         BreakpointType? breakpoint = _pendingBreakpoint;
         _pendingBreakpoint = null;
-        _rules.Add(new PositionOffsetRule(property, value, breakpoint));
+        _rules.Add(new PositionOffsetRule(value, breakpoint));
         return this;
     }
 
@@ -165,7 +161,7 @@ public sealed class PositionOffsetBuilder : ICssBuilder
         for (var i = 0; i < _rules.Count; i++)
         {
             PositionOffsetRule rule = _rules[i];
-            string cls = GetClass(rule.Property, rule.Value);
+            string cls = rule.Value.Value;
             if (cls.Length == 0)
                 continue;
 
@@ -186,36 +182,7 @@ public sealed class PositionOffsetBuilder : ICssBuilder
     /// Gets the CSS style string for the current configuration.
     /// </summary>
     /// <returns>The CSS style string.</returns>
-    public string ToStyle()
-    {
-        return string.Empty;
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static string GetClass(string property, string value)
-    {
-        if (property == "translate")
-        {
-            return value switch
-            {
-                "middle" => _classTranslateMiddle,
-                "middle-x" => _classTranslateMiddleX,
-                "middle-y" => _classTranslateMiddleY,
-                _ => string.Empty
-            };
-        }
-
-        string prefix = property switch
-        {
-            "top" => "top",
-            "bottom" => "bottom",
-            "start" => "start",
-            "end" => "end",
-            _ => string.Empty
-        };
-        if (prefix.Length == 0) return string.Empty;
-        return $"{prefix}-{value}";
-    }
+    public string ToStyle() => string.Empty;
 
     public override string ToString() => ToClass();
 }

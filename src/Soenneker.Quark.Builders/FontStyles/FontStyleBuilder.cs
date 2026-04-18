@@ -15,10 +15,7 @@ public sealed class FontStyleBuilder : ICssBuilder
     private readonly List<FontStyleRule> _rules = new(4);
     private BreakpointType? _pendingBreakpoint;
 
-    // Tailwind font-style utilities (for Quark Suite / shadcn)
-    private const string _classItalic = "italic";
-    private const string _classNormal = "not-italic";
-    internal FontStyleBuilder(string value, BreakpointType? breakpoint = null)
+    internal FontStyleBuilder(FontStyleEnum value, BreakpointType? breakpoint = null)
     {
         _rules.Add(new FontStyleRule(value, breakpoint));
     }
@@ -32,11 +29,11 @@ public sealed class FontStyleBuilder : ICssBuilder
     /// <summary>
     /// Sets the font style to italic.
     /// </summary>
-    public FontStyleBuilder Italic => Chain(FontStyleKeyword.ItalicValue);
+    public FontStyleBuilder Italic => Chain(FontStyleEnum.Italic);
     /// <summary>
     /// Sets the font style to normal.
     /// </summary>
-    public FontStyleBuilder Normal => Chain(FontStyleKeyword.NormalValue);
+    public FontStyleBuilder Normal => Chain(FontStyleEnum.Normal);
     /// <summary>
     /// Applies the font style on phone breakpoint.
     /// </summary>
@@ -63,7 +60,7 @@ public sealed class FontStyleBuilder : ICssBuilder
     public FontStyleBuilder On2xl => SetPendingBreakpoint(BreakpointType.Xxl);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private FontStyleBuilder Chain(string value)
+    private FontStyleBuilder Chain(FontStyleEnum value)
     {
         _rules.Add(new FontStyleRule(value, ConsumePendingBreakpoint()));
         return this;
@@ -97,12 +94,13 @@ public sealed class FontStyleBuilder : ICssBuilder
         for (var i = 0; i < _rules.Count; i++)
         {
             FontStyleRule rule = _rules[i];
-            string cls = rule.Value switch
-            {
-                FontStyleKeyword.ItalicValue => _classItalic,
-                FontStyleKeyword.NormalValue => _classNormal,
-                _ => string.Empty
-            };
+            string cls;
+            if (ReferenceEquals(rule.Value, FontStyleEnum.Italic))
+                cls = FontStyleEnum.ItalicValue;
+            else if (ReferenceEquals(rule.Value, FontStyleEnum.Normal))
+                cls = FontStyleEnum.NormalValue;
+            else
+                cls = string.Empty;
             if (cls.Length == 0)
                 continue;
 
@@ -122,9 +120,6 @@ public sealed class FontStyleBuilder : ICssBuilder
     /// Gets the CSS style string for the current configuration.
     /// </summary>
     /// <returns>The CSS style string.</returns>
-    public string ToStyle()
-    {
-        return string.Empty;
-    }
+    public string ToStyle() => string.Empty;
     public override string ToString() => ToClass();
 }

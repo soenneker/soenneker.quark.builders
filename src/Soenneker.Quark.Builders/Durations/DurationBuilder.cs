@@ -11,14 +11,14 @@ public sealed class DurationBuilder : ResponsiveUtilityBuilder<DurationBuilder>
     {
     }
 
-    public DurationBuilder Is75 => ChainValue(DurationEnum.Is75.Value);
-    public DurationBuilder Is100 => ChainValue(DurationEnum.Is100.Value);
-    public DurationBuilder Is150 => ChainValue(DurationEnum.Is150.Value);
-    public DurationBuilder Is200 => ChainValue(DurationEnum.Is200.Value);
-    public DurationBuilder Is300 => ChainValue(DurationEnum.Is300.Value);
-    public DurationBuilder Is500 => ChainValue(DurationEnum.Is500.Value);
-    public DurationBuilder Is700 => ChainValue(DurationEnum.Is700.Value);
-    public DurationBuilder Is1000 => ChainValue(DurationEnum.Is1000.Value);
+    public DurationBuilder Is75 => ChainValue(DurationEnum.Is75Value);
+    public DurationBuilder Is100 => ChainValue(DurationEnum.Is100Value);
+    public DurationBuilder Is150 => ChainValue(DurationEnum.Is150Value);
+    public DurationBuilder Is200 => ChainValue(DurationEnum.Is200Value);
+    public DurationBuilder Is300 => ChainValue(DurationEnum.Is300Value);
+    public DurationBuilder Is500 => ChainValue(DurationEnum.Is500Value);
+    public DurationBuilder Is700 => ChainValue(DurationEnum.Is700Value);
+    public DurationBuilder Is1000 => ChainValue(DurationEnum.Is1000Value);
     public DurationBuilder Token(string value) => ChainValue(value);
 
     public DurationBuilder OnBase => SetPendingBreakpoint(BreakpointType.Base);

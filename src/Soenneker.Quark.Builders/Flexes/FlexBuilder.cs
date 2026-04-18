@@ -14,10 +14,10 @@ public sealed class FlexBuilder : ResponsiveUtilityBuilder<FlexBuilder>
     {
     }
 
-    public FlexBuilder Is1 => ChainValue(FlexEnum.Is1.Value);
-    public FlexBuilder Auto => ChainValue(FlexEnum.Auto.Value);
-    public FlexBuilder Initial => ChainValue(FlexEnum.Initial.Value);
-    public FlexBuilder None => ChainValue(FlexEnum.None.Value);
+    public FlexBuilder Is1 => ChainValue(FlexEnum.Is1Value);
+    public FlexBuilder Auto => ChainValue(FlexEnum.AutoValue);
+    public FlexBuilder Initial => ChainValue(FlexEnum.InitialValue);
+    public FlexBuilder None => ChainValue(FlexEnum.NoneValue);
     public FlexBuilder Token(string value) => ChainValue(value);
 
     public FlexBuilder OnBase => SetPendingBreakpoint(BreakpointType.Base);

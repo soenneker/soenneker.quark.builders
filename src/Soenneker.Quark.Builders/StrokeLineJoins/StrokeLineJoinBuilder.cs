@@ -14,7 +14,7 @@ public sealed class StrokeLineJoinBuilder : ICssBuilder
     private readonly List<StrokeLineJoinRule> _rules = new(4);
     private BreakpointType? _pendingBreakpoint;
 
-    internal StrokeLineJoinBuilder(string value, BreakpointType? breakpoint = null)
+    internal StrokeLineJoinBuilder(StrokeLineJoinEnum value, BreakpointType? breakpoint = null)
     {
         _rules.Add(new StrokeLineJoinRule(value, breakpoint));
     }
@@ -28,19 +28,19 @@ public sealed class StrokeLineJoinBuilder : ICssBuilder
     /// <summary>
     /// `auto` — browser-default sizing/behavior for the underlying utility.
     /// </summary>
-    public StrokeLineJoinBuilder Auto => Chain("auto");
+    public StrokeLineJoinBuilder Auto => Chain(StrokeLineJoinEnum.Auto);
     /// <summary>
     /// Fluent step for `Round` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public StrokeLineJoinBuilder Round => Chain("round");
+    public StrokeLineJoinBuilder Round => Chain(StrokeLineJoinEnum.Round);
     /// <summary>
     /// Fluent step for `Bevel` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public StrokeLineJoinBuilder Bevel => Chain("bevel");
+    public StrokeLineJoinBuilder Bevel => Chain(StrokeLineJoinEnum.Bevel);
     /// <summary>
     /// Fluent step for `Miter` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public StrokeLineJoinBuilder Miter => Chain("miter");
+    public StrokeLineJoinBuilder Miter => Chain(StrokeLineJoinEnum.Miter);
 
     /// <summary>
     /// Scopes the next utility to the default (unprefixed) breakpoint.
@@ -68,7 +68,7 @@ public sealed class StrokeLineJoinBuilder : ICssBuilder
     public StrokeLineJoinBuilder On2xl => ChainBp(BreakpointType.Xxl);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private StrokeLineJoinBuilder Chain(string value)
+    private StrokeLineJoinBuilder Chain(StrokeLineJoinEnum value)
     {
         BreakpointType? breakpoint = _pendingBreakpoint;
         _pendingBreakpoint = null;
@@ -90,14 +90,7 @@ public sealed class StrokeLineJoinBuilder : ICssBuilder
         var first = true;
         foreach (StrokeLineJoinRule rule in _rules)
         {
-            string cls = rule.Value switch
-            {
-                "auto" => "stroke-join-auto",
-                "round" => "stroke-join-round",
-                "bevel" => "stroke-join-bevel",
-                "miter" => "stroke-join-miter",
-                _ => string.Empty
-            };
+            string cls = rule.Value.Value;
             if (cls.Length == 0) continue;
             string b = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
             if (b.Length != 0) cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, b);

@@ -14,7 +14,7 @@ public sealed class OpacityBuilder : ICssBuilder
     private readonly List<OpacityRule> _rules = new(4);
     private BreakpointType? _pendingBreakpoint;
 
-    internal OpacityBuilder(int value, BreakpointType? breakpoint = null)
+    internal OpacityBuilder(OpacityEnum value, BreakpointType? breakpoint = null)
     {
         _rules.Add(new OpacityRule(value, breakpoint));
     }
@@ -28,27 +28,27 @@ public sealed class OpacityBuilder : ICssBuilder
     /// <summary>
     /// Sets the opacity to 0 (fully transparent).
     /// </summary>
-    public OpacityBuilder Is0 => Chain(0);
+    public OpacityBuilder Is0 => Chain(OpacityEnum.Is0);
 
     /// <summary>
     /// Sets the opacity to 25%.
     /// </summary>
-    public OpacityBuilder Is25 => Chain(25);
+    public OpacityBuilder Is25 => Chain(OpacityEnum.Is25);
 
     /// <summary>
     /// Sets the opacity to 50%.
     /// </summary>
-    public OpacityBuilder Is50 => Chain(50);
+    public OpacityBuilder Is50 => Chain(OpacityEnum.Is50);
 
     /// <summary>
     /// Sets the opacity to 75%.
     /// </summary>
-    public OpacityBuilder Is75 => Chain(75);
+    public OpacityBuilder Is75 => Chain(OpacityEnum.Is75);
 
     /// <summary>
     /// Sets the opacity to 100% (fully opaque).
     /// </summary>
-    public OpacityBuilder Is100 => Chain(100);
+    public OpacityBuilder Is100 => Chain(OpacityEnum.Is100);
 
     /// <summary>
     /// Applies the opacity on phone breakpoint.
@@ -81,7 +81,7 @@ public sealed class OpacityBuilder : ICssBuilder
     public OpacityBuilder On2xl => SetPendingBreakpoint(BreakpointType.Xxl);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private OpacityBuilder Chain(int value)
+    private OpacityBuilder Chain(OpacityEnum value)
     {
         _rules.Add(new OpacityRule(value, ConsumePendingBreakpoint()));
         return this;
@@ -115,7 +115,7 @@ public sealed class OpacityBuilder : ICssBuilder
         for (var i = 0; i < _rules.Count; i++)
         {
             OpacityRule rule = _rules[i];
-            string cls = GetClass(rule.Value);
+            string cls = rule.Value.Value;
             if (cls.Length == 0)
                 continue;
 
@@ -132,19 +132,6 @@ public sealed class OpacityBuilder : ICssBuilder
     }
 
     public string ToStyle() => string.Empty;
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static string GetClass(int value)
-    {
-        return value switch
-        {
-            0 => "opacity-0",
-            25 => "opacity-25",
-            50 => "opacity-50",
-            75 => "opacity-75",
-            100 => "opacity-100",
-            _ => string.Empty
-        };
-    }
-
+    
+    public override string ToString() => ToClass();
 }

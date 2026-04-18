@@ -1,5 +1,4 @@
 
-using Soenneker.Extensions.String;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Soenneker.Utils.PooledStringBuilders;
@@ -16,10 +15,10 @@ public sealed class GapBuilder : ICssBuilder
     private readonly List<GapRule> _rules = new(4);
     private BreakpointType? _pendingBreakpoint;
 
-    internal GapBuilder(string size, BreakpointType? breakpoint = null, string direction = "")
+    internal GapBuilder(string size, BreakpointType? breakpoint = null, GapAxisEnum? axis = null)
     {
-        if (size.HasContent())
-            _rules.Add(new GapRule(size, breakpoint, direction));
+        if (size.Length != 0)
+            _rules.Add(new GapRule(size, axis ?? GapAxisEnum.All, breakpoint));
     }
 
     internal GapBuilder(List<GapRule> rules)
@@ -31,32 +30,32 @@ public sealed class GapBuilder : ICssBuilder
     /// <summary>
     /// Chain with a new size for the next rule.
     /// </summary>
-    public GapBuilder Is0 => ChainWithSize(ScaleType.Is0Value);
+    public GapBuilder Is0 => ChainWithSize(GapScaleEnum.Is0Value);
 
     /// <summary>
     /// Chain with a new size for the next rule.
     /// </summary>
-    public GapBuilder Is1 => ChainWithSize(ScaleType.Is1Value);
+    public GapBuilder Is1 => ChainWithSize(GapScaleEnum.Is1Value);
 
     /// <summary>
     /// Chain with a new size for the next rule.
     /// </summary>
-    public GapBuilder Is2 => ChainWithSize(ScaleType.Is2Value);
+    public GapBuilder Is2 => ChainWithSize(GapScaleEnum.Is2Value);
 
     /// <summary>
     /// Chain with a new size for the next rule.
     /// </summary>
-    public GapBuilder Is3 => ChainWithSize(ScaleType.Is3Value);
+    public GapBuilder Is3 => ChainWithSize(GapScaleEnum.Is3Value);
 
     /// <summary>
     /// Chain with a new size for the next rule.
     /// </summary>
-    public GapBuilder Is4 => ChainWithSize(ScaleType.Is4Value);
+    public GapBuilder Is4 => ChainWithSize(GapScaleEnum.Is4Value);
 
     /// <summary>
     /// Chain with a new size for the next rule.
     /// </summary>
-    public GapBuilder Is5 => ChainWithSize(ScaleType.Is5Value);
+    public GapBuilder Is5 => ChainWithSize(GapScaleEnum.Is5Value);
 
     /// <summary>
     /// Chain with an arbitrary Tailwind gap token for the next rule.
@@ -66,12 +65,12 @@ public sealed class GapBuilder : ICssBuilder
     /// <summary>
     /// Apply to column gap only.
     /// </summary>
-    public GapBuilder Column => ChainWithDirection("column");
+    public GapBuilder X => ChainWithAxis(GapAxisEnum.X);
 
     /// <summary>
     /// Apply to row gap only.
     /// </summary>
-    public GapBuilder Row => ChainWithDirection("row");
+    public GapBuilder Y => ChainWithAxis(GapAxisEnum.Y);
 
     /// <summary>
     /// Applies on the base breakpoint.
@@ -112,18 +111,18 @@ public sealed class GapBuilder : ICssBuilder
     {
         BreakpointType? bp = _pendingBreakpoint;
         _pendingBreakpoint = null;
-        _rules.Add(new GapRule(size, bp, ""));
+        _rules.Add(new GapRule(size, GapAxisEnum.All, bp));
         return this;
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private GapBuilder ChainWithDirection(string direction)
+    private GapBuilder ChainWithAxis(GapAxisEnum axis)
     {
         if (_rules.Count == 0)
         {
             BreakpointType? bpEmpty = _pendingBreakpoint;
             _pendingBreakpoint = null;
-            _rules.Add(new GapRule(ScaleType.Is0Value, bpEmpty, direction));
+            _rules.Add(new GapRule(GapScaleEnum.Is0Value, axis, bpEmpty));
             return this;
         }
 
@@ -131,7 +130,7 @@ public sealed class GapBuilder : ICssBuilder
         GapRule last = _rules[lastIdx];
         BreakpointType? bpRewrite = _pendingBreakpoint ?? last.Breakpoint;
         _pendingBreakpoint = null;
-        _rules[lastIdx] = new GapRule(last.Size, bpRewrite, direction);
+        _rules[lastIdx] = new GapRule(last.Size, axis, bpRewrite);
         return this;
     }
 
@@ -156,7 +155,7 @@ public sealed class GapBuilder : ICssBuilder
         for (var i = 0; i < _rules.Count; i++)
         {
             GapRule rule = _rules[i];
-            string cls = GetClass(rule.Size, rule.Direction);
+            string cls = rule.Size.Length == 0 ? string.Empty : rule.Axis.Value + rule.Size;
             if (cls.Length == 0)
                 continue;
 
@@ -176,19 +175,5 @@ public sealed class GapBuilder : ICssBuilder
     }
 
     public string ToStyle() => string.Empty;
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static string GetClass(string size, string direction)
-    {
-        if (size.Length == 0)
-            return string.Empty;
-
-        return direction switch
-        {
-            "column" => "gap-x-" + size,
-            "row" => "gap-y-" + size,
-            _ => "gap-" + size
-        };
-    }
 
 }

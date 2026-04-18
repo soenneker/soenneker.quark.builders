@@ -11,10 +11,15 @@ public sealed class ColumnSpanBuilder : ICssBuilder
     private readonly List<GridRule> _rules = new(8);
     private BreakpointType? _pendingBreakpoint;
 
+    internal ColumnSpanBuilder(ColumnSpanEnum value, BreakpointType? breakpoint = null)
+    {
+        _rules.Add(new GridRule(value.Value, breakpoint));
+    }
+
     internal ColumnSpanBuilder(string value, BreakpointType? breakpoint = null)
     {
         if (value.Length > 0)
-            _rules.Add(new GridRule("col-span", value, breakpoint));
+            _rules.Add(new GridRule(value, breakpoint));
     }
 
     internal ColumnSpanBuilder(List<GridRule> rules)
@@ -26,57 +31,57 @@ public sealed class ColumnSpanBuilder : ICssBuilder
     /// <summary>
     /// Spacing/sizing scale step `1` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 1` for integer spacing utilities unless overridden).
     /// </summary>
-    public ColumnSpanBuilder Is1 => Chain("col-span", "1");
+    public ColumnSpanBuilder Is1 => Chain(ColumnSpanEnum.Is1);
     /// <summary>
     /// Spacing/sizing scale step `2` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 2` for integer spacing utilities unless overridden).
     /// </summary>
-    public ColumnSpanBuilder Is2 => Chain("col-span", "2");
+    public ColumnSpanBuilder Is2 => Chain(ColumnSpanEnum.Is2);
     /// <summary>
     /// Spacing/sizing scale step `3` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 3` for integer spacing utilities unless overridden).
     /// </summary>
-    public ColumnSpanBuilder Is3 => Chain("col-span", "3");
+    public ColumnSpanBuilder Is3 => Chain(ColumnSpanEnum.Is3);
     /// <summary>
     /// Spacing/sizing scale step `4` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 4` for integer spacing utilities unless overridden).
     /// </summary>
-    public ColumnSpanBuilder Is4 => Chain("col-span", "4");
+    public ColumnSpanBuilder Is4 => Chain(ColumnSpanEnum.Is4);
     /// <summary>
     /// Spacing/sizing scale step `5` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 5` for integer spacing utilities unless overridden).
     /// </summary>
-    public ColumnSpanBuilder Is5 => Chain("col-span", "5");
+    public ColumnSpanBuilder Is5 => Chain(ColumnSpanEnum.Is5);
     /// <summary>
     /// Spacing/sizing scale step `6` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 6` for integer spacing utilities unless overridden).
     /// </summary>
-    public ColumnSpanBuilder Is6 => Chain("col-span", "6");
+    public ColumnSpanBuilder Is6 => Chain(ColumnSpanEnum.Is6);
     /// <summary>
     /// Spacing/sizing scale step `7` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 7` for integer spacing utilities unless overridden).
     /// </summary>
-    public ColumnSpanBuilder Is7 => Chain("col-span", "7");
+    public ColumnSpanBuilder Is7 => Chain(ColumnSpanEnum.Is7);
     /// <summary>
     /// Spacing/sizing scale step `8` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 8` for integer spacing utilities unless overridden).
     /// </summary>
-    public ColumnSpanBuilder Is8 => Chain("col-span", "8");
+    public ColumnSpanBuilder Is8 => Chain(ColumnSpanEnum.Is8);
     /// <summary>
     /// Spacing/sizing scale step `9` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 9` for integer spacing utilities unless overridden).
     /// </summary>
-    public ColumnSpanBuilder Is9 => Chain("col-span", "9");
+    public ColumnSpanBuilder Is9 => Chain(ColumnSpanEnum.Is9);
     /// <summary>
     /// Spacing/sizing scale step `10` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 10` for integer spacing utilities unless overridden).
     /// </summary>
-    public ColumnSpanBuilder Is10 => Chain("col-span", "10");
+    public ColumnSpanBuilder Is10 => Chain(ColumnSpanEnum.Is10);
     /// <summary>
     /// Spacing/sizing scale step `11` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 11` for integer spacing utilities unless overridden).
     /// </summary>
-    public ColumnSpanBuilder Is11 => Chain("col-span", "11");
+    public ColumnSpanBuilder Is11 => Chain(ColumnSpanEnum.Is11);
     /// <summary>
     /// Spacing/sizing scale step `12` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 12` for integer spacing utilities unless overridden).
     /// </summary>
-    public ColumnSpanBuilder Is12 => Chain("col-span", "12");
+    public ColumnSpanBuilder Is12 => Chain(ColumnSpanEnum.Is12);
     /// <summary>
     /// “Full” extremum for this utility. For border radius this is `rounded-full` (`border-radius: 9999px`), producing pills/circles; for width/height often `100%` (`w-full` / `h-full`).
     /// </summary>
-    public ColumnSpanBuilder Full => Chain("col-span", "full");
+    public ColumnSpanBuilder Full => Chain(ColumnSpanEnum.Full);
 
-    public ColumnSpanBuilder Span(int value) => Chain("col-span", value.ToString());
+    public ColumnSpanBuilder Span(int value) => ChainClass($"col-span-{value}");
 
     /// <summary>
     /// Scopes the next utility to the default (unprefixed) breakpoint. In Tailwind’s mobile‑first model, unprefixed utilities apply from 0px unless a larger breakpoint overrides them.
@@ -104,9 +109,17 @@ public sealed class ColumnSpanBuilder : ICssBuilder
     public ColumnSpanBuilder On2xl => SetPendingBreakpoint(BreakpointType.Xxl);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private ColumnSpanBuilder Chain(string utility, string value)
+    private ColumnSpanBuilder Chain(ColumnSpanEnum value)
     {
-        _rules.Add(new GridRule(utility, value, ConsumePendingBreakpoint()));
+        _rules.Add(new GridRule(value.Value, ConsumePendingBreakpoint()));
+        return this;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private ColumnSpanBuilder ChainClass(string value)
+    {
+        if (value.Length != 0)
+            _rules.Add(new GridRule(value, ConsumePendingBreakpoint()));
         return this;
     }
 
@@ -136,7 +149,7 @@ public sealed class ColumnSpanBuilder : ICssBuilder
         for (var i = 0; i < _rules.Count; i++)
         {
             GridRule rule = _rules[i];
-            var cls = $"{rule.Utility}-{rule.Value}";
+            string cls = rule.Value;
 
             string bp = BreakpointUtil.GetBreakpointClass(rule.Breakpoint);
             if (bp.Length != 0)
@@ -154,4 +167,6 @@ public sealed class ColumnSpanBuilder : ICssBuilder
     }
 
     public string ToStyle() => string.Empty;
+
+    public override string ToString() => ToClass();
 }

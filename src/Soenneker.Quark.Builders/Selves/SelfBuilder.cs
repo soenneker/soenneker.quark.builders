@@ -11,12 +11,12 @@ public sealed class SelfBuilder : ResponsiveUtilityBuilder<SelfBuilder>
     {
     }
 
-    public SelfBuilder Auto => ChainValue(SelfEnum.Auto.Value);
-    public SelfBuilder Start => ChainValue(SelfEnum.Start.Value);
-    public SelfBuilder End => ChainValue(SelfEnum.End.Value);
-    public SelfBuilder Center => ChainValue(SelfEnum.Center.Value);
-    public SelfBuilder Stretch => ChainValue(SelfEnum.Stretch.Value);
-    public SelfBuilder Baseline => ChainValue(SelfEnum.Baseline.Value);
+    public SelfBuilder Auto => ChainValue(SelfEnum.AutoValue);
+    public SelfBuilder Start => ChainValue(SelfEnum.StartValue);
+    public SelfBuilder End => ChainValue(SelfEnum.EndValue);
+    public SelfBuilder Center => ChainValue(SelfEnum.CenterValue);
+    public SelfBuilder Stretch => ChainValue(SelfEnum.StretchValue);
+    public SelfBuilder Baseline => ChainValue(SelfEnum.BaselineValue);
     public SelfBuilder Token(string value) => ChainValue(value);
 
     public SelfBuilder OnBase => SetPendingBreakpoint(BreakpointType.Base);

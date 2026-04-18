@@ -9,21 +9,21 @@ public static class Opacity
     /// <summary>
     /// Gets an opacity builder with value 0 (fully transparent).
     /// </summary>
-    public static OpacityBuilder Is0 => new(0);
+    public static OpacityBuilder Is0 => new(OpacityEnum.Is0);
     /// <summary>
     /// Gets an opacity builder with value 25 (25% opacity).
     /// </summary>
-    public static OpacityBuilder Is25 => new(25);
+    public static OpacityBuilder Is25 => new(OpacityEnum.Is25);
     /// <summary>
     /// Gets an opacity builder with value 50 (50% opacity).
     /// </summary>
-    public static OpacityBuilder Is50 => new(50);
+    public static OpacityBuilder Is50 => new(OpacityEnum.Is50);
     /// <summary>
     /// Gets an opacity builder with value 75 (75% opacity).
     /// </summary>
-    public static OpacityBuilder Is75 => new(75);
+    public static OpacityBuilder Is75 => new(OpacityEnum.Is75);
     /// <summary>
     /// Gets an opacity builder with value 100 (fully opaque).
     /// </summary>
-    public static OpacityBuilder Is100 => new(100);
+    public static OpacityBuilder Is100 => new(OpacityEnum.Is100);
 }

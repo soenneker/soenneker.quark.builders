@@ -8,29 +8,29 @@ public static class FontWeight
     /// <summary>
     /// Gets a font weight builder with extralight value (200).
     /// </summary>
-    public static FontWeightBuilder Extralight => new("extralight");
+    public static FontWeightBuilder Extralight => new(FontWeightEnum.Extralight);
     /// <summary>
     /// Gets a font weight builder with light value (300).
     /// </summary>
-    public static FontWeightBuilder Light => new(FontWeightKeyword.LightValue);
+    public static FontWeightBuilder Light => new(FontWeightEnum.Light);
     /// <summary>
     /// Gets a font weight builder with normal value (400).
     /// </summary>
-    public static FontWeightBuilder Normal => new(FontWeightKeyword.NormalValue);
+    public static FontWeightBuilder Normal => new(FontWeightEnum.Normal);
     /// <summary>
     /// Gets a font weight builder with medium value (500).
     /// </summary>
-    public static FontWeightBuilder Medium => new("medium");
+    public static FontWeightBuilder Medium => new(FontWeightEnum.Medium);
     /// <summary>
     /// Gets a font weight builder with semibold value (600).
     /// </summary>
-    public static FontWeightBuilder Semibold => new(FontWeightKeyword.SemiboldValue);
+    public static FontWeightBuilder Semibold => new(FontWeightEnum.Semibold);
     /// <summary>
     /// Gets a font weight builder with bold value (700).
     /// </summary>
-    public static FontWeightBuilder Bold => new(FontWeightKeyword.BoldValue);
+    public static FontWeightBuilder Bold => new(FontWeightEnum.Bold);
     /// <summary>
     /// Gets a font weight builder with extrabold value (800).
     /// </summary>
-    public static FontWeightBuilder Extrabold => new("extrabold");
+    public static FontWeightBuilder Extrabold => new(FontWeightEnum.Extrabold);
 }

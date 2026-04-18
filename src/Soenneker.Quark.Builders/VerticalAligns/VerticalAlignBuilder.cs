@@ -140,9 +140,6 @@ public sealed class VerticalAlignBuilder : ICssBuilder
     /// Gets the CSS style string for the current configuration.
     /// </summary>
     /// <returns>The CSS style string.</returns>
-    public string ToStyle()
-    {
-        return string.Empty;
-    }
+    public string ToStyle() => string.Empty;
     public override string ToString() => ToClass();
 }

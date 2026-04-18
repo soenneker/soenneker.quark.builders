@@ -1,4 +1,3 @@
-
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Soenneker.Utils.PooledStringBuilders;
@@ -14,12 +13,7 @@ public sealed class EndBuilder : ICssBuilder
     private readonly List<EndRule> _rules = new(4);
     private BreakpointType? _pendingBreakpoint;
 
-    internal EndBuilder(ScaleType scale, BreakpointType? breakpoint = null)
-    {
-        _rules.Add(new EndRule(scale.Value, breakpoint));
-    }
-
-    internal EndBuilder(string value, BreakpointType? breakpoint = null)
+    internal EndBuilder(EndEnum value, BreakpointType? breakpoint = null)
     {
         _rules.Add(new EndRule(value, breakpoint));
     }
@@ -30,68 +24,23 @@ public sealed class EndBuilder : ICssBuilder
             _rules.AddRange(rules);
     }
 
-    /// <summary>
-    /// Spacing/sizing scale step `0` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 0` for integer spacing utilities unless overridden).
-    /// </summary>
-    public EndBuilder Is0 => Chain(ScaleType.Is0);
-    /// <summary>
-    /// Spacing/sizing scale step `1` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 1` for integer spacing utilities unless overridden).
-    /// </summary>
-    public EndBuilder Is1 => Chain(ScaleType.Is1);
-    /// <summary>
-    /// Spacing/sizing scale step `2` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 2` for integer spacing utilities unless overridden).
-    /// </summary>
-    public EndBuilder Is2 => Chain(ScaleType.Is2);
-    /// <summary>
-    /// Spacing/sizing scale step `3` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 3` for integer spacing utilities unless overridden).
-    /// </summary>
-    public EndBuilder Is3 => Chain(ScaleType.Is3);
-    /// <summary>
-    /// Spacing/sizing scale step `4` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 4` for integer spacing utilities unless overridden).
-    /// </summary>
-    public EndBuilder Is4 => Chain(ScaleType.Is4);
-    /// <summary>
-    /// Spacing/sizing scale step `5` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 5` for integer spacing utilities unless overridden).
-    /// </summary>
-    public EndBuilder Is5 => Chain(ScaleType.Is5);
-    /// <summary>
-    /// `auto` — browser-default sizing/behavior for the underlying utility.
-    /// </summary>
-    public EndBuilder Auto => Chain("auto");
-    /// <summary>
-    /// One pixel (`px` unit) — hairline borders, fixed 1px tracks, etc.
-    /// </summary>
-    public EndBuilder Px => Chain("px");
+    public EndBuilder Is0 => Chain(EndEnum.Is0);
+    public EndBuilder Is1 => Chain(EndEnum.Is1);
+    public EndBuilder Is2 => Chain(EndEnum.Is2);
+    public EndBuilder Is3 => Chain(EndEnum.Is3);
+    public EndBuilder Is4 => Chain(EndEnum.Is4);
+    public EndBuilder Is5 => Chain(EndEnum.Is5);
+    public EndBuilder Auto => Chain(EndEnum.Auto);
+    public EndBuilder Px => Chain(EndEnum.Px);
 
-    /// <summary>
-    /// Applies the preceding utility from the `sm` breakpoint and up (`sm:` prefix). Tailwind default: `min-width: 40rem` (640px).
-    /// </summary>
     public EndBuilder OnSm => SetPendingBreakpoint(BreakpointType.Sm);
-    /// <summary>
-    /// Applies from the `md` breakpoint and up (`md:`). Tailwind default: `min-width: 48rem` (768px).
-    /// </summary>
     public EndBuilder OnMd => SetPendingBreakpoint(BreakpointType.Md);
-    /// <summary>
-    /// Applies from the `lg` breakpoint and up (`lg:`). Tailwind default: `min-width: 64rem` (1024px).
-    /// </summary>
     public EndBuilder OnLg => SetPendingBreakpoint(BreakpointType.Lg);
-    /// <summary>
-    /// Applies from the `xl` breakpoint and up (`xl:`). Tailwind default: `min-width: 80rem` (1280px).
-    /// </summary>
     public EndBuilder OnXl => SetPendingBreakpoint(BreakpointType.Xl);
-    /// <summary>
-    /// Applies from the `2xl` breakpoint and up (`2xl:`). Tailwind default: `min-width: 96rem` (1536px).
-    /// </summary>
     public EndBuilder On2xl => SetPendingBreakpoint(BreakpointType.Xxl);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private EndBuilder Chain(ScaleType scale)
-    {
-        return Chain(scale.Value);
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private EndBuilder Chain(string value)
+    private EndBuilder Chain(EndEnum value)
     {
         _rules.Add(new EndRule(value, ConsumePendingBreakpoint()));
         return this;
@@ -119,14 +68,7 @@ public sealed class EndBuilder : ICssBuilder
         var first = true;
         foreach (EndRule rule in _rules)
         {
-            string cls = rule.Value switch
-            {
-                "auto" => "end-auto",
-                "px" => "end-px",
-                _ when !string.IsNullOrWhiteSpace(rule.Value) => $"end-{rule.Value}",
-                _ => string.Empty
-            };
-
+            string cls = rule.Value.Value;
             if (cls.Length == 0) continue;
             string b = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
             if (b.Length != 0) cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, b);
@@ -140,5 +82,4 @@ public sealed class EndBuilder : ICssBuilder
     public string ToStyle() => string.Empty;
 
     public override string ToString() => ToClass();
-
 }

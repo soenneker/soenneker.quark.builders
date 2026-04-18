@@ -5,20 +5,20 @@ namespace Soenneker.Quark;
 /// </summary>
 public static class BorderColor
 {
-    public static BorderColorBuilder Primary => new("primary");
-    public static BorderColorBuilder Secondary => new("secondary");
-    public static BorderColorBuilder Destructive => new("destructive");
-    public static BorderColorBuilder Muted => new("muted");
-    public static BorderColorBuilder Accent => new("accent");
-    public static BorderColorBuilder Popover => new("popover");
-    public static BorderColorBuilder Card => new("card");
-    public static BorderColorBuilder Background => new("background");
-    public static BorderColorBuilder Border => new("border");
-    public static BorderColorBuilder Input => new("input");
-    public static BorderColorBuilder Ring => new("ring");
-    public static BorderColorBuilder White => new("white");
-    public static BorderColorBuilder Black => new("black");
-    public static BorderColorBuilder Transparent => new("transparent");
+    public static BorderColorBuilder Primary => new(BorderColorEnum.Primary);
+    public static BorderColorBuilder Secondary => new(BorderColorEnum.Secondary);
+    public static BorderColorBuilder Destructive => new(BorderColorEnum.Destructive);
+    public static BorderColorBuilder Muted => new(BorderColorEnum.Muted);
+    public static BorderColorBuilder Accent => new(BorderColorEnum.Accent);
+    public static BorderColorBuilder Popover => new(BorderColorEnum.Popover);
+    public static BorderColorBuilder Card => new(BorderColorEnum.Card);
+    public static BorderColorBuilder Background => new(BorderColorEnum.Background);
+    public static BorderColorBuilder Border => new(BorderColorEnum.Border);
+    public static BorderColorBuilder Input => new(BorderColorEnum.Input);
+    public static BorderColorBuilder Ring => new(BorderColorEnum.Ring);
+    public static BorderColorBuilder White => new(BorderColorEnum.White);
+    public static BorderColorBuilder Black => new(BorderColorEnum.Black);
+    public static BorderColorBuilder Transparent => new(BorderColorEnum.Transparent);
 
     /// <summary>
     /// Creates a border color builder from a Tailwind color token suffix such as <c>primary/30</c>, <c>zinc-300</c>, or <c>[var(--brand)]</c>.
@@ -28,5 +28,5 @@ public static class BorderColor
     /// <summary>
     /// Passes through a fully-prefixed Tailwind utility such as <c>border-primary/30</c>.
     /// </summary>
-    public static BorderColorBuilder Utility(string utility) => new(utility, isUtility: true);
+    public static BorderColorBuilder Utility(string utility) => new(ColorUtility.CreateUtilityClass("border-", utility));
 }

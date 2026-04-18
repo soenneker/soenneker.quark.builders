@@ -11,13 +11,14 @@ public sealed class RingOffsetBuilder : ICssBuilder
     private readonly List<RingOffsetRule> _rules = new(4);
     private BreakpointType? _pendingBreakpoint;
 
-    internal RingOffsetBuilder(string utility, string value = "", BreakpointType? breakpoint = null)
+    internal RingOffsetBuilder(string value, BreakpointType? breakpoint = null)
     {
-        _rules.Add(new RingOffsetRule(utility, value, breakpoint));
+        if (value.Length != 0)
+            _rules.Add(new RingOffsetRule(value, breakpoint));
     }
 
-    public RingOffsetBuilder Width(int value) => Chain("ring-offset", value.ToString());
-    public RingOffsetBuilder Color(string value) => Chain("ring-offset", value);
+    public RingOffsetBuilder Width(int value) => Chain($"ring-offset-{value}");
+    public RingOffsetBuilder Color(string value) => Chain($"ring-offset-{value}");
 
     /// <summary>
     /// Scopes the next utility to the default (unprefixed) breakpoint. In Tailwind’s mobile‑first model, unprefixed utilities apply from 0px unless a larger breakpoint overrides them.
@@ -45,9 +46,10 @@ public sealed class RingOffsetBuilder : ICssBuilder
     public RingOffsetBuilder On2xl => SetPendingBreakpoint(BreakpointType.Xxl);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private RingOffsetBuilder Chain(string utility, string value)
+    private RingOffsetBuilder Chain(string value)
     {
-        _rules.Add(new RingOffsetRule(utility, value, ConsumePendingBreakpoint()));
+        if (value.Length != 0)
+            _rules.Add(new RingOffsetRule(value, ConsumePendingBreakpoint()));
         return this;
     }
 
@@ -76,7 +78,7 @@ public sealed class RingOffsetBuilder : ICssBuilder
         for (var i = 0; i < _rules.Count; i++)
         {
             RingOffsetRule rule = _rules[i];
-            var cls = $"{rule.Utility}-{rule.Value}";
+            string cls = rule.Value;
             string bp = BreakpointUtil.GetBreakpointClass(rule.Breakpoint);
             if (bp.Length != 0)
                 cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, bp);
@@ -93,4 +95,6 @@ public sealed class RingOffsetBuilder : ICssBuilder
     }
 
     public string ToStyle() => string.Empty;
+
+    public override string ToString() => ToClass();
 }

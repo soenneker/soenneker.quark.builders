@@ -14,7 +14,7 @@ public sealed class StrokeLineCapBuilder : ICssBuilder
     private readonly List<StrokeLineCapRule> _rules = new(4);
     private BreakpointType? _pendingBreakpoint;
 
-    internal StrokeLineCapBuilder(string value, BreakpointType? breakpoint = null)
+    internal StrokeLineCapBuilder(StrokeLineCapEnum value, BreakpointType? breakpoint = null)
     {
         _rules.Add(new StrokeLineCapRule(value, breakpoint));
     }
@@ -28,19 +28,19 @@ public sealed class StrokeLineCapBuilder : ICssBuilder
     /// <summary>
     /// `auto` — browser-default sizing/behavior for the underlying utility.
     /// </summary>
-    public StrokeLineCapBuilder Auto => Chain("auto");
+    public StrokeLineCapBuilder Auto => Chain(StrokeLineCapEnum.Auto);
     /// <summary>
     /// Fluent step for `Round` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public StrokeLineCapBuilder Round => Chain("round");
+    public StrokeLineCapBuilder Round => Chain(StrokeLineCapEnum.Round);
     /// <summary>
     /// Fluent step for `Square` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public StrokeLineCapBuilder Square => Chain("square");
+    public StrokeLineCapBuilder Square => Chain(StrokeLineCapEnum.Square);
     /// <summary>
     /// Fluent step for `Butt` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public StrokeLineCapBuilder Butt => Chain("butt");
+    public StrokeLineCapBuilder Butt => Chain(StrokeLineCapEnum.Butt);
 
     /// <summary>
     /// Scopes the next utility to the default (unprefixed) breakpoint.
@@ -68,7 +68,7 @@ public sealed class StrokeLineCapBuilder : ICssBuilder
     public StrokeLineCapBuilder On2xl => ChainBp(BreakpointType.Xxl);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private StrokeLineCapBuilder Chain(string value)
+    private StrokeLineCapBuilder Chain(StrokeLineCapEnum value)
     {
         BreakpointType? breakpoint = _pendingBreakpoint;
         _pendingBreakpoint = null;
@@ -90,14 +90,7 @@ public sealed class StrokeLineCapBuilder : ICssBuilder
         var first = true;
         foreach (StrokeLineCapRule rule in _rules)
         {
-            string cls = rule.Value switch
-            {
-                "auto" => "stroke-cap-auto",
-                "round" => "stroke-cap-round",
-                "square" => "stroke-cap-square",
-                "butt" => "stroke-cap-butt",
-                _ => string.Empty
-            };
+            string cls = rule.Value.Value;
             if (cls.Length == 0) continue;
             string b = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
             if (b.Length != 0) cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, b);

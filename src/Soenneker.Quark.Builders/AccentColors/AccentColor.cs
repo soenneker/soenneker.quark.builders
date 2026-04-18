@@ -8,19 +8,19 @@ public static class AccentColor
     /// <summary>
     /// `auto` — browser-default sizing/behavior for the underlying utility.
     /// </summary>
-    public static AccentColorBuilder Auto => new("auto");
+    public static AccentColorBuilder Auto => new(AccentColorEnum.Auto);
     /// <summary>
     /// `accent-primary` — uses your theme primary (shadcn maps this to CSS variables).
     /// </summary>
-    public static AccentColorBuilder Primary => new("primary");
+    public static AccentColorBuilder Primary => new(AccentColorEnum.Primary);
     /// <summary>
     /// Fully transparent color (`transparent`).
     /// </summary>
-    public static AccentColorBuilder Transparent => new("transparent");
+    public static AccentColorBuilder Transparent => new(AccentColorEnum.Transparent);
     /// <summary>
     /// `currentColor` — uses the element’s computed `color` (common for icons and rings).
     /// </summary>
-    public static AccentColorBuilder Current => new("current");
+    public static AccentColorBuilder Current => new(AccentColorEnum.Current);
 
     /// <summary>
     /// Creates an accent color builder from a Tailwind color token suffix such as <c>blue-500</c> or <c>[var(--brand)]</c>.
@@ -30,5 +30,5 @@ public static class AccentColor
     /// <summary>
     /// Passes through a fully-prefixed Tailwind utility such as <c>accent-blue-500</c>.
     /// </summary>
-    public static AccentColorBuilder Utility(string utility) => new(utility, isUtility: true);
+    public static AccentColorBuilder Utility(string utility) => new(ColorUtility.CreateUtilityClass("accent-", utility));
 }

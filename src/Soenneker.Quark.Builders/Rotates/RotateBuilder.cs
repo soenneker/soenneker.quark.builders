@@ -11,15 +11,15 @@ public sealed class RotateBuilder : ResponsiveUtilityBuilder<RotateBuilder>
     {
     }
 
-    public RotateBuilder Is0 => ChainValue(RotateEnum.Is0.Value);
-    public RotateBuilder Is1 => ChainValue(RotateEnum.Is1.Value);
-    public RotateBuilder Is2 => ChainValue(RotateEnum.Is2.Value);
-    public RotateBuilder Is3 => ChainValue(RotateEnum.Is3.Value);
-    public RotateBuilder Is6 => ChainValue(RotateEnum.Is6.Value);
-    public RotateBuilder Is12 => ChainValue(RotateEnum.Is12.Value);
-    public RotateBuilder Is45 => ChainValue(RotateEnum.Is45.Value);
-    public RotateBuilder Is90 => ChainValue(RotateEnum.Is90.Value);
-    public RotateBuilder Is180 => ChainValue(RotateEnum.Is180.Value);
+    public RotateBuilder Is0 => ChainValue(RotateEnum.Is0Value);
+    public RotateBuilder Is1 => ChainValue(RotateEnum.Is1Value);
+    public RotateBuilder Is2 => ChainValue(RotateEnum.Is2Value);
+    public RotateBuilder Is3 => ChainValue(RotateEnum.Is3Value);
+    public RotateBuilder Is6 => ChainValue(RotateEnum.Is6Value);
+    public RotateBuilder Is12 => ChainValue(RotateEnum.Is12Value);
+    public RotateBuilder Is45 => ChainValue(RotateEnum.Is45Value);
+    public RotateBuilder Is90 => ChainValue(RotateEnum.Is90Value);
+    public RotateBuilder Is180 => ChainValue(RotateEnum.Is180Value);
     public RotateBuilder Token(string value) => ChainValue(value);
 
     public RotateBuilder OnBase => SetPendingBreakpoint(BreakpointType.Base);

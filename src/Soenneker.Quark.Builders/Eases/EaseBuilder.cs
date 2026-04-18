@@ -11,10 +11,10 @@ public sealed class EaseBuilder : ResponsiveUtilityBuilder<EaseBuilder>
     {
     }
 
-    public EaseBuilder Linear => ChainValue(EaseEnum.Linear.Value);
-    public EaseBuilder In => ChainValue(EaseEnum.In.Value);
-    public EaseBuilder Out => ChainValue(EaseEnum.Out.Value);
-    public EaseBuilder InOut => ChainValue(EaseEnum.InOut.Value);
+    public EaseBuilder Linear => ChainValue(EaseEnum.LinearValue);
+    public EaseBuilder In => ChainValue(EaseEnum.InValue);
+    public EaseBuilder Out => ChainValue(EaseEnum.OutValue);
+    public EaseBuilder InOut => ChainValue(EaseEnum.InOutValue);
     public EaseBuilder Token(string value) => ChainValue(value);
 
     public EaseBuilder OnBase => SetPendingBreakpoint(BreakpointType.Base);

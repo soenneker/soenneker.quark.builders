@@ -15,10 +15,7 @@ public sealed class VisibilityBuilder : ICssBuilder
     private readonly List<VisibilityRule> _rules = new(4);
     private BreakpointType? _pendingBreakpoint;
 
-    private const string _classInvisible = "invisible";
-    private const string _classVisible = "visible";
-
-    internal VisibilityBuilder(string value, BreakpointType? breakpoint = null)
+    internal VisibilityBuilder(VisibilityEnum value, BreakpointType? breakpoint = null)
     {
         _rules.Add(new VisibilityRule(value, breakpoint));
     }
@@ -32,11 +29,11 @@ public sealed class VisibilityBuilder : ICssBuilder
 	/// <summary>
 	/// Sets the visibility to visible.
 	/// </summary>
-    public VisibilityBuilder Visible => Chain(VisibilityKeyword.VisibleValue);
+    public VisibilityBuilder Visible => Chain(VisibilityEnum.Visible);
 	/// <summary>
 	/// Sets the visibility to invisible.
 	/// </summary>
-    public VisibilityBuilder Invisible => Chain("invisible");
+    public VisibilityBuilder Invisible => Chain(VisibilityEnum.Invisible);
 	/// <summary>
 	/// Applies the visibility on phone breakpoint.
 	/// </summary>
@@ -63,7 +60,7 @@ public sealed class VisibilityBuilder : ICssBuilder
     public VisibilityBuilder On2xl => SetPendingBreakpoint(BreakpointType.Xxl);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private VisibilityBuilder Chain(string value)
+    private VisibilityBuilder Chain(VisibilityEnum value)
     {
         _rules.Add(new VisibilityRule(value, ConsumePendingBreakpoint()));
         return this;
@@ -97,12 +94,13 @@ public sealed class VisibilityBuilder : ICssBuilder
         for (var i = 0; i < _rules.Count; i++)
         {
             VisibilityRule rule = _rules[i];
-            string cls = rule.Value switch
-            {
-                "invisible" => _classInvisible,
-                VisibilityKeyword.VisibleValue => _classVisible,
-                _ => string.Empty
-            };
+            string cls;
+            if (ReferenceEquals(rule.Value, VisibilityEnum.Visible))
+                cls = VisibilityEnum.VisibleValue;
+            else if (ReferenceEquals(rule.Value, VisibilityEnum.Invisible))
+                cls = VisibilityEnum.InvisibleValue;
+            else
+                cls = string.Empty;
             if (cls.Length == 0)
                 continue;
 
@@ -122,9 +120,6 @@ public sealed class VisibilityBuilder : ICssBuilder
 	/// Gets the CSS style string for the current configuration.
 	/// </summary>
 	/// <returns>The CSS style string.</returns>
-    public string ToStyle()
-    {
-        return string.Empty;
-    }
+    public string ToStyle() => string.Empty;
     public override string ToString() => ToClass();
 }

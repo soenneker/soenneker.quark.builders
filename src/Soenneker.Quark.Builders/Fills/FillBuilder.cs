@@ -1,34 +1,24 @@
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-
-using Soenneker.Utils.PooledStringBuilders;
-
 namespace Soenneker.Quark;
 
 [TailwindPrefix("fill-", Responsive = true)]
-public sealed class FillBuilder : ICssBuilder
+public sealed class FillBuilder : FinalClassUtilityBuilder<FillBuilder>
 {
-    private readonly List<FillRule> _rules = new(4);
-    private BreakpointType? _pendingBreakpoint;
-
-    internal FillBuilder(string utility, string value, BreakpointType? breakpoint = null)
-    {
-        _rules.Add(new FillRule(utility, value, breakpoint));
-    }
+    internal FillBuilder(FillEnum value, BreakpointType? breakpoint = null) : base(value.Value, breakpoint) {}
+    internal FillBuilder(string value, BreakpointType? breakpoint = null) : base(value, breakpoint) {}
 
     /// <summary>
     /// Tailwind token segment (spacing scale step, arbitrary value like `[17rem]`, or theme key). Builds the matching utility class for this builder.
     /// </summary>
     /// <param name="value">Suffix/token after the utility prefix (see Tailwind docs for this family).</param>
-    public FillBuilder Token(string value) => Chain("fill", value);
+    public FillBuilder Token(string value) => ChainClass($"fill-{value}");
     /// <summary>
     /// Disables the effect (`none` token) or sets size to zero, depending on the utility.
     /// </summary>
-    public FillBuilder None => Chain("fill", "none");
+    public FillBuilder None => ChainClass(FillEnum.NoneValue);
     /// <summary>
     /// `currentColor` — uses the element’s computed `color` (common for icons and rings).
     /// </summary>
-    public FillBuilder Current => Chain("fill", "current");
+    public FillBuilder Current => ChainClass(FillEnum.CurrentValue);
 
     /// <summary>
     /// Scopes the next utility to the default (unprefixed) breakpoint. In Tailwind’s mobile‑first model, unprefixed utilities apply from 0px unless a larger breakpoint overrides them.
@@ -54,54 +44,4 @@ public sealed class FillBuilder : ICssBuilder
     /// Applies from the `2xl` breakpoint and up (`2xl:`). Tailwind default: `min-width: 96rem` (1536px).
     /// </summary>
     public FillBuilder On2xl => SetPendingBreakpoint(BreakpointType.Xxl);
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private FillBuilder Chain(string utility, string value)
-    {
-        _rules.Add(new FillRule(utility, value, ConsumePendingBreakpoint()));
-        return this;
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private FillBuilder SetPendingBreakpoint(BreakpointType breakpoint)
-    {
-        _pendingBreakpoint = breakpoint;
-        return this;
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private BreakpointType? ConsumePendingBreakpoint()
-    {
-        BreakpointType? breakpoint = _pendingBreakpoint;
-        _pendingBreakpoint = null;
-        return breakpoint;
-    }
-
-    public string ToClass()
-    {
-        if (_rules.Count == 0)
-            return string.Empty;
-
-        using var sb = new PooledStringBuilder();
-        var first = true;
-        for (var i = 0; i < _rules.Count; i++)
-        {
-            FillRule rule = _rules[i];
-            var cls = $"{rule.Utility}-{rule.Value}";
-            string bp = BreakpointUtil.GetBreakpointClass(rule.Breakpoint);
-            if (bp.Length != 0)
-                cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, bp);
-
-            if (!first)
-                sb.Append(' ');
-            else
-                first = false;
-
-            sb.Append(cls);
-        }
-
-        return sb.ToString();
-    }
-
-    public string ToStyle() => string.Empty;
 }

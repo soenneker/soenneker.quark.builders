@@ -15,18 +15,9 @@ public sealed class InsetBuilder : ICssBuilder
     private BreakpointType? _pendingBreakpoint;
 
     private const string _baseToken = "inset";
-    private const string _token0 = "0";
-    private const string _token1 = "1";
-    private const string _token2 = "2";
-    private const string _token3 = "3";
-    private const string _token4 = "4";
-    private const string _token5 = "5";
-    private const string _tokenAuto = "auto";
-    private const string _tokenPx = "px";
-
-    internal InsetBuilder(string size, BreakpointType? breakpoint = null)
+    internal InsetBuilder(InsetScaleEnum size, BreakpointType? breakpoint = null)
     {
-        _rules.Add(new InsetRule(size, ElementSideType.All, breakpoint));
+        _rules.Add(new InsetRule(size, ElementSideEnum.All, breakpoint));
     }
 
     internal InsetBuilder(List<InsetRule> rules)
@@ -38,72 +29,72 @@ public sealed class InsetBuilder : ICssBuilder
     /// <summary>
     /// Fluent step for `From Top` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public InsetBuilder FromTop => AddRule(ElementSideType.Top);
+    public InsetBuilder FromTop => AddRule(ElementSideEnum.Top);
     /// <summary>
     /// Fluent step for `From Right` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public InsetBuilder FromRight => AddRule(ElementSideType.Right);
+    public InsetBuilder FromRight => AddRule(ElementSideEnum.Right);
     /// <summary>
     /// Fluent step for `From Bottom` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public InsetBuilder FromBottom => AddRule(ElementSideType.Bottom);
+    public InsetBuilder FromBottom => AddRule(ElementSideEnum.Bottom);
     /// <summary>
     /// Fluent step for `From Left` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public InsetBuilder FromLeft => AddRule(ElementSideType.Left);
+    public InsetBuilder FromLeft => AddRule(ElementSideEnum.Left);
     /// <summary>
     /// Fluent step for `On X` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public InsetBuilder OnX => AddRule(ElementSideType.Horizontal);
+    public InsetBuilder OnX => AddRule(ElementSideEnum.Horizontal);
     /// <summary>
     /// Fluent step for `On Y` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public InsetBuilder OnY => AddRule(ElementSideType.Vertical);
+    public InsetBuilder OnY => AddRule(ElementSideEnum.Vertical);
     /// <summary>
     /// Fluent step for `On All` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public InsetBuilder OnAll => AddRule(ElementSideType.All);
+    public InsetBuilder OnAll => AddRule(ElementSideEnum.All);
     /// <summary>
     /// Fluent step for `From Start` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public InsetBuilder FromStart => AddRule(ElementSideType.InlineStart);
+    public InsetBuilder FromStart => AddRule(ElementSideEnum.InlineStart);
     /// <summary>
     /// Fluent step for `From End` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public InsetBuilder FromEnd => AddRule(ElementSideType.InlineEnd);
+    public InsetBuilder FromEnd => AddRule(ElementSideEnum.InlineEnd);
 
     /// <summary>
     /// Spacing/sizing scale step `0` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 0` for integer spacing utilities unless overridden).
     /// </summary>
-    public InsetBuilder Is0 => ChainWithSize(ScaleType.Is0);
+    public InsetBuilder Is0 => ChainWithSize(InsetScaleEnum.Is0);
     /// <summary>
     /// Spacing/sizing scale step `1` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 1` for integer spacing utilities unless overridden).
     /// </summary>
-    public InsetBuilder Is1 => ChainWithSize(ScaleType.Is1);
+    public InsetBuilder Is1 => ChainWithSize(InsetScaleEnum.Is1);
     /// <summary>
     /// Spacing/sizing scale step `2` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 2` for integer spacing utilities unless overridden).
     /// </summary>
-    public InsetBuilder Is2 => ChainWithSize(ScaleType.Is2);
+    public InsetBuilder Is2 => ChainWithSize(InsetScaleEnum.Is2);
     /// <summary>
     /// Spacing/sizing scale step `3` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 3` for integer spacing utilities unless overridden).
     /// </summary>
-    public InsetBuilder Is3 => ChainWithSize(ScaleType.Is3);
+    public InsetBuilder Is3 => ChainWithSize(InsetScaleEnum.Is3);
     /// <summary>
     /// Spacing/sizing scale step `4` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 4` for integer spacing utilities unless overridden).
     /// </summary>
-    public InsetBuilder Is4 => ChainWithSize(ScaleType.Is4);
+    public InsetBuilder Is4 => ChainWithSize(InsetScaleEnum.Is4);
     /// <summary>
     /// Spacing/sizing scale step `5` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 5` for integer spacing utilities unless overridden).
     /// </summary>
-    public InsetBuilder Is5 => ChainWithSize(ScaleType.Is5);
+    public InsetBuilder Is5 => ChainWithSize(InsetScaleEnum.Is5);
     /// <summary>
     /// One pixel (`px` unit) — hairline borders, fixed 1px tracks, etc.
     /// </summary>
-    public InsetBuilder Px => ChainWithSize(_tokenPx);
+    public InsetBuilder Px => ChainWithSize(InsetScaleEnum.Px);
     /// <summary>
     /// `auto` — browser-default sizing/behavior for the underlying utility.
     /// </summary>
-    public InsetBuilder Auto => ChainWithSize("auto");
+    public InsetBuilder Auto => ChainWithSize(InsetScaleEnum.Auto);
 
     /// <summary>
     /// Applies the preceding utility from the `sm` breakpoint and up (`sm:` prefix). Tailwind default: `min-width: 40rem` (640px).
@@ -127,12 +118,12 @@ public sealed class InsetBuilder : ICssBuilder
     public InsetBuilder On2xl => SetPendingBreakpoint(BreakpointType.Xxl);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private InsetBuilder AddRule(ElementSideType side)
+    private InsetBuilder AddRule(ElementSideEnum side)
     {
         BreakpointType? pending = ConsumePendingBreakpoint();
-        string size = _rules.Count > 0 ? _rules[^1].Size : ScaleType.Is0Value;
+        InsetScaleEnum size = _rules.Count > 0 ? _rules[^1].Size : InsetScaleEnum.Is0;
         BreakpointType? bp = pending ?? (_rules.Count > 0 ? _rules[^1].Breakpoint : null);
-        if (_rules.Count > 0 && _rules[^1].Side == ElementSideType.All)
+        if (_rules.Count > 0 && ReferenceEquals(_rules[^1].Side, ElementSideEnum.All))
             _rules[^1] = new InsetRule(size, side, bp);
         else
             _rules.Add(new InsetRule(size, side, bp));
@@ -140,16 +131,9 @@ public sealed class InsetBuilder : ICssBuilder
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private InsetBuilder ChainWithSize(string size)
+    private InsetBuilder ChainWithSize(InsetScaleEnum scale)
     {
-        _rules.Add(new InsetRule(size, ElementSideType.All, ConsumePendingBreakpoint()));
-        return this;
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private InsetBuilder ChainWithSize(ScaleType scale)
-    {
-        _rules.Add(new InsetRule(scale.Value, ElementSideType.All, ConsumePendingBreakpoint()));
+        _rules.Add(new InsetRule(scale, ElementSideEnum.All, ConsumePendingBreakpoint()));
         return this;
     }
 
@@ -190,85 +174,66 @@ public sealed class InsetBuilder : ICssBuilder
         return sb.ToString();
     }
 
-    public string ToStyle()
-    {
-        if (_rules.Count == 0) return string.Empty;
-        using var sb = new PooledStringBuilder();
-        var first = true;
-        for (var i = 0; i < _rules.Count; i++)
-        {
-            InsetRule rule = _rules[i];
-            string? sizeVal = GetSizeValue(rule.Size);
-            if (sizeVal is null) continue;
-            (string? prop, string? val) = GetInsetStyle(rule.Side, sizeVal);
-            if (prop is null) continue;
-            if (!first) sb.Append("; ");
-            else first = false;
-            sb.Append(prop);
-            sb.Append(": ");
-            sb.Append(val);
-        }
-        return sb.ToString();
-    }
+    public string ToStyle() => string.Empty;
 
     public override string ToString() => ToClass();
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static string GetSizeToken(string size) => size switch
+    private static string GetSizeToken(InsetScaleEnum size)
     {
-        ScaleType.Is0Value => _token0,
-        ScaleType.Is1Value => _token1,
-        ScaleType.Is2Value => _token2,
-        ScaleType.Is3Value => _token3,
-        ScaleType.Is4Value => _token4,
-        ScaleType.Is5Value => _token5,
-        "auto" => _tokenAuto,
-        "px" => _tokenPx,
-        _ => string.Empty
-    };
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static string GetInsetSidePrefix(ElementSideType side)
-    {
-        if (side == ElementSideType.All) return _baseToken;
-        if (side == ElementSideType.Top) return "top";
-        if (side == ElementSideType.Right) return "right";
-        if (side == ElementSideType.Bottom) return "bottom";
-        if (side == ElementSideType.Left) return "left";
-        if (side == ElementSideType.Horizontal || side == ElementSideType.LeftRight) return "inset-x";
-        if (side == ElementSideType.Vertical || side == ElementSideType.TopBottom) return "inset-y";
-        if (side == ElementSideType.InlineStart) return "start";
-        if (side == ElementSideType.InlineEnd) return "end";
+        if (ReferenceEquals(size, InsetScaleEnum.Is0)) return InsetScaleEnum.Is0Value;
+        if (ReferenceEquals(size, InsetScaleEnum.Is1)) return InsetScaleEnum.Is1Value;
+        if (ReferenceEquals(size, InsetScaleEnum.Is2)) return InsetScaleEnum.Is2Value;
+        if (ReferenceEquals(size, InsetScaleEnum.Is3)) return InsetScaleEnum.Is3Value;
+        if (ReferenceEquals(size, InsetScaleEnum.Is4)) return InsetScaleEnum.Is4Value;
+        if (ReferenceEquals(size, InsetScaleEnum.Is5)) return InsetScaleEnum.Is5Value;
+        if (ReferenceEquals(size, InsetScaleEnum.Auto)) return InsetScaleEnum.AutoValue;
+        if (ReferenceEquals(size, InsetScaleEnum.Px)) return InsetScaleEnum.PxValue;
         return string.Empty;
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static string? GetSizeValue(string size) => size switch
+    private static string GetInsetSidePrefix(ElementSideEnum side)
     {
-        ScaleType.Is0Value => "0",
-        ScaleType.Is1Value => "0.25rem",
-        ScaleType.Is2Value => "0.5rem",
-        ScaleType.Is3Value => "1rem",
-        ScaleType.Is4Value => "1.5rem",
-        ScaleType.Is5Value => "3rem",
-        "auto" => "auto",
-        "px" => "1px",
-        _ => size
-    };
+        if (ReferenceEquals(side, ElementSideEnum.All)) return _baseToken;
+        if (ReferenceEquals(side, ElementSideEnum.Top)) return "top";
+        if (ReferenceEquals(side, ElementSideEnum.Right)) return "right";
+        if (ReferenceEquals(side, ElementSideEnum.Bottom)) return "bottom";
+        if (ReferenceEquals(side, ElementSideEnum.Left)) return "left";
+        if (ReferenceEquals(side, ElementSideEnum.Horizontal) || ReferenceEquals(side, ElementSideEnum.LeftRight)) return "inset-x";
+        if (ReferenceEquals(side, ElementSideEnum.Vertical) || ReferenceEquals(side, ElementSideEnum.TopBottom)) return "inset-y";
+        if (ReferenceEquals(side, ElementSideEnum.InlineStart)) return "start";
+        if (ReferenceEquals(side, ElementSideEnum.InlineEnd)) return "end";
+        return string.Empty;
+    }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static (string? prop, string? val) GetInsetStyle(ElementSideType side, string sizeVal)
+    private static string? GetSizeValue(InsetScaleEnum size)
+    {
+        if (ReferenceEquals(size, InsetScaleEnum.Is0)) return "0";
+        if (ReferenceEquals(size, InsetScaleEnum.Is1)) return "0.25rem";
+        if (ReferenceEquals(size, InsetScaleEnum.Is2)) return "0.5rem";
+        if (ReferenceEquals(size, InsetScaleEnum.Is3)) return "1rem";
+        if (ReferenceEquals(size, InsetScaleEnum.Is4)) return "1.5rem";
+        if (ReferenceEquals(size, InsetScaleEnum.Is5)) return "3rem";
+        if (ReferenceEquals(size, InsetScaleEnum.Auto)) return "auto";
+        if (ReferenceEquals(size, InsetScaleEnum.Px)) return "1px";
+        return null;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private static (string? prop, string? val) GetInsetStyle(ElementSideEnum side, string sizeVal)
     {
         string? prop = null;
-        if (side == ElementSideType.All) prop = "inset";
-        else if (side == ElementSideType.Top) prop = "top";
-        else if (side == ElementSideType.Right) prop = "right";
-        else if (side == ElementSideType.Bottom) prop = "bottom";
-        else if (side == ElementSideType.Left) prop = "left";
-        else if (side == ElementSideType.Horizontal || side == ElementSideType.LeftRight) prop = "inset-inline";
-        else if (side == ElementSideType.Vertical || side == ElementSideType.TopBottom) prop = "inset-block";
-        else if (side == ElementSideType.InlineStart) prop = "inset-inline-start";
-        else if (side == ElementSideType.InlineEnd) prop = "inset-inline-end";
+        if (ReferenceEquals(side, ElementSideEnum.All)) prop = "inset";
+        else if (ReferenceEquals(side, ElementSideEnum.Top)) prop = "top";
+        else if (ReferenceEquals(side, ElementSideEnum.Right)) prop = "right";
+        else if (ReferenceEquals(side, ElementSideEnum.Bottom)) prop = "bottom";
+        else if (ReferenceEquals(side, ElementSideEnum.Left)) prop = "left";
+        else if (ReferenceEquals(side, ElementSideEnum.Horizontal) || ReferenceEquals(side, ElementSideEnum.LeftRight)) prop = "inset-inline";
+        else if (ReferenceEquals(side, ElementSideEnum.Vertical) || ReferenceEquals(side, ElementSideEnum.TopBottom)) prop = "inset-block";
+        else if (ReferenceEquals(side, ElementSideEnum.InlineStart)) prop = "inset-inline-start";
+        else if (ReferenceEquals(side, ElementSideEnum.InlineEnd)) prop = "inset-inline-end";
         return (prop, sizeVal);
     }
 }

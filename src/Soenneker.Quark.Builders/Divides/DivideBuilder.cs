@@ -11,49 +11,54 @@ public sealed class DivideBuilder : ICssBuilder
     private readonly List<DivideRule> _rules = new(8);
     private BreakpointType? _pendingBreakpoint;
 
-    internal DivideBuilder(string utility, string value = "", BreakpointType? breakpoint = null)
+    internal DivideBuilder(DivideEnum value, BreakpointType? breakpoint = null)
     {
-        _rules.Add(new DivideRule(utility, value, breakpoint));
+        _rules.Add(new DivideRule(value.Value, breakpoint));
+    }
+
+    internal DivideBuilder(string value, BreakpointType? breakpoint = null)
+    {
+        if (value.Length != 0)
+            _rules.Add(new DivideRule(value, breakpoint));
     }
 
     /// <summary>
     /// Fluent step for `X` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public DivideBuilder X => Chain("divide-x", "");
+    public DivideBuilder X => Chain(DivideEnum.X);
     /// <summary>
     /// Fluent step for `Y` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public DivideBuilder Y => Chain("divide-y", "");
+    public DivideBuilder Y => Chain(DivideEnum.Y);
     /// <summary>
     /// Fluent step for `XReverse` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public DivideBuilder XReverse => Chain("divide-x-reverse", "");
+    public DivideBuilder XReverse => Chain(DivideEnum.XReverse);
     /// <summary>
     /// Fluent step for `YReverse` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public DivideBuilder YReverse => Chain("divide-y-reverse", "");
-    public DivideBuilder Color(string value) => Chain("divide", value);
-    public DivideBuilder Opacity(int value) => Chain("divide-opacity", value.ToString());
+    public DivideBuilder YReverse => Chain(DivideEnum.YReverse);
+    public DivideBuilder Color(string value) => ChainClass($"divide-{value}");
     /// <summary>
     /// Fluent step for `Solid` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public DivideBuilder Solid => Chain("divide-solid", "");
+    public DivideBuilder Solid => Chain(DivideEnum.Solid);
     /// <summary>
     /// Fluent step for `Dashed` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public DivideBuilder Dashed => Chain("divide-dashed", "");
+    public DivideBuilder Dashed => Chain(DivideEnum.Dashed);
     /// <summary>
     /// Fluent step for `Dotted` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public DivideBuilder Dotted => Chain("divide-dotted", "");
+    public DivideBuilder Dotted => Chain(DivideEnum.Dotted);
     /// <summary>
     /// Fluent step for `Double` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public DivideBuilder Double => Chain("divide-double", "");
+    public DivideBuilder Double => Chain(DivideEnum.Double);
     /// <summary>
     /// Disables the effect (`none` token) or sets size to zero, depending on the utility.
     /// </summary>
-    public DivideBuilder None => Chain("divide-none", "");
+    public DivideBuilder None => Chain(DivideEnum.None);
 
     /// <summary>
     /// Scopes the next utility to the default (unprefixed) breakpoint. In Tailwind’s mobile‑first model, unprefixed utilities apply from 0px unless a larger breakpoint overrides them.
@@ -81,9 +86,17 @@ public sealed class DivideBuilder : ICssBuilder
     public DivideBuilder On2xl => SetPendingBreakpoint(BreakpointType.Xxl);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private DivideBuilder Chain(string utility, string value)
+    private DivideBuilder Chain(DivideEnum value)
     {
-        _rules.Add(new DivideRule(utility, value, ConsumePendingBreakpoint()));
+        _rules.Add(new DivideRule(value.Value, ConsumePendingBreakpoint()));
+        return this;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private DivideBuilder ChainClass(string value)
+    {
+        if (value.Length != 0)
+            _rules.Add(new DivideRule(value, ConsumePendingBreakpoint()));
         return this;
     }
 
@@ -113,7 +126,7 @@ public sealed class DivideBuilder : ICssBuilder
         for (var i = 0; i < _rules.Count; i++)
         {
             DivideRule rule = _rules[i];
-            string cls = rule.Value.Length == 0 ? rule.Utility : $"{rule.Utility}-{rule.Value}";
+            string cls = rule.Value;
             string bp = BreakpointUtil.GetBreakpointClass(rule.Breakpoint);
             if (bp.Length != 0)
                 cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, bp);
@@ -129,4 +142,6 @@ public sealed class DivideBuilder : ICssBuilder
     }
 
     public string ToStyle() => string.Empty;
+
+    public override string ToString() => ToClass();
 }

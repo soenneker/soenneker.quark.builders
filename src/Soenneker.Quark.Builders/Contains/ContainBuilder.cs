@@ -14,7 +14,7 @@ public sealed class ContainBuilder : ICssBuilder
     private readonly List<ContainRule> _rules = new(4);
     private BreakpointType? _pendingBreakpoint;
 
-    internal ContainBuilder(string value, BreakpointType? breakpoint = null)
+    internal ContainBuilder(ContainEnum value, BreakpointType? breakpoint = null)
     {
         _rules.Add(new ContainRule(value, breakpoint));
     }
@@ -28,31 +28,31 @@ public sealed class ContainBuilder : ICssBuilder
     /// <summary>
     /// Disables the effect (`none` token) or sets size to zero, depending on the utility.
     /// </summary>
-    public ContainBuilder None => Chain("none");
+    public ContainBuilder None => Chain(ContainEnum.None);
     /// <summary>
     /// Fluent step for `Size` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public ContainBuilder Size => Chain("size");
+    public ContainBuilder Size => Chain(ContainEnum.Size);
     /// <summary>
     /// Fluent step for `Layout` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public ContainBuilder Layout => Chain("layout");
+    public ContainBuilder Layout => Chain(ContainEnum.Layout);
     /// <summary>
     /// Fluent step for `Style` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public ContainBuilder Style => Chain("style");
+    public ContainBuilder Style => Chain(ContainEnum.Style);
     /// <summary>
     /// Fluent step for `Paint` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public ContainBuilder Paint => Chain("paint");
+    public ContainBuilder Paint => Chain(ContainEnum.Paint);
     /// <summary>
     /// Fluent step for `Strict` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public ContainBuilder Strict => Chain("strict");
+    public ContainBuilder Strict => Chain(ContainEnum.Strict);
     /// <summary>
     /// Fluent step for `Content` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public ContainBuilder Content => Chain("content");
+    public ContainBuilder Content => Chain(ContainEnum.Content);
 
     /// <summary>
     /// Applies the preceding utility from the `sm` breakpoint and up (`sm:` prefix). Tailwind default: `min-width: 40rem` (640px).
@@ -76,7 +76,7 @@ public sealed class ContainBuilder : ICssBuilder
     public ContainBuilder On2xl => SetPendingBreakpoint(BreakpointType.Xxl);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private ContainBuilder Chain(string value)
+    private ContainBuilder Chain(ContainEnum value)
     {
         _rules.Add(new ContainRule(value, ConsumePendingBreakpoint()));
         return this;
@@ -104,17 +104,7 @@ public sealed class ContainBuilder : ICssBuilder
         var first = true;
         foreach (ContainRule rule in _rules)
         {
-            string cls = rule.Value switch
-            {
-                "none" => "contain-none",
-                "size" => "contain-size",
-                "layout" => "contain-layout",
-                "style" => "contain-style",
-                "paint" => "contain-paint",
-                "strict" => "contain-strict",
-                "content" => "contain-content",
-                _ => string.Empty
-            };
+            string cls = rule.Value.Value;
             if (cls.Length == 0) continue;
             string b = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
             if (b.Length != 0) cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, b);
@@ -125,24 +115,7 @@ public sealed class ContainBuilder : ICssBuilder
         return sb.ToString();
     }
 
-    public string ToStyle()
-    {
-        if (_rules.Count == 0) return string.Empty;
-        using var sb = new PooledStringBuilder();
-        var first = true;
-        foreach (ContainRule rule in _rules)
-        {
-            if (!IsValid(rule.Value)) continue;
-            if (!first) sb.Append("; ");
-            else first = false;
-            sb.Append("contain: ");
-            sb.Append(rule.Value);
-        }
-        return sb.ToString();
-    }
+    public string ToStyle() => string.Empty;
 
     public override string ToString() => ToClass();
-
-    private static bool IsValid(string v) =>
-        v is "none" or "size" or "layout" or "style" or "paint" or "strict" or "content";
 }

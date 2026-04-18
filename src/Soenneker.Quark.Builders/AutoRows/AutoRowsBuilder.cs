@@ -1,17 +1,16 @@
 namespace Soenneker.Quark;
 
 [TailwindPrefix("auto-rows-", Responsive = true)]
-public sealed class AutoRowsBuilder : ResponsiveUtilityBuilder<AutoRowsBuilder>
+public sealed class AutoRowsBuilder : FinalClassUtilityBuilder<AutoRowsBuilder>
 {
-    internal AutoRowsBuilder(string value, BreakpointType? breakpoint = null) : base("auto-rows-", value, breakpoint)
-    {
-    }
+    internal AutoRowsBuilder(AutoRowsEnum value, BreakpointType? breakpoint = null) : base(value.Value, breakpoint) {}
+    internal AutoRowsBuilder(string value, BreakpointType? breakpoint = null) : base(value, breakpoint) {}
 
-    public AutoRowsBuilder Auto => ChainValue("auto");
-    public AutoRowsBuilder Min => ChainValue("min");
-    public AutoRowsBuilder Max => ChainValue("max");
-    public AutoRowsBuilder Fr => ChainValue("fr");
-    public AutoRowsBuilder Token(string value) => ChainValue(value);
+    public AutoRowsBuilder Auto => ChainClass(AutoRowsEnum.AutoValue);
+    public AutoRowsBuilder Min => ChainClass(AutoRowsEnum.MinValue);
+    public AutoRowsBuilder Max => ChainClass(AutoRowsEnum.MaxValue);
+    public AutoRowsBuilder Fr => ChainClass(AutoRowsEnum.FrValue);
+    public AutoRowsBuilder Token(string value) => ChainClass("auto-rows-" + value);
 
     public AutoRowsBuilder OnBase => SetPendingBreakpoint(BreakpointType.Base);
     public AutoRowsBuilder OnSm => SetPendingBreakpoint(BreakpointType.Sm);

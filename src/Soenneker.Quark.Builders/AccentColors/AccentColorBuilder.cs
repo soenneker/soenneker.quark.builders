@@ -20,15 +20,21 @@ public sealed class AccentColorBuilder : ICssBuilder
 
     private const string Prefix = "accent-";
 
-    private readonly List<ColorRule> _rules = new(4);
+    private readonly List<AccentColorRule> _rules = new(4);
     private BreakpointType? _pendingBreakpoint;
 
-    internal AccentColorBuilder(string value, BreakpointType? breakpoint = null, bool isUtility = false)
+    internal AccentColorBuilder(AccentColorEnum value, BreakpointType? breakpoint = null)
     {
-        _rules.Add(new ColorRule(value, breakpoint, isUtility));
+        _rules.Add(new AccentColorRule(value.Value, breakpoint));
     }
 
-    internal AccentColorBuilder(List<ColorRule> rules)
+    internal AccentColorBuilder(string value, BreakpointType? breakpoint = null)
+    {
+        if (value.Length != 0)
+            _rules.Add(new AccentColorRule(value, breakpoint));
+    }
+
+    internal AccentColorBuilder(List<AccentColorRule> rules)
     {
         if (rules is { Count: > 0 })
             _rules.AddRange(rules);
@@ -37,19 +43,19 @@ public sealed class AccentColorBuilder : ICssBuilder
     /// <summary>
     /// `auto` — browser-default sizing/behavior for the underlying utility.
     /// </summary>
-    public AccentColorBuilder Auto => Chain("auto");
+    public AccentColorBuilder Auto => Chain(AccentColorEnum.Auto);
     /// <summary>
     /// `accent-primary` — uses your theme primary (shadcn maps this to CSS variables).
     /// </summary>
-    public AccentColorBuilder Primary => Chain("primary");
+    public AccentColorBuilder Primary => Chain(AccentColorEnum.Primary);
     /// <summary>
     /// Fully transparent color (`transparent`).
     /// </summary>
-    public AccentColorBuilder Transparent => Chain("transparent");
+    public AccentColorBuilder Transparent => Chain(AccentColorEnum.Transparent);
     /// <summary>
     /// `currentColor` — uses the element’s computed `color` (common for icons and rings).
     /// </summary>
-    public AccentColorBuilder Current => Chain("current");
+    public AccentColorBuilder Current => Chain(AccentColorEnum.Current);
     /// <summary>
     /// Scopes the next utility to the default (unprefixed) breakpoint.
     /// </summary>
@@ -76,16 +82,28 @@ public sealed class AccentColorBuilder : ICssBuilder
     /// </summary>
     public AccentColorBuilder On2xl => ChainBp(BreakpointType.Xxl);
 
-    public AccentColorBuilder Token(string token) => Chain(token);
+    public AccentColorBuilder Token(string token) => ChainClass(ColorUtility.CreateClass(Prefix, token, SemanticTokens));
 
-    public AccentColorBuilder Utility(string utility) => Chain(utility, isUtility: true);
+    public AccentColorBuilder Utility(string utility) => ChainClass(ColorUtility.CreateUtilityClass(Prefix, utility));
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private AccentColorBuilder Chain(string value, bool isUtility = false)
+    private AccentColorBuilder Chain(AccentColorEnum value)
     {
         BreakpointType? breakpoint = _pendingBreakpoint;
         _pendingBreakpoint = null;
-        _rules.Add(new ColorRule(value, breakpoint, isUtility));
+        _rules.Add(new AccentColorRule(value.Value, breakpoint));
+        return this;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private AccentColorBuilder ChainClass(string value)
+    {
+        if (value.Length == 0)
+            return this;
+
+        BreakpointType? breakpoint = _pendingBreakpoint;
+        _pendingBreakpoint = null;
+        _rules.Add(new AccentColorRule(value, breakpoint));
         return this;
     }
 
@@ -101,9 +119,9 @@ public sealed class AccentColorBuilder : ICssBuilder
         if (_rules.Count == 0) return string.Empty;
         using var sb = new PooledStringBuilder();
         var first = true;
-        foreach (ColorRule rule in _rules)
+        foreach (AccentColorRule rule in _rules)
         {
-            string cls = GetClass(rule);
+            string cls = rule.Value;
             if (cls.Length == 0) continue;
             string b = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
             if (b.Length != 0) cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, b);
@@ -118,11 +136,4 @@ public sealed class AccentColorBuilder : ICssBuilder
         => string.Empty;
 
     public override string ToString() => ToClass();
-
-    private static string GetClass(ColorRule rule)
-    {
-        return rule.Value == "auto"
-            ? "accent-auto"
-            : ColorUtility.GetClass(Prefix, rule, SemanticTokens);
-    }
 }

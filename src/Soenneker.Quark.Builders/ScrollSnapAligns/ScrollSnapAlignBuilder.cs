@@ -14,7 +14,7 @@ public sealed class ScrollSnapAlignBuilder : ICssBuilder
     private readonly List<ScrollSnapAlignRule> _rules = new(4);
     private BreakpointType? _pendingBreakpoint;
 
-    internal ScrollSnapAlignBuilder(string value, BreakpointType? breakpoint = null)
+    internal ScrollSnapAlignBuilder(ScrollSnapAlignEnum value, BreakpointType? breakpoint = null)
     {
         _rules.Add(new ScrollSnapAlignRule(value, breakpoint));
     }
@@ -28,19 +28,19 @@ public sealed class ScrollSnapAlignBuilder : ICssBuilder
     /// <summary>
     /// Fluent step for `Start` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public ScrollSnapAlignBuilder Start => Chain("start");
+    public ScrollSnapAlignBuilder Start => Chain(ScrollSnapAlignEnum.Start);
     /// <summary>
     /// Fluent step for `Center` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public ScrollSnapAlignBuilder Center => Chain("center");
+    public ScrollSnapAlignBuilder Center => Chain(ScrollSnapAlignEnum.Center);
     /// <summary>
     /// Fluent step for `End` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public ScrollSnapAlignBuilder End => Chain("end");
+    public ScrollSnapAlignBuilder End => Chain(ScrollSnapAlignEnum.End);
     /// <summary>
     /// Disables the effect (`none` token) or sets size to zero, depending on the utility.
     /// </summary>
-    public ScrollSnapAlignBuilder None => Chain("none");
+    public ScrollSnapAlignBuilder None => Chain(ScrollSnapAlignEnum.None);
 
     /// <summary>
     /// Applies the preceding utility from the `sm` breakpoint and up (`sm:` prefix). Tailwind default: `min-width: 40rem` (640px).
@@ -64,7 +64,7 @@ public sealed class ScrollSnapAlignBuilder : ICssBuilder
     public ScrollSnapAlignBuilder On2xl => SetPendingBreakpoint(BreakpointType.Xxl);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private ScrollSnapAlignBuilder Chain(string value)
+    private ScrollSnapAlignBuilder Chain(ScrollSnapAlignEnum value)
     {
         _rules.Add(new ScrollSnapAlignRule(value, ConsumePendingBreakpoint()));
         return this;
@@ -92,14 +92,7 @@ public sealed class ScrollSnapAlignBuilder : ICssBuilder
         var first = true;
         foreach (ScrollSnapAlignRule rule in _rules)
         {
-            string cls = rule.Value switch
-            {
-                "start" => "snap-start",
-                "center" => "snap-center",
-                "end" => "snap-end",
-                "none" => "snap-align-none",
-                _ => string.Empty
-            };
+            string cls = rule.Value.Value;
             if (cls.Length == 0) continue;
             string b = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
             if (b.Length != 0) cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, b);
@@ -110,21 +103,7 @@ public sealed class ScrollSnapAlignBuilder : ICssBuilder
         return sb.ToString();
     }
 
-    public string ToStyle()
-    {
-        if (_rules.Count == 0) return string.Empty;
-        using var sb = new PooledStringBuilder();
-        var first = true;
-        foreach (ScrollSnapAlignRule rule in _rules)
-        {
-            if (rule.Value is not ("start" or "center" or "end" or "none")) continue;
-            if (!first) sb.Append("; ");
-            else first = false;
-            sb.Append("scroll-snap-align: ");
-            sb.Append(rule.Value);
-        }
-        return sb.ToString();
-    }
+    public string ToStyle() => string.Empty;
 
     public override string ToString() => ToClass();
 }
