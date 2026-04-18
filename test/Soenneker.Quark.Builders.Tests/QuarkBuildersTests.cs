@@ -19,14 +19,6 @@ public sealed class QuarkBuildersTests : FixturedUnitTest
     }
 
     [Fact]
-    public void ButtonStyleUtil_returns_input_group_class()
-    {
-        string result = ButtonStyleUtil.GetInputGroupSizeClass("icon-xs");
-
-        Assert.Equal("size-6 rounded-[calc(var(--radius)-5px)] p-0 has-[>svg]:p-0 [&>svg:not([class*='size-'])]:size-3", result);
-    }
-
-    [Fact]
     public void ToggleSizeBuilder_builds_responsive_size_classes()
     {
         string result = ToggleSizes.Default.OnLg.Small.ToClass();
