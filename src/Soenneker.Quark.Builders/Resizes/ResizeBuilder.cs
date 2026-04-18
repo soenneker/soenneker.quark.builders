@@ -10,7 +10,7 @@ namespace Soenneker.Quark;
 /// Simplified resize builder with fluent API for chaining resize rules.
 /// </summary>
 [TailwindPrefix("resize-", Responsive = true)]
-public sealed class ResizeBuilder : ICssBuilder
+public sealed class ResizeBuilder : CssBuilderBase
 {
     private readonly List<ResizeRule> _rules = new(4);
 
@@ -105,7 +105,7 @@ public sealed class ResizeBuilder : ICssBuilder
     /// Gets the CSS class string for the current configuration.
     /// </summary>
     /// <returns>The CSS class string.</returns>
-    public string ToClass()
+    public override string ToClass()
     {
         if (_rules.Count == 0)
             return string.Empty;
@@ -133,7 +133,7 @@ public sealed class ResizeBuilder : ICssBuilder
         return sb.ToString();
     }
 
-    public string ToStyle() => string.Empty;
+    public override string ToStyle() => string.Empty;
 
     /// <summary>
     /// Returns the CSS class string representation of this resize builder.

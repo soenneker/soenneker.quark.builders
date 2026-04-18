@@ -9,7 +9,7 @@ namespace Soenneker.Quark;
 /// High-performance text-overflow builder with fluent API for chaining rules.
 /// </summary>
 [TailwindPrefix("text-", Responsive = true)]
-public sealed class TextOverflowBuilder : ICssBuilder
+public sealed class TextOverflowBuilder : CssBuilderBase
 {
     private readonly List<TextOverflowRule> _rules = new(4);
     private BreakpointType? _pendingBreakpoint;
@@ -79,7 +79,7 @@ public sealed class TextOverflowBuilder : ICssBuilder
     }
 
     /// <summary>Gets the CSS class string for the current configuration.</summary>
-    public string ToClass()
+    public override string ToClass()
     {
         if (_rules.Count == 0)
             return string.Empty;
@@ -110,7 +110,7 @@ public sealed class TextOverflowBuilder : ICssBuilder
     }
 
     /// <summary>Gets the CSS style string for the current configuration.</summary>
-    public string ToStyle() => string.Empty;
+    public override string ToStyle() => string.Empty;
 
     public override string ToString() => ToClass();
 }

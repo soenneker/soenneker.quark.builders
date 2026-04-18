@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Soenneker.Extensions.String;
 
 namespace Soenneker.Quark;
@@ -35,9 +36,20 @@ public readonly struct CssValue<TBuilder> : IEquatable<CssValue<TBuilder>> where
     }
 
     /// <summary>
+    /// Creates a single CssValue from multiple CSS contributors while keeping the target slot typed to <typeparamref name="TBuilder"/>.
+    /// This supports scenarios such as combining a base utility and a variant-decorated utility in one component property.
+    /// </summary>
+    public static CssValue<TBuilder> For(params object?[] values) => Combine(values);
+
+    /// <summary>
     /// Implicitly converts a CSS builder to a CssValue.
     /// </summary>
     public static implicit operator CssValue<TBuilder>(TBuilder builder) => new(builder.ToClass(), builder.ToStyle());
+
+    /// <summary>
+    /// Implicitly converts a variant-wrapped builder to a CssValue for typed component slots.
+    /// </summary>
+    public static implicit operator CssValue<TBuilder>(VariantBuilder builder) => new(builder.ToClass(), builder.ToStyle());
 
     /// <summary>
     /// Implicitly converts a string to a CssValue.
@@ -104,6 +116,25 @@ public readonly struct CssValue<TBuilder> : IEquatable<CssValue<TBuilder>> where
             return new CssValue<TBuilder>(this, trimmed.ToString(), absolute);
 
         return new CssValue<TBuilder>(this, selector, absolute);
+    }
+
+    /// <summary>
+    /// Returns a new CssValue with additional CSS contributors appended.
+    /// </summary>
+    public CssValue<TBuilder> Add(params object?[] values)
+    {
+        if (values is not { Length: > 0 })
+            return this;
+
+        object?[] merged = new object?[values.Length + 1];
+        merged[0] = this;
+
+        for (var i = 0; i < values.Length; i++)
+        {
+            merged[i + 1] = values[i];
+        }
+
+        return Combine(merged);
     }
 
     private static bool IsKnownThemeOrSizeToken(string value)
@@ -194,5 +225,94 @@ public readonly struct CssValue<TBuilder> : IEquatable<CssValue<TBuilder>> where
             return false;
         token = _value;
         return true;
+    }
+
+    private static CssValue<TBuilder> Combine(IReadOnlyList<object?> values)
+    {
+        string combinedValue = string.Empty;
+        string? combinedStyle = null;
+        string? combinedSelector = null;
+        var combinedSelectorIsAbsolute = false;
+
+        for (var i = 0; i < values.Count; i++)
+        {
+            object? value = values[i];
+
+            switch (value)
+            {
+                case null:
+                    continue;
+                case CssValue<TBuilder> cssValue:
+                    AppendSegment(ref combinedValue, cssValue._value, ' ');
+                    AppendStyle(ref combinedStyle, cssValue._styleValue);
+                    MergeSelector(ref combinedSelector, ref combinedSelectorIsAbsolute, cssValue._cssSelector, cssValue._selectorIsAbsolute);
+                    break;
+                case ICssBuilder builder:
+                    AppendSegment(ref combinedValue, builder.ToClass(), ' ');
+                    AppendStyle(ref combinedStyle, builder.ToStyle());
+                    break;
+                case string str:
+                    AppendSegment(ref combinedValue, str, ' ');
+                    break;
+                case int intValue:
+                    CssValue<TBuilder> numeric = intValue;
+                    AppendSegment(ref combinedValue, numeric._value, ' ');
+                    AppendStyle(ref combinedStyle, numeric._styleValue);
+                    break;
+                default:
+                    AppendSegment(ref combinedValue, value.ToString(), ' ');
+                    break;
+            }
+        }
+
+        return new CssValue<TBuilder>(combinedValue, combinedStyle, combinedSelector, combinedSelectorIsAbsolute);
+    }
+
+    private static void MergeSelector(ref string? currentSelector, ref bool currentAbsolute, string? nextSelector, bool nextAbsolute)
+    {
+        if (nextSelector.IsNullOrWhiteSpace())
+            return;
+
+        if (currentSelector.IsNullOrWhiteSpace())
+        {
+            currentSelector = nextSelector;
+            currentAbsolute = nextAbsolute;
+            return;
+        }
+
+        if (!string.Equals(currentSelector, nextSelector, StringComparison.Ordinal) || currentAbsolute != nextAbsolute)
+            throw new InvalidOperationException("Cannot combine CssValue instances with different CSS selectors.");
+    }
+
+    private static void AppendStyle(ref string? current, string? next)
+    {
+        if (next.IsNullOrWhiteSpace())
+            return;
+
+        string trimmed = next.Trim().TrimEnd(';');
+
+        if (trimmed.Length == 0)
+            return;
+
+        if (string.IsNullOrEmpty(current))
+        {
+            current = trimmed;
+            return;
+        }
+
+        current = $"{current}; {trimmed}";
+    }
+
+    private static void AppendSegment(ref string current, string? next, char separator)
+    {
+        if (next.IsNullOrWhiteSpace())
+            return;
+
+        string trimmed = next.Trim();
+
+        if (trimmed.Length == 0)
+            return;
+
+        current = current.Length == 0 ? trimmed : $"{current}{separator}{trimmed}";
     }
 }

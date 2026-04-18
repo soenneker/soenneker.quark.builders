@@ -10,7 +10,7 @@ namespace Soenneker.Quark;
 /// High-performance font style builder with fluent API for chaining font style rules.
 /// </summary>
 [TailwindPrefix("italic", Responsive = true)]
-public sealed class FontStyleBuilder : ICssBuilder
+public sealed class FontStyleBuilder : CssBuilderBase
 {
     private readonly List<FontStyleRule> _rules = new(4);
     private BreakpointType? _pendingBreakpoint;
@@ -85,7 +85,7 @@ public sealed class FontStyleBuilder : ICssBuilder
     /// Gets the CSS class string for the current configuration.
     /// </summary>
     /// <returns>The CSS class string.</returns>
-    public string ToClass()
+    public override string ToClass()
     {
         if (_rules.Count == 0) return string.Empty;
 
@@ -120,6 +120,6 @@ public sealed class FontStyleBuilder : ICssBuilder
     /// Gets the CSS style string for the current configuration.
     /// </summary>
     /// <returns>The CSS style string.</returns>
-    public string ToStyle() => string.Empty;
+    public override string ToStyle() => string.Empty;
     public override string ToString() => ToClass();
 }

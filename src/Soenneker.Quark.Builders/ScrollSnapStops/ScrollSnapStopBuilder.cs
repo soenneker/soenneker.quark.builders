@@ -9,7 +9,7 @@ namespace Soenneker.Quark;
 /// Scroll snap stop builder. Tailwind: snap-stop-normal, snap-stop-always.
 /// </summary>
 [TailwindPrefix("snap-stop-", Responsive = true)]
-public sealed class ScrollSnapStopBuilder : ICssBuilder
+public sealed class ScrollSnapStopBuilder : CssBuilderBase
 {
     private readonly List<ScrollSnapStopRule> _rules = new(4);
     private BreakpointType? _pendingBreakpoint;
@@ -75,7 +75,7 @@ public sealed class ScrollSnapStopBuilder : ICssBuilder
         return this;
     }
 
-    public string ToClass()
+    public override string ToClass()
     {
         if (_rules.Count == 0) return string.Empty;
         using var sb = new PooledStringBuilder();
@@ -93,7 +93,7 @@ public sealed class ScrollSnapStopBuilder : ICssBuilder
         return sb.ToString();
     }
 
-    public string ToStyle() => string.Empty;
+    public override string ToStyle() => string.Empty;
 
     public override string ToString() => ToClass();
 }

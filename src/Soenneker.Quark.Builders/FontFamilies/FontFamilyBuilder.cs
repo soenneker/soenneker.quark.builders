@@ -9,7 +9,7 @@ namespace Soenneker.Quark;
 /// Tailwind font family utility builder.
 /// </summary>
 [TailwindPrefix("font-", Responsive = true)]
-public sealed class FontFamilyBuilder : ICssBuilder
+public sealed class FontFamilyBuilder : CssBuilderBase
 {
     private readonly List<FontFamilyRule> _rules = new(4);
     private BreakpointType? _pendingBreakpoint;
@@ -95,7 +95,7 @@ public sealed class FontFamilyBuilder : ICssBuilder
         return this;
     }
 
-    public string ToClass()
+    public override string ToClass()
     {
         if (_rules.Count == 0)
             return string.Empty;
@@ -126,5 +126,5 @@ public sealed class FontFamilyBuilder : ICssBuilder
         return sb.ToString();
     }
 
-    public string ToStyle() => string.Empty;
+    public override string ToStyle() => string.Empty;
 }

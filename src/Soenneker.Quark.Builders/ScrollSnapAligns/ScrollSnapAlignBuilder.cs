@@ -9,7 +9,7 @@ namespace Soenneker.Quark;
 /// Scroll snap align builder. Tailwind: snap-start, snap-center, snap-end, snap-align-none.
 /// </summary>
 [TailwindPrefix("snap-", Responsive = true)]
-public sealed class ScrollSnapAlignBuilder : ICssBuilder
+public sealed class ScrollSnapAlignBuilder : CssBuilderBase
 {
     private readonly List<ScrollSnapAlignRule> _rules = new(4);
     private BreakpointType? _pendingBreakpoint;
@@ -85,7 +85,7 @@ public sealed class ScrollSnapAlignBuilder : ICssBuilder
         return breakpoint;
     }
 
-    public string ToClass()
+    public override string ToClass()
     {
         if (_rules.Count == 0) return string.Empty;
         using var sb = new PooledStringBuilder();
@@ -103,7 +103,7 @@ public sealed class ScrollSnapAlignBuilder : ICssBuilder
         return sb.ToString();
     }
 
-    public string ToStyle() => string.Empty;
+    public override string ToStyle() => string.Empty;
 
     public override string ToString() => ToClass();
 }

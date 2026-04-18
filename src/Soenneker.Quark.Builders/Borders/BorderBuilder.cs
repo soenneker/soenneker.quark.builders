@@ -12,7 +12,7 @@ namespace Soenneker.Quark;
 /// Simplified border builder with fluent API for chaining border rules.
 /// </summary>
 [TailwindPrefix("border-", Responsive = true)]
-public sealed class BorderBuilder : ICssBuilder
+public sealed class BorderBuilder : CssBuilderBase
 {
     private readonly List<BorderRule> _rules = new(4);
     private BreakpointType? _pendingBreakpoint;
@@ -174,7 +174,7 @@ public sealed class BorderBuilder : ICssBuilder
     }
 
     /// <summary>Gets the CSS class string for the current configuration.</summary>
-    public string ToClass()
+    public override string ToClass()
     {
         if (_rules.Count == 0)
             return string.Empty;
@@ -221,6 +221,6 @@ public sealed class BorderBuilder : ICssBuilder
     }
 
     /// <summary>Gets the CSS style string for the current configuration.</summary>
-    public string ToStyle() => string.Empty;
+    public override string ToStyle() => string.Empty;
 
 }

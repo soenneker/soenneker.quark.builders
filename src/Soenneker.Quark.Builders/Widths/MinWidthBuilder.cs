@@ -6,7 +6,7 @@ namespace Soenneker.Quark;
 /// Min-width builder with fluent API. Tailwind-first (min-w-*).
 /// </summary>
 [TailwindPrefix("min-w-", Responsive = true)]
-public sealed class MinWidthBuilder : ICssBuilder
+public sealed class MinWidthBuilder : CssBuilderBase
 {
     private readonly string _token;
 
@@ -15,13 +15,13 @@ public sealed class MinWidthBuilder : ICssBuilder
         _token = token;
     }
 
-    public string ToClass()
+    public override string ToClass()
     {
         string cls = GetMinWidthClass(_token);
         return cls.Length == 0 ? string.Empty : cls;
     }
 
-    public string ToStyle() => string.Empty;
+    public override string ToStyle() => string.Empty;
 
     private static string GetMinWidthClass(string token)
     {

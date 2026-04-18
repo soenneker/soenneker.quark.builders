@@ -4,7 +4,7 @@ using Soenneker.Utils.PooledStringBuilders;
 
 namespace Soenneker.Quark;
 
-public abstract class FinalClassUtilityBuilder<TBuilder> : ICssBuilder where TBuilder : FinalClassUtilityBuilder<TBuilder>
+public abstract class FinalClassUtilityBuilder<TBuilder> : CssBuilderBase where TBuilder : FinalClassUtilityBuilder<TBuilder>
 {
     private readonly List<UtilityRule> _rules = new(4);
     private BreakpointType? _pendingBreakpoint;
@@ -38,7 +38,7 @@ public abstract class FinalClassUtilityBuilder<TBuilder> : ICssBuilder where TBu
         return breakpoint;
     }
 
-    public virtual string ToClass()
+    public override string ToClass()
     {
         if (_rules.Count == 0)
             return string.Empty;
@@ -68,7 +68,7 @@ public abstract class FinalClassUtilityBuilder<TBuilder> : ICssBuilder where TBu
         return sb.ToString();
     }
 
-    public virtual string ToStyle() => string.Empty;
+    public override string ToStyle() => string.Empty;
 
     public override string ToString() => ToClass();
 }

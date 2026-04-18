@@ -9,7 +9,7 @@ namespace Soenneker.Quark;
 /// Stroke width builder for SVG/CSS. Tailwind: stroke-0, stroke-1, stroke-2.
 /// </summary>
 [TailwindPrefix("stroke-", Responsive = true)]
-public sealed class StrokeWidthBuilder : ICssBuilder
+public sealed class StrokeWidthBuilder : CssBuilderBase
 {
     private readonly List<StrokeWidthRule> _rules = new(4);
     private BreakpointType? _pendingBreakpoint;
@@ -79,7 +79,7 @@ public sealed class StrokeWidthBuilder : ICssBuilder
         return this;
     }
 
-    public string ToClass()
+    public override string ToClass()
     {
         if (_rules.Count == 0) return string.Empty;
         using var sb = new PooledStringBuilder();
@@ -97,7 +97,7 @@ public sealed class StrokeWidthBuilder : ICssBuilder
         return sb.ToString();
     }
 
-    public string ToStyle() => string.Empty;
+    public override string ToStyle() => string.Empty;
 
     public override string ToString() => ToClass();
 }

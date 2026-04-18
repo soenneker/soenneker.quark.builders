@@ -10,7 +10,7 @@ namespace Soenneker.Quark;
 /// Simplified float builder with fluent API for chaining float rules.
 /// </summary>
 [TailwindPrefix("float-", Responsive = true)]
-public sealed class FloatBuilder : ICssBuilder
+public sealed class FloatBuilder : CssBuilderBase
 {
     private readonly List<FloatRule> _rules = new(4);
     private BreakpointType? _pendingBreakpoint;
@@ -109,7 +109,7 @@ public sealed class FloatBuilder : ICssBuilder
     /// Gets the CSS class string for the current configuration.
     /// </summary>
     /// <returns>The CSS class string.</returns>
-    public string ToClass()
+    public override string ToClass()
     {
         if (_rules.Count == 0)
             return string.Empty;
@@ -143,6 +143,6 @@ public sealed class FloatBuilder : ICssBuilder
     /// Gets the CSS style string for the current configuration.
     /// </summary>
     /// <returns>The CSS style string.</returns>
-    public string ToStyle() => string.Empty;
+    public override string ToStyle() => string.Empty;
     public override string ToString() => ToClass();
 }

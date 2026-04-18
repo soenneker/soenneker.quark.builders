@@ -9,7 +9,7 @@ namespace Soenneker.Quark;
 /// Simplified animation builder with fluent API for chaining animation rules.
 /// </summary>
 [TailwindPrefix("animate-", Responsive = true)]
-public sealed class AnimationBuilder : ICssBuilder
+public sealed class AnimationBuilder : CssBuilderBase
 {
     private readonly List<AnimationRule> _rules = new(4);
     private BreakpointType? _pendingBreakpoint;
@@ -116,7 +116,7 @@ public sealed class AnimationBuilder : ICssBuilder
     /// Gets the CSS class string for the current configuration.
     /// </summary>
     /// <returns>The CSS class string.</returns>
-    public string ToClass()
+    public override string ToClass()
     {
         if (_rules.Count == 0)
             return string.Empty;
@@ -146,7 +146,7 @@ public sealed class AnimationBuilder : ICssBuilder
         return sb.ToString();
     }
 
-    public string ToStyle() => string.Empty;
+    public override string ToStyle() => string.Empty;
 
     /// <summary>
     /// Returns the CSS class string representation of this animation builder.

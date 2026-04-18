@@ -10,7 +10,7 @@ namespace Soenneker.Quark;
 /// Tailwind-first and shadcn-friendly (w-*, including fractions and common tokens).
 /// </summary>
 [TailwindPrefix("w-", Responsive = true)]
-public sealed class WidthBuilder : ICssBuilder
+public sealed class WidthBuilder : CssBuilderBase
 {
     private readonly List<WidthRule> _rules = new(4);
     private BreakpointType? _pendingBreakpoint;
@@ -218,7 +218,7 @@ public sealed class WidthBuilder : ICssBuilder
         return this;
     }
 
-    public string ToClass()
+    public override string ToClass()
     {
         if (_rules.Count == 0)
             return string.Empty;
@@ -246,7 +246,7 @@ public sealed class WidthBuilder : ICssBuilder
         return sb.ToString();
     }
 
-    public string ToStyle() => string.Empty;
+    public override string ToStyle() => string.Empty;
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static string GetWidthClass(string size)

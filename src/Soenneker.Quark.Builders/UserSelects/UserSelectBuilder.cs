@@ -9,7 +9,7 @@ namespace Soenneker.Quark;
 /// Simplified user select builder with fluent API for chaining user select rules.
 /// </summary>
 [TailwindPrefix("select-", Responsive = true)]
-public sealed class UserSelectBuilder : ICssBuilder
+public sealed class UserSelectBuilder : CssBuilderBase
 {
     private readonly List<UserSelectRule> _rules = new(4);
     private BreakpointType? _pendingBreakpoint;
@@ -96,7 +96,7 @@ public sealed class UserSelectBuilder : ICssBuilder
     /// Gets the CSS class string for the current configuration.
     /// </summary>
     /// <returns>The CSS class string.</returns>
-    public string ToClass()
+    public override string ToClass()
     {
         if (_rules.Count == 0) return string.Empty;
 
@@ -125,6 +125,6 @@ public sealed class UserSelectBuilder : ICssBuilder
     /// Gets the CSS style string for the current configuration.
     /// </summary>
     /// <returns>The CSS style string.</returns>
-    public string ToStyle() => string.Empty;
+    public override string ToStyle() => string.Empty;
     public override string ToString() => ToClass();
 }

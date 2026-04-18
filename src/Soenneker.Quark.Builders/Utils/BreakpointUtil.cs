@@ -81,14 +81,7 @@ public static class BreakpointUtil
         for (var i = 0; i < tokens.Length; i++)
         {
             string token = tokens[i];
-
-            for (int j = modifiers.Count - 1; j >= 0; j--)
-            {
-                string modifier = modifiers[j];
-
-                if (modifier.Length != 0)
-                    token = ApplyTailwindModifier(token, modifier);
-            }
+            token = AppendTailwindModifiers(token, modifiers);
 
             if (i > 0)
                 sb.Append(' ');
@@ -97,6 +90,83 @@ public static class BreakpointUtil
         }
 
         return sb.ToString();
+    }
+
+    private static string AppendTailwindModifiers(string token, IReadOnlyList<string> modifiers)
+    {
+        if (string.IsNullOrEmpty(token))
+            return token;
+
+        List<string> segments = SplitTailwindSegments(token);
+
+        if (segments.Count == 0)
+            return token;
+
+        string utility = segments[^1];
+        segments.RemoveAt(segments.Count - 1);
+
+        for (var i = 0; i < modifiers.Count; i++)
+        {
+            string modifier = modifiers[i];
+
+            if (!string.IsNullOrEmpty(modifier))
+                segments.Add(modifier);
+        }
+
+        segments.Add(utility);
+
+        return string.Join(":", segments);
+    }
+
+    private static List<string> SplitTailwindSegments(string token)
+    {
+        var segments = new List<string>(4);
+        var start = 0;
+        var squareDepth = 0;
+        var parenDepth = 0;
+        var braceDepth = 0;
+
+        for (var i = 0; i < token.Length; i++)
+        {
+            char ch = token[i];
+
+            switch (ch)
+            {
+                case '[':
+                    squareDepth++;
+                    break;
+                case ']':
+                    if (squareDepth > 0)
+                        squareDepth--;
+                    break;
+                case '(':
+                    parenDepth++;
+                    break;
+                case ')':
+                    if (parenDepth > 0)
+                        parenDepth--;
+                    break;
+                case '{':
+                    braceDepth++;
+                    break;
+                case '}':
+                    if (braceDepth > 0)
+                        braceDepth--;
+                    break;
+                case ':':
+                    if (squareDepth == 0 && parenDepth == 0 && braceDepth == 0)
+                    {
+                        segments.Add(token[start..i]);
+                        start = i + 1;
+                    }
+
+                    break;
+            }
+        }
+
+        segments.Add(token[start..]);
+
+        return segments;
     }
 }
 

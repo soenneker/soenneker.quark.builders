@@ -9,7 +9,7 @@ namespace Soenneker.Quark;
 /// Tailwind overscroll-behavior builder supporting both axis-specific and global utilities.
 /// </summary>
 [TailwindPrefix("overscroll-", Responsive = true)]
-public sealed class OverscrollBuilder : ICssBuilder
+public sealed class OverscrollBuilder : CssBuilderBase
 {
     private readonly List<OverscrollRule> _rules = new(4);
     private BreakpointType? _pendingBreakpoint;
@@ -121,7 +121,7 @@ public sealed class OverscrollBuilder : ICssBuilder
         return this;
     }
 
-    public string ToClass()
+    public override string ToClass()
     {
         if (_rules.Count == 0)
             return string.Empty;
@@ -151,7 +151,7 @@ public sealed class OverscrollBuilder : ICssBuilder
         return sb.ToString();
     }
 
-    public string ToStyle() => string.Empty;
+    public override string ToStyle() => string.Empty;
 
     public override string ToString()
     {

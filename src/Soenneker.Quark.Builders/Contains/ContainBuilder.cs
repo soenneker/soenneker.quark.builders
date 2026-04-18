@@ -9,7 +9,7 @@ namespace Soenneker.Quark;
 /// CSS contain builder. Tailwind: contain-none, contain-size, contain-layout, contain-style, contain-paint, contain-strict, contain-content.
 /// </summary>
 [TailwindPrefix("contain-", Responsive = true)]
-public sealed class ContainBuilder : ICssBuilder
+public sealed class ContainBuilder : CssBuilderBase
 {
     private readonly List<ContainRule> _rules = new(4);
     private BreakpointType? _pendingBreakpoint;
@@ -97,7 +97,7 @@ public sealed class ContainBuilder : ICssBuilder
         return breakpoint;
     }
 
-    public string ToClass()
+    public override string ToClass()
     {
         if (_rules.Count == 0) return string.Empty;
         using var sb = new PooledStringBuilder();
@@ -115,7 +115,7 @@ public sealed class ContainBuilder : ICssBuilder
         return sb.ToString();
     }
 
-    public string ToStyle() => string.Empty;
+    public override string ToStyle() => string.Empty;
 
     public override string ToString() => ToClass();
 }

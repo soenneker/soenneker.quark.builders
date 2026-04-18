@@ -9,7 +9,7 @@ namespace Soenneker.Quark;
 /// Stroke line join builder. Tailwind: stroke-join-auto, stroke-join-round, stroke-join-bevel, stroke-join-miter.
 /// </summary>
 [TailwindPrefix("stroke-join-", Responsive = true)]
-public sealed class StrokeLineJoinBuilder : ICssBuilder
+public sealed class StrokeLineJoinBuilder : CssBuilderBase
 {
     private readonly List<StrokeLineJoinRule> _rules = new(4);
     private BreakpointType? _pendingBreakpoint;
@@ -83,7 +83,7 @@ public sealed class StrokeLineJoinBuilder : ICssBuilder
         return this;
     }
 
-    public string ToClass()
+    public override string ToClass()
     {
         if (_rules.Count == 0) return string.Empty;
         using var sb = new PooledStringBuilder();
@@ -101,7 +101,7 @@ public sealed class StrokeLineJoinBuilder : ICssBuilder
         return sb.ToString();
     }
 
-    public string ToStyle() => string.Empty;
+    public override string ToStyle() => string.Empty;
 
     public override string ToString() => ToClass();
 }

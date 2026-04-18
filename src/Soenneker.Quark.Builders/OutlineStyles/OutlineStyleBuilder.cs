@@ -9,7 +9,7 @@ namespace Soenneker.Quark;
 /// Outline style builder. Tailwind: outline-none, outline, outline-dashed, outline-dotted, outline-double.
 /// </summary>
 [TailwindPrefix("outline-", Responsive = true)]
-public sealed class OutlineStyleBuilder : ICssBuilder
+public sealed class OutlineStyleBuilder : CssBuilderBase
 {
     private readonly List<OutlineStyleRule> _rules = new(4);
     private BreakpointType? _pendingBreakpoint;
@@ -89,7 +89,7 @@ public sealed class OutlineStyleBuilder : ICssBuilder
         return breakpoint;
     }
 
-    public string ToClass()
+    public override string ToClass()
     {
         if (_rules.Count == 0) return string.Empty;
         using var sb = new PooledStringBuilder();
@@ -107,7 +107,7 @@ public sealed class OutlineStyleBuilder : ICssBuilder
         return sb.ToString();
     }
 
-    public string ToStyle() => string.Empty;
+    public override string ToStyle() => string.Empty;
 
     public override string ToString() => ToClass();
 }

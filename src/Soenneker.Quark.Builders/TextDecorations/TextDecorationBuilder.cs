@@ -1,6 +1,6 @@
 namespace Soenneker.Quark;
 
-public sealed class TextDecorationBuilder : ICssBuilder
+public sealed class TextDecorationBuilder : CssBuilderBase
 {
     private readonly string _value;
 
@@ -15,7 +15,7 @@ public sealed class TextDecorationBuilder : ICssBuilder
     public TextDecorationBuilder Overline => new("overline");
     public TextDecorationBuilder Token(string value) => new(value);
 
-    public string ToClass() => _value switch
+    public override string ToClass() => _value switch
     {
         "none" => "no-underline",
         "underline" => "underline",
@@ -24,7 +24,7 @@ public sealed class TextDecorationBuilder : ICssBuilder
         _ => _value
     };
 
-    public string ToStyle() => _value switch
+    public override string ToStyle() => _value switch
     {
         "none" => "text-decoration: none",
         "underline" => "text-decoration: underline",

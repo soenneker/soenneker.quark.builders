@@ -5,7 +5,7 @@ using Soenneker.Utils.PooledStringBuilders;
 namespace Soenneker.Quark;
 
 [TailwindPrefix("tracking-", Responsive = true)]
-public sealed class TrackingBuilder : ICssBuilder
+public sealed class TrackingBuilder : CssBuilderBase
 {
     private readonly List<TrackingRule> _rules = new(4);
     private BreakpointType? _pendingBreakpoint;
@@ -64,7 +64,7 @@ public sealed class TrackingBuilder : ICssBuilder
         return breakpoint;
     }
 
-    public string ToClass()
+    public override string ToClass()
     {
         if (_rules.Count == 0)
             return string.Empty;
@@ -96,7 +96,7 @@ public sealed class TrackingBuilder : ICssBuilder
         return sb.ToString();
     }
 
-    public string ToStyle() => string.Empty;
+    public override string ToStyle() => string.Empty;
 
     public override string ToString() => ToClass();
 }

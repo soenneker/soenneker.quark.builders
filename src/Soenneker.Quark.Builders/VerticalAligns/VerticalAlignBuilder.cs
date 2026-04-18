@@ -9,7 +9,7 @@ namespace Soenneker.Quark;
 /// Simplified vertical alignment builder with fluent API for chaining vertical alignment rules.
 /// </summary>
 [TailwindPrefix("align-", Responsive = true)]
-public sealed class VerticalAlignBuilder : ICssBuilder
+public sealed class VerticalAlignBuilder : CssBuilderBase
 {
     private readonly List<VerticalAlignRule> _rules = new(6);
     private BreakpointType? _pendingBreakpoint;
@@ -111,7 +111,7 @@ public sealed class VerticalAlignBuilder : ICssBuilder
     /// Gets the CSS class string for the current configuration.
     /// </summary>
     /// <returns>The CSS class string.</returns>
-    public string ToClass()
+    public override string ToClass()
     {
         if (_rules.Count == 0) return string.Empty;
 
@@ -140,6 +140,6 @@ public sealed class VerticalAlignBuilder : ICssBuilder
     /// Gets the CSS style string for the current configuration.
     /// </summary>
     /// <returns>The CSS style string.</returns>
-    public string ToStyle() => string.Empty;
+    public override string ToStyle() => string.Empty;
     public override string ToString() => ToClass();
 }

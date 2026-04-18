@@ -10,7 +10,7 @@ namespace Soenneker.Quark;
 /// Supports both legacy semantic tokens (sm/lg) and shadcn/Tailwind size utilities (e.g. size-5).
 /// </summary>
 [TailwindPrefix("size-", Responsive = true)]
-public sealed class SizeBuilder : ICssBuilder
+public sealed class SizeBuilder : CssBuilderBase
 {
     private readonly List<SizeRule> _rules = new(4);
 
@@ -125,7 +125,7 @@ public sealed class SizeBuilder : ICssBuilder
         return this;
     }
 
-    public string ToClass()
+    public override string ToClass()
     {
         if (_rules.Count == 0)
             return string.Empty;
@@ -148,7 +148,7 @@ public sealed class SizeBuilder : ICssBuilder
         return sb.ToString();
     }
 
-    public string ToStyle() => string.Empty;
+    public override string ToStyle() => string.Empty;
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static string GetSizeClass(string value)

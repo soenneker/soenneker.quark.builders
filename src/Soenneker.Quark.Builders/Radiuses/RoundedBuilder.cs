@@ -7,7 +7,7 @@ namespace Soenneker.Quark;
 /// <summary>
 /// Builds Tailwind/shadcn rounded classes.
 /// </summary>
-public sealed class RoundedBuilder : ICssBuilder
+public sealed class RoundedBuilder : CssBuilderBase
 {
     private readonly List<RoundedRule> _rules = new(4);
 
@@ -169,7 +169,7 @@ public sealed class RoundedBuilder : ICssBuilder
 
     // ----- Output -----
 
-    public string ToClass()
+    public override string ToClass()
     {
         if (_rules.Count == 0)
             return string.Empty;
@@ -210,7 +210,7 @@ public sealed class RoundedBuilder : ICssBuilder
         return sb.ToString();
     }
 
-    public string ToStyle() => string.Empty;
+    public override string ToStyle() => string.Empty;
 
     public override string ToString() => ToClass();
 }

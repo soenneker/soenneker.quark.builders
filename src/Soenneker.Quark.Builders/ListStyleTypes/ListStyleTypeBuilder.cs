@@ -6,7 +6,7 @@ namespace Soenneker.Quark;
 /// Builder for CSS list-style-type property.
 /// </summary>
 [TailwindPrefix("list-", Responsive = false)]
-public sealed class ListStyleTypeBuilder : ICssBuilder
+public sealed class ListStyleTypeBuilder : CssBuilderBase
 {
     private readonly ListStyleTypeValue _value;
 
@@ -20,7 +20,7 @@ public sealed class ListStyleTypeBuilder : ICssBuilder
     /// list-style-type is a CSS property, not a class utility, so this returns an empty string.
     /// </summary>
     /// <returns>An empty string.</returns>
-    public string ToClass()
+    public override string ToClass()
     {
         // list-style-type is a CSS property, not a class utility
         return string.Empty;
@@ -30,7 +30,7 @@ public sealed class ListStyleTypeBuilder : ICssBuilder
     /// Gets the CSS style string for the current configuration.
     /// </summary>
     /// <returns>The CSS style string.</returns>
-    public string ToStyle() => string.Empty;
+    public override string ToStyle() => string.Empty;
 
     /// <summary>
     /// Returns the CSS style string representation of this list style type builder.

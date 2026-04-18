@@ -6,7 +6,7 @@ using Soenneker.Utils.PooledStringBuilders;
 namespace Soenneker.Quark;
 
 [TailwindPrefix("row-span", Responsive = true)]
-public sealed class RowSpanBuilder : ICssBuilder
+public sealed class RowSpanBuilder : CssBuilderBase
 {
     private readonly List<GridRule> _rules = new(8);
     private BreakpointType? _pendingBreakpoint;
@@ -114,7 +114,7 @@ public sealed class RowSpanBuilder : ICssBuilder
         return breakpoint;
     }
 
-    public string ToClass()
+    public override string ToClass()
     {
         if (_rules.Count == 0)
             return string.Empty;
@@ -142,7 +142,7 @@ public sealed class RowSpanBuilder : ICssBuilder
         return sb.ToString();
     }
 
-    public string ToStyle() => string.Empty;
+    public override string ToStyle() => string.Empty;
 
     public override string ToString() => ToClass();
 }

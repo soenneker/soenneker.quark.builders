@@ -9,7 +9,7 @@ namespace Soenneker.Quark;
 /// High-performance padding builder with fluent API for chaining padding rules.
 /// </summary>
 [TailwindPrefix("p-", Responsive = true)]
-public sealed class PaddingBuilder : ICssBuilder
+public sealed class PaddingBuilder : CssBuilderBase
 {
     private readonly List<PaddingRule> _rules = new(4);
     private BreakpointType? _pendingBreakpoint;
@@ -187,7 +187,7 @@ public sealed class PaddingBuilder : ICssBuilder
     }
 
     /// <summary>Gets the CSS class string for the current configuration.</summary>
-    public string ToClass()
+    public override string ToClass()
     {
         if (_rules.Count == 0)
             return string.Empty;
@@ -219,7 +219,7 @@ public sealed class PaddingBuilder : ICssBuilder
     }
 
     /// <summary>Gets the CSS style string for the current configuration.</summary>
-    public string ToStyle() => string.Empty;
+    public override string ToStyle() => string.Empty;
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static string GetSizeToken(string size)

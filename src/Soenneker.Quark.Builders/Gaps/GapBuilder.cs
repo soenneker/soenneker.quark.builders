@@ -10,7 +10,7 @@ namespace Soenneker.Quark;
 /// Simplified gap builder with fluent API for chaining gap rules.
 /// </summary>
 [TailwindPrefix("gap-", Responsive = true)]
-public sealed class GapBuilder : ICssBuilder
+public sealed class GapBuilder : CssBuilderBase
 {
     private readonly List<GapRule> _rules = new(4);
     private BreakpointType? _pendingBreakpoint;
@@ -148,7 +148,7 @@ public sealed class GapBuilder : ICssBuilder
     /// <summary>
     /// Gets the CSS class string for the current configuration.
     /// </summary>
-    public string ToClass()
+    public override string ToClass()
     {
         if (_rules.Count == 0)
             return string.Empty;
@@ -178,6 +178,6 @@ public sealed class GapBuilder : ICssBuilder
         return sb.ToString();
     }
 
-    public string ToStyle() => string.Empty;
+    public override string ToStyle() => string.Empty;
 
 }

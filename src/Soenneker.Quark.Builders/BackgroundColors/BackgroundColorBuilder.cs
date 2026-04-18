@@ -6,7 +6,7 @@ using Soenneker.Utils.PooledStringBuilders;
 namespace Soenneker.Quark;
 
 [TailwindPrefix("bg-", Responsive = true)]
-public sealed class BackgroundColorBuilder : ICssBuilder
+public sealed class BackgroundColorBuilder : CssBuilderBase
 {
     private static readonly HashSet<string> SemanticTokens = new(System.StringComparer.Ordinal)
     {
@@ -95,7 +95,7 @@ public sealed class BackgroundColorBuilder : ICssBuilder
         return this;
     }
 
-    public string ToClass()
+    public override string ToClass()
     {
         if (_rules.Count == 0)
             return string.Empty;
@@ -123,7 +123,7 @@ public sealed class BackgroundColorBuilder : ICssBuilder
         return sb.ToString();
     }
 
-    public string ToStyle() => string.Empty;
+    public override string ToStyle() => string.Empty;
 
     public override string ToString() => ToClass();
 }

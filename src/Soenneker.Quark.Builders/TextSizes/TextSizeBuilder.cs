@@ -10,7 +10,7 @@ namespace Soenneker.Quark;
 /// Tailwind/shadcn-aligned text size builder.
 /// </summary>
 [TailwindPrefix("text-", Responsive = true)]
-public sealed class TextSizeBuilder : ICssBuilder
+public sealed class TextSizeBuilder : CssBuilderBase
 {
     private readonly List<TextSizeRule> _rules = new(4);
     private BreakpointType? _pendingBreakpoint;
@@ -107,7 +107,7 @@ public sealed class TextSizeBuilder : ICssBuilder
     }
 
     /// <summary>Gets the CSS class string for the current configuration.</summary>
-    public string ToClass()
+    public override string ToClass()
     {
         if (_rules.Count == 0)
             return string.Empty;
@@ -138,7 +138,7 @@ public sealed class TextSizeBuilder : ICssBuilder
         return sb.ToString();
     }
 
-    public string ToStyle() => string.Empty;
+    public override string ToStyle() => string.Empty;
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static string GetSizeClass(string size)

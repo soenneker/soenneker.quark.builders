@@ -11,7 +11,7 @@ namespace Soenneker.Quark;
 /// Produces ring color utility classes.
 /// </summary>
 [TailwindPrefix("ring-", Responsive = true)]
-public sealed class RingColorBuilder : ICssBuilder
+public sealed class RingColorBuilder : CssBuilderBase
 {
     private readonly List<RingColorRule> _rules = new(4);
     private BreakpointType? _pendingBreakpoint;
@@ -165,7 +165,7 @@ public sealed class RingColorBuilder : ICssBuilder
         return this;
     }
 
-    public string ToClass()
+    public override string ToClass()
     {
         if (_rules.Count == 0)
             return string.Empty;
@@ -195,7 +195,7 @@ public sealed class RingColorBuilder : ICssBuilder
         return sb.ToString();
     }
 
-    public string ToStyle() => string.Empty;
+    public override string ToStyle() => string.Empty;
 
     public override string ToString()
     {

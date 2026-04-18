@@ -5,7 +5,7 @@ using Soenneker.Utils.PooledStringBuilders;
 namespace Soenneker.Quark;
 
 [TailwindPrefix("leading-", Responsive = true)]
-public sealed class LeadingBuilder : ICssBuilder
+public sealed class LeadingBuilder : CssBuilderBase
 {
     private readonly List<LeadingRule> _rules = new(4);
     private BreakpointType? _pendingBreakpoint;
@@ -64,7 +64,7 @@ public sealed class LeadingBuilder : ICssBuilder
         return breakpoint;
     }
 
-    public string ToClass()
+    public override string ToClass()
     {
         if (_rules.Count == 0)
             return string.Empty;
@@ -96,7 +96,7 @@ public sealed class LeadingBuilder : ICssBuilder
         return sb.ToString();
     }
 
-    public string ToStyle() => string.Empty;
+    public override string ToStyle() => string.Empty;
 
     public override string ToString() => ToClass();
 }

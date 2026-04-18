@@ -4,7 +4,7 @@ using Soenneker.Utils.PooledStringBuilders;
 
 namespace Soenneker.Quark;
 
-public abstract class ResponsiveUtilityBuilder<TBuilder> : ICssBuilder where TBuilder : ResponsiveUtilityBuilder<TBuilder>
+public abstract class ResponsiveUtilityBuilder<TBuilder> : CssBuilderBase where TBuilder : ResponsiveUtilityBuilder<TBuilder>
 {
     private readonly string _prefix;
     private readonly List<UtilityRule> _rules = new(4);
@@ -40,7 +40,7 @@ public abstract class ResponsiveUtilityBuilder<TBuilder> : ICssBuilder where TBu
         return breakpoint;
     }
 
-    public virtual string ToClass()
+    public override string ToClass()
     {
         if (_rules.Count == 0)
             return string.Empty;
@@ -72,7 +72,7 @@ public abstract class ResponsiveUtilityBuilder<TBuilder> : ICssBuilder where TBu
         return sb.ToString();
     }
 
-    public virtual string ToStyle() => string.Empty;
+    public override string ToStyle() => string.Empty;
 
     public override string ToString() => ToClass();
 }

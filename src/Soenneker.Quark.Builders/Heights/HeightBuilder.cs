@@ -10,7 +10,7 @@ namespace Soenneker.Quark;
 /// Tailwind-first and shadcn-friendly (h-* and common tokens).
 /// </summary>
 [TailwindPrefix("h-", Responsive = true)]
-public sealed class HeightBuilder : ICssBuilder
+public sealed class HeightBuilder : CssBuilderBase
 {
     private readonly List<HeightRule> _rules = new(4);
     private BreakpointType? _pendingBreakpoint;
@@ -156,7 +156,7 @@ public sealed class HeightBuilder : ICssBuilder
         return this;
     }
 
-    public string ToClass()
+    public override string ToClass()
     {
         if (_rules.Count == 0)
             return string.Empty;
@@ -184,7 +184,7 @@ public sealed class HeightBuilder : ICssBuilder
         return sb.ToString();
     }
 
-    public string ToStyle() => string.Empty;
+    public override string ToStyle() => string.Empty;
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static string GetHeightClass(string size)

@@ -9,7 +9,7 @@ namespace Soenneker.Quark;
 /// Tailwind/shadcn line clamp builder for multiline truncation utilities.
 /// </summary>
 [TailwindPrefix("line-clamp-", Responsive = true)]
-public sealed class LineClampBuilder : ICssBuilder
+public sealed class LineClampBuilder : CssBuilderBase
 {
     private readonly List<LineClampRule> _rules = new(4);
     private BreakpointType? _pendingBreakpoint;
@@ -74,7 +74,7 @@ public sealed class LineClampBuilder : ICssBuilder
         return breakpoint;
     }
 
-    public string ToClass()
+    public override string ToClass()
     {
         if (_rules.Count == 0)
             return string.Empty;
@@ -103,7 +103,7 @@ public sealed class LineClampBuilder : ICssBuilder
         return sb.ToString();
     }
 
-    public string ToStyle() => string.Empty;
+    public override string ToStyle() => string.Empty;
 
     public override string ToString() => ToClass();
 }

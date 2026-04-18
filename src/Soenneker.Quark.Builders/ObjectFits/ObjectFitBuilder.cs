@@ -9,7 +9,7 @@ namespace Soenneker.Quark;
 /// Simplified object-fit builder with fluent API for chaining object-fit rules.
 /// </summary>
 [TailwindPrefix("object-", Responsive = true)]
-public sealed class ObjectFitBuilder : ICssBuilder
+public sealed class ObjectFitBuilder : CssBuilderBase
 {
     private readonly List<ObjectFitRule> _rules = new(4);
     private BreakpointType? _pendingBreakpoint;
@@ -113,7 +113,7 @@ public sealed class ObjectFitBuilder : ICssBuilder
     /// <summary>
     /// Gets the CSS class string for the current configuration.
     /// </summary>
-    public string ToClass()
+    public override string ToClass()
     {
         if (_rules.Count == 0)
             return string.Empty;
@@ -144,7 +144,7 @@ public sealed class ObjectFitBuilder : ICssBuilder
     /// <summary>
     /// Gets the CSS style string for the current configuration.
     /// </summary>
-    public string ToStyle() => string.Empty;
+    public override string ToStyle() => string.Empty;
 
     public override string ToString() => ToClass();
 }

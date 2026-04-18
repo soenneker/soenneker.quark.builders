@@ -7,7 +7,7 @@ namespace Soenneker.Quark;
 /// <summary>
 /// High-performance overflow builder with fluent API for chaining overflow rules.
 /// </summary>
-public sealed class OverflowBuilder : ICssBuilder
+public sealed class OverflowBuilder : CssBuilderBase
 {
     private readonly List<OverflowRule> _rules = new(4);
     private string _axis = "";
@@ -84,7 +84,7 @@ public sealed class OverflowBuilder : ICssBuilder
     }
 
     /// <summary>Gets the CSS class string for the current configuration.</summary>
-    public string ToClass()
+    public override string ToClass()
     {
         if (_rules.Count == 0)
             return string.Empty;
@@ -110,7 +110,7 @@ public sealed class OverflowBuilder : ICssBuilder
     }
 
     /// <summary>Gets the CSS style string for the current configuration.</summary>
-    public string ToStyle() => string.Empty;
+    public override string ToStyle() => string.Empty;
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private string GetOverflowClass(string overflow)

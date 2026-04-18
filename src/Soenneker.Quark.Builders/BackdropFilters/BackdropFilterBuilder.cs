@@ -11,7 +11,7 @@ namespace Soenneker.Quark;
 /// Simplified backdrop filter builder with fluent API for chaining backdrop filter rules.
 /// </summary>
 [TailwindPrefix("backdrop-", Responsive = true)]
-public sealed class BackdropFilterBuilder : ICssBuilder
+public sealed class BackdropFilterBuilder : CssBuilderBase
 {
     private readonly List<BackdropFilterRule> _rules = new(4);
     private BreakpointType? _pendingBreakpoint;
@@ -129,7 +129,7 @@ public sealed class BackdropFilterBuilder : ICssBuilder
     /// Gets the CSS class string for the current configuration.
     /// </summary>
     /// <returns>The CSS class string.</returns>
-    public string ToClass()
+    public override string ToClass()
     {
         if (_rules.Count == 0)
             return string.Empty;
@@ -157,7 +157,7 @@ public sealed class BackdropFilterBuilder : ICssBuilder
         return sb.ToString();
     }
 
-    public string ToStyle() => string.Empty;
+    public override string ToStyle() => string.Empty;
 
     /// <summary>
     /// Returns the CSS class string representation of this backdrop filter builder.

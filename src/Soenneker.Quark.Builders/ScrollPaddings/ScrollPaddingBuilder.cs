@@ -9,7 +9,7 @@ namespace Soenneker.Quark;
 /// Scroll padding builder. Tailwind: scroll-p-*, scroll-pt-*, scroll-pr-*, etc.
 /// </summary>
 [TailwindPrefix("scroll-p", Responsive = true)]
-public sealed class ScrollPaddingBuilder : ICssBuilder
+public sealed class ScrollPaddingBuilder : CssBuilderBase
 {
     private readonly List<ScrollPaddingRule> _rules = new(4);
     private BreakpointType? _pendingBreakpoint;
@@ -155,7 +155,7 @@ public sealed class ScrollPaddingBuilder : ICssBuilder
         return breakpoint;
     }
 
-    public string ToClass()
+    public override string ToClass()
     {
         if (_rules.Count == 0) return string.Empty;
         using var sb = new PooledStringBuilder();
@@ -176,7 +176,7 @@ public sealed class ScrollPaddingBuilder : ICssBuilder
         return sb.ToString();
     }
 
-    public string ToStyle() => string.Empty;
+    public override string ToStyle() => string.Empty;
 
     public override string ToString() => ToClass();
 

@@ -11,7 +11,7 @@ namespace Soenneker.Quark;
 /// Simplified filter builder with fluent API for chaining filter rules.
 /// </summary>
 [TailwindPrefix("filter", Responsive = true)]
-public sealed class FilterBuilder : ICssBuilder
+public sealed class FilterBuilder : CssBuilderBase
 {
     private readonly List<FilterRule> _rules = new(4);
     private BreakpointType? _pendingBreakpoint;
@@ -136,7 +136,7 @@ public sealed class FilterBuilder : ICssBuilder
     /// Gets the CSS class string for the current configuration.
     /// </summary>
     /// <returns>The CSS class string.</returns>
-    public string ToClass()
+    public override string ToClass()
     {
         if (_rules.Count == 0)
             return string.Empty;
@@ -164,7 +164,7 @@ public sealed class FilterBuilder : ICssBuilder
         return sb.ToString();
     }
 
-    public string ToStyle() => string.Empty;
+    public override string ToStyle() => string.Empty;
 
     /// <summary>
     /// Returns the CSS class string representation of this filter builder.

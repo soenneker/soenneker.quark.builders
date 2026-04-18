@@ -9,7 +9,7 @@ namespace Soenneker.Quark;
 /// Stroke line cap builder. Tailwind: stroke-cap-auto, stroke-cap-round, stroke-cap-square, stroke-cap-butt.
 /// </summary>
 [TailwindPrefix("stroke-cap-", Responsive = true)]
-public sealed class StrokeLineCapBuilder : ICssBuilder
+public sealed class StrokeLineCapBuilder : CssBuilderBase
 {
     private readonly List<StrokeLineCapRule> _rules = new(4);
     private BreakpointType? _pendingBreakpoint;
@@ -83,7 +83,7 @@ public sealed class StrokeLineCapBuilder : ICssBuilder
         return this;
     }
 
-    public string ToClass()
+    public override string ToClass()
     {
         if (_rules.Count == 0) return string.Empty;
         using var sb = new PooledStringBuilder();
@@ -101,7 +101,7 @@ public sealed class StrokeLineCapBuilder : ICssBuilder
         return sb.ToString();
     }
 
-    public string ToStyle() => string.Empty;
+    public override string ToStyle() => string.Empty;
 
     public override string ToString() => ToClass();
 }

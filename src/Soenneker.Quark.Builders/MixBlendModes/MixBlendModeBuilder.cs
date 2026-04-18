@@ -9,7 +9,7 @@ namespace Soenneker.Quark;
 /// Mix-blend-mode builder. Tailwind: mix-blend-normal, mix-blend-multiply, etc.
 /// </summary>
 [TailwindPrefix("mix-blend-", Responsive = true)]
-public sealed class MixBlendModeBuilder : ICssBuilder
+public sealed class MixBlendModeBuilder : CssBuilderBase
 {
     private readonly List<MixBlendModeRule> _rules = new(4);
     private BreakpointType? _pendingBreakpoint;
@@ -153,7 +153,7 @@ public sealed class MixBlendModeBuilder : ICssBuilder
         return breakpoint;
     }
 
-    public string ToClass()
+    public override string ToClass()
     {
         if (_rules.Count == 0) return string.Empty;
         using var sb = new PooledStringBuilder();
@@ -171,7 +171,7 @@ public sealed class MixBlendModeBuilder : ICssBuilder
         return sb.ToString();
     }
 
-    public string ToStyle() => string.Empty;
+    public override string ToStyle() => string.Empty;
 
     public override string ToString() => ToClass();
 

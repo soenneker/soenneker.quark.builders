@@ -8,7 +8,7 @@ namespace Soenneker.Quark;
 /// End (inset-inline-end) builder. Tailwind: end-*.
 /// </summary>
 [TailwindPrefix("end-", Responsive = true)]
-public sealed class EndBuilder : ICssBuilder
+public sealed class EndBuilder : CssBuilderBase
 {
     private readonly List<EndRule> _rules = new(4);
     private BreakpointType? _pendingBreakpoint;
@@ -61,7 +61,7 @@ public sealed class EndBuilder : ICssBuilder
         return breakpoint;
     }
 
-    public string ToClass()
+    public override string ToClass()
     {
         if (_rules.Count == 0) return string.Empty;
         using var sb = new PooledStringBuilder();
@@ -79,7 +79,7 @@ public sealed class EndBuilder : ICssBuilder
         return sb.ToString();
     }
 
-    public string ToStyle() => string.Empty;
+    public override string ToStyle() => string.Empty;
 
     public override string ToString() => ToClass();
 }

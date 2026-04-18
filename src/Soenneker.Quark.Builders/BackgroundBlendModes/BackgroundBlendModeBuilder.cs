@@ -9,7 +9,7 @@ namespace Soenneker.Quark;
 /// Background-blend-mode builder. Tailwind: bg-blend-normal, bg-blend-multiply, etc.
 /// </summary>
 [TailwindPrefix("bg-blend-", Responsive = true)]
-public sealed class BackgroundBlendModeBuilder : ICssBuilder
+public sealed class BackgroundBlendModeBuilder : CssBuilderBase
 {
     private readonly List<BackgroundBlendModeRule> _rules = new(4);
     private BreakpointType? _pendingBreakpoint;
@@ -133,7 +133,7 @@ public sealed class BackgroundBlendModeBuilder : ICssBuilder
         return breakpoint;
     }
 
-    public string ToClass()
+    public override string ToClass()
     {
         if (_rules.Count == 0) return string.Empty;
         using var sb = new PooledStringBuilder();
@@ -150,7 +150,7 @@ public sealed class BackgroundBlendModeBuilder : ICssBuilder
         return sb.ToString();
     }
 
-    public string ToStyle() => string.Empty;
+    public override string ToStyle() => string.Empty;
 
     public override string ToString() => ToClass();
 }

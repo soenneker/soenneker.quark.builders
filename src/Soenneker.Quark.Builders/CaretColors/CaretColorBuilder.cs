@@ -9,7 +9,7 @@ namespace Soenneker.Quark;
 /// Caret color builder for text inputs. Tailwind: caret-primary, caret-transparent, caret-*.
 /// </summary>
 [TailwindPrefix("caret-", Responsive = true)]
-public sealed class CaretColorBuilder : ICssBuilder
+public sealed class CaretColorBuilder : CssBuilderBase
 {
     private static readonly HashSet<string> SemanticTokens = new(System.StringComparer.Ordinal)
     {
@@ -113,7 +113,7 @@ public sealed class CaretColorBuilder : ICssBuilder
         return breakpoint;
     }
 
-    public string ToClass()
+    public override string ToClass()
     {
         if (_rules.Count == 0) return string.Empty;
         using var sb = new PooledStringBuilder();
@@ -131,7 +131,7 @@ public sealed class CaretColorBuilder : ICssBuilder
         return sb.ToString();
     }
 
-    public string ToStyle() => string.Empty;
+    public override string ToStyle() => string.Empty;
 
     public override string ToString() => ToClass();
 }

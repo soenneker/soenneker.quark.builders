@@ -6,7 +6,7 @@ using Soenneker.Utils.PooledStringBuilders;
 namespace Soenneker.Quark;
 
 [TailwindPrefix("divide-", Responsive = true)]
-public sealed class DivideBuilder : ICssBuilder
+public sealed class DivideBuilder : CssBuilderBase
 {
     private readonly List<DivideRule> _rules = new(8);
     private BreakpointType? _pendingBreakpoint;
@@ -115,7 +115,7 @@ public sealed class DivideBuilder : ICssBuilder
         return breakpoint;
     }
 
-    public string ToClass()
+    public override string ToClass()
     {
         if (_rules.Count == 0)
             return string.Empty;
@@ -141,7 +141,7 @@ public sealed class DivideBuilder : ICssBuilder
         return sb.ToString();
     }
 
-    public string ToStyle() => string.Empty;
+    public override string ToStyle() => string.Empty;
 
     public override string ToString() => ToClass();
 }

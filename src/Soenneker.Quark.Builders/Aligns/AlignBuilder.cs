@@ -4,7 +4,7 @@ using Soenneker.Utils.PooledStringBuilders;
 
 namespace Soenneker.Quark;
 
-public sealed class AlignBuilder : ICssBuilder
+public sealed class AlignBuilder : CssBuilderBase
 {
     private readonly List<(string Value, BreakpointType? Breakpoint)> _rules = [];
     private BreakpointType? _pendingBreakpoint;
@@ -57,7 +57,7 @@ public sealed class AlignBuilder : ICssBuilder
         return breakpoint;
     }
 
-    public string ToClass()
+    public override string ToClass()
     {
         if (_rules.Count == 0)
             return string.Empty;
@@ -82,7 +82,7 @@ public sealed class AlignBuilder : ICssBuilder
         return sb.ToString();
     }
 
-    public string ToStyle() => string.Empty;
+    public override string ToStyle() => string.Empty;
 
     public override string ToString() => ToClass();
 }

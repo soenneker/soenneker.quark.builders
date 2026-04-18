@@ -9,7 +9,7 @@ namespace Soenneker.Quark;
 /// Accent color builder for form controls. Tailwind: accent-auto, accent-primary, accent-*.
 /// </summary>
 [TailwindPrefix("accent-", Responsive = true)]
-public sealed class AccentColorBuilder : ICssBuilder
+public sealed class AccentColorBuilder : CssBuilderBase
 {
     private static readonly HashSet<string> SemanticTokens = new(System.StringComparer.Ordinal)
     {
@@ -114,7 +114,7 @@ public sealed class AccentColorBuilder : ICssBuilder
         return this;
     }
 
-    public string ToClass()
+    public override string ToClass()
     {
         if (_rules.Count == 0) return string.Empty;
         using var sb = new PooledStringBuilder();
@@ -132,7 +132,7 @@ public sealed class AccentColorBuilder : ICssBuilder
         return sb.ToString();
     }
 
-    public string ToStyle()
+    public override string ToStyle()
         => string.Empty;
 
     public override string ToString() => ToClass();

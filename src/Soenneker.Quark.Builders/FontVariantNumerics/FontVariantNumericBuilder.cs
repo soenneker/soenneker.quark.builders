@@ -9,7 +9,7 @@ namespace Soenneker.Quark;
 /// Tailwind font variant numeric utility builder.
 /// </summary>
 [TailwindPrefix("normal-nums", Responsive = true)]
-public sealed class FontVariantNumericBuilder : ICssBuilder
+public sealed class FontVariantNumericBuilder : CssBuilderBase
 {
     private readonly List<FontVariantNumericRule> _rules = new(6);
     private BreakpointType? _pendingBreakpoint;
@@ -117,7 +117,7 @@ public sealed class FontVariantNumericBuilder : ICssBuilder
         return this;
     }
 
-    public string ToClass()
+    public override string ToClass()
     {
         if (_rules.Count == 0)
             return string.Empty;
@@ -148,5 +148,5 @@ public sealed class FontVariantNumericBuilder : ICssBuilder
         return sb.ToString();
     }
 
-    public string ToStyle() => string.Empty;
+    public override string ToStyle() => string.Empty;
 }

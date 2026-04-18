@@ -10,7 +10,7 @@ namespace Soenneker.Quark;
 /// Responsive builder for shadcn-style toggle size utility groups.
 /// </summary>
 [TailwindPrefix("", Responsive = true)]
-public sealed class ToggleSizeBuilder : ICssBuilder
+public sealed class ToggleSizeBuilder : CssBuilderBase
 {
     private readonly List<ToggleSizeRule> _rules = new(4);
     private BreakpointType? _pendingBreakpoint;
@@ -55,7 +55,7 @@ public sealed class ToggleSizeBuilder : ICssBuilder
         return this;
     }
 
-    public string ToClass()
+    public override string ToClass()
     {
         if (_rules.Count == 0)
             return string.Empty;
@@ -87,7 +87,7 @@ public sealed class ToggleSizeBuilder : ICssBuilder
         return sb.ToString();
     }
 
-    public string ToStyle() => string.Empty;
+    public override string ToStyle() => string.Empty;
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static string ApplyBreakpointToClassGroup(string classGroup, string breakpoint)

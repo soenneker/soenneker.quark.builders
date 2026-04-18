@@ -8,7 +8,7 @@ namespace Soenneker.Quark;
 /// Start (inset-inline-start) builder. Tailwind: start-*.
 /// </summary>
 [TailwindPrefix("start-", Responsive = true)]
-public sealed class StartBuilder : ICssBuilder
+public sealed class StartBuilder : CssBuilderBase
 {
     private readonly List<StartRule> _rules = new(4);
     private BreakpointType? _pendingBreakpoint;
@@ -56,7 +56,7 @@ public sealed class StartBuilder : ICssBuilder
         return this;
     }
 
-    public string ToClass()
+    public override string ToClass()
     {
         if (_rules.Count == 0) return string.Empty;
         using var sb = new PooledStringBuilder();
@@ -74,7 +74,7 @@ public sealed class StartBuilder : ICssBuilder
         return sb.ToString();
     }
 
-    public string ToStyle() => string.Empty;
+    public override string ToStyle() => string.Empty;
 
     public override string ToString() => ToClass();
 }

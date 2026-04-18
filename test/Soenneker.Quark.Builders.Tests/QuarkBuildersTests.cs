@@ -35,6 +35,74 @@ public sealed class QuarkBuildersTests : FixturedUnitTest
     }
 
     [Fact]
+    public void VariantBuilder_builds_pseudo_element_utilities()
+    {
+        string rounded = Rounded.Full.After.ToClass();
+        string border = BorderColor.Border.After.ToClass();
+
+        Assert.Equal("after:rounded-full", rounded);
+        Assert.Equal("after:border-border", border);
+    }
+
+    [Fact]
+    public void VariantBuilder_supports_arbitrary_modifier_chains()
+    {
+        string result = Variant.Of(Display.None)
+            .Modifiers("md", "after")
+            .ToClass();
+
+        Assert.Equal("md:after:hidden", result);
+    }
+
+    [Fact]
+    public void VariantBuilder_supports_responsive_variant_chaining()
+    {
+        string rounded = Rounded.Full.After.OnMd.ToClass();
+        string hidden = Display.None.Dark.Hover.OnLg.ToClass();
+
+        Assert.Equal("md:after:rounded-full", rounded);
+        Assert.Equal("lg:dark:hover:hidden", hidden);
+    }
+
+    [Fact]
+    public void CssBuilderBase_supports_named_group_and_peer_variants()
+    {
+        string group = Opacity.Is100.Group("data-[state=open]", "navigation-menu").ToClass();
+        string peer = TextColor.Utility("text-sidebar-accent-foreground").Peer("data-[active=true]", "menu-button").ToClass();
+
+        Assert.Equal("group-data-[state=open]/navigation-menu:opacity-100", group);
+        Assert.Equal("peer-data-[active=true]/menu-button:text-sidebar-accent-foreground", peer);
+    }
+
+    [Fact]
+    public void CssValue_can_combine_base_and_variant_builders_for_single_slot()
+    {
+        CssValue<RoundedBuilder> value = CssValue<RoundedBuilder>.For(
+            Rounded.Full,
+            Rounded.Full.After
+        );
+
+        Assert.Equal("rounded-full after:rounded-full", value.ToString());
+    }
+
+    [Fact]
+    public void CssValue_can_append_additional_builders()
+    {
+        CssValue<RoundedBuilder> value = CssValue<RoundedBuilder>.For(Rounded.Full)
+            .Add(Rounded.Full.After);
+
+        Assert.Equal("rounded-full after:rounded-full", value.ToString());
+    }
+
+    [Fact]
+    public void CssValue_allows_direct_assignment_from_variant_builder()
+    {
+        CssValue<RoundedBuilder> value = Rounded.Full.After;
+
+        Assert.Equal("after:rounded-full", value.ToString());
+    }
+
+    [Fact]
     public void JustifyBuilder_builds_responsive_tailwind_classes()
     {
         string result = Justify.Start.OnMd.Between.ToClass();

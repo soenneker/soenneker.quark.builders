@@ -9,7 +9,7 @@ namespace Soenneker.Quark;
 /// CSS isolation builder. Tailwind: isolation-auto, isolation-isolate.
 /// </summary>
 [TailwindPrefix("isolation-", Responsive = true)]
-public sealed class IsolationBuilder : ICssBuilder
+public sealed class IsolationBuilder : CssBuilderBase
 {
     private readonly List<IsolationRule> _rules = new(4);
     private BreakpointType? _pendingBreakpoint;
@@ -89,7 +89,7 @@ public sealed class IsolationBuilder : ICssBuilder
         return breakpoint;
     }
 
-    public string ToClass()
+    public override string ToClass()
     {
         if (_rules.Count == 0) return string.Empty;
         using var sb = new PooledStringBuilder();
@@ -109,7 +109,7 @@ public sealed class IsolationBuilder : ICssBuilder
         return sb.ToString();
     }
 
-    public string ToStyle() => string.Empty;
+    public override string ToStyle() => string.Empty;
 
     public override string ToString() => ToClass();
 }

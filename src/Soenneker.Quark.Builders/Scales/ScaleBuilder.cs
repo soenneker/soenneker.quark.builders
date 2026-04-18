@@ -7,7 +7,7 @@ namespace Soenneker.Quark;
 /// <summary>
 /// Scale builder with fluent API for chaining scale rules.
 /// </summary>
-public sealed class ScaleBuilder : ICssBuilder
+public sealed class ScaleBuilder : CssBuilderBase
 {
     private readonly List<ScaleRule> _rules = new(4);
 
@@ -43,7 +43,7 @@ public sealed class ScaleBuilder : ICssBuilder
     /// Gets the CSS class string for the current configuration.
     /// </summary>
     /// <returns>The CSS class string.</returns>
-    public string ToClass()
+    public override string ToClass()
     {
         if (_rules.Count == 0)
             return string.Empty;
@@ -67,7 +67,7 @@ public sealed class ScaleBuilder : ICssBuilder
         return sb.ToString();
     }
 
-    public string ToStyle() => string.Empty;
+    public override string ToStyle() => string.Empty;
 
     /// <summary>
     /// Returns the CSS class string representation of this scale builder.

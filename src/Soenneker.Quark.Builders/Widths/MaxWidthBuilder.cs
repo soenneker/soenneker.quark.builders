@@ -6,7 +6,7 @@ namespace Soenneker.Quark;
 /// Max-width builder with fluent API. Tailwind-first (max-w-*).
 /// </summary>
 [TailwindPrefix("max-w-", Responsive = true)]
-public sealed class MaxWidthBuilder : ICssBuilder
+public sealed class MaxWidthBuilder : CssBuilderBase
 {
     private readonly string _token;
 
@@ -15,13 +15,13 @@ public sealed class MaxWidthBuilder : ICssBuilder
         _token = token;
     }
 
-    public string ToClass()
+    public override string ToClass()
     {
         string cls = GetMaxWidthClass(_token);
         return cls.Length == 0 ? string.Empty : cls;
     }
 
-    public string ToStyle() => string.Empty;
+    public override string ToStyle() => string.Empty;
 
     private static string GetMaxWidthClass(string token)
     {

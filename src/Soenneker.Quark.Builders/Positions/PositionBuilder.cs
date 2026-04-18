@@ -10,7 +10,7 @@ namespace Soenneker.Quark;
 /// High-performance position builder with fluent API for chaining position rules.
 /// </summary>
 [TailwindPrefix("", Responsive = true)]
-public sealed class PositionBuilder : ICssBuilder
+public sealed class PositionBuilder : CssBuilderBase
 {
     private readonly List<PositionRule> _rules = new(4);
     private BreakpointType? _pendingBreakpoint;
@@ -73,7 +73,7 @@ public sealed class PositionBuilder : ICssBuilder
     }
 
     /// <summary>Gets the CSS class string for the current configuration.</summary>
-    public string ToClass()
+    public override string ToClass()
     {
         if (_rules.Count == 0)
             return string.Empty;
@@ -105,7 +105,7 @@ public sealed class PositionBuilder : ICssBuilder
     }
 
     /// <summary>Gets the CSS style string for the current configuration.</summary>
-    public string ToStyle() => string.Empty;
+    public override string ToStyle() => string.Empty;
 
     public override string ToString() => ToClass();
 }

@@ -9,7 +9,7 @@ namespace Soenneker.Quark;
 /// Inset (top/right/bottom/left) builder with fluent API. Tailwind: inset-*, top-*, right-*, bottom-*, left-*, start-*, end-*.
 /// </summary>
 [TailwindPrefix("inset-", Responsive = true)]
-public sealed class InsetBuilder : ICssBuilder
+public sealed class InsetBuilder : CssBuilderBase
 {
     private readonly List<InsetRule> _rules = new(4);
     private BreakpointType? _pendingBreakpoint;
@@ -152,7 +152,7 @@ public sealed class InsetBuilder : ICssBuilder
         return breakpoint;
     }
 
-    public string ToClass()
+    public override string ToClass()
     {
         if (_rules.Count == 0) return string.Empty;
         using var sb = new PooledStringBuilder();
@@ -174,7 +174,7 @@ public sealed class InsetBuilder : ICssBuilder
         return sb.ToString();
     }
 
-    public string ToStyle() => string.Empty;
+    public override string ToStyle() => string.Empty;
 
     public override string ToString() => ToClass();
 

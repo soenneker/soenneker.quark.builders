@@ -10,7 +10,7 @@ namespace Soenneker.Quark;
 /// Responsive builder for shadcn-style button size utility groups.
 /// </summary>
 [TailwindPrefix("", Responsive = true)]
-public sealed class ButtonSizeBuilder : ICssBuilder
+public sealed class ButtonSizeBuilder : CssBuilderBase
 {
     private readonly List<ButtonSizeRule> _rules = new(4);
     private BreakpointType? _pendingBreakpoint;
@@ -63,7 +63,7 @@ public sealed class ButtonSizeBuilder : ICssBuilder
         return this;
     }
 
-    public string ToClass()
+    public override string ToClass()
     {
         if (_rules.Count == 0)
             return string.Empty;
@@ -95,7 +95,7 @@ public sealed class ButtonSizeBuilder : ICssBuilder
         return sb.ToString();
     }
 
-    public string ToStyle() => string.Empty;
+    public override string ToStyle() => string.Empty;
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static string ApplyBreakpointToClassGroup(string classGroup, string breakpoint)

@@ -8,7 +8,7 @@ namespace Soenneker.Quark;
 /// Scroll snap type builder. Tailwind: snap-none, snap-x, snap-y, snap-both, snap-mandatory, snap-proximity.
 /// </summary>
 [TailwindPrefix("snap-", Responsive = true)]
-public sealed class ScrollSnapBuilder : ICssBuilder
+public sealed class ScrollSnapBuilder : CssBuilderBase
 {
     private readonly List<ScrollSnapRule> _rules = new(4);
     private BreakpointType? _pendingBreakpoint;
@@ -59,7 +59,7 @@ public sealed class ScrollSnapBuilder : ICssBuilder
         return breakpoint;
     }
 
-    public string ToClass()
+    public override string ToClass()
     {
         if (_rules.Count == 0)
             return string.Empty;
@@ -85,7 +85,7 @@ public sealed class ScrollSnapBuilder : ICssBuilder
         return sb.ToString();
     }
 
-    public string ToStyle() => string.Empty;
+    public override string ToStyle() => string.Empty;
 
     public override string ToString() => ToClass();
 }

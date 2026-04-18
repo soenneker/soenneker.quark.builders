@@ -9,7 +9,7 @@ namespace Soenneker.Quark;
 /// High-performance text transform builder with fluent API for chaining text transform rules.
 /// </summary>
 [TailwindPrefix("uppercase", Responsive = true)]
-public sealed class TextTransformBuilder : ICssBuilder
+public sealed class TextTransformBuilder : CssBuilderBase
 {
     private readonly List<TextTransformRule> _rules = new(4);
     private BreakpointType? _pendingBreakpoint;
@@ -88,7 +88,7 @@ public sealed class TextTransformBuilder : ICssBuilder
     /// Gets the CSS class string for the current configuration.
     /// </summary>
     /// <returns>The CSS class string.</returns>
-    public string ToClass()
+    public override string ToClass()
     {
         if (_rules.Count == 0) return string.Empty;
 
@@ -117,7 +117,7 @@ public sealed class TextTransformBuilder : ICssBuilder
     /// Gets the CSS style string for the current configuration.
     /// </summary>
     /// <returns>The CSS style string.</returns>
-    public string ToStyle() => string.Empty;
+    public override string ToStyle() => string.Empty;
 
     public override string ToString() => ToClass();
 }

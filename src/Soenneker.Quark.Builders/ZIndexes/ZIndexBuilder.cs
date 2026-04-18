@@ -10,7 +10,7 @@ namespace Soenneker.Quark;
 /// Simplified z-index builder with fluent API for chaining z-index rules.
 /// </summary>
 [TailwindPrefix("z-", Responsive = true)]
-public sealed class ZIndexBuilder : ICssBuilder
+public sealed class ZIndexBuilder : CssBuilderBase
 {
     private readonly List<ZIndexRule> _rules = new(4);
     private BreakpointType? _pendingBreakpoint;
@@ -101,7 +101,7 @@ public sealed class ZIndexBuilder : ICssBuilder
     /// Gets the CSS class string for the current configuration.
     /// </summary>
     /// <returns>The CSS class string.</returns>
-    public string ToClass()
+    public override string ToClass()
     {
         if (_rules.Count == 0) return string.Empty;
 
@@ -130,7 +130,7 @@ public sealed class ZIndexBuilder : ICssBuilder
     /// Gets the CSS style string for the current configuration.
     /// </summary>
     /// <returns>The CSS style string.</returns>
-    public string ToStyle() => string.Empty;
+    public override string ToStyle() => string.Empty;
 
     public override string ToString() => ToClass();
 }

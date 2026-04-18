@@ -9,7 +9,7 @@ namespace Soenneker.Quark;
 /// High-performance box shadow builder with fluent API for chaining box shadow rules.
 /// </summary>
 [TailwindPrefix("shadow-", Responsive = true)]
-public sealed class BoxShadowBuilder : ICssBuilder
+public sealed class BoxShadowBuilder : CssBuilderBase
 {
     private readonly List<BoxShadowRule> _rules = new(4);
     private BreakpointType? _pendingBreakpoint;
@@ -120,7 +120,7 @@ public sealed class BoxShadowBuilder : ICssBuilder
     /// Gets the CSS class string for the current configuration.
     /// </summary>
     /// <returns>The CSS class string.</returns>
-    public string ToClass()
+    public override string ToClass()
     {
         if (_rules.Count == 0)
             return string.Empty;
@@ -156,5 +156,5 @@ public sealed class BoxShadowBuilder : ICssBuilder
     /// Shadow utilities are class-first; no inline style mapping.
     /// </summary>
     /// <returns>An empty string as shadow utilities are class-first.</returns>
-    public string ToStyle() => string.Empty;
+    public override string ToStyle() => string.Empty;
 }

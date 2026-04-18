@@ -9,7 +9,7 @@ namespace Soenneker.Quark;
 /// Simplified margin builder with fluent API for chaining margin rules.
 /// </summary>
 [TailwindPrefix("m-", Responsive = true)]
-public sealed class MarginBuilder : ICssBuilder
+public sealed class MarginBuilder : CssBuilderBase
 {
     private readonly List<MarginRule> _rules = new(4);
     private BreakpointType? _pendingBreakpoint;
@@ -184,7 +184,7 @@ public sealed class MarginBuilder : ICssBuilder
     }
 
     /// <summary>Gets the CSS class string for the current configuration.</summary>
-    public string ToClass()
+    public override string ToClass()
     {
         if (_rules.Count == 0)
             return string.Empty;
@@ -219,7 +219,7 @@ public sealed class MarginBuilder : ICssBuilder
     }
 
     /// <summary>Gets the CSS style string for the current configuration.</summary>
-    public string ToStyle() => string.Empty;
+    public override string ToStyle() => string.Empty;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static string GetSizeToken(string size)

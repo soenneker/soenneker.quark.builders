@@ -9,7 +9,7 @@ namespace Soenneker.Quark;
 /// Scroll margin builder. Tailwind: scroll-m-*, scroll-mt-*, scroll-mr-*, etc.
 /// </summary>
 [TailwindPrefix("scroll-m", Responsive = true)]
-public sealed class ScrollMarginBuilder : ICssBuilder
+public sealed class ScrollMarginBuilder : CssBuilderBase
 {
     private readonly List<ScrollMarginRule> _rules = new(4);
     private BreakpointType? _pendingBreakpoint;
@@ -156,7 +156,7 @@ public sealed class ScrollMarginBuilder : ICssBuilder
         return this;
     }
 
-    public string ToClass()
+    public override string ToClass()
     {
         if (_rules.Count == 0) return string.Empty;
         using var sb = new PooledStringBuilder();
@@ -177,7 +177,7 @@ public sealed class ScrollMarginBuilder : ICssBuilder
         return sb.ToString();
     }
 
-    public string ToStyle() => string.Empty;
+    public override string ToStyle() => string.Empty;
 
     public override string ToString() => ToClass();
 
