@@ -1,4 +1,4 @@
-using Soenneker.Quark.Attributes;
+
 using Soenneker.Utils.PooledStringBuilders;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
@@ -19,6 +19,11 @@ public sealed class WhitespaceBuilder : ICssBuilder
         _rules.Add(new WhitespaceRule(value, breakpoint));
     }
 
+    internal WhitespaceBuilder(WhitespaceEnum value, BreakpointType? breakpoint = null)
+    {
+        _rules.Add(new WhitespaceRule(value.Value, breakpoint));
+    }
+
     internal WhitespaceBuilder(List<WhitespaceRule> rules)
     {
         if (rules is { Count: > 0 })
@@ -28,32 +33,32 @@ public sealed class WhitespaceBuilder : ICssBuilder
     /// <summary>
     /// Sets the whitespace to normal.
     /// </summary>
-    public WhitespaceBuilder Normal => Chain("normal");
+    public WhitespaceBuilder Normal => Chain(WhitespaceEnum.Normal);
 
     /// <summary>
     /// Sets the whitespace to nowrap.
     /// </summary>
-    public WhitespaceBuilder Nowrap => Chain("nowrap");
+    public WhitespaceBuilder Nowrap => Chain(WhitespaceEnum.Nowrap);
 
     /// <summary>
     /// Sets the whitespace to pre.
     /// </summary>
-    public WhitespaceBuilder Pre => Chain("pre");
+    public WhitespaceBuilder Pre => Chain(WhitespaceEnum.Pre);
 
     /// <summary>
     /// Sets the whitespace to pre-line.
     /// </summary>
-    public WhitespaceBuilder PreLine => Chain("pre-line");
+    public WhitespaceBuilder PreLine => Chain(WhitespaceEnum.PreLine);
 
     /// <summary>
     /// Sets the whitespace to pre-wrap.
     /// </summary>
-    public WhitespaceBuilder PreWrap => Chain("pre-wrap");
+    public WhitespaceBuilder PreWrap => Chain(WhitespaceEnum.PreWrap);
 
     /// <summary>
     /// Sets the whitespace to break-spaces.
     /// </summary>
-    public WhitespaceBuilder BreakSpaces => Chain("break-spaces");
+    public WhitespaceBuilder BreakSpaces => Chain(WhitespaceEnum.BreakSpaces);
 
     /// <summary>
     /// Scopes the next utility to the default (unprefixed) breakpoint. In Tailwind’s mobile‑first model, unprefixed utilities apply from 0px unless a larger breakpoint overrides them.
@@ -83,9 +88,18 @@ public sealed class WhitespaceBuilder : ICssBuilder
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private WhitespaceBuilder Chain(string value)
     {
-        var bp = _pendingBreakpoint;
+        BreakpointType? bp = _pendingBreakpoint;
         _pendingBreakpoint = null;
         _rules.Add(new WhitespaceRule(value, bp));
+        return this;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private WhitespaceBuilder Chain(WhitespaceEnum value)
+    {
+        BreakpointType? bp = _pendingBreakpoint;
+        _pendingBreakpoint = null;
+        _rules.Add(new WhitespaceRule(value.Value, bp));
         return this;
     }
 
@@ -106,13 +120,13 @@ public sealed class WhitespaceBuilder : ICssBuilder
 
         for (var i = 0; i < _rules.Count; i++)
         {
-            var rule = _rules[i];
-            var cls = GetClass(rule.Value);
+            WhitespaceRule rule = _rules[i];
+            string cls = rule.Value;
 
             if (cls.Length == 0)
                 continue;
 
-            var bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
+            string bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
             if (bp.Length != 0)
                 cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, bp);
 
@@ -127,60 +141,5 @@ public sealed class WhitespaceBuilder : ICssBuilder
         return sb.ToString();
     }
 
-    public string ToStyle()
-    {
-        if (_rules.Count == 0)
-            return string.Empty;
-
-        using var sb = new PooledStringBuilder();
-        var first = true;
-
-        for (var i = 0; i < _rules.Count; i++)
-        {
-            var css = GetStyleValue(_rules[i].Value);
-
-            if (css is null)
-                continue;
-
-            if (!first)
-                sb.Append("; ");
-            else
-                first = false;
-
-            sb.Append("white-space: ");
-            sb.Append(css);
-        }
-
-        return sb.ToString();
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static string GetClass(string value)
-    {
-        return value switch
-        {
-            "normal" => "whitespace-normal",
-            "nowrap" => "whitespace-nowrap",
-            "pre" => "whitespace-pre",
-            "pre-line" => "whitespace-pre-line",
-            "pre-wrap" => "whitespace-pre-wrap",
-            "break-spaces" => "whitespace-break-spaces",
-            _ => string.Empty
-        };
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static string? GetStyleValue(string value)
-    {
-        return value switch
-        {
-            "normal" => "normal",
-            "nowrap" => "nowrap",
-            "pre" => "pre",
-            "pre-line" => "pre-line",
-            "pre-wrap" => "pre-wrap",
-            "break-spaces" => "break-spaces",
-            _ => null
-        };
-    }
+    public string ToStyle() => string.Empty;
 }

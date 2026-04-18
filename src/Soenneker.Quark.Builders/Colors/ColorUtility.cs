@@ -30,12 +30,12 @@ internal static partial class ColorUtility
         if (semanticTokens.Contains(token))
             return true;
 
-        var slashIndex = token.IndexOf('/');
+        int slashIndex = token.IndexOf('/');
 
         if (slashIndex > 0)
         {
-            var baseToken = token[..slashIndex];
-            var modifier = token[(slashIndex + 1)..];
+            string baseToken = token[..slashIndex];
+            string modifier = token[(slashIndex + 1)..];
 
             if ((semanticTokens.Contains(baseToken) || IsPaletteToken(baseToken) || KeywordTokens.Contains(baseToken)) && IsOpacityModifier(modifier))
                 return true;

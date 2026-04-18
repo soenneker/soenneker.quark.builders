@@ -1,4 +1,4 @@
-using Soenneker.Quark.Attributes;
+
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Soenneker.Utils.PooledStringBuilders;
@@ -72,7 +72,7 @@ public sealed class BorderColorBuilder : ICssBuilder
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private BorderColorBuilder ChainValue(string value, bool isUtility = false)
     {
-        var bp = _pendingBreakpoint;
+        BreakpointType? bp = _pendingBreakpoint;
         _pendingBreakpoint = null;
         _rules.Add(new ColorRule(value, bp, isUtility));
         return this;
@@ -95,12 +95,12 @@ public sealed class BorderColorBuilder : ICssBuilder
 
         for (var i = 0; i < _rules.Count; i++)
         {
-            var rule = _rules[i];
-            var cls = ColorUtility.GetClass(Prefix, rule, SemanticTokens);
+            ColorRule rule = _rules[i];
+            string cls = ColorUtility.GetClass(Prefix, rule, SemanticTokens);
             if (cls.Length == 0)
                 continue;
 
-            var bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
+            string bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
             if (bp.Length != 0)
                 cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, bp);
 

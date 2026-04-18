@@ -1,4 +1,4 @@
-using Soenneker.Quark.Attributes;
+
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Soenneker.Utils.PooledStringBuilders;
@@ -70,7 +70,7 @@ public sealed class StrokeLineCapBuilder : ICssBuilder
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private StrokeLineCapBuilder Chain(string value)
     {
-        var breakpoint = _pendingBreakpoint;
+        BreakpointType? breakpoint = _pendingBreakpoint;
         _pendingBreakpoint = null;
         _rules.Add(new StrokeLineCapRule(value, breakpoint));
         return this;
@@ -88,9 +88,9 @@ public sealed class StrokeLineCapBuilder : ICssBuilder
         if (_rules.Count == 0) return string.Empty;
         using var sb = new PooledStringBuilder();
         var first = true;
-        foreach (var rule in _rules)
+        foreach (StrokeLineCapRule rule in _rules)
         {
-            var cls = rule.Value switch
+            string cls = rule.Value switch
             {
                 "auto" => "stroke-cap-auto",
                 "round" => "stroke-cap-round",
@@ -99,7 +99,7 @@ public sealed class StrokeLineCapBuilder : ICssBuilder
                 _ => string.Empty
             };
             if (cls.Length == 0) continue;
-            var b = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
+            string b = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
             if (b.Length != 0) cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, b);
             if (!first) sb.Append(' ');
             else first = false;

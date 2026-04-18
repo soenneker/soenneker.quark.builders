@@ -1,4 +1,4 @@
-using Soenneker.Quark.Attributes;
+
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Soenneker.Utils.PooledStringBuilders;
@@ -14,6 +14,11 @@ public sealed class StartBuilder : ICssBuilder
     private readonly List<StartRule> _rules = new(4);
     private BreakpointType? _pendingBreakpoint;
 
+    internal StartBuilder(ScaleType scale, BreakpointType? breakpoint = null)
+    {
+        _rules.Add(new StartRule(scale.Value, breakpoint));
+    }
+
     internal StartBuilder(string value, BreakpointType? breakpoint = null)
     {
         _rules.Add(new StartRule(value, breakpoint));
@@ -28,27 +33,27 @@ public sealed class StartBuilder : ICssBuilder
     /// <summary>
     /// Spacing/sizing scale step `0` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 0` for integer spacing utilities unless overridden).
     /// </summary>
-    public StartBuilder Is0 => Chain(ScaleType.Is0Value);
+    public StartBuilder Is0 => Chain(ScaleType.Is0);
     /// <summary>
     /// Spacing/sizing scale step `1` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 1` for integer spacing utilities unless overridden).
     /// </summary>
-    public StartBuilder Is1 => Chain(ScaleType.Is1Value);
+    public StartBuilder Is1 => Chain(ScaleType.Is1);
     /// <summary>
     /// Spacing/sizing scale step `2` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 2` for integer spacing utilities unless overridden).
     /// </summary>
-    public StartBuilder Is2 => Chain(ScaleType.Is2Value);
+    public StartBuilder Is2 => Chain(ScaleType.Is2);
     /// <summary>
     /// Spacing/sizing scale step `3` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 3` for integer spacing utilities unless overridden).
     /// </summary>
-    public StartBuilder Is3 => Chain(ScaleType.Is3Value);
+    public StartBuilder Is3 => Chain(ScaleType.Is3);
     /// <summary>
     /// Spacing/sizing scale step `4` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 4` for integer spacing utilities unless overridden).
     /// </summary>
-    public StartBuilder Is4 => Chain(ScaleType.Is4Value);
+    public StartBuilder Is4 => Chain(ScaleType.Is4);
     /// <summary>
     /// Spacing/sizing scale step `5` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 5` for integer spacing utilities unless overridden).
     /// </summary>
-    public StartBuilder Is5 => Chain(ScaleType.Is5Value);
+    public StartBuilder Is5 => Chain(ScaleType.Is5);
     /// <summary>
     /// `auto` — browser-default sizing/behavior for the underlying utility.
     /// </summary>
@@ -84,9 +89,15 @@ public sealed class StartBuilder : ICssBuilder
     public StartBuilder On2xl => ChainBp(BreakpointType.Xxl);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private StartBuilder Chain(ScaleType scale)
+    {
+        return Chain(scale.Value);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private StartBuilder Chain(string value)
     {
-        var breakpoint = _pendingBreakpoint;
+        BreakpointType? breakpoint = _pendingBreakpoint;
         _pendingBreakpoint = null;
         _rules.Add(new StartRule(value, breakpoint));
         return this;
@@ -104,11 +115,18 @@ public sealed class StartBuilder : ICssBuilder
         if (_rules.Count == 0) return string.Empty;
         using var sb = new PooledStringBuilder();
         var first = true;
-        foreach (var rule in _rules)
+        foreach (StartRule rule in _rules)
         {
-            var cls = GetClass(rule.Value);
+            string cls = rule.Value switch
+            {
+                "auto" => "start-auto",
+                "px" => "start-px",
+                _ when !string.IsNullOrWhiteSpace(rule.Value) => $"start-{rule.Value}",
+                _ => string.Empty
+            };
+
             if (cls.Length == 0) continue;
-            var b = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
+            string b = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
             if (b.Length != 0) cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, b);
             if (!first) sb.Append(' ');
             else first = false;
@@ -120,18 +138,4 @@ public sealed class StartBuilder : ICssBuilder
     public string ToStyle() => string.Empty;
 
     public override string ToString() => ToClass();
-
-    private static string GetClass(string v) => v switch
-    {
-        ScaleType.Is0Value => "start-0",
-        ScaleType.Is1Value => "start-1",
-        ScaleType.Is2Value => "start-2",
-        ScaleType.Is3Value => "start-3",
-        ScaleType.Is4Value => "start-4",
-        ScaleType.Is5Value => "start-5",
-        "auto" => "start-auto",
-        "px" => "start-px",
-        _ => string.Empty
-    };
-
 }

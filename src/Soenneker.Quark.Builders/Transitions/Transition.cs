@@ -1,4 +1,3 @@
-
 namespace Soenneker.Quark;
 
 /// <summary>
@@ -9,30 +8,30 @@ public static class Transition
     /// <summary>
     /// No transition (none).
     /// </summary>
-    public static TransitionBuilder None => new("none");
+    public static TransitionBuilder None => new(TransitionEnum.None);
 
     /// <summary>
     /// All properties transition (all).
     /// </summary>
-    public static TransitionBuilder All => new("all");
+    public static TransitionBuilder All => new(TransitionEnum.All);
 
     /// <summary>
     /// Colors transition (colors).
     /// </summary>
-    public static TransitionBuilder Colors => new("colors");
+    public static TransitionBuilder Colors => new(TransitionEnum.Colors);
 
     /// <summary>
     /// Opacity transition (opacity).
     /// </summary>
-    public static TransitionBuilder Opacity => new("opacity");
+    public static TransitionBuilder Opacity => new(TransitionEnum.Opacity);
 
     /// <summary>
     /// Shadow transition (shadow).
     /// </summary>
-    public static TransitionBuilder Shadow => new("shadow");
+    public static TransitionBuilder Shadow => new(TransitionEnum.Shadow);
 
     /// <summary>
     /// Transform transition (transform).
     /// </summary>
-    public static TransitionBuilder Transform => new("transform");
+    public static TransitionBuilder Transform => new(TransitionEnum.Transform);
 }

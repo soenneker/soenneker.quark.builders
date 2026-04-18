@@ -1,4 +1,4 @@
-using Soenneker.Quark.Attributes;
+
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
@@ -14,12 +14,14 @@ public sealed class ScreenReaderBuilder : ICssBuilder
 {
     private readonly List<ScreenReaderRule> _rules = new(4);
 
-    private const string _classSrOnly = "sr-only";
-    private const string _classSrOnlyFocusable = "sr-only-focusable";
-
     internal ScreenReaderBuilder(string type, BreakpointType? breakpoint = null)
     {
         _rules.Add(new ScreenReaderRule(type, breakpoint));
+    }
+
+    internal ScreenReaderBuilder(ScreenReaderEnum type, BreakpointType? breakpoint = null)
+    {
+        _rules.Add(new ScreenReaderRule(type.Value, breakpoint));
     }
 
     internal ScreenReaderBuilder(List<ScreenReaderRule> rules)
@@ -31,11 +33,7 @@ public sealed class ScreenReaderBuilder : ICssBuilder
     /// <summary>
     /// Sets the screen reader to only (sr-only).
     /// </summary>
-    public ScreenReaderBuilder Only => ChainWithType("only");
-    /// <summary>
-    /// Sets the screen reader to only-focusable (sr-only-focusable).
-    /// </summary>
-    public ScreenReaderBuilder OnlyFocusable => ChainWithType("only-focusable");
+    public ScreenReaderBuilder Only => ChainWithType(ScreenReaderEnum.Only);
 
     /// <summary>
     /// Applies the screen reader on phone breakpoint.
@@ -70,6 +68,13 @@ public sealed class ScreenReaderBuilder : ICssBuilder
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private ScreenReaderBuilder ChainWithType(ScreenReaderEnum type)
+    {
+        _rules.Add(new ScreenReaderRule(type.Value, null));
+        return this;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private ScreenReaderBuilder ChainWithBreakpoint(BreakpointType breakpoint)
     {
         if (_rules.Count == 0)
@@ -78,8 +83,8 @@ public sealed class ScreenReaderBuilder : ICssBuilder
             return this;
         }
 
-        var lastIdx = _rules.Count - 1;
-        var last = _rules[lastIdx];
+        int lastIdx = _rules.Count - 1;
+        ScreenReaderRule last = _rules[lastIdx];
         _rules[lastIdx] = new ScreenReaderRule(last.Type, breakpoint);
         return this;
     }
@@ -98,12 +103,12 @@ public sealed class ScreenReaderBuilder : ICssBuilder
 
         for (var i = 0; i < _rules.Count; i++)
         {
-            var rule = _rules[i];
-            var cls = GetScreenReaderClass(rule.Type);
+            ScreenReaderRule rule = _rules[i];
+            string cls = rule.Type;
             if (cls.Length == 0)
                 continue;
 
-            var bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
+            string bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
             if (bp.Length != 0)
                 cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, bp);
 
@@ -116,56 +121,7 @@ public sealed class ScreenReaderBuilder : ICssBuilder
         return sb.ToString();
     }
 
-    /// <summary>
-    /// Gets the CSS style string for the current configuration.
-    /// </summary>
-    /// <returns>The CSS style string.</returns>
-    public string ToStyle()
-    {
-        if (_rules.Count == 0)
-            return string.Empty;
-
-        using var sb = new PooledStringBuilder();
-        var first = true;
-
-        for (var i = 0; i < _rules.Count; i++)
-        {
-            var rule = _rules[i];
-            var styleValue = GetScreenReaderStyle(rule.Type);
-
-            if (styleValue is null)
-                continue;
-
-            if (!first) sb.Append("; ");
-            else first = false;
-
-            sb.Append(styleValue);
-        }
-
-        return sb.ToString();
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static string GetScreenReaderClass(string type)
-    {
-        return type switch
-        {
-            "only" => _classSrOnly,
-            "only-focusable" => _classSrOnlyFocusable,
-            _ => string.Empty
-        };
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static string? GetScreenReaderStyle(string type)
-    {
-        return type switch
-        {
-            "only" => "position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0",
-            "only-focusable" => "position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; &:focus { position: static; width: auto; height: auto; padding: inherit; margin: inherit; overflow: visible; clip: auto; white-space: normal; }",
-            _ => null
-        };
-    }
+    public string ToStyle() => string.Empty;
 
     /// <summary>
     /// Returns the CSS class string representation of this screen reader builder.

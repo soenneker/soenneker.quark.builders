@@ -1,4 +1,4 @@
-using Soenneker.Quark.Attributes;
+
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Soenneker.Utils.PooledStringBuilders;
@@ -79,7 +79,7 @@ public sealed class FontStyleBuilder : ICssBuilder
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private BreakpointType? ConsumePendingBreakpoint()
     {
-        var breakpoint = _pendingBreakpoint;
+        BreakpointType? breakpoint = _pendingBreakpoint;
         _pendingBreakpoint = null;
         return breakpoint;
     }
@@ -96,8 +96,8 @@ public sealed class FontStyleBuilder : ICssBuilder
         var first = true;
         for (var i = 0; i < _rules.Count; i++)
         {
-            var rule = _rules[i];
-            var cls = rule.Value switch
+            FontStyleRule rule = _rules[i];
+            string cls = rule.Value switch
             {
                 FontStyleKeyword.ItalicValue => _classItalic,
                 FontStyleKeyword.NormalValue => _classNormal,
@@ -106,7 +106,7 @@ public sealed class FontStyleBuilder : ICssBuilder
             if (cls.Length == 0)
                 continue;
 
-            var bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
+            string bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
             if (bp.Length != 0)
                 cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, bp);
 

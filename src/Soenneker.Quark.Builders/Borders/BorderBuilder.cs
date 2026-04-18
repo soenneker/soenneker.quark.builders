@@ -1,4 +1,4 @@
-using Soenneker.Quark.Attributes;
+
 using Soenneker.Extensions.String;
 
 using System.Collections.Generic;
@@ -19,14 +19,6 @@ public sealed class BorderBuilder : ICssBuilder
 
     // ----- Class tokens -----
     private const string _baseToken = "border";
-
-    // ----- Side tokens -----
-    private const string _sideT = "t";
-    private const string _sideE = "e";
-    private const string _sideB = "b";
-    private const string _sideS = "s";
-    private const string _sideX = "x";
-    private const string _sideY = "y";
 
     internal BorderBuilder(string size, BreakpointType? breakpoint = null)
     {
@@ -136,9 +128,9 @@ public sealed class BorderBuilder : ICssBuilder
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private BorderBuilder AddRule(ElementSideType side)
     {
-        var pending = ConsumePendingBreakpoint();
-        var size = _rules.Count > 0 ? _rules[^1].Size : "0";
-        var bp = pending ?? (_rules.Count > 0 ? _rules[^1].Breakpoint : null);
+        BreakpointType? pending = ConsumePendingBreakpoint();
+        string size = _rules.Count > 0 ? _rules[^1].Size : "0";
+        BreakpointType? bp = pending ?? (_rules.Count > 0 ? _rules[^1].Breakpoint : null);
 
         if (_rules.Count > 0 && _rules[^1].Side == ElementSideType.All)
         {
@@ -176,7 +168,7 @@ public sealed class BorderBuilder : ICssBuilder
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private BreakpointType? ConsumePendingBreakpoint()
     {
-        var breakpoint = _pendingBreakpoint;
+        BreakpointType? breakpoint = _pendingBreakpoint;
         _pendingBreakpoint = null;
         return breakpoint;
     }
@@ -192,15 +184,15 @@ public sealed class BorderBuilder : ICssBuilder
 
         for (var i = 0; i < _rules.Count; i++)
         {
-            var rule = _rules[i];
+            BorderRule rule = _rules[i];
 
-            var sizeTok = rule.Size;
+            string sizeTok = rule.Size;
 
             if (sizeTok.Length == 0)
                 continue;
 
-            var sideTok = GetSideToken(rule.Side);
-            var bpTok = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
+            string sideTok = rule.Side.Value;
+            string bpTok = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
 
             if (!first)
                 sb.Append(' ');
@@ -229,136 +221,6 @@ public sealed class BorderBuilder : ICssBuilder
     }
 
     /// <summary>Gets the CSS style string for the current configuration.</summary>
-    public string ToStyle()
-    {
-        if (_rules.Count == 0)
-            return string.Empty;
-
-        var sb = new PooledStringBuilder();
-        var first = true;
-
-        try
-        {
-            for (var i = 0; i < _rules.Count; i++)
-            {
-                var rule = _rules[i];
-                var sizeVal = GetSizeValue(rule.Size);
-
-                if (sizeVal is null)
-                    continue;
-
-                switch (rule.Side)
-                {
-                    case ElementSideType.AllValue:
-                        AppendStyle(ref first, ref sb, "border-width", sizeVal);
-                        break;
-
-                    case ElementSideType.TopValue:
-                        AppendStyle(ref first, ref sb, "border-top-width", sizeVal);
-                        break;
-
-                    case ElementSideType.RightValue:
-                        AppendStyle(ref first, ref sb, "border-right-width", sizeVal);
-                        break;
-
-                    case ElementSideType.BottomValue:
-                        AppendStyle(ref first, ref sb, "border-bottom-width", sizeVal);
-                        break;
-
-                    case ElementSideType.LeftValue:
-                        AppendStyle(ref first, ref sb, "border-left-width", sizeVal);
-                        break;
-
-                    case ElementSideType.HorizontalValue:
-                    case ElementSideType.LeftRightValue:
-                        AppendStyle(ref first, ref sb, "border-left-width", sizeVal);
-                        AppendStyle(ref first, ref sb, "border-right-width", sizeVal);
-                        break;
-
-                    case ElementSideType.VerticalValue:
-                    case ElementSideType.TopBottomValue:
-                        AppendStyle(ref first, ref sb, "border-top-width", sizeVal);
-                        AppendStyle(ref first, ref sb, "border-bottom-width", sizeVal);
-                        break;
-
-                    case ElementSideType.InlineStartValue:
-                        AppendStyle(ref first, ref sb, "border-inline-start-width", sizeVal);
-                        break;
-
-                    case ElementSideType.InlineEndValue:
-                        AppendStyle(ref first, ref sb, "border-inline-end-width", sizeVal);
-                        break;
-
-                    default:
-                        AppendStyle(ref first, ref sb, "border-width", sizeVal);
-                        break;
-                }
-            }
-
-            return sb.ToString();
-        }
-        finally
-        {
-            sb.Dispose();
-        }
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static void AppendStyle(ref bool first, ref PooledStringBuilder sb, string prop, string val)
-    {
-        if (!first) 
-            sb.Append("; ");
-        else 
-            first = false;
-
-        sb.Append(prop);
-        sb.Append(": ");
-        sb.Append(val);
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static string GetSideToken(ElementSideType side)
-    {
-        switch (side)
-        {
-            case ElementSideType.AllValue:
-                return string.Empty;
-            case ElementSideType.TopValue:
-                return _sideT;
-            case ElementSideType.RightValue:
-                return _sideE;
-            case ElementSideType.BottomValue:
-                return _sideB;
-            case ElementSideType.LeftValue:
-                return _sideS;
-            case ElementSideType.HorizontalValue:
-            case ElementSideType.LeftRightValue:
-                return _sideX;
-            case ElementSideType.VerticalValue:
-            case ElementSideType.TopBottomValue:
-                return _sideY;
-            case ElementSideType.InlineStartValue:
-                return _sideS;
-            case ElementSideType.InlineEndValue:
-                return _sideE;
-            default:
-                return string.Empty;
-        }
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static string? GetSizeValue(string size)
-    {
-        return size switch
-        {
-            ScaleType.Is0Value => "0",
-            ScaleType.Is1Value => "1px",
-            ScaleType.Is2Value => "2px",
-            ScaleType.Is3Value => "3px",
-            ScaleType.Is4Value => "4px",
-            ScaleType.Is5Value => "5px",
-            _ => size
-        };
-    }
+    public string ToStyle() => string.Empty;
 
 }

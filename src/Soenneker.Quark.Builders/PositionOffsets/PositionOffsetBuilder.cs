@@ -1,4 +1,4 @@
-using Soenneker.Quark.Attributes;
+
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
@@ -138,7 +138,7 @@ public sealed class PositionOffsetBuilder : ICssBuilder
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private PositionOffsetBuilder Chain(string property, string value)
     {
-        var breakpoint = _pendingBreakpoint;
+        BreakpointType? breakpoint = _pendingBreakpoint;
         _pendingBreakpoint = null;
         _rules.Add(new PositionOffsetRule(property, value, breakpoint));
         return this;
@@ -164,12 +164,12 @@ public sealed class PositionOffsetBuilder : ICssBuilder
 
         for (var i = 0; i < _rules.Count; i++)
         {
-            var rule = _rules[i];
-            var cls = GetClass(rule.Property, rule.Value);
+            PositionOffsetRule rule = _rules[i];
+            string cls = GetClass(rule.Property, rule.Value);
             if (cls.Length == 0)
                 continue;
 
-            var bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
+            string bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
             if (bp.Length != 0)
                 cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, bp);
 
@@ -205,7 +205,7 @@ public sealed class PositionOffsetBuilder : ICssBuilder
             };
         }
 
-        var prefix = property switch
+        string prefix = property switch
         {
             "top" => "top",
             "bottom" => "bottom",

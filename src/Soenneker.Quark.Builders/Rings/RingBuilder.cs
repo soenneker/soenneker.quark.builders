@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
-using Soenneker.Quark.Attributes;
+
 using Soenneker.Utils.PooledStringBuilders;
 
 namespace Soenneker.Quark;
@@ -19,6 +19,11 @@ public sealed class RingBuilder : ICssBuilder
         _rules.Add(new RingRule(token, breakpoint));
     }
 
+    internal RingBuilder(RingEnum token, BreakpointType? breakpoint = null)
+    {
+        _rules.Add(new RingRule(token.Value, breakpoint));
+    }
+
     internal RingBuilder(List<RingRule> rules)
     {
         if (rules is { Count: > 0 })
@@ -28,31 +33,31 @@ public sealed class RingBuilder : ICssBuilder
     /// <summary>
     /// Default theme radius: `rounded` with no suffix — in Tailwind’s default config typically `0.25rem` (maps to shadcn `--radius` usage when you align tokens).
     /// </summary>
-    public RingBuilder Default => Chain("ring");
+    public RingBuilder Default => Chain(RingEnum.Default);
     /// <summary>
     /// Disables the effect (`none` token) or sets size to zero, depending on the utility.
     /// </summary>
-    public RingBuilder None => Chain("0");
+    public RingBuilder None => Chain(RingEnum.None);
     /// <summary>
     /// Fluent step for `One` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public RingBuilder One => Chain("1");
+    public RingBuilder One => Chain(RingEnum.One);
     /// <summary>
     /// Fluent step for `Two` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public RingBuilder Two => Chain("2");
+    public RingBuilder Two => Chain(RingEnum.Two);
     /// <summary>
     /// Fluent step for `Four` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public RingBuilder Four => Chain("4");
+    public RingBuilder Four => Chain(RingEnum.Four);
     /// <summary>
     /// Fluent step for `Eight` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public RingBuilder Eight => Chain("8");
+    public RingBuilder Eight => Chain(RingEnum.Eight);
     /// <summary>
     /// Fluent step for `Inset` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public RingBuilder Inset => Chain("inset");
+    public RingBuilder Inset => Chain(RingEnum.Inset);
 
     /// <summary>
     /// Scopes the next utility to the default (unprefixed) breakpoint. In Tailwind’s mobile‑first model, unprefixed utilities apply from 0px unless a larger breakpoint overrides them.
@@ -82,9 +87,18 @@ public sealed class RingBuilder : ICssBuilder
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private RingBuilder Chain(string token)
     {
-        var breakpoint = _pendingBreakpoint;
+        BreakpointType? breakpoint = _pendingBreakpoint;
         _pendingBreakpoint = null;
         _rules.Add(new RingRule(token, breakpoint));
+        return this;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private RingBuilder Chain(RingEnum token)
+    {
+        BreakpointType? breakpoint = _pendingBreakpoint;
+        _pendingBreakpoint = null;
+        _rules.Add(new RingRule(token.Value, breakpoint));
         return this;
     }
 
@@ -105,12 +119,12 @@ public sealed class RingBuilder : ICssBuilder
 
         for (var i = 0; i < _rules.Count; i++)
         {
-            var rule = _rules[i];
-            var cls = GetClass(rule.Token);
+            RingRule rule = _rules[i];
+            string cls = rule.Token;
             if (cls.Length == 0)
                 continue;
 
-            var breakpoint = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
+            string breakpoint = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
             if (breakpoint.Length != 0)
                 cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, breakpoint);
 
@@ -127,19 +141,4 @@ public sealed class RingBuilder : ICssBuilder
 
     public string ToStyle() => string.Empty;
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static string GetClass(string token)
-    {
-        return token switch
-        {
-            "ring" => "ring",
-            "0" => "ring-0",
-            "1" => "ring-1",
-            "2" => "ring-2",
-            "4" => "ring-4",
-            "8" => "ring-8",
-            "inset" => "ring-inset",
-            _ => string.Empty
-        };
-    }
 }

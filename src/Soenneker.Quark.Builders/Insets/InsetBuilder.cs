@@ -1,4 +1,4 @@
-using Soenneker.Quark.Attributes;
+
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Soenneker.Utils.PooledStringBuilders;
@@ -129,9 +129,9 @@ public sealed class InsetBuilder : ICssBuilder
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private InsetBuilder AddRule(ElementSideType side)
     {
-        var pending = ConsumePendingBreakpoint();
-        var size = _rules.Count > 0 ? _rules[^1].Size : ScaleType.Is0Value;
-        var bp = pending ?? (_rules.Count > 0 ? _rules[^1].Breakpoint : null);
+        BreakpointType? pending = ConsumePendingBreakpoint();
+        string size = _rules.Count > 0 ? _rules[^1].Size : ScaleType.Is0Value;
+        BreakpointType? bp = pending ?? (_rules.Count > 0 ? _rules[^1].Breakpoint : null);
         if (_rules.Count > 0 && _rules[^1].Side == ElementSideType.All)
             _rules[^1] = new InsetRule(size, side, bp);
         else
@@ -163,7 +163,7 @@ public sealed class InsetBuilder : ICssBuilder
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private BreakpointType? ConsumePendingBreakpoint()
     {
-        var breakpoint = _pendingBreakpoint;
+        BreakpointType? breakpoint = _pendingBreakpoint;
         _pendingBreakpoint = null;
         return breakpoint;
     }
@@ -175,13 +175,13 @@ public sealed class InsetBuilder : ICssBuilder
         var first = true;
         for (var i = 0; i < _rules.Count; i++)
         {
-            var rule = _rules[i];
-            var sizeTok = GetSizeToken(rule.Size);
+            InsetRule rule = _rules[i];
+            string sizeTok = GetSizeToken(rule.Size);
             if (sizeTok.Length == 0) continue;
-            var sidePrefix = GetInsetSidePrefix(rule.Side);
+            string sidePrefix = GetInsetSidePrefix(rule.Side);
             if (sidePrefix.Length == 0) continue;
-            var cls = sidePrefix + "-" + sizeTok;
-            var bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
+            string cls = sidePrefix + "-" + sizeTok;
+            string bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
             if (bp.Length != 0) cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, bp);
             if (!first) sb.Append(' ');
             else first = false;
@@ -197,10 +197,10 @@ public sealed class InsetBuilder : ICssBuilder
         var first = true;
         for (var i = 0; i < _rules.Count; i++)
         {
-            var rule = _rules[i];
-            var sizeVal = GetSizeValue(rule.Size);
+            InsetRule rule = _rules[i];
+            string? sizeVal = GetSizeValue(rule.Size);
             if (sizeVal is null) continue;
-            var (prop, val) = GetInsetStyle(rule.Side, sizeVal);
+            (string? prop, string? val) = GetInsetStyle(rule.Side, sizeVal);
             if (prop is null) continue;
             if (!first) sb.Append("; ");
             else first = false;

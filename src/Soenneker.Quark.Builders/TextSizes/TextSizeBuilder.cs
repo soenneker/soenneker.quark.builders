@@ -1,4 +1,4 @@
-using Soenneker.Quark.Attributes;
+
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Soenneker.Utils.PooledStringBuilders;
@@ -93,7 +93,7 @@ public sealed class TextSizeBuilder : ICssBuilder
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private TextSizeBuilder ChainSize(string size)
     {
-        var bp = _pendingBreakpoint;
+        BreakpointType? bp = _pendingBreakpoint;
         _pendingBreakpoint = null;
         _rules.Add(new TextSizeRule(size, bp));
         return this;
@@ -117,13 +117,13 @@ public sealed class TextSizeBuilder : ICssBuilder
 
         for (var i = 0; i < _rules.Count; i++)
         {
-            var rule = _rules[i];
+            TextSizeRule rule = _rules[i];
 
-            var sizeClass = GetSizeClass(rule.Size);
+            string sizeClass = GetSizeClass(rule.Size);
             if (sizeClass.Length == 0)
                 continue;
 
-            var bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
+            string bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
             if (bp.Length != 0)
                 sizeClass = BreakpointUtil.ApplyTailwindBreakpoint(sizeClass, bp);
 

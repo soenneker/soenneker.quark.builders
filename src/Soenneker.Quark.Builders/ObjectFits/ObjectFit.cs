@@ -8,25 +8,25 @@ public static class ObjectFit
     /// <summary>
     /// object-fit: contain.
     /// </summary>
-    public static ObjectFitBuilder Contain => new(ObjectFitKeyword.ContainValue);
+    public static ObjectFitBuilder Contain => new(ObjectFitEnum.Contain);
 
     /// <summary>
     /// object-fit: cover.
     /// </summary>
-    public static ObjectFitBuilder Cover => new(ObjectFitKeyword.CoverValue);
+    public static ObjectFitBuilder Cover => new(ObjectFitEnum.Cover);
 
     /// <summary>
     /// object-fit: fill.
     /// </summary>
-    public static ObjectFitBuilder Fill => new(ObjectFitKeyword.FillValue);
+    public static ObjectFitBuilder Fill => new(ObjectFitEnum.Fill);
 
     /// <summary>
     /// object-fit: scale-down.
     /// </summary>
-    public static ObjectFitBuilder ScaleDown => new(ObjectFitKeyword.ScaleDownValue);
+    public static ObjectFitBuilder ScaleDown => new(ObjectFitEnum.ScaleDown);
 
     /// <summary>
     /// object-fit: none.
     /// </summary>
-    public static ObjectFitBuilder None => new(ObjectFitKeyword.NoneValue);
+    public static ObjectFitBuilder None => new(ObjectFitEnum.None);
 }

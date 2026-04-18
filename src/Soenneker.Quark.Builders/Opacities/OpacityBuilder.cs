@@ -1,4 +1,4 @@
-using Soenneker.Quark.Attributes;
+
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Soenneker.Utils.PooledStringBuilders;
@@ -97,7 +97,7 @@ public sealed class OpacityBuilder : ICssBuilder
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private BreakpointType? ConsumePendingBreakpoint()
     {
-        var breakpoint = _pendingBreakpoint;
+        BreakpointType? breakpoint = _pendingBreakpoint;
         _pendingBreakpoint = null;
         return breakpoint;
     }
@@ -114,12 +114,12 @@ public sealed class OpacityBuilder : ICssBuilder
         var first = true;
         for (var i = 0; i < _rules.Count; i++)
         {
-            var rule = _rules[i];
-            var cls = GetClass(rule.Value);
+            OpacityRule rule = _rules[i];
+            string cls = GetClass(rule.Value);
             if (cls.Length == 0)
                 continue;
 
-            var bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
+            string bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
             if (bp.Length != 0)
                 cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, bp);
 
@@ -131,30 +131,7 @@ public sealed class OpacityBuilder : ICssBuilder
         return sb.ToString();
     }
 
-    /// <summary>
-    /// Gets the CSS style string for the current configuration.
-    /// </summary>
-    /// <returns>The CSS style string.</returns>
-    public string ToStyle()
-    {
-        if (_rules.Count == 0) return string.Empty;
-
-        using var sb = new PooledStringBuilder();
-        var first = true;
-        for (var i = 0; i < _rules.Count; i++)
-        {
-            var rule = _rules[i];
-            var css = GetStyle(rule.Value);
-            if (css is null)
-                continue;
-
-            if (!first) sb.Append("; ");
-            else first = false;
-
-            sb.Append(css);
-        }
-        return sb.ToString();
-    }
+    public string ToStyle() => string.Empty;
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static string GetClass(int value)
@@ -170,17 +147,4 @@ public sealed class OpacityBuilder : ICssBuilder
         };
     }
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static string? GetStyle(int value)
-    {
-        return value switch
-        {
-            0 => "opacity: 0",
-            25 => "opacity: 0.25",
-            50 => "opacity: 0.5",
-            75 => "opacity: 0.75",
-            100 => "opacity: 1",
-            _ => $"opacity: {value}"
-        };
-    }
 }

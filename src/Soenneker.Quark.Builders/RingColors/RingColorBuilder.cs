@@ -1,4 +1,4 @@
-using Soenneker.Quark.Attributes;
+
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Soenneker.Extensions.String;
@@ -152,7 +152,7 @@ public sealed class RingColorBuilder : ICssBuilder
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private RingColorBuilder ChainValue(string value)
     {
-        var breakpoint = _pendingBreakpoint;
+        BreakpointType? breakpoint = _pendingBreakpoint;
         _pendingBreakpoint = null;
         _rules.Add(new RingColorRule(value, breakpoint));
         return this;
@@ -175,12 +175,12 @@ public sealed class RingColorBuilder : ICssBuilder
 
         for (var i = 0; i < _rules.Count; i++)
         {
-            var rule = _rules[i];
-            var cls = GetClass(rule);
+            RingColorRule rule = _rules[i];
+            string cls = GetClass(rule);
             if (cls.Length == 0)
                 continue;
 
-            var breakpoint = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
+            string breakpoint = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
             if (breakpoint.Length != 0)
                 cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, breakpoint);
 
@@ -195,42 +195,11 @@ public sealed class RingColorBuilder : ICssBuilder
         return sb.ToString();
     }
 
-    public string ToStyle()
-    {
-        if (_rules.Count == 0)
-            return string.Empty;
-
-        using var sb = new PooledStringBuilder();
-        var first = true;
-
-        for (var i = 0; i < _rules.Count; i++)
-        {
-            var rule = _rules[i];
-            var css = GetStyle(rule);
-            if (css is null)
-                continue;
-
-            if (!first)
-                sb.Append("; ");
-            else
-                first = false;
-
-            sb.Append(css);
-        }
-
-        return sb.ToString();
-    }
+    public string ToStyle() => string.Empty;
 
     public override string ToString()
     {
-        if (_rules.Count == 0)
-            return string.Empty;
-
-        var classResult = ToClass();
-        if (classResult.HasContent())
-            return classResult;
-
-        return ToStyle();
+        return ToClass();
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -267,9 +236,4 @@ public sealed class RingColorBuilder : ICssBuilder
         };
     }
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static string? GetStyle(RingColorRule rule)
-    {
-        return GetClass(rule).Length != 0 ? null : rule.Value;
-    }
 }

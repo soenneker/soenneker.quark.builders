@@ -1,4 +1,4 @@
-using Soenneker.Quark.Attributes;
+
 using Soenneker.Utils.PooledStringBuilders;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
@@ -19,6 +19,11 @@ public sealed class FontFamilyBuilder : ICssBuilder
         _rules.Add(new FontFamilyRule(value, breakpoint));
     }
 
+    internal FontFamilyBuilder(FontFamilyEnum value, BreakpointType? breakpoint = null)
+    {
+        _rules.Add(new FontFamilyRule(value.Value, breakpoint));
+    }
+
     internal FontFamilyBuilder(List<FontFamilyRule> rules)
     {
         if (rules is { Count: > 0 })
@@ -28,17 +33,17 @@ public sealed class FontFamilyBuilder : ICssBuilder
     /// <summary>
     /// Sets the font family to sans.
     /// </summary>
-    public FontFamilyBuilder Sans => Chain("sans");
+    public FontFamilyBuilder Sans => Chain(FontFamilyEnum.Sans);
 
     /// <summary>
     /// Sets the font family to serif.
     /// </summary>
-    public FontFamilyBuilder Serif => Chain("serif");
+    public FontFamilyBuilder Serif => Chain(FontFamilyEnum.Serif);
 
     /// <summary>
     /// Sets the font family to mono.
     /// </summary>
-    public FontFamilyBuilder Mono => Chain("mono");
+    public FontFamilyBuilder Mono => Chain(FontFamilyEnum.Mono);
 
     /// <summary>
     /// Scopes the next utility to the default (unprefixed) breakpoint. In Tailwind’s mobile‑first model, unprefixed utilities apply from 0px unless a larger breakpoint overrides them.
@@ -68,9 +73,18 @@ public sealed class FontFamilyBuilder : ICssBuilder
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private FontFamilyBuilder Chain(string value)
     {
-        var bp = _pendingBreakpoint;
+        BreakpointType? bp = _pendingBreakpoint;
         _pendingBreakpoint = null;
         _rules.Add(new FontFamilyRule(value, bp));
+        return this;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private FontFamilyBuilder Chain(FontFamilyEnum value)
+    {
+        BreakpointType? bp = _pendingBreakpoint;
+        _pendingBreakpoint = null;
+        _rules.Add(new FontFamilyRule(value.Value, bp));
         return this;
     }
 
@@ -91,13 +105,13 @@ public sealed class FontFamilyBuilder : ICssBuilder
 
         for (var i = 0; i < _rules.Count; i++)
         {
-            var rule = _rules[i];
-            var cls = GetClass(rule.Value);
+            FontFamilyRule rule = _rules[i];
+            string cls = rule.Value;
 
             if (cls.Length == 0)
                 continue;
 
-            var bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
+            string bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
             if (bp.Length != 0)
                 cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, bp);
 
@@ -112,54 +126,5 @@ public sealed class FontFamilyBuilder : ICssBuilder
         return sb.ToString();
     }
 
-    public string ToStyle()
-    {
-        if (_rules.Count == 0)
-            return string.Empty;
-
-        using var sb = new PooledStringBuilder();
-        var first = true;
-
-        for (var i = 0; i < _rules.Count; i++)
-        {
-            var css = GetStyleValue(_rules[i].Value);
-
-            if (css is null)
-                continue;
-
-            if (!first)
-                sb.Append("; ");
-            else
-                first = false;
-
-            sb.Append("font-family: ");
-            sb.Append(css);
-        }
-
-        return sb.ToString();
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static string GetClass(string value)
-    {
-        return value switch
-        {
-            "sans" => "font-sans",
-            "serif" => "font-serif",
-            "mono" => "font-mono",
-            _ => string.Empty
-        };
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static string? GetStyleValue(string value)
-    {
-        return value switch
-        {
-            "sans" => "ui-sans-serif, system-ui, sans-serif",
-            "serif" => "ui-serif, Georgia, serif",
-            "mono" => "ui-monospace, SFMono-Regular, monospace",
-            _ => null
-        };
-    }
+    public string ToStyle() => string.Empty;
 }

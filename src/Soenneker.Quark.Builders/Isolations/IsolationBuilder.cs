@@ -1,4 +1,4 @@
-using Soenneker.Quark.Attributes;
+
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Soenneker.Utils.PooledStringBuilders;
@@ -14,6 +14,11 @@ public sealed class IsolationBuilder : ICssBuilder
     private readonly List<IsolationRule> _rules = new(4);
     private BreakpointType? _pendingBreakpoint;
 
+    internal IsolationBuilder(IsolationEnum value, BreakpointType? breakpoint = null)
+    {
+        _rules.Add(new IsolationRule(value.Value, breakpoint));
+    }
+
     internal IsolationBuilder(string value, BreakpointType? breakpoint = null)
     {
         _rules.Add(new IsolationRule(value, breakpoint));
@@ -28,11 +33,11 @@ public sealed class IsolationBuilder : ICssBuilder
     /// <summary>
     /// `auto` — browser-default sizing/behavior for the underlying utility.
     /// </summary>
-    public IsolationBuilder Auto => Chain("auto");
+    public IsolationBuilder Auto => Chain(IsolationEnum.Auto);
     /// <summary>
     /// Fluent step for `Isolate` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public IsolationBuilder Isolate => Chain("isolate");
+    public IsolationBuilder Isolate => Chain(IsolationEnum.Isolate);
 
     /// <summary>
     /// Applies the preceding utility from the `sm` breakpoint and up (`sm:` prefix). Tailwind default: `min-width: 40rem` (640px).
@@ -56,6 +61,13 @@ public sealed class IsolationBuilder : ICssBuilder
     public IsolationBuilder On2xl => SetPendingBreakpoint(BreakpointType.Xxl);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private IsolationBuilder Chain(IsolationEnum value)
+    {
+        _rules.Add(new IsolationRule(value.Value, ConsumePendingBreakpoint()));
+        return this;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private IsolationBuilder Chain(string value)
     {
         _rules.Add(new IsolationRule(value, ConsumePendingBreakpoint()));
@@ -72,7 +84,7 @@ public sealed class IsolationBuilder : ICssBuilder
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private BreakpointType? ConsumePendingBreakpoint()
     {
-        var breakpoint = _pendingBreakpoint;
+        BreakpointType? breakpoint = _pendingBreakpoint;
         _pendingBreakpoint = null;
         return breakpoint;
     }
@@ -82,11 +94,13 @@ public sealed class IsolationBuilder : ICssBuilder
         if (_rules.Count == 0) return string.Empty;
         using var sb = new PooledStringBuilder();
         var first = true;
-        foreach (var rule in _rules)
+        foreach (IsolationRule rule in _rules)
         {
-            var cls = rule.Value switch { "auto" => "isolation-auto", "isolate" => "isolation-isolate", _ => string.Empty };
-            if (cls.Length == 0) continue;
-            var b = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
+            if (rule.Value.Length == 0)
+                continue;
+
+            string cls = "isolation-" + rule.Value;
+            string b = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
             if (b.Length != 0) cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, b);
             if (!first) sb.Append(' ');
             else first = false;
@@ -95,21 +109,7 @@ public sealed class IsolationBuilder : ICssBuilder
         return sb.ToString();
     }
 
-    public string ToStyle()
-    {
-        if (_rules.Count == 0) return string.Empty;
-        using var sb = new PooledStringBuilder();
-        var first = true;
-        foreach (var rule in _rules)
-        {
-            if (rule.Value is not ("auto" or "isolate")) continue;
-            if (!first) sb.Append("; ");
-            else first = false;
-            sb.Append("isolation: ");
-            sb.Append(rule.Value);
-        }
-        return sb.ToString();
-    }
+    public string ToStyle() => string.Empty;
 
     public override string ToString() => ToClass();
 }

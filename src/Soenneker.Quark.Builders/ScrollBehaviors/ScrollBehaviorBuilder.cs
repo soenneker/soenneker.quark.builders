@@ -1,4 +1,4 @@
-using Soenneker.Quark.Attributes;
+
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
@@ -14,12 +14,14 @@ public sealed class ScrollBehaviorBuilder : ICssBuilder
 {
     private readonly List<ScrollBehaviorRule> _rules = new(4);
 
-    private const string _classScrollAuto = "scroll-auto";
-    private const string _classScrollSmooth = "scroll-smooth";
-
     internal ScrollBehaviorBuilder(string behavior, BreakpointType? breakpoint = null)
     {
         _rules.Add(new ScrollBehaviorRule(behavior, breakpoint));
+    }
+
+    internal ScrollBehaviorBuilder(ScrollBehaviorEnum behavior, BreakpointType? breakpoint = null)
+    {
+        _rules.Add(new ScrollBehaviorRule(behavior.Value, breakpoint));
     }
 
     internal ScrollBehaviorBuilder(List<ScrollBehaviorRule> rules)
@@ -31,11 +33,11 @@ public sealed class ScrollBehaviorBuilder : ICssBuilder
     /// <summary>
     /// Sets the scroll behavior to auto.
     /// </summary>
-    public ScrollBehaviorBuilder Auto => ChainWithBehavior("auto");
+    public ScrollBehaviorBuilder Auto => ChainWithBehavior(ScrollBehaviorEnum.Auto);
     /// <summary>
     /// Sets the scroll behavior to smooth.
     /// </summary>
-    public ScrollBehaviorBuilder Smooth => ChainWithBehavior("smooth");
+    public ScrollBehaviorBuilder Smooth => ChainWithBehavior(ScrollBehaviorEnum.Smooth);
 
     /// <summary>
     /// Applies the scroll behavior on phone breakpoint.
@@ -70,6 +72,13 @@ public sealed class ScrollBehaviorBuilder : ICssBuilder
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private ScrollBehaviorBuilder ChainWithBehavior(ScrollBehaviorEnum behavior)
+    {
+        _rules.Add(new ScrollBehaviorRule(behavior.Value, null));
+        return this;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private ScrollBehaviorBuilder ChainWithBreakpoint(BreakpointType breakpoint)
     {
         if (_rules.Count == 0)
@@ -78,8 +87,8 @@ public sealed class ScrollBehaviorBuilder : ICssBuilder
             return this;
         }
 
-        var lastIdx = _rules.Count - 1;
-        var last = _rules[lastIdx];
+        int lastIdx = _rules.Count - 1;
+        ScrollBehaviorRule last = _rules[lastIdx];
         _rules[lastIdx] = new ScrollBehaviorRule(last.Behavior, breakpoint);
         return this;
     }
@@ -98,12 +107,12 @@ public sealed class ScrollBehaviorBuilder : ICssBuilder
 
         for (var i = 0; i < _rules.Count; i++)
         {
-            var rule = _rules[i];
-            var cls = GetScrollBehaviorClass(rule.Behavior);
+            ScrollBehaviorRule rule = _rules[i];
+            string cls = rule.Behavior;
             if (cls.Length == 0)
                 continue;
 
-            var bp = BreakpointUtil.GetBreakpointClass(rule.Breakpoint);
+            string bp = BreakpointUtil.GetBreakpointClass(rule.Breakpoint);
             if (bp.Length != 0)
                 cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, bp);
 
@@ -116,57 +125,7 @@ public sealed class ScrollBehaviorBuilder : ICssBuilder
         return sb.ToString();
     }
 
-    /// <summary>
-    /// Gets the CSS style string for the current configuration.
-    /// </summary>
-    /// <returns>The CSS style string.</returns>
-    public string ToStyle()
-    {
-        if (_rules.Count == 0)
-            return string.Empty;
-
-        using var sb = new PooledStringBuilder();
-        var first = true;
-
-        for (var i = 0; i < _rules.Count; i++)
-        {
-            var rule = _rules[i];
-            var behaviorValue = GetScrollBehaviorValue(rule.Behavior);
-
-            if (behaviorValue is null)
-                continue;
-
-            if (!first) sb.Append("; ");
-            else first = false;
-
-            sb.Append("scroll-behavior: ");
-            sb.Append(behaviorValue);
-        }
-
-        return sb.ToString();
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static string GetScrollBehaviorClass(string behavior)
-    {
-        return behavior switch
-        {
-            "auto" => _classScrollAuto,
-            "smooth" => _classScrollSmooth,
-            _ => string.Empty
-        };
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static string? GetScrollBehaviorValue(string behavior)
-    {
-        return behavior switch
-        {
-            "auto" => "auto",
-            "smooth" => "smooth",
-            _ => null
-        };
-    }
+    public string ToStyle() => string.Empty;
 
     /// <summary>
     /// Returns the CSS class string representation of this scroll behavior builder.

@@ -1,5 +1,5 @@
 using System;
-using Soenneker.Quark.Attributes;
+
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
@@ -16,16 +16,10 @@ public sealed class BackdropFilterBuilder : ICssBuilder
     private readonly List<BackdropFilterRule> _rules = new(4);
     private BreakpointType? _pendingBreakpoint;
 
-    private const string _classBackdropFilterNone = "backdrop-filter-none";
-    private const string _classBackdropFilterBlur = "backdrop-blur";
-    private const string _classBackdropFilterBrightness = "backdrop-brightness";
-    private const string _classBackdropFilterContrast = "backdrop-contrast";
-    private const string _classBackdropFilterGrayscale = "backdrop-grayscale";
-    private const string _classBackdropFilterHueRotate = "backdrop-hue-rotate";
-    private const string _classBackdropFilterInvert = "backdrop-invert";
-    private const string _classBackdropFilterOpacity = "backdrop-opacity";
-    private const string _classBackdropFilterSaturate = "backdrop-saturate";
-    private const string _classBackdropFilterSepia = "backdrop-sepia";
+    internal BackdropFilterBuilder(BackdropFilterEnum filter, BreakpointType? breakpoint = null)
+    {
+        _rules.Add(new BackdropFilterRule(filter.Value, breakpoint));
+    }
 
     internal BackdropFilterBuilder(string filter, BreakpointType? breakpoint = null)
     {
@@ -41,43 +35,43 @@ public sealed class BackdropFilterBuilder : ICssBuilder
     /// <summary>
     /// Sets the backdrop filter to none.
     /// </summary>
-    public BackdropFilterBuilder None => ChainWithFilter("none");
+    public BackdropFilterBuilder None => ChainWithFilter(BackdropFilterEnum.None);
     /// <summary>
     /// Sets the backdrop filter to blur.
     /// </summary>
-    public BackdropFilterBuilder Blur => ChainWithFilter("blur");
+    public BackdropFilterBuilder Blur => ChainWithFilter(BackdropFilterEnum.Blur);
     /// <summary>
     /// Sets the backdrop filter to brightness.
     /// </summary>
-    public BackdropFilterBuilder Brightness => ChainWithFilter("brightness");
+    public BackdropFilterBuilder Brightness => ChainWithFilter(BackdropFilterEnum.Brightness);
     /// <summary>
     /// Sets the backdrop filter to contrast.
     /// </summary>
-    public BackdropFilterBuilder Contrast => ChainWithFilter("contrast");
+    public BackdropFilterBuilder Contrast => ChainWithFilter(BackdropFilterEnum.Contrast);
     /// <summary>
     /// Sets the backdrop filter to grayscale.
     /// </summary>
-    public BackdropFilterBuilder Grayscale => ChainWithFilter("grayscale");
+    public BackdropFilterBuilder Grayscale => ChainWithFilter(BackdropFilterEnum.Grayscale);
     /// <summary>
     /// Sets the backdrop filter to hue-rotate.
     /// </summary>
-    public BackdropFilterBuilder HueRotate => ChainWithFilter("hue-rotate");
+    public BackdropFilterBuilder HueRotate => ChainWithFilter(BackdropFilterEnum.HueRotate);
     /// <summary>
     /// Sets the backdrop filter to invert.
     /// </summary>
-    public BackdropFilterBuilder Invert => ChainWithFilter("invert");
+    public BackdropFilterBuilder Invert => ChainWithFilter(BackdropFilterEnum.Invert);
     /// <summary>
     /// Sets the backdrop filter to opacity.
     /// </summary>
-    public BackdropFilterBuilder Opacity => ChainWithFilter("opacity");
+    public BackdropFilterBuilder Opacity => ChainWithFilter(BackdropFilterEnum.Opacity);
     /// <summary>
     /// Sets the backdrop filter to saturate.
     /// </summary>
-    public BackdropFilterBuilder Saturate => ChainWithFilter("saturate");
+    public BackdropFilterBuilder Saturate => ChainWithFilter(BackdropFilterEnum.Saturate);
     /// <summary>
     /// Sets the backdrop filter to sepia.
     /// </summary>
-    public BackdropFilterBuilder Sepia => ChainWithFilter("sepia");
+    public BackdropFilterBuilder Sepia => ChainWithFilter(BackdropFilterEnum.Sepia);
 
     /// <summary>
     /// Applies an exact Tailwind backdrop-filter utility token, e.g. "backdrop-blur".
@@ -110,9 +104,15 @@ public sealed class BackdropFilterBuilder : ICssBuilder
     public BackdropFilterBuilder On2xl => SetPendingBreakpoint(BreakpointType.Xxl);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private BackdropFilterBuilder ChainWithFilter(BackdropFilterEnum filter)
+    {
+        return ChainWithFilter(filter.Value);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private BackdropFilterBuilder ChainWithFilter(string filter)
     {
-        var bp = _pendingBreakpoint;
+        BreakpointType? bp = _pendingBreakpoint;
         _pendingBreakpoint = null;
         _rules.Add(new BackdropFilterRule(filter, bp));
         return this;
@@ -139,12 +139,12 @@ public sealed class BackdropFilterBuilder : ICssBuilder
 
         for (var i = 0; i < _rules.Count; i++)
         {
-            var rule = _rules[i];
-            var cls = GetBackdropFilterClass(rule.Filter);
+            BackdropFilterRule rule = _rules[i];
+            string cls = rule.Filter;
             if (cls.Length == 0)
                 continue;
 
-            var bp = BreakpointUtil.GetBreakpointClass(rule.Breakpoint);
+            string bp = BreakpointUtil.GetBreakpointClass(rule.Breakpoint);
             if (bp.Length != 0)
                 cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, bp);
 
@@ -157,74 +157,7 @@ public sealed class BackdropFilterBuilder : ICssBuilder
         return sb.ToString();
     }
 
-    /// <summary>
-    /// Gets the CSS style string for the current configuration.
-    /// </summary>
-    /// <returns>The CSS style string.</returns>
-    public string ToStyle()
-    {
-        if (_rules.Count == 0)
-            return string.Empty;
-
-        using var sb = new PooledStringBuilder();
-        var first = true;
-
-        for (var i = 0; i < _rules.Count; i++)
-        {
-            var rule = _rules[i];
-            var filterValue = GetBackdropFilterValue(rule.Filter);
-
-            if (filterValue is null)
-                continue;
-
-            if (!first) sb.Append("; ");
-            else first = false;
-
-            sb.Append("backdrop-filter: ");
-            sb.Append(filterValue);
-        }
-
-        return sb.ToString();
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static string GetBackdropFilterClass(string filter)
-    {
-        return filter switch
-        {
-            "none" => _classBackdropFilterNone,
-            "blur" => _classBackdropFilterBlur,
-            "brightness" => _classBackdropFilterBrightness,
-            "contrast" => _classBackdropFilterContrast,
-            "grayscale" => _classBackdropFilterGrayscale,
-            "hue-rotate" => _classBackdropFilterHueRotate,
-            "invert" => _classBackdropFilterInvert,
-            "opacity" => _classBackdropFilterOpacity,
-            "saturate" => _classBackdropFilterSaturate,
-            "sepia" => _classBackdropFilterSepia,
-            _ when filter.StartsWith("backdrop-", StringComparison.Ordinal) => filter,
-            _ => string.Empty
-        };
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static string? GetBackdropFilterValue(string filter)
-    {
-        return filter switch
-        {
-            "none" => "none",
-            "blur" => "blur(8px)",
-            "brightness" => "brightness(1.1)",
-            "contrast" => "contrast(1.1)",
-            "grayscale" => "grayscale(1)",
-            "hue-rotate" => "hue-rotate(90deg)",
-            "invert" => "invert(1)",
-            "opacity" => "opacity(0.5)",
-            "saturate" => "saturate(1.1)",
-            "sepia" => "sepia(1)",
-            _ => null
-        };
-    }
+    public string ToStyle() => string.Empty;
 
     /// <summary>
     /// Returns the CSS class string representation of this backdrop filter builder.

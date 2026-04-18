@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
-using Soenneker.Quark.Attributes;
+
 using Soenneker.Utils.PooledStringBuilders;
 
 namespace Soenneker.Quark;
@@ -58,7 +58,7 @@ public sealed class SpaceBuilder : ICssBuilder
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private SpaceBuilder Chain(string utility, string value)
     {
-        var breakpoint = _pendingBreakpoint;
+        BreakpointType? breakpoint = _pendingBreakpoint;
         _pendingBreakpoint = null;
         _rules.Add(new SpaceRule(utility, value, breakpoint));
         return this;
@@ -80,9 +80,9 @@ public sealed class SpaceBuilder : ICssBuilder
         var first = true;
         for (var i = 0; i < _rules.Count; i++)
         {
-            var rule = _rules[i];
-            var cls = rule.Value.Length == 0 ? rule.Utility : $"{rule.Utility}-{rule.Value}";
-            var bp = BreakpointUtil.GetBreakpointClass(rule.Breakpoint);
+            SpaceRule rule = _rules[i];
+            string cls = rule.Value.Length == 0 ? rule.Utility : $"{rule.Utility}-{rule.Value}";
+            string bp = BreakpointUtil.GetBreakpointClass(rule.Breakpoint);
             if (bp.Length != 0)
                 cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, bp);
 

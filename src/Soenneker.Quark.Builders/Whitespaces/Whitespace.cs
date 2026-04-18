@@ -8,25 +8,25 @@ public static class Whitespace
     /// <summary>
     /// Fluent step for `Normal` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public static WhitespaceBuilder Normal => new("normal");
+    public static WhitespaceBuilder Normal => new(WhitespaceEnum.Normal);
     /// <summary>
     /// Fluent step for `Nowrap` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public static WhitespaceBuilder Nowrap => new("nowrap");
+    public static WhitespaceBuilder Nowrap => new(WhitespaceEnum.Nowrap);
     /// <summary>
     /// Fluent step for `Pre` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public static WhitespaceBuilder Pre => new("pre");
+    public static WhitespaceBuilder Pre => new(WhitespaceEnum.Pre);
     /// <summary>
     /// Fluent step for `Pre Line` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public static WhitespaceBuilder PreLine => new("pre-line");
+    public static WhitespaceBuilder PreLine => new(WhitespaceEnum.PreLine);
     /// <summary>
     /// Fluent step for `Pre Wrap` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public static WhitespaceBuilder PreWrap => new("pre-wrap");
+    public static WhitespaceBuilder PreWrap => new(WhitespaceEnum.PreWrap);
     /// <summary>
     /// Fluent step for `Break Spaces` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public static WhitespaceBuilder BreakSpaces => new("break-spaces");
+    public static WhitespaceBuilder BreakSpaces => new(WhitespaceEnum.BreakSpaces);
 }

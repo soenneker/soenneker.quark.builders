@@ -1,4 +1,4 @@
-using Soenneker.Quark.Attributes;
+
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Soenneker.Utils.PooledStringBuilders;
@@ -94,7 +94,7 @@ public sealed class FontWeightBuilder : ICssBuilder
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private FontWeightBuilder Chain(string value)
     {
-        var bp = _pendingBreakpoint;
+        BreakpointType? bp = _pendingBreakpoint;
         _pendingBreakpoint = null;
         _rules.Add(new FontWeightRule(value, bp));
         return this;
@@ -119,8 +119,8 @@ public sealed class FontWeightBuilder : ICssBuilder
         var first = true;
         for (var i = 0; i < _rules.Count; i++)
         {
-            var rule = _rules[i];
-            var cls = rule.Value switch
+            FontWeightRule rule = _rules[i];
+            string cls = rule.Value switch
             {
                 "extralight" => _classExtralight,
                 FontWeightKeyword.LightValue => _classLight,
@@ -134,7 +134,7 @@ public sealed class FontWeightBuilder : ICssBuilder
             if (cls.Length == 0)
                 continue;
 
-            var bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
+            string bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
             if (bp.Length != 0)
                 cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, bp);
 

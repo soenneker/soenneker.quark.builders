@@ -1,4 +1,4 @@
-using Soenneker.Quark.Attributes;
+
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Soenneker.Utils.PooledStringBuilders;
@@ -92,7 +92,7 @@ public sealed class ContainBuilder : ICssBuilder
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private BreakpointType? ConsumePendingBreakpoint()
     {
-        var breakpoint = _pendingBreakpoint;
+        BreakpointType? breakpoint = _pendingBreakpoint;
         _pendingBreakpoint = null;
         return breakpoint;
     }
@@ -102,9 +102,9 @@ public sealed class ContainBuilder : ICssBuilder
         if (_rules.Count == 0) return string.Empty;
         using var sb = new PooledStringBuilder();
         var first = true;
-        foreach (var rule in _rules)
+        foreach (ContainRule rule in _rules)
         {
-            var cls = rule.Value switch
+            string cls = rule.Value switch
             {
                 "none" => "contain-none",
                 "size" => "contain-size",
@@ -116,7 +116,7 @@ public sealed class ContainBuilder : ICssBuilder
                 _ => string.Empty
             };
             if (cls.Length == 0) continue;
-            var b = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
+            string b = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
             if (b.Length != 0) cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, b);
             if (!first) sb.Append(' ');
             else first = false;
@@ -130,7 +130,7 @@ public sealed class ContainBuilder : ICssBuilder
         if (_rules.Count == 0) return string.Empty;
         using var sb = new PooledStringBuilder();
         var first = true;
-        foreach (var rule in _rules)
+        foreach (ContainRule rule in _rules)
         {
             if (!IsValid(rule.Value)) continue;
             if (!first) sb.Append("; ");

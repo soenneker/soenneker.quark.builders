@@ -1,4 +1,4 @@
-using Soenneker.Quark.Attributes;
+
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Soenneker.Utils.PooledStringBuilders;
@@ -15,13 +15,6 @@ public sealed class ScrollMarginBuilder : ICssBuilder
     private BreakpointType? _pendingBreakpoint;
 
     private const string _baseToken = "scroll-m";
-    private const string _sideT = "t";
-    private const string _sideE = "e";
-    private const string _sideB = "b";
-    private const string _sideS = "s";
-    private const string _sideX = "x";
-    private const string _sideY = "y";
-
     internal ScrollMarginBuilder(string size, BreakpointType? breakpoint = null)
     {
         _rules.Add(new ScrollMarginRule(size, ElementSideType.All, breakpoint));
@@ -127,9 +120,9 @@ public sealed class ScrollMarginBuilder : ICssBuilder
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private ScrollMarginBuilder AddRule(ElementSideType side)
     {
-        var size = _rules.Count > 0 ? _rules[^1].Size : ScaleType.Is0Value;
-        var existingBp = _rules.Count > 0 ? _rules[^1].Breakpoint : null;
-        var bp = _pendingBreakpoint ?? existingBp;
+        string size = _rules.Count > 0 ? _rules[^1].Size : ScaleType.Is0Value;
+        BreakpointType? existingBp = _rules.Count > 0 ? _rules[^1].Breakpoint : null;
+        BreakpointType? bp = _pendingBreakpoint ?? existingBp;
         _pendingBreakpoint = null;
         if (_rules.Count > 0 && _rules[^1].Side == ElementSideType.All)
             _rules[^1] = new ScrollMarginRule(size, side, bp);
@@ -141,7 +134,7 @@ public sealed class ScrollMarginBuilder : ICssBuilder
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private ScrollMarginBuilder ChainWithSize(string size)
     {
-        var bp = _pendingBreakpoint;
+        BreakpointType? bp = _pendingBreakpoint;
         _pendingBreakpoint = null;
         _rules.Add(new ScrollMarginRule(size, ElementSideType.All, bp));
         return this;
@@ -150,7 +143,7 @@ public sealed class ScrollMarginBuilder : ICssBuilder
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private ScrollMarginBuilder ChainWithSize(ScaleType scale)
     {
-        var bp = _pendingBreakpoint;
+        BreakpointType? bp = _pendingBreakpoint;
         _pendingBreakpoint = null;
         _rules.Add(new ScrollMarginRule(scale.Value, ElementSideType.All, bp));
         return this;
@@ -170,12 +163,12 @@ public sealed class ScrollMarginBuilder : ICssBuilder
         var first = true;
         for (var i = 0; i < _rules.Count; i++)
         {
-            var rule = _rules[i];
-            var sizeTok = GetSizeToken(rule.Size);
+            ScrollMarginRule rule = _rules[i];
+            string sizeTok = GetSizeToken(rule.Size);
             if (sizeTok.Length == 0) continue;
-            var sideTok = GetSideToken(rule.Side);
-            var baseClass = _baseToken + sideTok + "-" + sizeTok;
-            var bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
+            string sideTok = rule.Side.Value;
+            string baseClass = _baseToken + sideTok + "-" + sizeTok;
+            string bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
             if (bp.Length != 0) baseClass = BreakpointUtil.ApplyTailwindBreakpoint(baseClass, bp);
             if (!first) sb.Append(' ');
             else first = false;
@@ -184,40 +177,7 @@ public sealed class ScrollMarginBuilder : ICssBuilder
         return sb.ToString();
     }
 
-    public string ToStyle()
-    {
-        if (_rules.Count == 0) return string.Empty;
-        using var sb = new PooledStringBuilder();
-        var first = true;
-        for (var i = 0; i < _rules.Count; i++)
-        {
-            var rule = _rules[i];
-            var sizeVal = GetSizeValue(rule.Size);
-            if (sizeVal is null) continue;
-            string prop;
-            switch (rule.Side)
-            {
-                case ElementSideType.AllValue: prop = "scroll-margin"; break;
-                case ElementSideType.TopValue: prop = "scroll-margin-top"; break;
-                case ElementSideType.RightValue: prop = "scroll-margin-right"; break;
-                case ElementSideType.BottomValue: prop = "scroll-margin-bottom"; break;
-                case ElementSideType.LeftValue: prop = "scroll-margin-left"; break;
-                case ElementSideType.HorizontalValue:
-                case ElementSideType.LeftRightValue: prop = "scroll-margin-inline"; break;
-                case ElementSideType.VerticalValue:
-                case ElementSideType.TopBottomValue: prop = "scroll-margin-block"; break;
-                case ElementSideType.InlineStartValue: prop = "scroll-margin-inline-start"; break;
-                case ElementSideType.InlineEndValue: prop = "scroll-margin-inline-end"; break;
-                default: prop = "scroll-margin"; break;
-            }
-            if (!first) sb.Append("; ");
-            else first = false;
-            sb.Append(prop);
-            sb.Append(": ");
-            sb.Append(sizeVal);
-        }
-        return sb.ToString();
-    }
+    public string ToStyle() => string.Empty;
 
     public override string ToString() => ToClass();
 
@@ -234,35 +194,4 @@ public sealed class ScrollMarginBuilder : ICssBuilder
         _ => string.Empty
     };
 
-    private static string GetSideToken(ElementSideType side)
-    {
-        switch (side)
-        {
-            case ElementSideType.AllValue: return string.Empty;
-            case ElementSideType.TopValue: return _sideT;
-            case ElementSideType.RightValue: return _sideE;
-            case ElementSideType.BottomValue: return _sideB;
-            case ElementSideType.LeftValue: return _sideS;
-            case ElementSideType.HorizontalValue:
-            case ElementSideType.LeftRightValue: return _sideX;
-            case ElementSideType.VerticalValue:
-            case ElementSideType.TopBottomValue: return _sideY;
-            case ElementSideType.InlineStartValue: return _sideS;
-            case ElementSideType.InlineEndValue: return _sideE;
-            default: return string.Empty;
-        }
-    }
-
-    private static string? GetSizeValue(string size) => size switch
-    {
-        ScaleType.Is0Value => "0",
-        ScaleType.Is1Value => "0.25rem",
-        ScaleType.Is2Value => "0.5rem",
-        ScaleType.Is3Value => "1rem",
-        ScaleType.Is4Value => "1.5rem",
-        ScaleType.Is5Value => "3rem",
-        "24" => "6rem",
-        "px" => "1px",
-        _ => null
-    };
 }

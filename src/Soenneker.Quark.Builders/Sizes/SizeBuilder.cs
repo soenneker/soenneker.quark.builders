@@ -1,4 +1,4 @@
-using Soenneker.Quark.Attributes;
+
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Soenneker.Utils.PooledStringBuilders;
@@ -135,7 +135,7 @@ public sealed class SizeBuilder : ICssBuilder
 
         for (var i = 0; i < _rules.Count; i++)
         {
-            var cls = GetSizeClass(_rules[i].Value);
+            string cls = GetSizeClass(_rules[i].Value);
             if (cls.Length == 0)
                 continue;
 

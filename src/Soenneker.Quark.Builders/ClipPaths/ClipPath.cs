@@ -9,25 +9,25 @@ public static class ClipPath
     /// <summary>
     /// No clip path (none).
     /// </summary>
-    public static ClipPathBuilder None => new("none");
+    public static ClipPathBuilder None => new(ClipPathEnum.None);
 
     /// <summary>
     /// Circle clip path (circle).
     /// </summary>
-    public static ClipPathBuilder Circle => new("circle");
+    public static ClipPathBuilder Circle => new(ClipPathEnum.Circle);
 
     /// <summary>
     /// Ellipse clip path (ellipse).
     /// </summary>
-    public static ClipPathBuilder Ellipse => new("ellipse");
+    public static ClipPathBuilder Ellipse => new(ClipPathEnum.Ellipse);
 
     /// <summary>
     /// Inset clip path (inset).
     /// </summary>
-    public static ClipPathBuilder Inset => new("inset");
+    public static ClipPathBuilder Inset => new(ClipPathEnum.Inset);
 
     /// <summary>
     /// Polygon clip path (polygon).
     /// </summary>
-    public static ClipPathBuilder Polygon => new("polygon");
+    public static ClipPathBuilder Polygon => new(ClipPathEnum.Polygon);
 }

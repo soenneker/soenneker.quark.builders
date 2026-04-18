@@ -1,4 +1,4 @@
-using Soenneker.Quark.Attributes;
+
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Soenneker.Utils.PooledStringBuilders;
@@ -93,7 +93,7 @@ public sealed class CaretColorBuilder : ICssBuilder
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private BreakpointType? ConsumePendingBreakpoint()
     {
-        var breakpoint = _pendingBreakpoint;
+        BreakpointType? breakpoint = _pendingBreakpoint;
         _pendingBreakpoint = null;
         return breakpoint;
     }
@@ -103,11 +103,11 @@ public sealed class CaretColorBuilder : ICssBuilder
         if (_rules.Count == 0) return string.Empty;
         using var sb = new PooledStringBuilder();
         var first = true;
-        foreach (var rule in _rules)
+        foreach (ColorRule rule in _rules)
         {
-            var cls = ColorUtility.GetClass(Prefix, rule, SemanticTokens);
+            string cls = ColorUtility.GetClass(Prefix, rule, SemanticTokens);
             if (cls.Length == 0) continue;
-            var b = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
+            string b = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
             if (b.Length != 0) cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, b);
             if (!first) sb.Append(' ');
             else first = false;

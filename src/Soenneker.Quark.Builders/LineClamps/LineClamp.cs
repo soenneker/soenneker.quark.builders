@@ -5,11 +5,11 @@ namespace Soenneker.Quark;
 /// </summary>
 public static class LineClamp
 {
-    public static LineClampBuilder None => new("none");
-    public static LineClampBuilder One => new("1");
-    public static LineClampBuilder Two => new("2");
-    public static LineClampBuilder Three => new("3");
-    public static LineClampBuilder Four => new("4");
-    public static LineClampBuilder Five => new("5");
-    public static LineClampBuilder Six => new("6");
+    public static LineClampBuilder None => new(LineClampEnum.None);
+    public static LineClampBuilder One => new(LineClampEnum.One);
+    public static LineClampBuilder Two => new(LineClampEnum.Two);
+    public static LineClampBuilder Three => new(LineClampEnum.Three);
+    public static LineClampBuilder Four => new(LineClampEnum.Four);
+    public static LineClampBuilder Five => new(LineClampEnum.Five);
+    public static LineClampBuilder Six => new(LineClampEnum.Six);
 }

@@ -2,32 +2,23 @@
 namespace Soenneker.Quark;
 
 /// <summary>
-/// Simplified transform utility with fluent API and Tailwind/shadcn-aligned fluent API.
+/// Tailwind transform utility. Tailwind: transform-none, transform-gpu, transform-cpu.
 /// </summary>
 public static class Transform
 {
     /// <summary>
     /// No transform (none).
     /// </summary>
-    public static TransformBuilder None => new("none");
+    public static TransformBuilder None => new(TransformEnum.None);
 
     /// <summary>
-    /// Scale transform (scale).
+    /// Uses the GPU transform utility.
     /// </summary>
-    public static TransformBuilder Scale => new("scale");
+    public static TransformBuilder Gpu => new(TransformEnum.Gpu);
 
     /// <summary>
-    /// Rotate transform (rotate).
+    /// Uses the CPU transform utility.
     /// </summary>
-    public static TransformBuilder Rotate => new("rotate");
-
-    /// <summary>
-    /// Translate transform (translate).
-    /// </summary>
-    public static TransformBuilder Translate => new("translate");
-
-    /// <summary>
-    /// Skew transform (skew).
-    /// </summary>
-    public static TransformBuilder Skew => new("skew");
+    public static TransformBuilder Cpu => new(TransformEnum.Cpu);
+    public static TransformBuilder Token(string value) => new(value);
 }

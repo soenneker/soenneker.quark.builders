@@ -8,14 +8,14 @@ public static class TextWrap
     /// <summary>
     /// Gets a text wrap builder with wrap value (text wraps to multiple lines).
     /// </summary>
-    public static TextWrapBuilder Wrap => new(TextWrapKeyword.WrapValue);
+    public static TextWrapBuilder Wrap => new(TextWrapEnum.Wrap);
 
     /// <summary>
     /// Gets a text wrap builder with balance value.
     /// </summary>
-    public static TextWrapBuilder Balance => new("balance");
+    public static TextWrapBuilder Balance => new(TextWrapEnum.Balance);
     /// <summary>
     /// Gets a text wrap builder with pretty value.
     /// </summary>
-    public static TextWrapBuilder Pretty => new("pretty");
+    public static TextWrapBuilder Pretty => new(TextWrapEnum.Pretty);
 }

@@ -12,20 +12,6 @@ public sealed class OverflowBuilder : ICssBuilder
     private readonly List<OverflowRule> _rules = new(4);
     private string _axis = "";
 
-    // ----- Class name constants -----
-    private const string _classAuto = "overflow-auto";
-    private const string _classHidden = "overflow-hidden";
-    private const string _classVisible = "overflow-visible";
-    private const string _classScroll = "overflow-scroll";
-    private const string _classAutoX = "overflow-x-auto";
-    private const string _classHiddenX = "overflow-x-hidden";
-    private const string _classVisibleX = "overflow-x-visible";
-    private const string _classScrollX = "overflow-x-scroll";
-    private const string _classAutoY = "overflow-y-auto";
-    private const string _classHiddenY = "overflow-y-hidden";
-    private const string _classVisibleY = "overflow-y-visible";
-    private const string _classScrollY = "overflow-y-scroll";
-
     internal OverflowBuilder(string overflow)
     {
         _rules.Add(new OverflowRule(overflow, null));
@@ -108,9 +94,9 @@ public sealed class OverflowBuilder : ICssBuilder
 
         for (var i = 0; i < _rules.Count; i++)
         {
-            var rule = _rules[i];
+            OverflowRule rule = _rules[i];
 
-            var baseClass = GetOverflowClass(rule.Overflow);
+            string baseClass = GetOverflowClass(rule.Overflow);
             if (baseClass.Length == 0)
                 continue;
 
@@ -132,26 +118,12 @@ public sealed class OverflowBuilder : ICssBuilder
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private string GetOverflowClass(string overflow)
     {
-        var baseClass = overflow switch
-        {
-            OverflowKeyword.AutoValue => "overflow-auto",
-            OverflowKeyword.HiddenValue => "overflow-hidden",
-            OverflowKeyword.VisibleValue => "overflow-visible",
-            OverflowKeyword.ScrollValue => "overflow-scroll",
-            _ => string.Empty
-        };
+        if (string.IsNullOrEmpty(overflow))
+            return string.Empty;
 
-        if (string.IsNullOrEmpty(baseClass) || string.IsNullOrEmpty(_axis))
-            return baseClass;
-
-        // Insert axis into class name: "overflow-auto" + "-x" = "overflow-x-auto"
-        var dashIndex = baseClass.IndexOf('-');
-        if (dashIndex > 0)
-        {
-            return baseClass.Insert(dashIndex, _axis);
-        }
-
-        return baseClass;
+        return string.IsNullOrEmpty(_axis)
+            ? $"overflow-{overflow}"
+            : $"overflow{_axis}-{overflow}";
     }
 
     /// <summary>Gets the string representation of the builder (same as ToClass).</summary>

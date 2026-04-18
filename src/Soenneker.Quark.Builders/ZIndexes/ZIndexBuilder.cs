@@ -1,4 +1,4 @@
-using Soenneker.Quark.Attributes;
+
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
@@ -90,7 +90,7 @@ public sealed class ZIndexBuilder : ICssBuilder
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private ZIndexBuilder Chain(int value)
     {
-        var bp = _pendingBreakpoint;
+        BreakpointType? bp = _pendingBreakpoint;
         _pendingBreakpoint = null;
         _rules.Add(new ZIndexRule(value, bp));
         return this;
@@ -115,8 +115,8 @@ public sealed class ZIndexBuilder : ICssBuilder
         var first = true;
         for (var i = 0; i < _rules.Count; i++)
         {
-            var rule = _rules[i];
-            var cls = rule.Value switch
+            ZIndexRule rule = _rules[i];
+            string cls = rule.Value switch
             {
                 -1 => _classNeg1,
                 0 => _class0,
@@ -128,7 +128,7 @@ public sealed class ZIndexBuilder : ICssBuilder
             if (cls.Length == 0)
                 continue;
 
-            var bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
+            string bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
             if (bp.Length != 0)
                 cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, bp);
 
@@ -152,7 +152,7 @@ public sealed class ZIndexBuilder : ICssBuilder
         var first = true;
         for (var i = 0; i < _rules.Count; i++)
         {
-            var rule = _rules[i];
+            ZIndexRule rule = _rules[i];
             if (!first) sb.Append("; ");
             else first = false;
             sb.Append("z-index: ");

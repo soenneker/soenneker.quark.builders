@@ -1,4 +1,4 @@
-using Soenneker.Quark.Attributes;
+
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
@@ -79,8 +79,8 @@ public sealed class ListVariantBuilder : ICssBuilder
             return this;
         }
 
-        var lastIdx = _rules.Count - 1;
-        var last = _rules[lastIdx];
+        int lastIdx = _rules.Count - 1;
+        ListVariantRule last = _rules[lastIdx];
         _rules[lastIdx] = new ListVariantRule(last.Type, breakpoint);
         return this;
     }
@@ -99,9 +99,9 @@ public sealed class ListVariantBuilder : ICssBuilder
 
         for (var i = 0; i < _rules.Count; i++)
         {
-            var rule = _rules[i];
-            var typeValue = rule.Type.Value;
-            var cls = typeValue switch
+            ListVariantRule rule = _rules[i];
+            string typeValue = rule.Type.Value;
+            string cls = typeValue switch
             {
                 "none" => "list-none p-0",
                 "inline" => "flex flex-wrap items-center gap-2 list-none p-0",
@@ -112,7 +112,7 @@ public sealed class ListVariantBuilder : ICssBuilder
             if (cls.Length == 0)
                 continue;
 
-            var bp = BreakpointUtil.GetBreakpointClass(rule.Breakpoint);
+            string bp = BreakpointUtil.GetBreakpointClass(rule.Breakpoint);
             if (bp.Length != 0)
                 cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, bp);
 

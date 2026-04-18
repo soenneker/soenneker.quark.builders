@@ -1,4 +1,3 @@
-
 namespace Soenneker.Quark;
 
 /// <summary>
@@ -9,17 +8,17 @@ public static class TextBreak
     /// <summary>
     /// Uses normal line breaking.
     /// </summary>
-    public static TextBreakBuilder Normal => new("normal");
+    public static TextBreakBuilder Normal => new(TextBreakEnum.Normal);
     /// <summary>
     /// Breaks words when needed.
     /// </summary>
-    public static TextBreakBuilder Words => new("words");
+    public static TextBreakBuilder Words => new(TextBreakEnum.Words);
     /// <summary>
     /// Breaks at any character.
     /// </summary>
-    public static TextBreakBuilder All => new("all");
+    public static TextBreakBuilder All => new(TextBreakEnum.All);
     /// <summary>
     /// Prevents breaks in CJK text.
     /// </summary>
-    public static TextBreakBuilder Keep => new("keep");
+    public static TextBreakBuilder Keep => new(TextBreakEnum.Keep);
 }

@@ -1,4 +1,4 @@
-using Soenneker.Quark.Attributes;
+
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Soenneker.Utils.PooledStringBuilders;
@@ -88,7 +88,7 @@ public sealed class ScrollSnapBuilder : ICssBuilder
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private BreakpointType? ConsumePendingBreakpoint()
     {
-        var breakpoint = _pendingBreakpoint;
+        BreakpointType? breakpoint = _pendingBreakpoint;
         _pendingBreakpoint = null;
         return breakpoint;
     }
@@ -98,9 +98,9 @@ public sealed class ScrollSnapBuilder : ICssBuilder
         if (_rules.Count == 0) return string.Empty;
         using var sb = new PooledStringBuilder();
         var first = true;
-        foreach (var rule in _rules)
+        foreach (ScrollSnapRule rule in _rules)
         {
-            var cls = rule.Value switch
+            string cls = rule.Value switch
             {
                 "none" => "snap-none",
                 "x" => "snap-x",
@@ -111,7 +111,7 @@ public sealed class ScrollSnapBuilder : ICssBuilder
                 _ => string.Empty
             };
             if (cls.Length == 0) continue;
-            var b = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
+            string b = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
             if (b.Length != 0) cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, b);
             if (!first) sb.Append(' ');
             else first = false;
@@ -125,9 +125,9 @@ public sealed class ScrollSnapBuilder : ICssBuilder
         if (_rules.Count == 0) return string.Empty;
         using var sb = new PooledStringBuilder();
         var first = true;
-        foreach (var rule in _rules)
+        foreach (ScrollSnapRule rule in _rules)
         {
-            var styleVal = rule.Value switch
+            string? styleVal = rule.Value switch
             {
                 "none" => "none",
                 "x" => "x mandatory",

@@ -8,13 +8,13 @@ public static class UserSelect
     /// <summary>
     /// Gets a user select builder with none value (text cannot be selected).
     /// </summary>
-    public static UserSelectBuilder None => new(UserSelectKeyword.NoneValue);
+    public static UserSelectBuilder None => new(UserSelectEnum.None);
     /// <summary>
     /// Gets a user select builder with auto value (browser default selection behavior).
     /// </summary>
-    public static UserSelectBuilder Auto => new(UserSelectKeyword.AutoValue);
+    public static UserSelectBuilder Auto => new(UserSelectEnum.Auto);
     /// <summary>
     /// Gets a user select builder with all value (clicking selects all text).
     /// </summary>
-    public static UserSelectBuilder All => new(UserSelectKeyword.AllValue);
+    public static UserSelectBuilder All => new(UserSelectEnum.All);
 }

@@ -8,55 +8,55 @@ public static class Display
     /// <summary>
     /// Display none (hidden).
     /// </summary>
-    public static DisplayBuilder None => new(DisplayKeyword.NoneValue);
+    public static DisplayBuilder None => new(DisplayEnum.None);
 
     /// <summary>
     /// Display inline.
     /// </summary>
-    public static DisplayBuilder Inline => new(DisplayKeyword.InlineValue);
+    public static DisplayBuilder Inline => new(DisplayEnum.Inline);
 
     /// <summary>
     /// Display inline-block.
     /// </summary>
-    public static DisplayBuilder InlineBlock => new(DisplayKeyword.InlineBlockValue);
+    public static DisplayBuilder InlineBlock => new(DisplayEnum.InlineBlock);
 
     /// <summary>
     /// Display block.
     /// </summary>
-    public static DisplayBuilder Block => new(DisplayKeyword.BlockValue);
+    public static DisplayBuilder Block => new(DisplayEnum.Block);
 
     /// <summary>
     /// Display flex.
     /// </summary>
-    public static DisplayBuilder Flex => new(DisplayKeyword.FlexValue);
+    public static DisplayBuilder Flex => new(DisplayEnum.Flex);
 
     /// <summary>
     /// Display inline-flex.
     /// </summary>
-    public static DisplayBuilder InlineFlex => new(DisplayKeyword.InlineFlexValue);
+    public static DisplayBuilder InlineFlex => new(DisplayEnum.InlineFlex);
 
     /// <summary>
     /// Display grid.
     /// </summary>
-    public static DisplayBuilder Grid => new(DisplayKeyword.GridValue);
+    public static DisplayBuilder Grid => new(DisplayEnum.Grid);
 
     /// <summary>
     /// Display inline-grid.
     /// </summary>
-    public static DisplayBuilder InlineGrid => new(DisplayKeyword.InlineGridValue);
+    public static DisplayBuilder InlineGrid => new(DisplayEnum.InlineGrid);
 
     /// <summary>
     /// Display table.
     /// </summary>
-    public static DisplayBuilder Table => new(DisplayKeyword.TableValue);
+    public static DisplayBuilder Table => new(DisplayEnum.Table);
 
     /// <summary>
     /// Display table-cell.
     /// </summary>
-    public static DisplayBuilder TableCell => new(DisplayKeyword.TableCellValue);
+    public static DisplayBuilder TableCell => new(DisplayEnum.TableCell);
 
     /// <summary>
     /// Display table-row.
     /// </summary>
-    public static DisplayBuilder TableRow => new(DisplayKeyword.TableRowValue);
+    public static DisplayBuilder TableRow => new(DisplayEnum.TableRow);
 }

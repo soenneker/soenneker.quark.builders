@@ -8,25 +8,25 @@ public static class Float
     /// <summary>
     /// Gets a float builder with none value (no floating).
     /// </summary>
-    public static FloatBuilder None => new(FloatKeyword.NoneValue);
+    public static FloatBuilder None => new(FloatEnum.None);
 
     /// <summary>
     /// Gets a float builder with left value (float left).
     /// </summary>
-    public static FloatBuilder Left => new(FloatKeyword.LeftValue);
+    public static FloatBuilder Left => new(FloatEnum.Left);
 
     /// <summary>
     /// Gets a float builder with start value (float inline-start).
     /// </summary>
-    public static FloatBuilder Start => new(FloatKeyword.InlineStartValue);
+    public static FloatBuilder Start => new(FloatEnum.Start);
 
     /// <summary>
     /// Gets a float builder with right value (float right).
     /// </summary>
-    public static FloatBuilder Right => new(FloatKeyword.RightValue);
+    public static FloatBuilder Right => new(FloatEnum.Right);
 
     /// <summary>
     /// Gets a float builder with end value (float inline-end).
     /// </summary>
-    public static FloatBuilder End => new(FloatKeyword.InlineEndValue);
+    public static FloatBuilder End => new(FloatEnum.End);
 }

@@ -1,4 +1,4 @@
-using Soenneker.Quark.Attributes;
+
 
 namespace Soenneker.Quark;
 
@@ -32,7 +32,7 @@ public sealed class ListStyleTypeBuilder : ICssBuilder
     /// <returns>The CSS style string.</returns>
     public string ToStyle()
     {
-        var valueStr = _value.Value;
+        string valueStr = _value.Value;
         
         if (valueStr == "none" || string.IsNullOrEmpty(valueStr))
             return string.Empty;

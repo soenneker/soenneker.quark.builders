@@ -1,4 +1,3 @@
-
 namespace Soenneker.Quark;
 
 /// <summary>
@@ -9,39 +8,39 @@ public static class Overscroll
     /// <summary>
     /// `auto` — browser-default sizing/behavior for the underlying utility.
     /// </summary>
-    public static OverscrollBuilder Auto => new("auto");
+    public static OverscrollBuilder Auto => new(OverscrollEnum.Auto);
     /// <summary>
     /// Fluent step for `Contain` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public static OverscrollBuilder Contain => new("contain");
+    public static OverscrollBuilder Contain => new(OverscrollEnum.Contain);
     /// <summary>
     /// Disables the effect (`none` token) or sets size to zero, depending on the utility.
     /// </summary>
-    public static OverscrollBuilder None => new("none");
+    public static OverscrollBuilder None => new(OverscrollEnum.None);
 
     /// <summary>
     /// Fluent step for `XAuto` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public static OverscrollBuilder XAuto => new("x-auto");
+    public static OverscrollBuilder XAuto => new(OverscrollEnum.XAuto);
     /// <summary>
     /// Fluent step for `XContain` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public static OverscrollBuilder XContain => new("x-contain");
+    public static OverscrollBuilder XContain => new(OverscrollEnum.XContain);
     /// <summary>
     /// Fluent step for `XNone` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public static OverscrollBuilder XNone => new("x-none");
+    public static OverscrollBuilder XNone => new(OverscrollEnum.XNone);
 
     /// <summary>
     /// Fluent step for `YAuto` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public static OverscrollBuilder YAuto => new("y-auto");
+    public static OverscrollBuilder YAuto => new(OverscrollEnum.YAuto);
     /// <summary>
     /// Fluent step for `YContain` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public static OverscrollBuilder YContain => new("y-contain");
+    public static OverscrollBuilder YContain => new(OverscrollEnum.YContain);
     /// <summary>
     /// Fluent step for `YNone` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public static OverscrollBuilder YNone => new("y-none");
+    public static OverscrollBuilder YNone => new(OverscrollEnum.YNone);
 }

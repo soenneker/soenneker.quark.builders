@@ -1,4 +1,4 @@
-using Soenneker.Quark.Attributes;
+
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Soenneker.Utils.PooledStringBuilders;
@@ -15,14 +15,14 @@ public sealed class FloatBuilder : ICssBuilder
     private readonly List<FloatRule> _rules = new(4);
     private BreakpointType? _pendingBreakpoint;
 
-    // Tailwind float utilities (for Quark Suite / shadcn). Start/End for RTL; Left/Right map to same.
-    private const string _classStart = "float-start";
-    private const string _classEnd = "float-end";
-    private const string _classNone = "float-none";
-
     internal FloatBuilder(string value, BreakpointType? breakpoint = null)
     {
         _rules.Add(new FloatRule(value, breakpoint));
+    }
+
+    internal FloatBuilder(FloatEnum value, BreakpointType? breakpoint = null)
+    {
+        _rules.Add(new FloatRule(value.Value, breakpoint));
     }
 
     internal FloatBuilder(List<FloatRule> rules)
@@ -34,23 +34,23 @@ public sealed class FloatBuilder : ICssBuilder
 	/// <summary>
 	/// Sets the float to none.
 	/// </summary>
-    public FloatBuilder None => ChainWithValue(FloatKeyword.NoneValue);
+    public FloatBuilder None => ChainWithValue(FloatEnum.None);
 	/// <summary>
 	/// Sets the float to left.
 	/// </summary>
-    public FloatBuilder Left => ChainWithValue(FloatKeyword.LeftValue);
+    public FloatBuilder Left => ChainWithValue(FloatEnum.Left);
 	/// <summary>
 	/// Sets the float to right.
 	/// </summary>
-    public FloatBuilder Right => ChainWithValue(FloatKeyword.RightValue);
+    public FloatBuilder Right => ChainWithValue(FloatEnum.Right);
 	/// <summary>
 	/// Sets the float to start (inline-start).
 	/// </summary>
-    public FloatBuilder Start => ChainWithValue(FloatKeyword.InlineStartValue);
+    public FloatBuilder Start => ChainWithValue(FloatEnum.Start);
 	/// <summary>
 	/// Sets the float to end (inline-end).
 	/// </summary>
-    public FloatBuilder End => ChainWithValue(FloatKeyword.InlineEndValue);
+    public FloatBuilder End => ChainWithValue(FloatEnum.End);
 	/// <summary>
 	/// Applies the float on phone breakpoint.
 	/// </summary>
@@ -84,6 +84,13 @@ public sealed class FloatBuilder : ICssBuilder
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private FloatBuilder ChainWithValue(FloatEnum value)
+    {
+        _rules.Add(new FloatRule(value.Value, ConsumePendingBreakpoint()));
+        return this;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private FloatBuilder SetPendingBreakpoint(BreakpointType breakpoint)
     {
         _pendingBreakpoint = breakpoint;
@@ -93,7 +100,7 @@ public sealed class FloatBuilder : ICssBuilder
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private BreakpointType? ConsumePendingBreakpoint()
     {
-        var breakpoint = _pendingBreakpoint;
+        BreakpointType? breakpoint = _pendingBreakpoint;
         _pendingBreakpoint = null;
         return breakpoint;
     }
@@ -112,22 +119,14 @@ public sealed class FloatBuilder : ICssBuilder
 
         for (var i = 0; i < _rules.Count; i++)
         {
-            var rule = _rules[i];
+            FloatRule rule = _rules[i];
 
-            var cls = rule.Value switch
-            {
-                FloatKeyword.LeftValue => _classStart,
-                FloatKeyword.RightValue => _classEnd,
-                FloatKeyword.InlineStartValue => _classStart,
-                FloatKeyword.InlineEndValue => _classEnd,
-                FloatKeyword.NoneValue => _classNone,
-                _ => string.Empty
-            };
+            string cls = rule.Value;
 
             if (cls.Length == 0)
                 continue;
 
-            var bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
+            string bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
             if (bp.Length != 0)
                 cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, bp);
 

@@ -1,8 +1,7 @@
-using Soenneker.Quark.Attributes;
+
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Soenneker.Utils.PooledStringBuilders;
-
 
 namespace Soenneker.Quark;
 
@@ -15,9 +14,9 @@ public sealed class VerticalAlignBuilder : ICssBuilder
     private readonly List<VerticalAlignRule> _rules = new(6);
     private BreakpointType? _pendingBreakpoint;
 
-    internal VerticalAlignBuilder(string value, BreakpointType? breakpoint = null)
+    internal VerticalAlignBuilder(VerticalAlignEnum value, BreakpointType? breakpoint = null)
     {
-        _rules.Add(new VerticalAlignRule(value, breakpoint));
+        _rules.Add(new VerticalAlignRule(value.Value, breakpoint));
     }
 
     internal VerticalAlignBuilder(List<VerticalAlignRule> rules)
@@ -29,32 +28,32 @@ public sealed class VerticalAlignBuilder : ICssBuilder
     /// <summary>
     /// Sets the vertical alignment to baseline.
     /// </summary>
-    public VerticalAlignBuilder Baseline => Chain(VerticalAlignKeyword.BaselineValue);
+    public VerticalAlignBuilder Baseline => Chain(VerticalAlignEnum.Baseline);
 
     /// <summary>
     /// Sets the vertical alignment to top.
     /// </summary>
-    public VerticalAlignBuilder Top => Chain(VerticalAlignKeyword.TopValue);
+    public VerticalAlignBuilder Top => Chain(VerticalAlignEnum.Top);
 
     /// <summary>
     /// Sets the vertical alignment to middle.
     /// </summary>
-    public VerticalAlignBuilder Middle => Chain(VerticalAlignKeyword.MiddleValue);
+    public VerticalAlignBuilder Middle => Chain(VerticalAlignEnum.Middle);
 
     /// <summary>
     /// Sets the vertical alignment to bottom.
     /// </summary>
-    public VerticalAlignBuilder Bottom => Chain(VerticalAlignKeyword.BottomValue);
+    public VerticalAlignBuilder Bottom => Chain(VerticalAlignEnum.Bottom);
 
     /// <summary>
     /// Sets the vertical alignment to text-top.
     /// </summary>
-    public VerticalAlignBuilder TextTop => Chain(VerticalAlignKeyword.TextTopValue);
+    public VerticalAlignBuilder TextTop => Chain(VerticalAlignEnum.TextTop);
 
     /// <summary>
     /// Sets the vertical alignment to text-bottom.
     /// </summary>
-    public VerticalAlignBuilder TextBottom => Chain(VerticalAlignKeyword.TextBottomValue);
+    public VerticalAlignBuilder TextBottom => Chain(VerticalAlignEnum.TextBottom);
 
     /// <summary>
     /// Applies the vertical alignment on phone breakpoint.
@@ -87,9 +86,9 @@ public sealed class VerticalAlignBuilder : ICssBuilder
     public VerticalAlignBuilder On2xl => SetPendingBreakpoint(BreakpointType.Xxl);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private VerticalAlignBuilder Chain(string value)
+    private VerticalAlignBuilder Chain(VerticalAlignEnum value)
     {
-        _rules.Add(new VerticalAlignRule(value, ConsumePendingBreakpoint()));
+        _rules.Add(new VerticalAlignRule(value.Value, ConsumePendingBreakpoint()));
         return this;
     }
 
@@ -103,7 +102,7 @@ public sealed class VerticalAlignBuilder : ICssBuilder
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private BreakpointType? ConsumePendingBreakpoint()
     {
-        var breakpoint = _pendingBreakpoint;
+        BreakpointType? breakpoint = _pendingBreakpoint;
         _pendingBreakpoint = null;
         return breakpoint;
     }
@@ -120,21 +119,12 @@ public sealed class VerticalAlignBuilder : ICssBuilder
         var first = true;
         for (var i = 0; i < _rules.Count; i++)
         {
-            var rule = _rules[i];
-            var cls = rule.Value switch
-            {
-                VerticalAlignKeyword.BaselineValue => "align-baseline",
-                VerticalAlignKeyword.TopValue => "align-top",
-                VerticalAlignKeyword.MiddleValue => "align-middle",
-                VerticalAlignKeyword.BottomValue => "align-bottom",
-                VerticalAlignKeyword.TextTopValue => "align-text-top",
-                VerticalAlignKeyword.TextBottomValue => "align-text-bottom",
-                _ => string.Empty
-            };
+            VerticalAlignRule rule = _rules[i];
+            string cls = rule.Value;
             if (cls.Length == 0)
                 continue;
 
-            var bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
+            string bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
             if (bp.Length != 0)
                 cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, bp);
 

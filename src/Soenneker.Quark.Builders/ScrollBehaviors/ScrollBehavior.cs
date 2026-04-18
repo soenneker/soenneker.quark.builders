@@ -9,10 +9,10 @@ public static class ScrollBehavior
     /// <summary>
     /// Auto scroll behavior (auto).
     /// </summary>
-    public static ScrollBehaviorBuilder Auto => new("auto");
+    public static ScrollBehaviorBuilder Auto => new(ScrollBehaviorEnum.Auto);
 
     /// <summary>
     /// Smooth scroll behavior (smooth).
     /// </summary>
-    public static ScrollBehaviorBuilder Smooth => new("smooth");
+    public static ScrollBehaviorBuilder Smooth => new(ScrollBehaviorEnum.Smooth);
 }

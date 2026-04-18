@@ -8,37 +8,37 @@ public static class FontVariantNumeric
     /// <summary>
     /// Fluent step for `Normal Nums` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public static FontVariantNumericBuilder NormalNums => new("normal-nums");
+    public static FontVariantNumericBuilder NormalNums => new(FontVariantNumericEnum.NormalNums);
     /// <summary>
     /// Fluent step for `Ordinal` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public static FontVariantNumericBuilder Ordinal => new("ordinal");
+    public static FontVariantNumericBuilder Ordinal => new(FontVariantNumericEnum.Ordinal);
     /// <summary>
     /// Fluent step for `Slashed Zero` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public static FontVariantNumericBuilder SlashedZero => new("slashed-zero");
+    public static FontVariantNumericBuilder SlashedZero => new(FontVariantNumericEnum.SlashedZero);
     /// <summary>
     /// Fluent step for `Lining Nums` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public static FontVariantNumericBuilder LiningNums => new("lining-nums");
+    public static FontVariantNumericBuilder LiningNums => new(FontVariantNumericEnum.LiningNums);
     /// <summary>
     /// Fluent step for `Oldstyle Nums` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public static FontVariantNumericBuilder OldstyleNums => new("oldstyle-nums");
+    public static FontVariantNumericBuilder OldstyleNums => new(FontVariantNumericEnum.OldstyleNums);
     /// <summary>
     /// Fluent step for `Proportional Nums` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public static FontVariantNumericBuilder ProportionalNums => new("proportional-nums");
+    public static FontVariantNumericBuilder ProportionalNums => new(FontVariantNumericEnum.ProportionalNums);
     /// <summary>
     /// Fluent step for `Tabular Nums` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public static FontVariantNumericBuilder TabularNums => new("tabular-nums");
+    public static FontVariantNumericBuilder TabularNums => new(FontVariantNumericEnum.TabularNums);
     /// <summary>
     /// Fluent step for `Diagonal Fractions` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public static FontVariantNumericBuilder DiagonalFractions => new("diagonal-fractions");
+    public static FontVariantNumericBuilder DiagonalFractions => new(FontVariantNumericEnum.DiagonalFractions);
     /// <summary>
     /// Fluent step for `Stacked Fractions` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public static FontVariantNumericBuilder StackedFractions => new("stacked-fractions");
+    public static FontVariantNumericBuilder StackedFractions => new(FontVariantNumericEnum.StackedFractions);
 }

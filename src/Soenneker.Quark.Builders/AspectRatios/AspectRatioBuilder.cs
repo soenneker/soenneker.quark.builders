@@ -1,4 +1,4 @@
-using Soenneker.Quark.Attributes;
+
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Soenneker.Utils.PooledStringBuilders;
@@ -14,15 +14,14 @@ public sealed class AspectRatioBuilder : ICssBuilder
     private readonly List<AspectRatioRule> _rules = new(4);
     private BreakpointType? _pendingBreakpoint;
 
-    // Tailwind aspect ratio utilities (for Quark Suite / shadcn)
-    private const string _classAspect1X1 = "aspect-square";
-    private const string _classAspect4X3 = "aspect-[4/3]";
-    private const string _classAspect16X9 = "aspect-video";
-    private const string _classAspect21X9 = "aspect-[21/9]";
-
     internal AspectRatioBuilder(string ratio, BreakpointType? breakpoint = null)
     {
         _rules.Add(new AspectRatioRule(ratio, breakpoint));
+    }
+
+    internal AspectRatioBuilder(AspectRatioEnum ratio, BreakpointType? breakpoint = null)
+    {
+        _rules.Add(new AspectRatioRule(ratio.Value, breakpoint));
     }
 
     internal AspectRatioBuilder(List<AspectRatioRule> rules)
@@ -34,19 +33,19 @@ public sealed class AspectRatioBuilder : ICssBuilder
     /// <summary>
     /// Sets the aspect ratio to 1:1 (square).
     /// </summary>
-    public AspectRatioBuilder R1X1 => ChainWithRatio("1x1");
+    public AspectRatioBuilder R1X1 => ChainWithRatio(AspectRatioEnum.R1X1);
     /// <summary>
     /// Sets the aspect ratio to 4:3.
     /// </summary>
-    public AspectRatioBuilder R4X3 => ChainWithRatio("4x3");
+    public AspectRatioBuilder R4X3 => ChainWithRatio(AspectRatioEnum.R4X3);
     /// <summary>
     /// Sets the aspect ratio to 16:9.
     /// </summary>
-    public AspectRatioBuilder R16X9 => ChainWithRatio("16x9");
+    public AspectRatioBuilder R16X9 => ChainWithRatio(AspectRatioEnum.R16X9);
     /// <summary>
     /// Sets the aspect ratio to 21:9.
     /// </summary>
-    public AspectRatioBuilder R21X9 => ChainWithRatio("21x9");
+    public AspectRatioBuilder R21X9 => ChainWithRatio(AspectRatioEnum.R21X9);
 
     /// <summary>
     /// Applies the aspect ratio at base (mobile-first default).
@@ -81,6 +80,13 @@ public sealed class AspectRatioBuilder : ICssBuilder
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private AspectRatioBuilder ChainWithRatio(AspectRatioEnum ratio)
+    {
+        _rules.Add(new AspectRatioRule(ratio.Value, ConsumePendingBreakpoint()));
+        return this;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private AspectRatioBuilder SetPendingBreakpoint(BreakpointType breakpoint)
     {
         _pendingBreakpoint = breakpoint;
@@ -90,7 +96,7 @@ public sealed class AspectRatioBuilder : ICssBuilder
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private BreakpointType? ConsumePendingBreakpoint()
     {
-        var breakpoint = _pendingBreakpoint;
+        BreakpointType? breakpoint = _pendingBreakpoint;
         _pendingBreakpoint = null;
         return breakpoint;
     }
@@ -109,12 +115,12 @@ public sealed class AspectRatioBuilder : ICssBuilder
 
         for (var i = 0; i < _rules.Count; i++)
         {
-            var rule = _rules[i];
-            var cls = GetAspectRatioClass(rule.Ratio);
+            AspectRatioRule rule = _rules[i];
+            string cls = rule.Ratio;
             if (cls.Length == 0)
                 continue;
 
-            var bp = BreakpointUtil.GetBreakpointClass(rule.Breakpoint);
+            string bp = BreakpointUtil.GetBreakpointClass(rule.Breakpoint);
             if (bp.Length != 0)
                 cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, bp);
 
@@ -127,61 +133,7 @@ public sealed class AspectRatioBuilder : ICssBuilder
         return sb.ToString();
     }
 
-    /// <summary>
-    /// Gets the CSS style string for the current configuration.
-    /// </summary>
-    /// <returns>The CSS style string.</returns>
-    public string ToStyle()
-    {
-        if (_rules.Count == 0)
-            return string.Empty;
-
-        using var sb = new PooledStringBuilder();
-        var first = true;
-
-        for (var i = 0; i < _rules.Count; i++)
-        {
-            var rule = _rules[i];
-            var ratioValue = GetAspectRatioValue(rule.Ratio);
-
-            if (ratioValue is null)
-                continue;
-
-            if (!first) sb.Append("; ");
-            else first = false;
-
-            sb.Append("aspect-ratio: ");
-            sb.Append(ratioValue);
-        }
-
-        return sb.ToString();
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static string GetAspectRatioClass(string ratio)
-    {
-        return ratio switch
-        {
-            "1x1" => _classAspect1X1,
-            "4x3" => _classAspect4X3,
-            "16x9" => _classAspect16X9,
-            "21x9" => _classAspect21X9,
-            _ => string.Empty
-        };
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static string? GetAspectRatioValue(string ratio)
-    {
-        return ratio switch
-        {
-            "1x1" => "1 / 1",
-            "4x3" => "4 / 3",
-            "16x9" => "16 / 9",
-            "21x9" => "21 / 9",
-            _ => ratio
-        };
-    }
+    public string ToStyle() => string.Empty;
 
     /// <summary>
     /// Returns the CSS class string representation of this aspect ratio builder.

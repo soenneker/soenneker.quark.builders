@@ -8,25 +8,25 @@ public static class VerticalAlign
     /// <summary>
     /// Gets a vertical align builder with baseline alignment.
     /// </summary>
-    public static VerticalAlignBuilder Baseline => new("baseline");
+    public static VerticalAlignBuilder Baseline => new(VerticalAlignEnum.Baseline);
     /// <summary>
     /// Gets a vertical align builder with top alignment.
     /// </summary>
-    public static VerticalAlignBuilder Top => new("top");
+    public static VerticalAlignBuilder Top => new(VerticalAlignEnum.Top);
     /// <summary>
     /// Gets a vertical align builder with middle alignment.
     /// </summary>
-    public static VerticalAlignBuilder Middle => new("middle");
+    public static VerticalAlignBuilder Middle => new(VerticalAlignEnum.Middle);
     /// <summary>
     /// Gets a vertical align builder with bottom alignment.
     /// </summary>
-    public static VerticalAlignBuilder Bottom => new("bottom");
+    public static VerticalAlignBuilder Bottom => new(VerticalAlignEnum.Bottom);
     /// <summary>
     /// Gets a vertical align builder with text-top alignment.
     /// </summary>
-    public static VerticalAlignBuilder TextTop => new("text-top");
+    public static VerticalAlignBuilder TextTop => new(VerticalAlignEnum.TextTop);
     /// <summary>
     /// Gets a vertical align builder with text-bottom alignment.
     /// </summary>
-    public static VerticalAlignBuilder TextBottom => new("text-bottom");
+    public static VerticalAlignBuilder TextBottom => new(VerticalAlignEnum.TextBottom);
 }

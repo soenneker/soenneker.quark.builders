@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
-using Soenneker.Quark.Attributes;
+
 using Soenneker.Utils.PooledStringBuilders;
 
 namespace Soenneker.Quark;
@@ -128,7 +128,7 @@ public sealed class BackgroundBlendModeBuilder : ICssBuilder
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private BreakpointType? ConsumePendingBreakpoint()
     {
-        var breakpoint = _pendingBreakpoint;
+        BreakpointType? breakpoint = _pendingBreakpoint;
         _pendingBreakpoint = null;
         return breakpoint;
     }
@@ -138,10 +138,10 @@ public sealed class BackgroundBlendModeBuilder : ICssBuilder
         if (_rules.Count == 0) return string.Empty;
         using var sb = new PooledStringBuilder();
         var first = true;
-        foreach (var rule in _rules)
+        foreach (BackgroundBlendModeRule rule in _rules)
         {
-            var cls = "bg-blend-" + rule.Value.Replace(" ", "-", System.StringComparison.Ordinal);
-            var b = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
+            string cls = "bg-blend-" + rule.Value.Replace(" ", "-", System.StringComparison.Ordinal);
+            string b = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
             if (b.Length != 0) cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, b);
             if (!first) sb.Append(' ');
             else first = false;
@@ -150,20 +150,7 @@ public sealed class BackgroundBlendModeBuilder : ICssBuilder
         return sb.ToString();
     }
 
-    public string ToStyle()
-    {
-        if (_rules.Count == 0) return string.Empty;
-        using var sb = new PooledStringBuilder();
-        var first = true;
-        foreach (var rule in _rules)
-        {
-            if (!first) sb.Append("; ");
-            else first = false;
-            sb.Append("background-blend-mode: ");
-            sb.Append(rule.Value);
-        }
-        return sb.ToString();
-    }
+    public string ToStyle() => string.Empty;
 
     public override string ToString() => ToClass();
 }

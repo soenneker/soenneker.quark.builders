@@ -71,7 +71,7 @@ public readonly struct CssValue<TBuilder> : IEquatable<CssValue<TBuilder>> where
     public bool IsCssStyle => !string.IsNullOrEmpty(_styleValue);
 
     /// <summary>
-    /// Gets whether this CSS value represents a CSS class (e.g., "btn-primary") rather than an inline style.
+    /// Gets whether this CSS value represents a CSS class (e.g., "bg-primary") rather than an inline style.
     /// </summary>
     public bool IsCssClass => !IsCssStyle && !IsEmpty;
 
@@ -99,7 +99,7 @@ public readonly struct CssValue<TBuilder> : IEquatable<CssValue<TBuilder>> where
         if (selector.IsNullOrWhiteSpace())
             return this;
 
-        var trimmed = selector.AsSpan().Trim();
+        ReadOnlySpan<char> trimmed = selector.AsSpan().Trim();
         if (trimmed.Length != selector.Length)
             return new CssValue<TBuilder>(this, trimmed.ToString(), absolute);
 

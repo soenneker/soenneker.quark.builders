@@ -1,4 +1,4 @@
-using Soenneker.Quark.Attributes;
+
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Soenneker.Utils.PooledStringBuilders;
@@ -26,14 +26,6 @@ public sealed class MarginBuilder : ICssBuilder
     private const string _token5 = "5";
     private const string _token8 = "8";
     private const string _tokenAuto = "auto";
-
-    // ----- Side tokens (Tailwind: t=top, e=end, b=bottom, s=start, x=horizontal, y=vertical) -----
-    private const string _sideT = "t";
-    private const string _sideE = "e";
-    private const string _sideB = "b";
-    private const string _sideS = "s";
-    private const string _sideX = "x";
-    private const string _sideY = "y";
 
     internal MarginBuilder(string size, BreakpointType? breakpoint = null)
     {
@@ -149,9 +141,9 @@ public sealed class MarginBuilder : ICssBuilder
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private MarginBuilder AddRule(ElementSideType side)
     {
-        var size = _rules.Count > 0 ? _rules[^1].Size : ScaleType.Is0Value;
-        var existingBp = _rules.Count > 0 ? _rules[^1].Breakpoint : null;
-        var bp = _pendingBreakpoint ?? existingBp;
+        string size = _rules.Count > 0 ? _rules[^1].Size : ScaleType.Is0Value;
+        BreakpointType? existingBp = _rules.Count > 0 ? _rules[^1].Breakpoint : null;
+        BreakpointType? bp = _pendingBreakpoint ?? existingBp;
         _pendingBreakpoint = null;
 
         if (_rules.Count > 0 && _rules[^1].Side == ElementSideType.All)
@@ -169,7 +161,7 @@ public sealed class MarginBuilder : ICssBuilder
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private MarginBuilder ChainWithSize(string size)
     {
-        var bp = _pendingBreakpoint;
+        BreakpointType? bp = _pendingBreakpoint;
         _pendingBreakpoint = null;
         _rules.Add(new MarginRule(size, ElementSideType.All, bp));
         return this;
@@ -178,7 +170,7 @@ public sealed class MarginBuilder : ICssBuilder
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private MarginBuilder ChainWithSize(ScaleType scale)
     {
-        var bp = _pendingBreakpoint;
+        BreakpointType? bp = _pendingBreakpoint;
         _pendingBreakpoint = null;
         _rules.Add(new MarginRule(scale.Value, ElementSideType.All, bp));
         return this;
@@ -202,15 +194,15 @@ public sealed class MarginBuilder : ICssBuilder
 
         for (var i = 0; i < _rules.Count; i++)
         {
-            var rule = _rules[i];
+            MarginRule rule = _rules[i];
 
-            var sizeTok = GetSizeToken(rule.Size);
+            string sizeTok = GetSizeToken(rule.Size);
 
             if (sizeTok.Length == 0)
                 continue;
 
-            var sideTok = GetSideToken(rule.Side);
-            var bpTok = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
+            string sideTok = rule.Side.Value;
+            string bpTok = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
 
             if (!first)
                 sb.Append(' ');
@@ -218,8 +210,8 @@ public sealed class MarginBuilder : ICssBuilder
                 first = false;
 
             // Tailwind: mt-1, md:mt-1 (not legacy mt-md-1 syntax)
-            var baseClass = _baseToken + (sideTok.Length != 0 ? sideTok : "") + "-" + sizeTok;
-            var cls = bpTok.Length != 0 ? BreakpointUtil.ApplyTailwindBreakpoint(baseClass, bpTok) : baseClass;
+            string baseClass = _baseToken + (sideTok.Length != 0 ? sideTok : "") + "-" + sizeTok;
+            string cls = bpTok.Length != 0 ? BreakpointUtil.ApplyTailwindBreakpoint(baseClass, bpTok) : baseClass;
             sb.Append(cls);
         }
 
@@ -227,88 +219,7 @@ public sealed class MarginBuilder : ICssBuilder
     }
 
     /// <summary>Gets the CSS style string for the current configuration.</summary>
-    public string ToStyle()
-    {
-        if (_rules.Count == 0)
-            return string.Empty;
-
-        var sb = new PooledStringBuilder();
-        var first = true;
-        try
-        {
-            for (var i = 0; i < _rules.Count; i++)
-            {
-                var rule = _rules[i];
-                var sizeVal = GetSizeValue(rule.Size);
-                if (sizeVal is null)
-                    continue;
-
-                switch (rule.Side)
-                {
-                    case ElementSideType.AllValue:
-                        AppendStyle(ref first, ref sb, "margin", sizeVal);
-                        break;
-
-                    case ElementSideType.TopValue:
-                        AppendStyle(ref first, ref sb, "margin-top", sizeVal);
-                        break;
-
-                    case ElementSideType.RightValue:
-                        AppendStyle(ref first, ref sb, "margin-right", sizeVal);
-                        break;
-
-                    case ElementSideType.BottomValue:
-                        AppendStyle(ref first, ref sb, "margin-bottom", sizeVal);
-                        break;
-
-                    case ElementSideType.LeftValue:
-                        AppendStyle(ref first, ref sb, "margin-left", sizeVal);
-                        break;
-
-                    case ElementSideType.HorizontalValue:
-                    case ElementSideType.LeftRightValue:
-                        AppendStyle(ref first, ref sb, "margin-left", sizeVal);
-                        AppendStyle(ref first, ref sb, "margin-right", sizeVal);
-                        break;
-
-                    case ElementSideType.VerticalValue:
-                    case ElementSideType.TopBottomValue:
-                        AppendStyle(ref first, ref sb, "margin-top", sizeVal);
-                        AppendStyle(ref first, ref sb, "margin-bottom", sizeVal);
-                        break;
-
-                    case ElementSideType.InlineStartValue:
-                        AppendStyle(ref first, ref sb, "margin-inline-start", sizeVal);
-                        break;
-
-                    case ElementSideType.InlineEndValue:
-                        AppendStyle(ref first, ref sb, "margin-inline-end", sizeVal);
-                        break;
-
-                    default:
-                        AppendStyle(ref first, ref sb, "margin", sizeVal);
-                        break;
-                }
-            }
-
-            return sb.ToString();
-        }
-        finally
-        {
-            sb.Dispose();
-        }
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static void AppendStyle(ref bool first, ref PooledStringBuilder sb, string prop, string val)
-        {
-            if (!first) sb.Append("; ");
-            else first = false;
-
-            sb.Append(prop);
-            sb.Append(": ");
-            sb.Append(val);
-        }
+    public string ToStyle() => string.Empty;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static string GetSizeToken(string size)
@@ -324,53 +235,6 @@ public sealed class MarginBuilder : ICssBuilder
                 "8" => _token8,
                 "auto" => _tokenAuto,
                 _ => string.Empty
-            };
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static string GetSideToken(ElementSideType side)
-        {
-            switch (side)
-            {
-                case ElementSideType.AllValue:
-                    return string.Empty;
-                case ElementSideType.TopValue:
-                    return _sideT;
-                case ElementSideType.RightValue:
-                    return _sideE;
-                case ElementSideType.BottomValue:
-                    return _sideB;
-                case ElementSideType.LeftValue:
-                    return _sideS;
-                case ElementSideType.HorizontalValue:
-                case ElementSideType.LeftRightValue:
-                    return _sideX;
-                case ElementSideType.VerticalValue:
-                case ElementSideType.TopBottomValue:
-                    return _sideY;
-                case ElementSideType.InlineStartValue:
-                    return _sideS;
-                case ElementSideType.InlineEndValue:
-                    return _sideE;
-                default:
-                    return string.Empty;
-            }
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static string? GetSizeValue(string size)
-        {
-            return size switch
-            {
-                ScaleType.Is0Value => "0",
-                ScaleType.Is1Value => "0.25rem",
-                ScaleType.Is2Value => "0.5rem",
-                ScaleType.Is3Value => "1rem",
-                ScaleType.Is4Value => "1.5rem",
-                ScaleType.Is5Value => "3rem",
-                "8" => "2rem",
-                "auto" => "auto",
-                _ => size
             };
         }
 

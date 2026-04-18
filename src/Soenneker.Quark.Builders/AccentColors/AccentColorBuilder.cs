@@ -1,4 +1,4 @@
-using Soenneker.Quark.Attributes;
+
 using Soenneker.Utils.PooledStringBuilders;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
@@ -83,7 +83,7 @@ public sealed class AccentColorBuilder : ICssBuilder
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private AccentColorBuilder Chain(string value, bool isUtility = false)
     {
-        var breakpoint = _pendingBreakpoint;
+        BreakpointType? breakpoint = _pendingBreakpoint;
         _pendingBreakpoint = null;
         _rules.Add(new ColorRule(value, breakpoint, isUtility));
         return this;
@@ -101,11 +101,11 @@ public sealed class AccentColorBuilder : ICssBuilder
         if (_rules.Count == 0) return string.Empty;
         using var sb = new PooledStringBuilder();
         var first = true;
-        foreach (var rule in _rules)
+        foreach (ColorRule rule in _rules)
         {
-            var cls = GetClass(rule);
+            string cls = GetClass(rule);
             if (cls.Length == 0) continue;
-            var b = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
+            string b = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
             if (b.Length != 0) cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, b);
             if (!first) sb.Append(' ');
             else first = false;

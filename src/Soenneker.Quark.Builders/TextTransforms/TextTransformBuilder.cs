@@ -1,8 +1,7 @@
-using Soenneker.Quark.Attributes;
+
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Soenneker.Utils.PooledStringBuilders;
-
 
 namespace Soenneker.Quark;
 
@@ -15,13 +14,9 @@ public sealed class TextTransformBuilder : ICssBuilder
     private readonly List<TextTransformRule> _rules = new(4);
     private BreakpointType? _pendingBreakpoint;
 
-    // Tailwind text-transform utilities (for Quark Suite / shadcn)
-    private const string _classLower = "lowercase";
-    private const string _classUpper = "uppercase";
-    private const string _classCap = "capitalize";
-    internal TextTransformBuilder(string value, BreakpointType? breakpoint = null)
+    internal TextTransformBuilder(TextTransformEnum value, BreakpointType? breakpoint = null)
     {
-        _rules.Add(new TextTransformRule(value, breakpoint));
+        _rules.Add(new TextTransformRule(value.Value, breakpoint));
     }
 
     internal TextTransformBuilder(List<TextTransformRule> rules)
@@ -33,15 +28,15 @@ public sealed class TextTransformBuilder : ICssBuilder
     /// <summary>
     /// Sets the text transform to lowercase.
     /// </summary>
-    public TextTransformBuilder Lowercase => Chain(TextTransformKeyword.LowercaseValue);
+    public TextTransformBuilder Lowercase => Chain(TextTransformEnum.Lowercase);
     /// <summary>
     /// Sets the text transform to uppercase.
     /// </summary>
-    public TextTransformBuilder Uppercase => Chain(TextTransformKeyword.UppercaseValue);
+    public TextTransformBuilder Uppercase => Chain(TextTransformEnum.Uppercase);
     /// <summary>
     /// Sets the text transform to capitalize.
     /// </summary>
-    public TextTransformBuilder Capitalize => Chain(TextTransformKeyword.CapitalizeValue);
+    public TextTransformBuilder Capitalize => Chain(TextTransformEnum.Capitalize);
     /// <summary>
     /// Applies the text transform on phone breakpoint.
     /// </summary>
@@ -68,9 +63,9 @@ public sealed class TextTransformBuilder : ICssBuilder
     public TextTransformBuilder On2xl => SetPendingBreakpoint(BreakpointType.Xxl);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private TextTransformBuilder Chain(string value)
+    private TextTransformBuilder Chain(TextTransformEnum value)
     {
-        _rules.Add(new TextTransformRule(value, ConsumePendingBreakpoint()));
+        _rules.Add(new TextTransformRule(value.Value, ConsumePendingBreakpoint()));
         return this;
     }
 
@@ -84,7 +79,7 @@ public sealed class TextTransformBuilder : ICssBuilder
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private BreakpointType? ConsumePendingBreakpoint()
     {
-        var breakpoint = _pendingBreakpoint;
+        BreakpointType? breakpoint = _pendingBreakpoint;
         _pendingBreakpoint = null;
         return breakpoint;
     }
@@ -101,18 +96,12 @@ public sealed class TextTransformBuilder : ICssBuilder
         var first = true;
         for (var i = 0; i < _rules.Count; i++)
         {
-            var rule = _rules[i];
-            var cls = rule.Value switch
-            {
-                TextTransformKeyword.LowercaseValue => _classLower,
-                TextTransformKeyword.UppercaseValue => _classUpper,
-                TextTransformKeyword.CapitalizeValue => _classCap,
-                _ => string.Empty
-            };
+            TextTransformRule rule = _rules[i];
+            string cls = rule.Value;
             if (cls.Length == 0)
                 continue;
 
-            var bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
+            string bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
             if (bp.Length != 0)
                 cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, bp);
 

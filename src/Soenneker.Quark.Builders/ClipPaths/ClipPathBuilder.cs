@@ -1,4 +1,4 @@
-using Soenneker.Quark.Attributes;
+
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Soenneker.Utils.PooledStringBuilders;
@@ -13,15 +13,14 @@ public sealed class ClipPathBuilder : ICssBuilder
 {
     private readonly List<ClipPathRule> _rules = new(4);
 
-    private const string _classClipPathNone = "clip-path-none";
-    private const string _classClipPathCircle = "clip-path-circle";
-    private const string _classClipPathEllipse = "clip-path-ellipse";
-    private const string _classClipPathInset = "clip-path-inset";
-    private const string _classClipPathPolygon = "clip-path-polygon";
-
     internal ClipPathBuilder(string path, BreakpointType? breakpoint = null)
     {
         _rules.Add(new ClipPathRule(path, breakpoint));
+    }
+
+    internal ClipPathBuilder(ClipPathEnum path, BreakpointType? breakpoint = null)
+    {
+        _rules.Add(new ClipPathRule(path.Value, breakpoint));
     }
 
     internal ClipPathBuilder(List<ClipPathRule> rules)
@@ -33,23 +32,23 @@ public sealed class ClipPathBuilder : ICssBuilder
     /// <summary>
     /// Sets the clip path to none.
     /// </summary>
-    public ClipPathBuilder None => ChainWithPath("none");
+    public ClipPathBuilder None => ChainWithPath(ClipPathEnum.None);
     /// <summary>
     /// Sets the clip path to circle.
     /// </summary>
-    public ClipPathBuilder Circle => ChainWithPath("circle");
+    public ClipPathBuilder Circle => ChainWithPath(ClipPathEnum.Circle);
     /// <summary>
     /// Sets the clip path to ellipse.
     /// </summary>
-    public ClipPathBuilder Ellipse => ChainWithPath("ellipse");
+    public ClipPathBuilder Ellipse => ChainWithPath(ClipPathEnum.Ellipse);
     /// <summary>
     /// Sets the clip path to inset.
     /// </summary>
-    public ClipPathBuilder Inset => ChainWithPath("inset");
+    public ClipPathBuilder Inset => ChainWithPath(ClipPathEnum.Inset);
     /// <summary>
     /// Sets the clip path to polygon.
     /// </summary>
-    public ClipPathBuilder Polygon => ChainWithPath("polygon");
+    public ClipPathBuilder Polygon => ChainWithPath(ClipPathEnum.Polygon);
 
     /// <summary>
     /// Applies the clip path on phone breakpoint.
@@ -84,6 +83,13 @@ public sealed class ClipPathBuilder : ICssBuilder
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private ClipPathBuilder ChainWithPath(ClipPathEnum path)
+    {
+        _rules.Add(new ClipPathRule(path.Value, null));
+        return this;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private ClipPathBuilder ChainWithBreakpoint(BreakpointType breakpoint)
     {
         if (_rules.Count == 0)
@@ -92,8 +98,8 @@ public sealed class ClipPathBuilder : ICssBuilder
             return this;
         }
 
-        var lastIdx = _rules.Count - 1;
-        var last = _rules[lastIdx];
+        int lastIdx = _rules.Count - 1;
+        ClipPathRule last = _rules[lastIdx];
         _rules[lastIdx] = new ClipPathRule(last.Path, breakpoint);
         return this;
     }
@@ -112,12 +118,12 @@ public sealed class ClipPathBuilder : ICssBuilder
 
         for (var i = 0; i < _rules.Count; i++)
         {
-            var rule = _rules[i];
-            var cls = GetClipPathClass(rule.Path);
+            ClipPathRule rule = _rules[i];
+            string cls = rule.Path;
             if (cls.Length == 0)
                 continue;
 
-            var bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
+            string bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
             if (bp.Length != 0)
                 cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, bp);
 
@@ -130,63 +136,7 @@ public sealed class ClipPathBuilder : ICssBuilder
         return sb.ToString();
     }
 
-    /// <summary>
-    /// Gets the CSS style string for the current configuration.
-    /// </summary>
-    /// <returns>The CSS style string.</returns>
-    public string ToStyle()
-    {
-        if (_rules.Count == 0)
-            return string.Empty;
-
-        using var sb = new PooledStringBuilder();
-        var first = true;
-
-        for (var i = 0; i < _rules.Count; i++)
-        {
-            var rule = _rules[i];
-            var pathValue = GetClipPathValue(rule.Path);
-
-            if (pathValue is null)
-                continue;
-
-            if (!first) sb.Append("; ");
-            else first = false;
-
-            sb.Append("clip-path: ");
-            sb.Append(pathValue);
-        }
-
-        return sb.ToString();
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static string GetClipPathClass(string path)
-    {
-        return path switch
-        {
-            "none" => _classClipPathNone,
-            "circle" => _classClipPathCircle,
-            "ellipse" => _classClipPathEllipse,
-            "inset" => _classClipPathInset,
-            "polygon" => _classClipPathPolygon,
-            _ => string.Empty
-        };
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static string? GetClipPathValue(string path)
-    {
-        return path switch
-        {
-            "none" => "none",
-            "circle" => "circle(50%)",
-            "ellipse" => "ellipse(50% 50%)",
-            "inset" => "inset(10%)",
-            "polygon" => "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
-            _ => null
-        };
-    }
+    public string ToStyle() => string.Empty;
 
     /// <summary>
     /// Returns the CSS class string representation of this clip path builder.

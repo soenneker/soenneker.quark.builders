@@ -6,23 +6,47 @@ namespace Soenneker.Quark;
 public static class BoxShadow
 {
     /// <summary>
-    /// Gets a box shadow builder with none value (no shadow).
+    /// No shadow.
     /// </summary>
-    public static BoxShadowBuilder None => new(BoxShadowKeyword.NoneValue);
+    public static BoxShadowBuilder None => new(BoxShadowEnum.None);
+
     /// <summary>
-    /// Gets a box shadow builder with extra small value.
+    /// Extra small shadow.
     /// </summary>
-    public static BoxShadowBuilder Xs => new("xs");
+    public static BoxShadowBuilder Xs => new(BoxShadowEnum.Xs);
+
     /// <summary>
-    /// Gets a box shadow builder with base value (default shadow).
+    /// Small shadow.
     /// </summary>
-    public static BoxShadowBuilder Base => new("base");
+    public static BoxShadowBuilder Sm => new(BoxShadowEnum.Sm);
+
     /// <summary>
-    /// Gets a box shadow builder with small value (small shadow).
+    /// Default shadow.
     /// </summary>
-    public static BoxShadowBuilder Small => new(SizeType.Small.Value);
+    public static BoxShadowBuilder Default => new(BoxShadowEnum.Default);
+
     /// <summary>
-    /// Gets a box shadow builder with large value (large shadow).
+    /// Medium shadow.
     /// </summary>
-    public static BoxShadowBuilder Large => new(SizeType.Large.Value);
+    public static BoxShadowBuilder Md => new(BoxShadowEnum.Md);
+
+    /// <summary>
+    /// Large shadow.
+    /// </summary>
+    public static BoxShadowBuilder Lg => new(BoxShadowEnum.Lg);
+
+    /// <summary>
+    /// Extra large shadow.
+    /// </summary>
+    public static BoxShadowBuilder Xl => new(BoxShadowEnum.Xl);
+
+    /// <summary>
+    /// 2x extra large shadow.
+    /// </summary>
+    public static BoxShadowBuilder TwoXl => new(BoxShadowEnum.TwoXl);
+
+    /// <summary>
+    /// Inner shadow.
+    /// </summary>
+    public static BoxShadowBuilder Inner => new(BoxShadowEnum.Inner);
 }

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Soenneker.Quark.Attributes;
+namespace Soenneker.Quark;
 
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = false)]
 public sealed class TailwindPrefixAttribute : Attribute

@@ -1,4 +1,4 @@
-using Soenneker.Quark.Attributes;
+
 
 namespace Soenneker.Quark;
 
@@ -17,7 +17,7 @@ public sealed class MinWidthBuilder : ICssBuilder
 
     public string ToClass()
     {
-        var cls = GetMinWidthClass(_token);
+        string cls = GetMinWidthClass(_token);
         return cls.Length == 0 ? string.Empty : cls;
     }
 
@@ -25,17 +25,9 @@ public sealed class MinWidthBuilder : ICssBuilder
 
     private static string GetMinWidthClass(string token)
     {
-        return token switch
-        {
-            "0" => "min-w-0",
-            "px" => "min-w-px",
-            "full" => "min-w-full",
-            "min" => "min-w-min",
-            "max" => "min-w-max",
-            "fit" => "min-w-fit",
-            _ when token.StartsWith("min-w-") => token,
-            _ when token.Length > 0 => "min-w-" + token,
-            _ => string.Empty
-        };
+        if (string.IsNullOrEmpty(token))
+            return string.Empty;
+
+        return token.StartsWith("min-w-") ? token : "min-w-" + token;
     }
 }

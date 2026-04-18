@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
 namespace Soenneker.Quark;
@@ -44,10 +45,58 @@ public static class BreakpointUtil
         return string.Create(bp.Length + 1 + className.Length, (className, bp), static (dst, s) =>
         {
             s.bp.AsSpan().CopyTo(dst);
-            var idx = s.bp.Length;
+            int idx = s.bp.Length;
             dst[idx++] = ':';
             s.className.AsSpan().CopyTo(dst[idx..]);
         });
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static string ApplyTailwindModifier(string className, string modifier)
+    {
+        if (string.IsNullOrEmpty(modifier))
+            return className;
+
+        return string.Create(modifier.Length + 1 + className.Length, (className, modifier), static (dst, s) =>
+        {
+            s.modifier.AsSpan().CopyTo(dst);
+            int idx = s.modifier.Length;
+            dst[idx++] = ':';
+            s.className.AsSpan().CopyTo(dst[idx..]);
+        });
+    }
+
+    public static string ApplyTailwindModifiers(string classGroup, IReadOnlyList<string> modifiers)
+    {
+        if (string.IsNullOrEmpty(classGroup) || modifiers.Count == 0)
+            return classGroup;
+
+        string[] tokens = classGroup.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+
+        if (tokens.Length == 0)
+            return string.Empty;
+
+        using var sb = new Soenneker.Utils.PooledStringBuilders.PooledStringBuilder();
+
+        for (var i = 0; i < tokens.Length; i++)
+        {
+            string token = tokens[i];
+
+            for (int j = modifiers.Count - 1; j >= 0; j--)
+            {
+                string modifier = modifiers[j];
+
+                if (modifier.Length != 0)
+                    token = ApplyTailwindModifier(token, modifier);
+            }
+
+            if (i > 0)
+                sb.Append(' ');
+
+            sb.Append(token);
+        }
+
+        return sb.ToString();
     }
 }
 

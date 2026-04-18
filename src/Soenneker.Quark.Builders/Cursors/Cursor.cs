@@ -2,72 +2,96 @@
 namespace Soenneker.Quark;
 
 /// <summary>
-/// Simplified cursor utility with fluent API and Tailwind/shadcn-aligned fluent API.
+/// Tailwind/shadcn-aligned cursor utility.
 /// </summary>
 public static class Cursor
 {
     /// <summary>
-    /// Default cursor (auto).
+    /// `cursor-auto`
     /// </summary>
-    public static CursorBuilder Default => new("auto");
+    public static CursorBuilder Auto => new(CursorEnum.Auto);
 
     /// <summary>
-    /// Pointer cursor (clickable).
+    /// Alias for `Auto`.
     /// </summary>
-    public static CursorBuilder Pointer => new("pointer");
+    public static CursorBuilder Default => new(CursorEnum.Default);
 
     /// <summary>
-    /// Grab cursor (draggable).
+    /// `cursor-pointer`
     /// </summary>
-    public static CursorBuilder Grab => new("grab");
+    public static CursorBuilder Pointer => new(CursorEnum.Pointer);
 
     /// <summary>
-    /// Grabbing cursor (dragging).
+    /// `cursor-wait`
     /// </summary>
-    public static CursorBuilder Grabbing => new("grabbing");
+    public static CursorBuilder Wait => new(CursorEnum.Wait);
 
     /// <summary>
-    /// Text cursor (selectable text).
+    /// `cursor-text`
     /// </summary>
-    public static CursorBuilder Text => new("text");
+    public static CursorBuilder Text => new(CursorEnum.Text);
 
     /// <summary>
-    /// Move cursor (movable).
+    /// `cursor-move`
     /// </summary>
-    public static CursorBuilder Move => new("move");
+    public static CursorBuilder Move => new(CursorEnum.Move);
 
     /// <summary>
-    /// Resize cursor (resizable).
+    /// `cursor-help`
     /// </summary>
-    public static CursorBuilder Resize => new("resize");
+    public static CursorBuilder Help => new(CursorEnum.Help);
 
     /// <summary>
-    /// Not allowed cursor (disabled).
+    /// `cursor-not-allowed`
     /// </summary>
-    public static CursorBuilder NotAllowed => new("not-allowed");
+    public static CursorBuilder NotAllowed => new(CursorEnum.NotAllowed);
 
     /// <summary>
-    /// Help cursor (help available).
+    /// `cursor-none`
     /// </summary>
-    public static CursorBuilder Help => new("help");
+    public static CursorBuilder None => new(CursorEnum.None);
 
     /// <summary>
-    /// Wait cursor (loading).
+    /// `cursor-context-menu`
     /// </summary>
-    public static CursorBuilder Wait => new("wait");
+    public static CursorBuilder ContextMenu => new(CursorEnum.ContextMenu);
 
     /// <summary>
-    /// Crosshair cursor (precise selection).
+    /// `cursor-progress`
     /// </summary>
-    public static CursorBuilder Crosshair => new("crosshair");
+    public static CursorBuilder Progress => new(CursorEnum.Progress);
 
     /// <summary>
-    /// Zoom in cursor.
+    /// `cursor-cell`
     /// </summary>
-    public static CursorBuilder ZoomIn => new("zoom-in");
+    public static CursorBuilder Cell => new(CursorEnum.Cell);
 
     /// <summary>
-    /// Zoom out cursor.
+    /// `cursor-crosshair`
     /// </summary>
-    public static CursorBuilder ZoomOut => new("zoom-out");
+    public static CursorBuilder Crosshair => new(CursorEnum.Crosshair);
+
+    public static CursorBuilder VerticalText => new(CursorEnum.VerticalText);
+    public static CursorBuilder Alias => new(CursorEnum.Alias);
+    public static CursorBuilder Copy => new(CursorEnum.Copy);
+    public static CursorBuilder NoDrop => new(CursorEnum.NoDrop);
+    public static CursorBuilder Grab => new(CursorEnum.Grab);
+    public static CursorBuilder Grabbing => new(CursorEnum.Grabbing);
+    public static CursorBuilder AllScroll => new(CursorEnum.AllScroll);
+    public static CursorBuilder ColResize => new(CursorEnum.ColResize);
+    public static CursorBuilder RowResize => new(CursorEnum.RowResize);
+    public static CursorBuilder NResize => new(CursorEnum.NResize);
+    public static CursorBuilder EResize => new(CursorEnum.EResize);
+    public static CursorBuilder SResize => new(CursorEnum.SResize);
+    public static CursorBuilder WResize => new(CursorEnum.WResize);
+    public static CursorBuilder NeResize => new(CursorEnum.NeResize);
+    public static CursorBuilder NwResize => new(CursorEnum.NwResize);
+    public static CursorBuilder SeResize => new(CursorEnum.SeResize);
+    public static CursorBuilder SwResize => new(CursorEnum.SwResize);
+    public static CursorBuilder EwResize => new(CursorEnum.EwResize);
+    public static CursorBuilder NsResize => new(CursorEnum.NsResize);
+    public static CursorBuilder NeswResize => new(CursorEnum.NeswResize);
+    public static CursorBuilder NwseResize => new(CursorEnum.NwseResize);
+    public static CursorBuilder ZoomIn => new(CursorEnum.ZoomIn);
+    public static CursorBuilder ZoomOut => new(CursorEnum.ZoomOut);
 }

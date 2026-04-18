@@ -1,8 +1,6 @@
-using System;
-using Soenneker.Quark.Attributes;
+
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
-
 using Soenneker.Utils.PooledStringBuilders;
 
 namespace Soenneker.Quark;
@@ -16,12 +14,10 @@ public sealed class TransitionBuilder : ICssBuilder
     private readonly List<TransitionRule> _rules = new(4);
     private BreakpointType? _pendingBreakpoint;
 
-    private const string _classTransitionNone = "transition-none";
-    private const string _classTransitionAll = "transition-all";
-    private const string _classTransitionColors = "transition-colors";
-    private const string _classTransitionOpacity = "transition-opacity";
-    private const string _classTransitionShadow = "transition-shadow";
-    private const string _classTransitionTransform = "transition-transform";
+    internal TransitionBuilder(TransitionEnum transition, BreakpointType? breakpoint = null)
+    {
+        _rules.Add(new TransitionRule(transition.Value, breakpoint));
+    }
 
     internal TransitionBuilder(string transition, BreakpointType? breakpoint = null)
     {
@@ -37,27 +33,27 @@ public sealed class TransitionBuilder : ICssBuilder
     /// <summary>
     /// Sets the transition to none.
     /// </summary>
-    public TransitionBuilder None => ChainWithTransition("none");
+    public TransitionBuilder None => ChainWithTransition(TransitionEnum.None);
     /// <summary>
     /// Sets the transition to all.
     /// </summary>
-    public TransitionBuilder All => ChainWithTransition("all");
+    public TransitionBuilder All => ChainWithTransition(TransitionEnum.All);
     /// <summary>
     /// Sets the transition to colors.
     /// </summary>
-    public TransitionBuilder Colors => ChainWithTransition("colors");
+    public TransitionBuilder Colors => ChainWithTransition(TransitionEnum.Colors);
     /// <summary>
     /// Sets the transition to opacity.
     /// </summary>
-    public TransitionBuilder Opacity => ChainWithTransition("opacity");
+    public TransitionBuilder Opacity => ChainWithTransition(TransitionEnum.Opacity);
     /// <summary>
     /// Sets the transition to shadow.
     /// </summary>
-    public TransitionBuilder Shadow => ChainWithTransition("shadow");
+    public TransitionBuilder Shadow => ChainWithTransition(TransitionEnum.Shadow);
     /// <summary>
     /// Sets the transition to transform.
     /// </summary>
-    public TransitionBuilder Transform => ChainWithTransition("transform");
+    public TransitionBuilder Transform => ChainWithTransition(TransitionEnum.Transform);
 
     /// <summary>
     /// Applies an exact Tailwind transition utility token, e.g. "transition-[left,right,width]".
@@ -90,9 +86,15 @@ public sealed class TransitionBuilder : ICssBuilder
     public TransitionBuilder On2xl => SetPendingBreakpoint(BreakpointType.Xxl);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private TransitionBuilder ChainWithTransition(TransitionEnum transition)
+    {
+        return ChainWithTransition(transition.Value);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private TransitionBuilder ChainWithTransition(string transition)
     {
-        var bp = _pendingBreakpoint;
+        BreakpointType? bp = _pendingBreakpoint;
         _pendingBreakpoint = null;
         _rules.Add(new TransitionRule(transition, bp));
         return this;
@@ -119,12 +121,12 @@ public sealed class TransitionBuilder : ICssBuilder
 
         for (var i = 0; i < _rules.Count; i++)
         {
-            var rule = _rules[i];
-            var cls = GetTransitionClass(rule.Transition);
+            TransitionRule rule = _rules[i];
+            string cls = rule.Transition;
             if (cls.Length == 0)
                 continue;
 
-            var bp = BreakpointUtil.GetBreakpointClass(rule.Breakpoint);
+            string bp = BreakpointUtil.GetBreakpointClass(rule.Breakpoint);
             if (bp.Length != 0)
                 cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, bp);
 
@@ -137,66 +139,7 @@ public sealed class TransitionBuilder : ICssBuilder
         return sb.ToString();
     }
 
-    /// <summary>
-    /// Gets the CSS style string for the current configuration.
-    /// </summary>
-    /// <returns>The CSS style string.</returns>
-    public string ToStyle()
-    {
-        if (_rules.Count == 0)
-            return string.Empty;
-
-        using var sb = new PooledStringBuilder();
-        var first = true;
-
-        for (var i = 0; i < _rules.Count; i++)
-        {
-            var rule = _rules[i];
-            var transitionValue = GetTransitionValue(rule.Transition);
-
-            if (transitionValue is null)
-                continue;
-
-            if (!first) sb.Append("; ");
-            else first = false;
-
-            sb.Append("transition: ");
-            sb.Append(transitionValue);
-        }
-
-        return sb.ToString();
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static string GetTransitionClass(string transition)
-    {
-        return transition switch
-        {
-            "none" => _classTransitionNone,
-            "all" => _classTransitionAll,
-            "colors" => _classTransitionColors,
-            "opacity" => _classTransitionOpacity,
-            "shadow" => _classTransitionShadow,
-            "transform" => _classTransitionTransform,
-            _ when transition.StartsWith("transition", StringComparison.Ordinal) => transition,
-            _ => string.Empty
-        };
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static string? GetTransitionValue(string transition)
-    {
-        return transition switch
-        {
-            "none" => "none",
-            "all" => "all 150ms ease-in-out",
-            "colors" => "color 150ms ease-in-out, background-color 150ms ease-in-out, border-color 150ms ease-in-out",
-            "opacity" => "opacity 150ms ease-in-out",
-            "shadow" => "box-shadow 150ms ease-in-out",
-            "transform" => "transform 150ms ease-in-out",
-            _ => null
-        };
-    }
+    public string ToStyle() => string.Empty;
 
     /// <summary>
     /// Returns the CSS class string representation of this transition builder.

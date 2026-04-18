@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
-using Soenneker.Quark.Attributes;
+
 using Soenneker.Utils.PooledStringBuilders;
 
 namespace Soenneker.Quark;
@@ -205,7 +205,7 @@ public sealed class WidthBuilder : ICssBuilder
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private WidthBuilder ChainWithSize(string size)
     {
-        var bp = _pendingBreakpoint;
+        BreakpointType? bp = _pendingBreakpoint;
         _pendingBreakpoint = null;
         _rules.Add(new WidthRule(size, bp));
         return this;
@@ -228,12 +228,12 @@ public sealed class WidthBuilder : ICssBuilder
 
         for (var i = 0; i < _rules.Count; i++)
         {
-            var rule = _rules[i];
-            var cls = GetWidthClass(rule.Size);
+            WidthRule rule = _rules[i];
+            string cls = GetWidthClass(rule.Size);
             if (cls.Length == 0)
                 continue;
 
-            var bp = BreakpointUtil.GetBreakpointClass(rule.Breakpoint);
+            string bp = BreakpointUtil.GetBreakpointClass(rule.Breakpoint);
             if (bp.Length != 0)
                 cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, bp);
 

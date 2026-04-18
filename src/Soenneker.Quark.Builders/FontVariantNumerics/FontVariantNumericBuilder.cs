@@ -1,4 +1,4 @@
-using Soenneker.Quark.Attributes;
+
 using Soenneker.Utils.PooledStringBuilders;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
@@ -19,6 +19,11 @@ public sealed class FontVariantNumericBuilder : ICssBuilder
         _rules.Add(new FontVariantNumericRule(value, breakpoint));
     }
 
+    internal FontVariantNumericBuilder(FontVariantNumericEnum value, BreakpointType? breakpoint = null)
+    {
+        _rules.Add(new FontVariantNumericRule(value.Value, breakpoint));
+    }
+
     internal FontVariantNumericBuilder(List<FontVariantNumericRule> rules)
     {
         if (rules is { Count: > 0 })
@@ -28,39 +33,39 @@ public sealed class FontVariantNumericBuilder : ICssBuilder
     /// <summary>
     /// Fluent step for `Normal Nums` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public FontVariantNumericBuilder NormalNums => Chain("normal-nums");
+    public FontVariantNumericBuilder NormalNums => Chain(FontVariantNumericEnum.NormalNums);
     /// <summary>
     /// Fluent step for `Ordinal` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public FontVariantNumericBuilder Ordinal => Chain("ordinal");
+    public FontVariantNumericBuilder Ordinal => Chain(FontVariantNumericEnum.Ordinal);
     /// <summary>
     /// Fluent step for `Slashed Zero` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public FontVariantNumericBuilder SlashedZero => Chain("slashed-zero");
+    public FontVariantNumericBuilder SlashedZero => Chain(FontVariantNumericEnum.SlashedZero);
     /// <summary>
     /// Fluent step for `Lining Nums` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public FontVariantNumericBuilder LiningNums => Chain("lining-nums");
+    public FontVariantNumericBuilder LiningNums => Chain(FontVariantNumericEnum.LiningNums);
     /// <summary>
     /// Fluent step for `Oldstyle Nums` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public FontVariantNumericBuilder OldstyleNums => Chain("oldstyle-nums");
+    public FontVariantNumericBuilder OldstyleNums => Chain(FontVariantNumericEnum.OldstyleNums);
     /// <summary>
     /// Fluent step for `Proportional Nums` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public FontVariantNumericBuilder ProportionalNums => Chain("proportional-nums");
+    public FontVariantNumericBuilder ProportionalNums => Chain(FontVariantNumericEnum.ProportionalNums);
     /// <summary>
     /// Fluent step for `Tabular Nums` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public FontVariantNumericBuilder TabularNums => Chain("tabular-nums");
+    public FontVariantNumericBuilder TabularNums => Chain(FontVariantNumericEnum.TabularNums);
     /// <summary>
     /// Fluent step for `Diagonal Fractions` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public FontVariantNumericBuilder DiagonalFractions => Chain("diagonal-fractions");
+    public FontVariantNumericBuilder DiagonalFractions => Chain(FontVariantNumericEnum.DiagonalFractions);
     /// <summary>
     /// Fluent step for `Stacked Fractions` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public FontVariantNumericBuilder StackedFractions => Chain("stacked-fractions");
+    public FontVariantNumericBuilder StackedFractions => Chain(FontVariantNumericEnum.StackedFractions);
 
     /// <summary>
     /// Scopes the next utility to the default (unprefixed) breakpoint. In Tailwind’s mobile‑first model, unprefixed utilities apply from 0px unless a larger breakpoint overrides them.
@@ -90,9 +95,18 @@ public sealed class FontVariantNumericBuilder : ICssBuilder
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private FontVariantNumericBuilder Chain(string value)
     {
-        var bp = _pendingBreakpoint;
+        BreakpointType? bp = _pendingBreakpoint;
         _pendingBreakpoint = null;
         _rules.Add(new FontVariantNumericRule(value, bp));
+        return this;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private FontVariantNumericBuilder Chain(FontVariantNumericEnum value)
+    {
+        BreakpointType? bp = _pendingBreakpoint;
+        _pendingBreakpoint = null;
+        _rules.Add(new FontVariantNumericRule(value.Value, bp));
         return this;
     }
 
@@ -113,13 +127,13 @@ public sealed class FontVariantNumericBuilder : ICssBuilder
 
         for (var i = 0; i < _rules.Count; i++)
         {
-            var rule = _rules[i];
-            var cls = GetClass(rule.Value);
+            FontVariantNumericRule rule = _rules[i];
+            string cls = rule.Value;
 
             if (cls.Length == 0)
                 continue;
 
-            var bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
+            string bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
             if (bp.Length != 0)
                 cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, bp);
 
@@ -134,66 +148,5 @@ public sealed class FontVariantNumericBuilder : ICssBuilder
         return sb.ToString();
     }
 
-    public string ToStyle()
-    {
-        if (_rules.Count == 0)
-            return string.Empty;
-
-        using var sb = new PooledStringBuilder();
-        var first = true;
-
-        for (var i = 0; i < _rules.Count; i++)
-        {
-            var css = GetStyleValue(_rules[i].Value);
-
-            if (css is null)
-                continue;
-
-            if (!first)
-                sb.Append("; ");
-            else
-                first = false;
-
-            sb.Append("font-variant-numeric: ");
-            sb.Append(css);
-        }
-
-        return sb.ToString();
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static string GetClass(string value)
-    {
-        return value switch
-        {
-            "normal-nums" => "normal-nums",
-            "ordinal" => "ordinal",
-            "slashed-zero" => "slashed-zero",
-            "lining-nums" => "lining-nums",
-            "oldstyle-nums" => "oldstyle-nums",
-            "proportional-nums" => "proportional-nums",
-            "tabular-nums" => "tabular-nums",
-            "diagonal-fractions" => "diagonal-fractions",
-            "stacked-fractions" => "stacked-fractions",
-            _ => string.Empty
-        };
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static string? GetStyleValue(string value)
-    {
-        return value switch
-        {
-            "normal-nums" => "normal",
-            "ordinal" => "ordinal",
-            "slashed-zero" => "slashed-zero",
-            "lining-nums" => "lining-nums",
-            "oldstyle-nums" => "oldstyle-nums",
-            "proportional-nums" => "proportional-nums",
-            "tabular-nums" => "tabular-nums",
-            "diagonal-fractions" => "diagonal-fractions",
-            "stacked-fractions" => "stacked-fractions",
-            _ => null
-        };
-    }
+    public string ToStyle() => string.Empty;
 }

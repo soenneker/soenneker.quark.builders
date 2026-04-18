@@ -1,5 +1,4 @@
-using System;
-using Soenneker.Quark.Attributes;
+
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Soenneker.Utils.PooledStringBuilders;
@@ -15,11 +14,10 @@ public sealed class AnimationBuilder : ICssBuilder
     private readonly List<AnimationRule> _rules = new(4);
     private BreakpointType? _pendingBreakpoint;
 
-    private const string _classAnimationNone = "animate-none";
-    private const string _classAnimationSpin = "animate-spin";
-    private const string _classAnimationPing = "animate-ping";
-    private const string _classAnimationPulse = "animate-pulse";
-    private const string _classAnimationBounce = "animate-bounce";
+    internal AnimationBuilder(AnimationEnum animation, BreakpointType? breakpoint = null)
+    {
+        _rules.Add(new AnimationRule(animation.Value, breakpoint));
+    }
 
     internal AnimationBuilder(string animation, BreakpointType? breakpoint = null)
     {
@@ -35,27 +33,27 @@ public sealed class AnimationBuilder : ICssBuilder
     /// <summary>
     /// Sets the animation to none.
     /// </summary>
-    public AnimationBuilder None => ChainWithAnimation("none");
+    public AnimationBuilder None => ChainWithAnimation(AnimationEnum.None);
 
     /// <summary>
     /// Sets the animation to spin.
     /// </summary>
-    public AnimationBuilder Spin => ChainWithAnimation("spin");
+    public AnimationBuilder Spin => ChainWithAnimation(AnimationEnum.Spin);
 
     /// <summary>
     /// Sets the animation to ping.
     /// </summary>
-    public AnimationBuilder Ping => ChainWithAnimation("ping");
+    public AnimationBuilder Ping => ChainWithAnimation(AnimationEnum.Ping);
 
     /// <summary>
     /// Sets the animation to pulse.
     /// </summary>
-    public AnimationBuilder Pulse => ChainWithAnimation("pulse");
+    public AnimationBuilder Pulse => ChainWithAnimation(AnimationEnum.Pulse);
 
     /// <summary>
     /// Sets the animation to bounce.
     /// </summary>
-    public AnimationBuilder Bounce => ChainWithAnimation("bounce");
+    public AnimationBuilder Bounce => ChainWithAnimation(AnimationEnum.Bounce);
 
     /// <summary>
     /// Applies an exact Tailwind animation utility token, e.g. "animate-in".
@@ -93,9 +91,15 @@ public sealed class AnimationBuilder : ICssBuilder
     public AnimationBuilder On2xl => SetPendingBreakpoint(BreakpointType.Xxl);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private AnimationBuilder ChainWithAnimation(AnimationEnum animation)
+    {
+        return ChainWithAnimation(animation.Value);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private AnimationBuilder ChainWithAnimation(string animation)
     {
-        var bp = _pendingBreakpoint;
+        BreakpointType? bp = _pendingBreakpoint;
         _pendingBreakpoint = null;
         _rules.Add(new AnimationRule(animation, bp));
         return this;
@@ -122,12 +126,12 @@ public sealed class AnimationBuilder : ICssBuilder
 
         for (var i = 0; i < _rules.Count; i++)
         {
-            var rule = _rules[i];
-            var cls = GetAnimationClass(rule.Animation);
+            AnimationRule rule = _rules[i];
+            string cls = rule.Animation;
             if (cls.Length == 0)
                 continue;
 
-            var bp = BreakpointUtil.GetBreakpointClass(rule.Breakpoint);
+            string bp = BreakpointUtil.GetBreakpointClass(rule.Breakpoint);
             if (bp.Length != 0)
                 cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, bp);
 
@@ -142,66 +146,7 @@ public sealed class AnimationBuilder : ICssBuilder
         return sb.ToString();
     }
 
-    /// <summary>
-    /// Gets the CSS style string for the current configuration.
-    /// </summary>
-    /// <returns>The CSS style string.</returns>
-    public string ToStyle()
-    {
-        if (_rules.Count == 0)
-            return string.Empty;
-
-        using var sb = new PooledStringBuilder();
-        var first = true;
-
-        for (var i = 0; i < _rules.Count; i++)
-        {
-            var rule = _rules[i];
-            var animationValue = GetAnimationValue(rule.Animation);
-
-            if (animationValue is null)
-                continue;
-
-            if (!first)
-                sb.Append("; ");
-            else
-                first = false;
-
-            sb.Append("animation: ");
-            sb.Append(animationValue);
-        }
-
-        return sb.ToString();
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static string GetAnimationClass(string animation)
-    {
-        return animation switch
-        {
-            "none" => _classAnimationNone,
-            "spin" => _classAnimationSpin,
-            "ping" => _classAnimationPing,
-            "pulse" => _classAnimationPulse,
-            "bounce" => _classAnimationBounce,
-            _ when animation.StartsWith("animate-", StringComparison.Ordinal) => animation,
-            _ => string.Empty
-        };
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static string? GetAnimationValue(string animation)
-    {
-        return animation switch
-        {
-            "none" => "none",
-            "spin" => "spin 1s linear infinite",
-            "ping" => "ping 1s cubic-bezier(0, 0, 0.2, 1) infinite",
-            "pulse" => "pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite",
-            "bounce" => "bounce 1s infinite",
-            _ => null
-        };
-    }
+    public string ToStyle() => string.Empty;
 
     /// <summary>
     /// Returns the CSS class string representation of this animation builder.

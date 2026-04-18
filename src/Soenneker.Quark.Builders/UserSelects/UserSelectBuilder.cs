@@ -1,8 +1,7 @@
-using Soenneker.Quark.Attributes;
+
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Soenneker.Utils.PooledStringBuilders;
-
 
 namespace Soenneker.Quark;
 
@@ -15,13 +14,9 @@ public sealed class UserSelectBuilder : ICssBuilder
     private readonly List<UserSelectRule> _rules = new(4);
     private BreakpointType? _pendingBreakpoint;
 
-    private const string _classNone = "select-none";
-    private const string _classAuto = "select-auto";
-    private const string _classAll = "select-all";
-
-    internal UserSelectBuilder(string value, BreakpointType? breakpoint = null)
+    internal UserSelectBuilder(UserSelectEnum value, BreakpointType? breakpoint = null)
     {
-        _rules.Add(new UserSelectRule(value, breakpoint));
+        _rules.Add(new UserSelectRule(value.Value, breakpoint));
     }
 
     internal UserSelectBuilder(List<UserSelectRule> rules)
@@ -33,17 +28,17 @@ public sealed class UserSelectBuilder : ICssBuilder
     /// <summary>
     /// Sets the user select to none.
     /// </summary>
-    public UserSelectBuilder None => Chain(UserSelectKeyword.NoneValue);
+    public UserSelectBuilder None => Chain(UserSelectEnum.None);
 
     /// <summary>
     /// Sets the user select to auto.
     /// </summary>
-    public UserSelectBuilder Auto => Chain(UserSelectKeyword.AutoValue);
+    public UserSelectBuilder Auto => Chain(UserSelectEnum.Auto);
 
     /// <summary>
     /// Sets the user select to all.
     /// </summary>
-    public UserSelectBuilder All => Chain(UserSelectKeyword.AllValue);
+    public UserSelectBuilder All => Chain(UserSelectEnum.All);
 
     /// <summary>
     /// Applies the user select on phone breakpoint.
@@ -76,9 +71,9 @@ public sealed class UserSelectBuilder : ICssBuilder
     public UserSelectBuilder On2xl => SetPendingBreakpoint(BreakpointType.Xxl);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private UserSelectBuilder Chain(string value)
+    private UserSelectBuilder Chain(UserSelectEnum value)
     {
-        _rules.Add(new UserSelectRule(value, ConsumePendingBreakpoint()));
+        _rules.Add(new UserSelectRule(value.Value, ConsumePendingBreakpoint()));
         return this;
     }
 
@@ -92,7 +87,7 @@ public sealed class UserSelectBuilder : ICssBuilder
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private BreakpointType? ConsumePendingBreakpoint()
     {
-        var breakpoint = _pendingBreakpoint;
+        BreakpointType? breakpoint = _pendingBreakpoint;
         _pendingBreakpoint = null;
         return breakpoint;
     }
@@ -109,18 +104,12 @@ public sealed class UserSelectBuilder : ICssBuilder
         var first = true;
         for (var i = 0; i < _rules.Count; i++)
         {
-            var rule = _rules[i];
-            var cls = rule.Value switch
-            {
-                UserSelectKeyword.NoneValue => _classNone,
-                UserSelectKeyword.AutoValue => _classAuto,
-                UserSelectKeyword.AllValue => _classAll,
-                _ => string.Empty
-            };
+            UserSelectRule rule = _rules[i];
+            string cls = rule.Value;
             if (cls.Length == 0)
                 continue;
 
-            var bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
+            string bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
             if (bp.Length != 0)
                 cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, bp);
 

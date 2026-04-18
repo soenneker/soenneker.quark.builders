@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Soenneker.Utils.PooledStringBuilders;
-using Soenneker.Quark.Attributes;
+
 
 
 namespace Soenneker.Quark;
@@ -14,13 +14,6 @@ public sealed class PositionBuilder : ICssBuilder
 {
     private readonly List<PositionRule> _rules = new(4);
     private BreakpointType? _pendingBreakpoint;
-
-    // ----- Class name constants -----
-    private const string _classStatic = "static";
-    private const string _classRelative = "relative";
-    private const string _classAbsolute = "absolute";
-    private const string _classFixed = "fixed";
-    private const string _classSticky = "sticky";
 
     internal PositionBuilder(string position, BreakpointType? breakpoint = null)
     {
@@ -74,7 +67,7 @@ public sealed class PositionBuilder : ICssBuilder
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private BreakpointType? ConsumePendingBreakpoint()
     {
-        var breakpoint = _pendingBreakpoint;
+        BreakpointType? breakpoint = _pendingBreakpoint;
         _pendingBreakpoint = null;
         return breakpoint;
     }
@@ -90,13 +83,13 @@ public sealed class PositionBuilder : ICssBuilder
 
         for (var i = 0; i < _rules.Count; i++)
         {
-            var rule = _rules[i];
+            PositionRule rule = _rules[i];
 
-            var baseClass = GetPositionClass(rule.Position);
+            string baseClass = rule.Position;
             if (baseClass.Length == 0)
                 continue;
 
-            var bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
+            string bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
             if (bp.Length != 0)
                 baseClass = BreakpointUtil.ApplyTailwindBreakpoint(baseClass, bp);
 
@@ -115,21 +108,6 @@ public sealed class PositionBuilder : ICssBuilder
     public string ToStyle()
     {
         return string.Empty;
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static string GetPositionClass(string position)
-    {
-        return position switch
-        {
-            // EnumValue<string> *Value constants are compile-time consts, safe in switch
-            PositionKeyword.StaticValue => _classStatic,
-            PositionKeyword.RelativeValue => _classRelative,
-            PositionKeyword.AbsoluteValue => _classAbsolute,
-            PositionKeyword.FixedValue => _classFixed,
-            PositionKeyword.StickyValue => _classSticky,
-            _ => string.Empty
-        };
     }
 
     public override string ToString() => ToClass();

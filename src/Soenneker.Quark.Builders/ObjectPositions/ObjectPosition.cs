@@ -2,52 +2,52 @@
 namespace Soenneker.Quark;
 
 /// <summary>
-/// Simplified object position utility with fluent API and Tailwind/shadcn-aligned fluent API.
+/// Tailwind/shadcn-aligned object-position utility.
 /// </summary>
 public static class ObjectPosition
 {
     /// <summary>
-    /// Center object position (center).
+    /// `object-center`
     /// </summary>
-    public static ObjectPositionBuilder Center => new("center");
+    public static ObjectPositionBuilder Center => new(ObjectPositionEnum.Center);
 
     /// <summary>
-    /// Top object position (top).
+    /// `object-top`
     /// </summary>
-    public static ObjectPositionBuilder Top => new("top");
+    public static ObjectPositionBuilder Top => new(ObjectPositionEnum.Top);
 
     /// <summary>
-    /// Right object position (right).
+    /// `object-right`
     /// </summary>
-    public static ObjectPositionBuilder Right => new("right");
+    public static ObjectPositionBuilder Right => new(ObjectPositionEnum.Right);
 
     /// <summary>
-    /// Bottom object position (bottom).
+    /// `object-bottom`
     /// </summary>
-    public static ObjectPositionBuilder Bottom => new("bottom");
+    public static ObjectPositionBuilder Bottom => new(ObjectPositionEnum.Bottom);
 
     /// <summary>
-    /// Left object position (left).
+    /// `object-left`
     /// </summary>
-    public static ObjectPositionBuilder Left => new("left");
+    public static ObjectPositionBuilder Left => new(ObjectPositionEnum.Left);
 
     /// <summary>
-    /// Top left object position (top-left).
+    /// `object-top-left`
     /// </summary>
-    public static ObjectPositionBuilder TopLeft => new("top-left");
+    public static ObjectPositionBuilder TopLeft => new(ObjectPositionEnum.TopLeft);
 
     /// <summary>
-    /// Top right object position (top-right).
+    /// `object-top-right`
     /// </summary>
-    public static ObjectPositionBuilder TopRight => new("top-right");
+    public static ObjectPositionBuilder TopRight => new(ObjectPositionEnum.TopRight);
 
     /// <summary>
-    /// Bottom left object position (bottom-left).
+    /// `object-bottom-left`
     /// </summary>
-    public static ObjectPositionBuilder BottomLeft => new("bottom-left");
+    public static ObjectPositionBuilder BottomLeft => new(ObjectPositionEnum.BottomLeft);
 
     /// <summary>
-    /// Bottom right object position (bottom-right).
+    /// `object-bottom-right`
     /// </summary>
-    public static ObjectPositionBuilder BottomRight => new("bottom-right");
+    public static ObjectPositionBuilder BottomRight => new(ObjectPositionEnum.BottomRight);
 }

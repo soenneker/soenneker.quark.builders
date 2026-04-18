@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Soenneker.Utils.PooledStringBuilders;
-using Soenneker.Quark.Attributes;
+
 
 
 namespace Soenneker.Quark;
@@ -87,7 +87,7 @@ public sealed class PointerEventsBuilder : ICssBuilder
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private BreakpointType? ConsumePendingBreakpoint()
     {
-        var breakpoint = _pendingBreakpoint;
+        BreakpointType? breakpoint = _pendingBreakpoint;
         _pendingBreakpoint = null;
         return breakpoint;
     }
@@ -106,9 +106,9 @@ public sealed class PointerEventsBuilder : ICssBuilder
 
         for (var i = 0; i < _rules.Count; i++)
         {
-            var rule = _rules[i];
+            PointerEventsRule rule = _rules[i];
 
-            var baseClass = rule.Value switch
+            string baseClass = rule.Value switch
             {
                 PointerEventsKeyword.NoneValue => _classNone,
                 PointerEventsKeyword.AutoValue => _classAuto,
@@ -118,7 +118,7 @@ public sealed class PointerEventsBuilder : ICssBuilder
             if (baseClass.Length == 0)
                 continue;
 
-            var bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
+            string bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
             if (bp.Length != 0)
                 baseClass = BreakpointUtil.ApplyTailwindBreakpoint(baseClass, bp);
 

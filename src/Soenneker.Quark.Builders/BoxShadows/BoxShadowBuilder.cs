@@ -1,8 +1,7 @@
-using Soenneker.Quark.Attributes;
+
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Soenneker.Utils.PooledStringBuilders;
-
 
 namespace Soenneker.Quark;
 
@@ -15,16 +14,9 @@ public sealed class BoxShadowBuilder : ICssBuilder
     private readonly List<BoxShadowRule> _rules = new(4);
     private BreakpointType? _pendingBreakpoint;
 
-    // ----- Class name constants -----
-    private const string _classNone = "shadow-none";
-    private const string _classXs = "shadow-xs";
-    private const string _classBase = "shadow";
-    private const string _classSm = "shadow-sm";
-    private const string _classLg = "shadow-lg";
-
-    internal BoxShadowBuilder(string value, BreakpointType? breakpoint = null)
+    internal BoxShadowBuilder(BoxShadowEnum value, BreakpointType? breakpoint = null)
     {
-        _rules.Add(new BoxShadowRule(value, breakpoint));
+        _rules.Add(new BoxShadowRule(value.Value, breakpoint));
     }
 
     internal BoxShadowBuilder(List<BoxShadowRule> rules)
@@ -36,55 +28,84 @@ public sealed class BoxShadowBuilder : ICssBuilder
     /// <summary>
     /// Sets the box shadow to none.
     /// </summary>
-    public BoxShadowBuilder None => Chain("none");
+    public BoxShadowBuilder None => Chain(BoxShadowEnum.None);
+
     /// <summary>
     /// Sets the box shadow to extra small.
     /// </summary>
-    public BoxShadowBuilder Xs => Chain("xs");
-    /// <summary>
-    /// Sets the box shadow to base.
-    /// </summary>
-    public BoxShadowBuilder Base => Chain("base");
+    public BoxShadowBuilder Xs => Chain(BoxShadowEnum.Xs);
+
     /// <summary>
     /// Sets the box shadow to small.
     /// </summary>
-    public BoxShadowBuilder Small => Chain(SizeType.Small.Value);
+    public BoxShadowBuilder Sm => Chain(BoxShadowEnum.Sm);
+
+    /// <summary>
+    /// Sets the box shadow to the default value.
+    /// </summary>
+    public BoxShadowBuilder Default => Chain(BoxShadowEnum.Default);
+
+    /// <summary>
+    /// Sets the box shadow to medium.
+    /// </summary>
+    public BoxShadowBuilder Md => Chain(BoxShadowEnum.Md);
+
     /// <summary>
     /// Sets the box shadow to large.
     /// </summary>
-    public BoxShadowBuilder Large => Chain(SizeType.Large.Value);
+    public BoxShadowBuilder Lg => Chain(BoxShadowEnum.Lg);
+
+    /// <summary>
+    /// Sets the box shadow to extra large.
+    /// </summary>
+    public BoxShadowBuilder Xl => Chain(BoxShadowEnum.Xl);
+
+    /// <summary>
+    /// Sets the box shadow to 2x extra large.
+    /// </summary>
+    public BoxShadowBuilder TwoXl => Chain(BoxShadowEnum.TwoXl);
+
+    /// <summary>
+    /// Sets the box shadow to inner.
+    /// </summary>
+    public BoxShadowBuilder Inner => Chain(BoxShadowEnum.Inner);
 
     /// <summary>
     /// Applies the box shadow on phone breakpoint.
     /// </summary>
     public BoxShadowBuilder OnBase => SetPendingBreakpoint(BreakpointType.Base);
+
     /// <summary>
     /// Applies the box shadow on small breakpoint (≥640px).
     /// </summary>
     public BoxShadowBuilder OnSm => SetPendingBreakpoint(BreakpointType.Sm);
+
     /// <summary>
     /// Applies the box shadow on tablet breakpoint.
     /// </summary>
     public BoxShadowBuilder OnMd => SetPendingBreakpoint(BreakpointType.Md);
+
     /// <summary>
     /// Applies the box shadow on laptop breakpoint.
     /// </summary>
     public BoxShadowBuilder OnLg => SetPendingBreakpoint(BreakpointType.Lg);
+
     /// <summary>
     /// Applies the box shadow on desktop breakpoint.
     /// </summary>
     public BoxShadowBuilder OnXl => SetPendingBreakpoint(BreakpointType.Xl);
+
     /// <summary>
     /// Applies the box shadow on the 2xl breakpoint.
     /// </summary>
     public BoxShadowBuilder On2xl => SetPendingBreakpoint(BreakpointType.Xxl);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private BoxShadowBuilder Chain(string value)
+    private BoxShadowBuilder Chain(BoxShadowEnum value)
     {
-        var bp = _pendingBreakpoint;
+        BreakpointType? bp = _pendingBreakpoint;
         _pendingBreakpoint = null;
-        _rules.Add(new BoxShadowRule(value, bp));
+        _rules.Add(new BoxShadowRule(value.Value, bp));
         return this;
     }
 
@@ -109,31 +130,22 @@ public sealed class BoxShadowBuilder : ICssBuilder
 
         for (var i = 0; i < _rules.Count; i++)
         {
-            var rule = _rules[i];
+            BoxShadowRule rule = _rules[i];
+            string cssClass = rule.Value;
 
-            var baseClass = rule.Value switch
-            {
-                "none" => _classNone,
-                "xs" => _classXs,
-                "base" => _classBase,
-                "sm" => _classSm,
-                "lg" => _classLg,
-                _ => string.Empty
-            };
-
-            if (baseClass.Length == 0)
+            if (cssClass.Length == 0)
                 continue;
 
-            var bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
+            string bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
             if (bp.Length != 0)
-                baseClass = BreakpointUtil.ApplyTailwindBreakpoint(baseClass, bp);
+                cssClass = BreakpointUtil.ApplyTailwindBreakpoint(cssClass, bp);
 
             if (!first)
                 sb.Append(' ');
             else
                 first = false;
 
-            sb.Append(baseClass);
+            sb.Append(cssClass);
         }
 
         return sb.ToString();
@@ -146,9 +158,6 @@ public sealed class BoxShadowBuilder : ICssBuilder
     /// <returns>An empty string as shadow utilities are class-first.</returns>
     public string ToStyle()
     {
-        // Shadow utilities are class-first; no inline style mapping
         return string.Empty;
     }
-
-
 }

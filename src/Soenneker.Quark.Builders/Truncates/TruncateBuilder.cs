@@ -1,4 +1,4 @@
-using Soenneker.Quark.Attributes;
+
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
@@ -61,8 +61,8 @@ public sealed class TruncateBuilder : ICssBuilder
             return this;
         }
 
-        var lastIdx = _rules.Count - 1;
-        var last = _rules[lastIdx];
+        int lastIdx = _rules.Count - 1;
+        TruncateRule last = _rules[lastIdx];
         _rules[lastIdx] = new TruncateRule(breakpoint);
         return this;
     }
@@ -81,10 +81,10 @@ public sealed class TruncateBuilder : ICssBuilder
 
         for (var i = 0; i < _rules.Count; i++)
         {
-            var rule = _rules[i];
-            var cls = _classTextTruncate;
+            TruncateRule rule = _rules[i];
+            string cls = _classTextTruncate;
 
-            var bp = BreakpointUtil.GetBreakpointClass(rule.Breakpoint);
+            string bp = BreakpointUtil.GetBreakpointClass(rule.Breakpoint);
             if (bp.Length != 0)
                 cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, bp);
 
@@ -97,28 +97,7 @@ public sealed class TruncateBuilder : ICssBuilder
         return sb.ToString();
     }
 
-    /// <summary>
-    /// Gets the CSS style string for the current configuration.
-    /// </summary>
-    /// <returns>The CSS style string.</returns>
-    public string ToStyle()
-    {
-        if (_rules.Count == 0)
-            return string.Empty;
-
-        using var sb = new PooledStringBuilder();
-        var first = true;
-
-        for (var i = 0; i < _rules.Count; i++)
-        {
-            if (!first) sb.Append("; ");
-            else first = false;
-
-            sb.Append("overflow: hidden; text-overflow: ellipsis; white-space: nowrap;");
-        }
-
-        return sb.ToString();
-    }
+    public string ToStyle() => string.Empty;
 
     /// <summary>
     /// Returns the CSS class string representation of this truncate builder.

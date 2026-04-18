@@ -9,50 +9,50 @@ public static class BackdropFilter
     /// <summary>
     /// No backdrop filter (none).
     /// </summary>
-    public static BackdropFilterBuilder None => new("none");
+    public static BackdropFilterBuilder None => new(BackdropFilterEnum.None);
 
     /// <summary>
     /// Backdrop blur filter (blur).
     /// </summary>
-    public static BackdropFilterBuilder Blur => new("blur");
+    public static BackdropFilterBuilder Blur => new(BackdropFilterEnum.Blur);
 
     /// <summary>
     /// Backdrop brightness filter (brightness).
     /// </summary>
-    public static BackdropFilterBuilder Brightness => new("brightness");
+    public static BackdropFilterBuilder Brightness => new(BackdropFilterEnum.Brightness);
 
     /// <summary>
     /// Backdrop contrast filter (contrast).
     /// </summary>
-    public static BackdropFilterBuilder Contrast => new("contrast");
+    public static BackdropFilterBuilder Contrast => new(BackdropFilterEnum.Contrast);
 
     /// <summary>
     /// Backdrop grayscale filter (grayscale).
     /// </summary>
-    public static BackdropFilterBuilder Grayscale => new("grayscale");
+    public static BackdropFilterBuilder Grayscale => new(BackdropFilterEnum.Grayscale);
 
     /// <summary>
     /// Backdrop hue rotate filter (hue-rotate).
     /// </summary>
-    public static BackdropFilterBuilder HueRotate => new("hue-rotate");
+    public static BackdropFilterBuilder HueRotate => new(BackdropFilterEnum.HueRotate);
 
     /// <summary>
     /// Backdrop invert filter (invert).
     /// </summary>
-    public static BackdropFilterBuilder Invert => new("invert");
+    public static BackdropFilterBuilder Invert => new(BackdropFilterEnum.Invert);
 
     /// <summary>
     /// Backdrop opacity filter (opacity).
     /// </summary>
-    public static BackdropFilterBuilder Opacity => new("opacity");
+    public static BackdropFilterBuilder Opacity => new(BackdropFilterEnum.Opacity);
 
     /// <summary>
     /// Backdrop saturate filter (saturate).
     /// </summary>
-    public static BackdropFilterBuilder Saturate => new("saturate");
+    public static BackdropFilterBuilder Saturate => new(BackdropFilterEnum.Saturate);
 
     /// <summary>
     /// Backdrop sepia filter (sepia).
     /// </summary>
-    public static BackdropFilterBuilder Sepia => new("sepia");
+    public static BackdropFilterBuilder Sepia => new(BackdropFilterEnum.Sepia);
 }

@@ -1,4 +1,4 @@
-using Soenneker.Quark.Attributes;
+
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Soenneker.Utils.PooledStringBuilders;
@@ -143,7 +143,7 @@ public sealed class HeightBuilder : ICssBuilder
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private HeightBuilder ChainWithSize(string size)
     {
-        var bp = _pendingBreakpoint;
+        BreakpointType? bp = _pendingBreakpoint;
         _pendingBreakpoint = null;
         _rules.Add(new HeightRule(size, bp));
         return this;
@@ -166,12 +166,12 @@ public sealed class HeightBuilder : ICssBuilder
 
         for (var i = 0; i < _rules.Count; i++)
         {
-            var rule = _rules[i];
-            var cls = GetHeightClass(rule.Size);
+            HeightRule rule = _rules[i];
+            string cls = GetHeightClass(rule.Size);
             if (cls.Length == 0)
                 continue;
 
-            var bp = BreakpointUtil.GetBreakpointClass(rule.Breakpoint);
+            string bp = BreakpointUtil.GetBreakpointClass(rule.Breakpoint);
             if (bp.Length != 0)
                 cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, bp);
 

@@ -7,7 +7,7 @@ namespace Soenneker.Quark;
 public static class Truncate
 {
     /// <summary>
-    /// Bootstrap text truncate utility.
+    /// Tailwind truncate utility.
     /// </summary>
     public static TruncateBuilder Default => new();
 }

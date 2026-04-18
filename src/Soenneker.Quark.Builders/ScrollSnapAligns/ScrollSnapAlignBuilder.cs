@@ -1,4 +1,4 @@
-using Soenneker.Quark.Attributes;
+
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Soenneker.Utils.PooledStringBuilders;
@@ -80,7 +80,7 @@ public sealed class ScrollSnapAlignBuilder : ICssBuilder
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private BreakpointType? ConsumePendingBreakpoint()
     {
-        var breakpoint = _pendingBreakpoint;
+        BreakpointType? breakpoint = _pendingBreakpoint;
         _pendingBreakpoint = null;
         return breakpoint;
     }
@@ -90,9 +90,9 @@ public sealed class ScrollSnapAlignBuilder : ICssBuilder
         if (_rules.Count == 0) return string.Empty;
         using var sb = new PooledStringBuilder();
         var first = true;
-        foreach (var rule in _rules)
+        foreach (ScrollSnapAlignRule rule in _rules)
         {
-            var cls = rule.Value switch
+            string cls = rule.Value switch
             {
                 "start" => "snap-start",
                 "center" => "snap-center",
@@ -101,7 +101,7 @@ public sealed class ScrollSnapAlignBuilder : ICssBuilder
                 _ => string.Empty
             };
             if (cls.Length == 0) continue;
-            var b = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
+            string b = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
             if (b.Length != 0) cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, b);
             if (!first) sb.Append(' ');
             else first = false;
@@ -115,7 +115,7 @@ public sealed class ScrollSnapAlignBuilder : ICssBuilder
         if (_rules.Count == 0) return string.Empty;
         using var sb = new PooledStringBuilder();
         var first = true;
-        foreach (var rule in _rules)
+        foreach (ScrollSnapAlignRule rule in _rules)
         {
             if (rule.Value is not ("start" or "center" or "end" or "none")) continue;
             if (!first) sb.Append("; ");

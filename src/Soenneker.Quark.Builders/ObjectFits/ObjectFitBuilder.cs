@@ -1,4 +1,4 @@
-using Soenneker.Quark.Attributes;
+
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Soenneker.Utils.PooledStringBuilders;
@@ -14,16 +14,14 @@ public sealed class ObjectFitBuilder : ICssBuilder
     private readonly List<ObjectFitRule> _rules = new(4);
     private BreakpointType? _pendingBreakpoint;
 
-    // Tailwind object-fit utilities (for Quark Suite / shadcn)
-    private const string _classContain = "object-contain";
-    private const string _classCover = "object-cover";
-    private const string _classFill = "object-fill";
-    private const string _classScale = "object-scale-down";
-    private const string _classNone = "object-none";
-
     internal ObjectFitBuilder(string fit, BreakpointType? breakpoint = null)
     {
         _rules.Add(new ObjectFitRule(fit, breakpoint));
+    }
+
+    internal ObjectFitBuilder(ObjectFitEnum fit, BreakpointType? breakpoint = null)
+    {
+        _rules.Add(new ObjectFitRule(fit.Value, breakpoint));
     }
 
     internal ObjectFitBuilder(List<ObjectFitRule> rules)
@@ -35,27 +33,27 @@ public sealed class ObjectFitBuilder : ICssBuilder
     /// <summary>
     /// Chain with contain for the next rule.
     /// </summary>
-    public ObjectFitBuilder Contain => ChainWithFit(ObjectFitKeyword.ContainValue);
+    public ObjectFitBuilder Contain => ChainWithFit(ObjectFitEnum.Contain);
 
     /// <summary>
     /// Chain with cover for the next rule.
     /// </summary>
-    public ObjectFitBuilder Cover => ChainWithFit(ObjectFitKeyword.CoverValue);
+    public ObjectFitBuilder Cover => ChainWithFit(ObjectFitEnum.Cover);
 
     /// <summary>
     /// Chain with fill for the next rule.
     /// </summary>
-    public ObjectFitBuilder Fill => ChainWithFit(ObjectFitKeyword.FillValue);
+    public ObjectFitBuilder Fill => ChainWithFit(ObjectFitEnum.Fill);
 
     /// <summary>
     /// Chain with scale-down for the next rule.
     /// </summary>
-    public ObjectFitBuilder ScaleDown => ChainWithFit(ObjectFitKeyword.ScaleDownValue);
+    public ObjectFitBuilder ScaleDown => ChainWithFit(ObjectFitEnum.ScaleDown);
 
     /// <summary>
     /// Chain with none for the next rule.
     /// </summary>
-    public ObjectFitBuilder None => ChainWithFit(ObjectFitKeyword.NoneValue);
+    public ObjectFitBuilder None => ChainWithFit(ObjectFitEnum.None);
 
     /// <summary>
     /// Applies on the base breakpoint.
@@ -90,9 +88,18 @@ public sealed class ObjectFitBuilder : ICssBuilder
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private ObjectFitBuilder ChainWithFit(string fit)
     {
-        var bp = _pendingBreakpoint;
+        BreakpointType? bp = _pendingBreakpoint;
         _pendingBreakpoint = null;
         _rules.Add(new ObjectFitRule(fit, bp));
+        return this;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private ObjectFitBuilder ChainWithFit(ObjectFitEnum fit)
+    {
+        BreakpointType? bp = _pendingBreakpoint;
+        _pendingBreakpoint = null;
+        _rules.Add(new ObjectFitRule(fit.Value, bp));
         return this;
     }
 
@@ -116,12 +123,12 @@ public sealed class ObjectFitBuilder : ICssBuilder
 
         for (var i = 0; i < _rules.Count; i++)
         {
-            var rule = _rules[i];
-            var cls = GetFitClass(rule.Fit);
+            ObjectFitRule rule = _rules[i];
+            string cls = rule.Fit;
             if (cls.Length == 0)
                 continue;
 
-            var bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
+            string bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
             if (bp.Length != 0)
                 cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, bp);
 
@@ -142,18 +149,5 @@ public sealed class ObjectFitBuilder : ICssBuilder
         return string.Empty;
     }
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static string GetFitClass(string fit)
-    {
-        return fit switch
-        {
-            ObjectFitKeyword.ContainValue => _classContain,
-            ObjectFitKeyword.CoverValue => _classCover,
-            ObjectFitKeyword.FillValue => _classFill,
-            ObjectFitKeyword.ScaleDownValue => _classScale,
-            ObjectFitKeyword.NoneValue => _classNone,
-            _ => string.Empty
-        };
-    }
     public override string ToString() => ToClass();
 }

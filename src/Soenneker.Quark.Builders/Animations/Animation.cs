@@ -1,4 +1,3 @@
-
 namespace Soenneker.Quark;
 
 /// <summary>
@@ -9,25 +8,25 @@ public static class Animation
     /// <summary>
     /// No animation (none).
     /// </summary>
-    public static AnimationBuilder None => new("none");
+    public static AnimationBuilder None => new(AnimationEnum.None);
 
     /// <summary>
     /// Spin animation (spin).
     /// </summary>
-    public static AnimationBuilder Spin => new("spin");
+    public static AnimationBuilder Spin => new(AnimationEnum.Spin);
 
     /// <summary>
     /// Ping animation (ping).
     /// </summary>
-    public static AnimationBuilder Ping => new("ping");
+    public static AnimationBuilder Ping => new(AnimationEnum.Ping);
 
     /// <summary>
     /// Pulse animation (pulse).
     /// </summary>
-    public static AnimationBuilder Pulse => new("pulse");
+    public static AnimationBuilder Pulse => new(AnimationEnum.Pulse);
 
     /// <summary>
     /// Bounce animation (bounce).
     /// </summary>
-    public static AnimationBuilder Bounce => new("bounce");
+    public static AnimationBuilder Bounce => new(AnimationEnum.Bounce);
 }

@@ -8,10 +8,10 @@ public static class TextOverflow
     /// <summary>
     /// Clips the overflowing text at the content area boundary.
     /// </summary>
-    public static TextOverflowBuilder Clip => new(TextOverflowKeyword.Clip);
+    public static TextOverflowBuilder Clip => new(TextOverflowEnum.Clip);
 
     /// <summary>
     /// Displays an ellipsis ('…') to represent clipped text.
     /// </summary>
-    public static TextOverflowBuilder Ellipsis => new(TextOverflowKeyword.Ellipsis);
+    public static TextOverflowBuilder Ellipsis => new(TextOverflowEnum.Ellipsis);
 }

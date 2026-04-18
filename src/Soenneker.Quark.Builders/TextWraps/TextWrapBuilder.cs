@@ -1,8 +1,7 @@
-using Soenneker.Quark.Attributes;
+
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Soenneker.Utils.PooledStringBuilders;
-
 
 namespace Soenneker.Quark;
 
@@ -15,13 +14,9 @@ public sealed class TextWrapBuilder : ICssBuilder
     private readonly List<TextWrapRule> _rules = new(4);
     private BreakpointType? _pendingBreakpoint;
 
-    // Tailwind text-wrap utilities.
-    private const string _classWrap = "text-wrap";
-    private const string _classBalance = "text-balance";
-    private const string _classPretty = "text-pretty";
-    internal TextWrapBuilder(string value, BreakpointType? breakpoint = null)
+    internal TextWrapBuilder(TextWrapEnum value, BreakpointType? breakpoint = null)
     {
-        _rules.Add(new TextWrapRule(value, breakpoint));
+        _rules.Add(new TextWrapRule(value.Value, breakpoint));
     }
 
     internal TextWrapBuilder(List<TextWrapRule> rules)
@@ -33,15 +28,15 @@ public sealed class TextWrapBuilder : ICssBuilder
     /// <summary>
     /// Sets the text wrap to wrap.
     /// </summary>
-    public TextWrapBuilder Wrap => Chain(TextWrapKeyword.WrapValue);
+    public TextWrapBuilder Wrap => Chain(TextWrapEnum.Wrap);
     /// <summary>
     /// Sets the text wrap to balance.
     /// </summary>
-    public TextWrapBuilder Balance => Chain("balance");
+    public TextWrapBuilder Balance => Chain(TextWrapEnum.Balance);
     /// <summary>
     /// Sets the text wrap to pretty.
     /// </summary>
-    public TextWrapBuilder Pretty => Chain("pretty");
+    public TextWrapBuilder Pretty => Chain(TextWrapEnum.Pretty);
     /// <summary>
     /// Applies the text wrap on phone breakpoint.
     /// </summary>
@@ -68,11 +63,11 @@ public sealed class TextWrapBuilder : ICssBuilder
     public TextWrapBuilder On2xl => SetPendingBreakpoint(BreakpointType.Xxl);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private TextWrapBuilder Chain(string value)
+    private TextWrapBuilder Chain(TextWrapEnum value)
     {
-        var bp = _pendingBreakpoint;
+        BreakpointType? bp = _pendingBreakpoint;
         _pendingBreakpoint = null;
-        _rules.Add(new TextWrapRule(value, bp));
+        _rules.Add(new TextWrapRule(value.Value, bp));
         return this;
     }
 
@@ -96,19 +91,13 @@ public sealed class TextWrapBuilder : ICssBuilder
 
         for (var i = 0; i < _rules.Count; i++)
         {
-            var rule = _rules[i];
-            var cls = rule.Value switch
-            {
-                TextWrapKeyword.WrapValue => _classWrap,
-                "balance" => _classBalance,
-                "pretty" => _classPretty,
-                _ => string.Empty
-            };
+            TextWrapRule rule = _rules[i];
+            string cls = rule.Value;
 
             if (cls.Length == 0)
                 continue;
 
-            var bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
+            string bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
             if (bp.Length != 0)
                 cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, bp);
 

@@ -1,7 +1,6 @@
-using Soenneker.Quark.Attributes;
+
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
-
 using Soenneker.Utils.PooledStringBuilders;
 
 namespace Soenneker.Quark;
@@ -15,14 +14,9 @@ public sealed class TextBreakBuilder : ICssBuilder
     private readonly List<TextBreakRule> _rules = new(4);
     private BreakpointType? _pendingBreakpoint;
 
-    private const string _classNormal = "break-normal";
-    private const string _classWords = "break-words";
-    private const string _classAll = "break-all";
-    private const string _classKeep = "break-keep";
-
-    internal TextBreakBuilder(string value, BreakpointType? breakpoint = null)
+    internal TextBreakBuilder(TextBreakEnum value, BreakpointType? breakpoint = null)
     {
-        _rules.Add(new TextBreakRule(value, breakpoint));
+        _rules.Add(new TextBreakRule(value.Value, breakpoint));
     }
 
     internal TextBreakBuilder(List<TextBreakRule> rules)
@@ -34,19 +28,19 @@ public sealed class TextBreakBuilder : ICssBuilder
     /// <summary>
     /// Sets normal line breaking.
     /// </summary>
-    public TextBreakBuilder Normal => Chain("normal");
+    public TextBreakBuilder Normal => Chain(TextBreakEnum.Normal);
     /// <summary>
     /// Breaks words when needed.
     /// </summary>
-    public TextBreakBuilder Words => Chain("words");
+    public TextBreakBuilder Words => Chain(TextBreakEnum.Words);
     /// <summary>
     /// Breaks at any character.
     /// </summary>
-    public TextBreakBuilder All => Chain("all");
+    public TextBreakBuilder All => Chain(TextBreakEnum.All);
     /// <summary>
     /// Prevents breaks in CJK text.
     /// </summary>
-    public TextBreakBuilder Keep => Chain("keep");
+    public TextBreakBuilder Keep => Chain(TextBreakEnum.Keep);
 
     /// <summary>
     /// Applies the text break on phone breakpoint.
@@ -74,11 +68,11 @@ public sealed class TextBreakBuilder : ICssBuilder
     public TextBreakBuilder On2xl => ChainBp(BreakpointType.Xxl);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private TextBreakBuilder Chain(string value)
+    private TextBreakBuilder Chain(TextBreakEnum value)
     {
-        var bp = _pendingBreakpoint;
+        BreakpointType? bp = _pendingBreakpoint;
         _pendingBreakpoint = null;
-        _rules.Add(new TextBreakRule(value, bp));
+        _rules.Add(new TextBreakRule(value.Value, bp));
         return this;
     }
 
@@ -103,12 +97,12 @@ public sealed class TextBreakBuilder : ICssBuilder
 
         for (var i = 0; i < _rules.Count; i++)
         {
-            var rule = _rules[i];
-            var baseClass = GetClass(rule.Value);
+            TextBreakRule rule = _rules[i];
+            string baseClass = rule.Value;
             if (baseClass.Length == 0)
                 continue;
 
-            var bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
+            string bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
             if (bp.Length != 0)
                 baseClass = BreakpointUtil.ApplyTailwindBreakpoint(baseClass, bp);
 
@@ -128,19 +122,6 @@ public sealed class TextBreakBuilder : ICssBuilder
     public string ToStyle()
     {
         return string.Empty;
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static string GetClass(string value)
-    {
-        return value switch
-        {
-            "normal" => _classNormal,
-            "words" => _classWords,
-            "all" => _classAll,
-            "keep" => _classKeep,
-            _ => string.Empty
-        };
     }
 
     public override string ToString() => ToClass();

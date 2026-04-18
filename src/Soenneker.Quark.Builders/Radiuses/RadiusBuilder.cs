@@ -177,9 +177,9 @@ public sealed class RoundedBuilder : ICssBuilder
         using var sb = new PooledStringBuilder();
         bool first = true;
 
-        foreach (var rule in _rules)
+        foreach (RoundedRule rule in _rules)
         {
-            var bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
+            string bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
 
             if (!first)
                 sb.Append(' ');
@@ -210,96 +210,7 @@ public sealed class RoundedBuilder : ICssBuilder
         return sb.ToString();
     }
 
-    public string ToStyle()
-    {
-        if (_rules.Count == 0)
-            return string.Empty;
-
-        var sb = new PooledStringBuilder();
-        bool first = true;
-        try
-        {
-            foreach (var rule in _rules)
-            {
-                var size = GetCssRadiusValue(rule.SizeToken);
-
-                if (size.Length == 0)
-                    continue;
-
-                switch (rule.PositionToken)
-                {
-                    case "tl":
-                        AppendStyle(ref sb, ref first, "border-top-left-radius", size);
-                        break;
-                    case "tr":
-                        AppendStyle(ref sb, ref first, "border-top-right-radius", size);
-                        break;
-                    case "bl":
-                        AppendStyle(ref sb, ref first, "border-bottom-left-radius", size);
-                        break;
-                    case "br":
-                        AppendStyle(ref sb, ref first, "border-bottom-right-radius", size);
-                        break;
-                    case "t":
-                        AppendStyle(ref sb, ref first, "border-top-left-radius", size);
-                        AppendStyle(ref sb, ref first, "border-top-right-radius", size);
-                        break;
-                    case "b":
-                        AppendStyle(ref sb, ref first, "border-bottom-left-radius", size);
-                        AppendStyle(ref sb, ref first, "border-bottom-right-radius", size);
-                        break;
-                    case "l":
-                        AppendStyle(ref sb, ref first, "border-top-left-radius", size);
-                        AppendStyle(ref sb, ref first, "border-bottom-left-radius", size);
-                        break;
-                    case "r":
-                        AppendStyle(ref sb, ref first, "border-top-right-radius", size);
-                        AppendStyle(ref sb, ref first, "border-bottom-right-radius", size);
-                        break;
-                    default:
-                        AppendStyle(ref sb, ref first, "border-radius", size);
-                        break;
-                }
-            }
-
-            return sb.ToString();
-        }
-        finally
-        {
-            sb.Dispose();
-        }
-    }
+    public string ToStyle() => string.Empty;
 
     public override string ToString() => ToClass();
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static void AppendStyle(ref PooledStringBuilder sb, ref bool first, string property, string value)
-    {
-        if (!first)
-            sb.Append("; ");
-        else
-            first = false;
-
-        sb.Append(property);
-        sb.Append(": ");
-        sb.Append(value);
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static string GetCssRadiusValue(string? sizeToken)
-    {
-        return sizeToken switch
-        {
-            null => "0.25rem",
-            "none" => "0",
-            "sm" => "0.125rem",
-            "md" => "0.375rem",
-            "lg" => "0.5rem",
-            "xl" => "0.75rem",
-            "2xl" => "1rem",
-            "3xl" => "1.5rem",
-            "full" => "9999px",
-            _ => string.Empty
-        };
-    }
 }

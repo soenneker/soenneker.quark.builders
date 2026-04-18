@@ -1,4 +1,4 @@
-using Soenneker.Quark.Attributes;
+
 using Soenneker.Utils.PooledStringBuilders;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
@@ -19,19 +19,24 @@ public sealed class LineClampBuilder : ICssBuilder
         _rules.Add(new LineClampRule(value, breakpoint));
     }
 
+    internal LineClampBuilder(LineClampEnum value, BreakpointType? breakpoint = null)
+    {
+        _rules.Add(new LineClampRule(value.Value, breakpoint));
+    }
+
     internal LineClampBuilder(List<LineClampRule> rules)
     {
         if (rules is { Count: > 0 })
             _rules.AddRange(rules);
     }
 
-    public LineClampBuilder None => Chain("none");
-    public LineClampBuilder One => Chain("1");
-    public LineClampBuilder Two => Chain("2");
-    public LineClampBuilder Three => Chain("3");
-    public LineClampBuilder Four => Chain("4");
-    public LineClampBuilder Five => Chain("5");
-    public LineClampBuilder Six => Chain("6");
+    public LineClampBuilder None => Chain(LineClampEnum.None);
+    public LineClampBuilder One => Chain(LineClampEnum.One);
+    public LineClampBuilder Two => Chain(LineClampEnum.Two);
+    public LineClampBuilder Three => Chain(LineClampEnum.Three);
+    public LineClampBuilder Four => Chain(LineClampEnum.Four);
+    public LineClampBuilder Five => Chain(LineClampEnum.Five);
+    public LineClampBuilder Six => Chain(LineClampEnum.Six);
 
     public LineClampBuilder OnBase => SetPendingBreakpoint(BreakpointType.Base);
     public LineClampBuilder OnSm => SetPendingBreakpoint(BreakpointType.Sm);
@@ -48,6 +53,13 @@ public sealed class LineClampBuilder : ICssBuilder
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private LineClampBuilder Chain(LineClampEnum value)
+    {
+        _rules.Add(new LineClampRule(value.Value, ConsumePendingBreakpoint()));
+        return this;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private LineClampBuilder SetPendingBreakpoint(BreakpointType breakpoint)
     {
         _pendingBreakpoint = breakpoint;
@@ -57,7 +69,7 @@ public sealed class LineClampBuilder : ICssBuilder
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private BreakpointType? ConsumePendingBreakpoint()
     {
-        var breakpoint = _pendingBreakpoint;
+        BreakpointType? breakpoint = _pendingBreakpoint;
         _pendingBreakpoint = null;
         return breakpoint;
     }
@@ -72,11 +84,11 @@ public sealed class LineClampBuilder : ICssBuilder
 
         for (var i = 0; i < _rules.Count; i++)
         {
-            var cls = GetClass(_rules[i].Value);
+            string cls = _rules[i].Value;
             if (cls.Length == 0)
                 continue;
 
-            var breakpoint = BreakpointUtil.GetBreakpointToken(_rules[i].Breakpoint);
+            string breakpoint = BreakpointUtil.GetBreakpointToken(_rules[i].Breakpoint);
             if (breakpoint.Length != 0)
                 cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, breakpoint);
 
@@ -91,53 +103,7 @@ public sealed class LineClampBuilder : ICssBuilder
         return sb.ToString();
     }
 
-    public string ToStyle()
-    {
-        if (_rules.Count == 0)
-            return string.Empty;
-
-        using var sb = new PooledStringBuilder();
-        var first = true;
-
-        for (var i = 0; i < _rules.Count; i++)
-        {
-            var value = GetStyle(_rules[i].Value);
-            if (value.Length == 0)
-                continue;
-
-            if (!first)
-                sb.Append("; ");
-            else
-                first = false;
-
-            sb.Append(value);
-        }
-
-        return sb.ToString();
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static string GetClass(string value)
-    {
-        return value switch
-        {
-            "none" => "line-clamp-none",
-            "1" or "2" or "3" or "4" or "5" or "6" => $"line-clamp-{value}",
-            _ => string.Empty
-        };
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static string GetStyle(string value)
-    {
-        return value switch
-        {
-            "none" => "overflow: visible; display: block; -webkit-box-orient: horizontal; -webkit-line-clamp: unset",
-            "1" or "2" or "3" or "4" or "5" or "6" =>
-                $"overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: {value}",
-            _ => string.Empty
-        };
-    }
+    public string ToStyle() => string.Empty;
 
     public override string ToString() => ToClass();
 }

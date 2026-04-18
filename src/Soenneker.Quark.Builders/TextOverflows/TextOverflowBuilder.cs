@@ -1,9 +1,7 @@
-using Soenneker.Quark.Attributes;
+
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Soenneker.Utils.PooledStringBuilders;
-
-using TextOverflowEnum = Soenneker.Quark.TextOverflowKeyword;
 
 namespace Soenneker.Quark;
 
@@ -15,13 +13,6 @@ public sealed class TextOverflowBuilder : ICssBuilder
 {
     private readonly List<TextOverflowRule> _rules = new(4);
     private BreakpointType? _pendingBreakpoint;
-
-    // Tailwind text-overflow utilities.
-    private const string _classEllipsis = "text-ellipsis";
-    private const string _classClip = "text-clip";
-
-    // ----- CSS prefix -----
-    private const string _textOverflowPrefix = "text-overflow: ";
 
     internal TextOverflowBuilder(TextOverflowEnum textOverflow, BreakpointType? breakpoint = null)
     {
@@ -73,7 +64,7 @@ public sealed class TextOverflowBuilder : ICssBuilder
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private TextOverflowBuilder Chain(TextOverflowEnum value)
     {
-        var breakpoint = _pendingBreakpoint;
+        BreakpointType? breakpoint = _pendingBreakpoint;
         _pendingBreakpoint = null;
         _rules.Add(new TextOverflowRule(value.Value, breakpoint));
         return this;
@@ -98,14 +89,14 @@ public sealed class TextOverflowBuilder : ICssBuilder
 
         for (var i = 0; i < _rules.Count; i++)
         {
-            var rule = _rules[i];
+            TextOverflowRule rule = _rules[i];
 
             // Only Clip/Ellipsis map to utility classes; keywords don't.
-            var baseClass = GetTextOverflowClass(rule.Value);
+            string baseClass = rule.Value;
             if (baseClass.Length == 0)
                 continue;
 
-            var bp = BreakpointUtil.GetBreakpointClass(rule.Breakpoint);
+            string bp = BreakpointUtil.GetBreakpointClass(rule.Breakpoint);
             if (bp.Length != 0)
                 baseClass = BreakpointUtil.ApplyTailwindBreakpoint(baseClass, bp);
 
@@ -122,17 +113,6 @@ public sealed class TextOverflowBuilder : ICssBuilder
     public string ToStyle()
     {
         return string.Empty;
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static string GetTextOverflowClass(string textOverflow)
-    {
-        return textOverflow switch
-        {
-            "clip" => _classClip,
-            "ellipsis" => _classEllipsis,
-            _ => string.Empty
-        };
     }
 
     public override string ToString() => ToClass();

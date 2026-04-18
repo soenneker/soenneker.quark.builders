@@ -9,20 +9,20 @@ public static class Resize
     /// <summary>
     /// No resize (none).
     /// </summary>
-    public static ResizeBuilder None => new("none");
+    public static ResizeBuilder None => new(ResizeEnum.None);
 
     /// <summary>
     /// Resize both (both).
     /// </summary>
-    public static ResizeBuilder Both => new("both");
+    public static ResizeBuilder Both => new(ResizeEnum.Both);
 
     /// <summary>
     /// Resize horizontally (horizontal).
     /// </summary>
-    public static ResizeBuilder Horizontal => new("horizontal");
+    public static ResizeBuilder Horizontal => new(ResizeEnum.Horizontal);
 
     /// <summary>
     /// Resize vertically (vertical).
     /// </summary>
-    public static ResizeBuilder Vertical => new("vertical");
+    public static ResizeBuilder Vertical => new(ResizeEnum.Vertical);
 }
