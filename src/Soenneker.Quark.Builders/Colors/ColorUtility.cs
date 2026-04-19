@@ -14,9 +14,9 @@ internal static partial class ColorUtility
         "white"
     };
 
-    public static string CreateClass(string prefix, string value, HashSet<string> semanticTokens)
+    public static string CreateClass(string prefix, string value)
     {
-        return IsTokenAllowed(value, semanticTokens) ? $"{prefix}{value}" : string.Empty;
+        return IsTokenAllowed(value) ? $"{prefix}{value}" : string.Empty;
     }
 
     public static string CreateUtilityClass(string prefix, string value)
@@ -24,13 +24,10 @@ internal static partial class ColorUtility
         return value.StartsWith(prefix, System.StringComparison.Ordinal) ? value : string.Empty;
     }
 
-    private static bool IsTokenAllowed(string token, HashSet<string> semanticTokens)
+    private static bool IsTokenAllowed(string token)
     {
         if (string.IsNullOrWhiteSpace(token))
             return false;
-
-        if (semanticTokens.Contains(token))
-            return true;
 
         int slashIndex = token.IndexOf('/');
 
@@ -39,7 +36,7 @@ internal static partial class ColorUtility
             string baseToken = token[..slashIndex];
             string modifier = token[(slashIndex + 1)..];
 
-            if ((semanticTokens.Contains(baseToken) || IsPaletteToken(baseToken) || KeywordTokens.Contains(baseToken)) && IsOpacityModifier(modifier))
+            if ((IsPaletteToken(baseToken) || KeywordTokens.Contains(baseToken)) && IsOpacityModifier(modifier))
                 return true;
         }
 

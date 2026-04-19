@@ -6,6 +6,10 @@ namespace Soenneker.Quark;
 public static class Border
 {
     /// <summary>
+    /// Tailwind default border width utility with no numeric suffix.
+    /// </summary>
+    public static BorderBuilder Default => new(string.Empty, allowEmpty: true);
+    /// <summary>
     /// Spacing/sizing scale step `0` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 0` for integer spacing utilities unless overridden).
     /// </summary>
     public static BorderBuilder Is0 => new(BorderScaleEnum.Is0Value);

@@ -1,4 +1,3 @@
-
 using Soenneker.Utils.PooledStringBuilders;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
@@ -11,13 +10,6 @@ namespace Soenneker.Quark;
 [TailwindPrefix("accent-", Responsive = true)]
 public sealed class AccentColorBuilder : CssBuilderBase
 {
-    private static readonly HashSet<string> SemanticTokens = new(System.StringComparer.Ordinal)
-    {
-        "primary",
-        "current",
-        "transparent"
-    };
-
     private const string Prefix = "accent-";
 
     private readonly List<AccentColorRule> _rules = new(4);
@@ -82,7 +74,7 @@ public sealed class AccentColorBuilder : CssBuilderBase
     /// </summary>
     public AccentColorBuilder On2xl => ChainBp(BreakpointType.Xxl);
 
-    public AccentColorBuilder Token(string token) => ChainClass(ColorUtility.CreateClass(Prefix, token, SemanticTokens));
+    public AccentColorBuilder Token(string token) => ChainClass(ColorUtility.CreateClass(Prefix, token));
 
     public AccentColorBuilder Utility(string utility) => ChainClass(ColorUtility.CreateUtilityClass(Prefix, utility));
 

@@ -17,8 +17,24 @@ public sealed class RingOffsetBuilder : CssBuilderBase
             _rules.Add(new RingOffsetRule(value, breakpoint));
     }
 
+    public RingOffsetBuilder Primary => Chain(RingOffsetColorEnum.Primary.Value);
+    public RingOffsetBuilder Secondary => Chain(RingOffsetColorEnum.Secondary.Value);
+    public RingOffsetBuilder Destructive => Chain(RingOffsetColorEnum.Destructive.Value);
+    public RingOffsetBuilder Muted => Chain(RingOffsetColorEnum.Muted.Value);
+    public RingOffsetBuilder Accent => Chain(RingOffsetColorEnum.Accent.Value);
+    public RingOffsetBuilder Popover => Chain(RingOffsetColorEnum.Popover.Value);
+    public RingOffsetBuilder Card => Chain(RingOffsetColorEnum.Card.Value);
+    public RingOffsetBuilder Background => Chain(RingOffsetColorEnum.Background.Value);
+    public RingOffsetBuilder Border => Chain(RingOffsetColorEnum.Border.Value);
+    public RingOffsetBuilder Input => Chain(RingOffsetColorEnum.Input.Value);
+    public RingOffsetBuilder Ring => Chain(RingOffsetColorEnum.Ring.Value);
+    public RingOffsetBuilder White => Chain(RingOffsetColorEnum.White.Value);
+    public RingOffsetBuilder Black => Chain(RingOffsetColorEnum.Black.Value);
+    public RingOffsetBuilder Transparent => Chain(RingOffsetColorEnum.Transparent.Value);
     public RingOffsetBuilder Width(int value) => Chain($"ring-offset-{value}");
-    public RingOffsetBuilder Color(string value) => Chain($"ring-offset-{value}");
+    public RingOffsetBuilder Width(string value) => Chain($"ring-offset-{value}");
+    public RingOffsetBuilder Color(string value) => Chain(ColorUtility.CreateClass("ring-offset-", value));
+    public RingOffsetBuilder Utility(string utility) => Chain(ColorUtility.CreateUtilityClass("ring-offset-", utility));
 
     /// <summary>
     /// Scopes the next utility to the default (unprefixed) breakpoint. In Tailwind’s mobile‑first model, unprefixed utilities apply from 0px unless a larger breakpoint overrides them.

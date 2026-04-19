@@ -1,4 +1,3 @@
-
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Soenneker.Utils.PooledStringBuilders;
@@ -8,24 +7,6 @@ namespace Soenneker.Quark;
 [TailwindPrefix("text-", Responsive = true)]
 public sealed class TextColorBuilder : CssBuilderBase
 {
-    private static readonly HashSet<string> SemanticTokens = new(System.StringComparer.Ordinal)
-    {
-        "primary",
-        "primary-foreground",
-        "secondary",
-        "secondary-foreground",
-        "destructive",
-        "destructive-foreground",
-        "muted-foreground",
-        "accent",
-        "accent-foreground",
-        "popover-foreground",
-        "card-foreground",
-        "foreground",
-        "white",
-        "black"
-    };
-
     private const string Prefix = "text-";
 
     private readonly List<TextColorRule> _rules = new(4);
@@ -70,7 +51,7 @@ public sealed class TextColorBuilder : CssBuilderBase
     public TextColorBuilder OnXl => SetPendingBreakpoint(BreakpointType.Xl);
     public TextColorBuilder On2xl => SetPendingBreakpoint(BreakpointType.Xxl);
 
-    public TextColorBuilder Token(string token) => ChainClass(ColorUtility.CreateClass(Prefix, token, SemanticTokens));
+    public TextColorBuilder Token(string token) => ChainClass(ColorUtility.CreateClass(Prefix, token));
 
     public TextColorBuilder Utility(string utility) => ChainClass(ColorUtility.CreateUtilityClass(Prefix, utility));
 

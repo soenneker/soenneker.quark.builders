@@ -1,4 +1,3 @@
-
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Soenneker.Utils.PooledStringBuilders;
@@ -8,21 +7,6 @@ namespace Soenneker.Quark;
 [TailwindPrefix("bg-", Responsive = true)]
 public sealed class BackgroundColorBuilder : CssBuilderBase
 {
-    private static readonly HashSet<string> SemanticTokens = new(System.StringComparer.Ordinal)
-    {
-        "primary",
-        "secondary",
-        "destructive",
-        "muted",
-        "accent",
-        "popover",
-        "card",
-        "background",
-        "white",
-        "black",
-        "transparent"
-    };
-
     private const string Prefix = "bg-";
 
     private readonly List<BackgroundColorRule> _rules = new(4);
@@ -65,7 +49,7 @@ public sealed class BackgroundColorBuilder : CssBuilderBase
     public BackgroundColorBuilder OnXl => SetPendingBreakpoint(BreakpointType.Xl);
     public BackgroundColorBuilder On2xl => SetPendingBreakpoint(BreakpointType.Xxl);
 
-    public BackgroundColorBuilder Token(string token) => ChainClass(ColorUtility.CreateClass(Prefix, token, SemanticTokens));
+    public BackgroundColorBuilder Token(string token) => ChainClass(ColorUtility.CreateClass(Prefix, token));
 
     public BackgroundColorBuilder Utility(string utility) => ChainClass(ColorUtility.CreateUtilityClass(Prefix, utility));
 

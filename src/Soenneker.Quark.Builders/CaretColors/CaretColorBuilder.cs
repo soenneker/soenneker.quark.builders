@@ -1,4 +1,3 @@
-
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Soenneker.Utils.PooledStringBuilders;
@@ -11,13 +10,6 @@ namespace Soenneker.Quark;
 [TailwindPrefix("caret-", Responsive = true)]
 public sealed class CaretColorBuilder : CssBuilderBase
 {
-    private static readonly HashSet<string> SemanticTokens = new(System.StringComparer.Ordinal)
-    {
-        "primary",
-        "current",
-        "transparent"
-    };
-
     private const string Prefix = "caret-";
 
     private readonly List<CaretColorRule> _rules = new(4);
@@ -78,7 +70,7 @@ public sealed class CaretColorBuilder : CssBuilderBase
     /// </summary>
     public CaretColorBuilder On2xl => SetPendingBreakpoint(BreakpointType.Xxl);
 
-    public CaretColorBuilder Token(string token) => ChainClass(ColorUtility.CreateClass(Prefix, token, SemanticTokens));
+    public CaretColorBuilder Token(string token) => ChainClass(ColorUtility.CreateClass(Prefix, token));
 
     public CaretColorBuilder Utility(string utility) => ChainClass(ColorUtility.CreateUtilityClass(Prefix, utility));
 

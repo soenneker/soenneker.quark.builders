@@ -1,5 +1,5 @@
-using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using System.Collections.Generic;
 
 using Soenneker.Utils.PooledStringBuilders;
 
@@ -38,6 +38,20 @@ public sealed class DivideBuilder : CssBuilderBase
     /// Fluent step for `YReverse` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
     public DivideBuilder YReverse => Chain(DivideEnum.YReverse);
+    public DivideBuilder Primary => Chain(DivideEnum.Primary);
+    public DivideBuilder Secondary => Chain(DivideEnum.Secondary);
+    public DivideBuilder Destructive => Chain(DivideEnum.Destructive);
+    public DivideBuilder Muted => Chain(DivideEnum.Muted);
+    public DivideBuilder Accent => Chain(DivideEnum.Accent);
+    public DivideBuilder Popover => Chain(DivideEnum.Popover);
+    public DivideBuilder Card => Chain(DivideEnum.Card);
+    public DivideBuilder Background => Chain(DivideEnum.Background);
+    public DivideBuilder Border => Chain(DivideEnum.Border);
+    public DivideBuilder Input => Chain(DivideEnum.Input);
+    public DivideBuilder Ring => Chain(DivideEnum.Ring);
+    public DivideBuilder White => Chain(DivideEnum.White);
+    public DivideBuilder Black => Chain(DivideEnum.Black);
+    public DivideBuilder Transparent => Chain(DivideEnum.Transparent);
     public DivideBuilder Color(string value) => ChainClass($"divide-{value}");
     /// <summary>
     /// Fluent step for `Solid` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
@@ -59,6 +73,16 @@ public sealed class DivideBuilder : CssBuilderBase
     /// Disables the effect (`none` token) or sets size to zero, depending on the utility.
     /// </summary>
     public DivideBuilder None => Chain(DivideEnum.None);
+
+    /// <summary>
+    /// Creates a divide utility from a Tailwind token or fully-prefixed utility.
+    /// </summary>
+    public DivideBuilder Token(string value) => Color(value);
+
+    /// <summary>
+    /// Passes through a fully-prefixed divide utility such as <c>divide-border</c>.
+    /// </summary>
+    public DivideBuilder Utility(string utility) => ChainClass(ColorUtility.CreateUtilityClass("divide-", utility));
 
     /// <summary>
     /// Scopes the next utility to the default (unprefixed) breakpoint. In Tailwind’s mobile‑first model, unprefixed utilities apply from 0px unless a larger breakpoint overrides them.

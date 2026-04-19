@@ -1,4 +1,3 @@
-
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Soenneker.Utils.PooledStringBuilders;
@@ -8,24 +7,6 @@ namespace Soenneker.Quark;
 [TailwindPrefix("border-", Responsive = true)]
 public sealed class BorderColorBuilder : CssBuilderBase
 {
-    private static readonly HashSet<string> SemanticTokens = new(System.StringComparer.Ordinal)
-    {
-        "primary",
-        "secondary",
-        "destructive",
-        "muted",
-        "accent",
-        "popover",
-        "card",
-        "background",
-        "border",
-        "input",
-        "ring",
-        "white",
-        "black",
-        "transparent"
-    };
-
     private const string Prefix = "border-";
 
     private readonly List<BorderColorRule> _rules = new(4);
@@ -71,7 +52,7 @@ public sealed class BorderColorBuilder : CssBuilderBase
     public BorderColorBuilder OnXl => SetPendingBreakpoint(BreakpointType.Xl);
     public BorderColorBuilder On2xl => SetPendingBreakpoint(BreakpointType.Xxl);
 
-    public BorderColorBuilder Token(string token) => ChainClass(ColorUtility.CreateClass(Prefix, token, SemanticTokens));
+    public BorderColorBuilder Token(string token) => ChainClass(ColorUtility.CreateClass(Prefix, token));
 
     public BorderColorBuilder Utility(string utility) => ChainClass(ColorUtility.CreateUtilityClass(Prefix, utility));
 

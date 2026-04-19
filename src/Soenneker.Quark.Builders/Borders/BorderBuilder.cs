@@ -20,9 +20,9 @@ public sealed class BorderBuilder : CssBuilderBase
     // ----- Class tokens -----
     private const string _baseToken = "border";
 
-    internal BorderBuilder(string size, BreakpointType? breakpoint = null)
+    internal BorderBuilder(string size, BreakpointType? breakpoint = null, bool allowEmpty = false)
     {
-        if (size.HasContent())
+        if (allowEmpty || size.HasContent())
             _rules.Add(new BorderRule(size, ElementSideEnum.All, breakpoint));
     }
 
@@ -70,8 +70,12 @@ public sealed class BorderBuilder : CssBuilderBase
     public BorderBuilder FromEnd => AddRule(ElementSideEnum.InlineEnd);
 
 	/// <summary>
-	/// Sets the border width from an arbitrary Tailwind border token.
+	/// Uses Tailwind’s default unsuffixed border width utility.
 	/// </summary>
+    public BorderBuilder Default => ChainWithSize(string.Empty, allowEmpty: true);
+    /// <summary>
+    /// Sets the border width from an arbitrary Tailwind border token.
+    /// </summary>
     public BorderBuilder Is0 => ChainWithSize(BorderScaleEnum.Is0);
     /// <summary>
     /// Spacing/sizing scale step `1` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 1` for integer spacing utilities unless overridden).
@@ -154,7 +158,14 @@ public sealed class BorderBuilder : CssBuilderBase
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private BorderBuilder ChainWithSize(string value)
     {
-        _rules.Add(new BorderRule(value, ElementSideEnum.All, ConsumePendingBreakpoint()));
+        return ChainWithSize(value, allowEmpty: false);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private BorderBuilder ChainWithSize(string value, bool allowEmpty)
+    {
+        if (allowEmpty || value.Length != 0)
+            _rules.Add(new BorderRule(value, ElementSideEnum.All, ConsumePendingBreakpoint()));
         return this;
     }
 
@@ -188,9 +199,6 @@ public sealed class BorderBuilder : CssBuilderBase
 
             string sizeTok = rule.Size;
 
-            if (sizeTok.Length == 0)
-                continue;
-
             string sideTok = rule.Side.Value;
             string bpTok = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
 
@@ -213,8 +221,11 @@ public sealed class BorderBuilder : CssBuilderBase
                 sb.Append(sideTok);
             }
 
-            sb.Append('-');
-            sb.Append(sizeTok);
+            if (sizeTok.Length != 0)
+            {
+                sb.Append('-');
+                sb.Append(sizeTok);
+            }
         }
 
         return sb.ToString();

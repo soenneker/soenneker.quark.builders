@@ -173,6 +173,34 @@ public sealed class QuarkBuildersTests : FixturedUnitTest
     }
 
     [Fact]
+    public void BorderBuilder_builds_default_unsuffixed_border_classes()
+    {
+        string border = Border.Default.ToClass();
+        string topBorder = Border.Default.FromTop.ToClass();
+        string responsiveBorder = Border.Default.OnMd.Is2.ToClass();
+        string transparentBorder = BorderColor.Transparent.ToClass();
+
+        Assert.Equal("border", border);
+        Assert.Equal("border-t", topBorder);
+        Assert.Equal("border md:border-2", responsiveBorder);
+        Assert.Equal("border-transparent", transparentBorder);
+    }
+
+    [Fact]
+    public void Common_shadcn_tailwind_utility_forms_are_expressible()
+    {
+        Assert.Equal("ring", Ring.Default.ToClass());
+        Assert.Equal("rounded", Rounded.Default.ToClass());
+        Assert.Equal("shadow", BoxShadow.Default.ToClass());
+        Assert.Equal("truncate", Truncate.Default.ToClass());
+        Assert.Equal("bg-transparent", BackgroundColor.Transparent.ToClass());
+        Assert.Equal("divide-border", Divide.Border.ToClass());
+        Assert.Equal("divide-x md:divide-dashed", Divide.X.OnMd.Dashed.ToClass());
+        Assert.Equal("ring-offset-background", RingOffset.Background.ToClass());
+        Assert.Equal("ring-offset-1 md:ring-offset-2", RingOffset.Width("1").OnMd.Width("2").ToClass());
+    }
+
+    [Fact]
     public void ScaleBuilder_builds_tailwind_transform_scale_classes()
     {
         string result = Scale.Scale95.Scale125.ToClass();
