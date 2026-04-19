@@ -27,8 +27,8 @@ public sealed class ToggleSizeBuilder : CssBuilderBase
     }
 
     public ToggleSizeBuilder Default => Chain("default");
-    public ToggleSizeBuilder Small => Chain("small");
-    public ToggleSizeBuilder Large => Chain("large");
+    public ToggleSizeBuilder Sm => Chain("sm");
+    public ToggleSizeBuilder Lg => Chain("lg");
 
     public ToggleSizeBuilder Token(string value) => Chain(value);
 

@@ -6,18 +6,12 @@ using Soenneker.Utils.PooledStringBuilders;
 namespace Soenneker.Quark;
 
 /// <summary>
-/// Size builder with fluent API for chaining size rules.
-/// Supports both legacy semantic tokens (sm/lg) and shadcn/Tailwind size utilities (e.g. size-5).
+/// Builder for Tailwind <c>size-*</c> utilities.
 /// </summary>
 [TailwindPrefix("size-", Responsive = true)]
 public sealed class SizeBuilder : CssBuilderBase
 {
     private readonly List<SizeRule> _rules = new(4);
-
-    internal SizeBuilder(SizeType size)
-    {
-        _rules.Add(new SizeRule(size.Value));
-    }
 
     internal SizeBuilder(string value)
     {
@@ -30,36 +24,6 @@ public sealed class SizeBuilder : CssBuilderBase
             _rules.AddRange(rules);
     }
 
-    /// <summary>
-    /// Default theme radius: `rounded` with no suffix — in Tailwind’s default config typically `0.25rem` (maps to shadcn `--radius` usage when you align tokens).
-    /// </summary>
-    public SizeBuilder Default => ChainWithValue(SizeType.Default.Value);
-    /// <summary>
-    /// Fluent step for `Extra Small` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
-    /// </summary>
-    public SizeBuilder ExtraSmall => ChainWithValue(SizeType.ExtraSmall.Value);
-    /// <summary>
-    /// Fluent step for `Small` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
-    /// </summary>
-    public SizeBuilder Small => ChainWithValue(SizeType.Small.Value);
-    /// <summary>
-    /// Fluent step for `Medium` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
-    /// </summary>
-    public SizeBuilder Medium => ChainWithValue(SizeType.Medium.Value);
-    /// <summary>
-    /// Fluent step for `Large` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
-    /// </summary>
-    public SizeBuilder Large => ChainWithValue(SizeType.Large.Value);
-    /// <summary>
-    /// Fluent step for `Extra Large` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
-    /// </summary>
-    public SizeBuilder ExtraLarge => ChainWithValue(SizeType.ExtraLarge.Value);
-    /// <summary>
-    /// Fluent step for `Extra Extra Large` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
-    /// </summary>
-    public SizeBuilder ExtraExtraLarge => ChainWithValue(SizeType.ExtraExtraLarge.Value);
-
-    // shadcn/Tailwind size-* helpers
     /// <summary>
     /// Spacing/sizing scale step `0` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 0` for integer spacing utilities unless overridden).
     /// </summary>
@@ -156,15 +120,6 @@ public sealed class SizeBuilder : CssBuilderBase
         return value switch
         {
             "" => string.Empty,
-            // Legacy semantic tokens used by existing component size mapping logic
-            "xs" => "xs",
-            "sm" => "sm",
-            "md" => "md",
-            "lg" => "lg",
-            "xl" => "xl",
-            "2xl" => "2xl",
-
-            // Common Tailwind size-* utilities (explicit literals for Tailwind CLI discovery)
             "0" => "size-0",
             "1" => "size-1",
             "2" => "size-2",

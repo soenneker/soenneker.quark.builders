@@ -1,41 +1,10 @@
 namespace Soenneker.Quark;
 
 /// <summary>
-/// Size utility with fluent API.
-/// Supports legacy semantic sizes and shadcn/Tailwind size-* tokens.
+/// Tailwind <c>size-*</c> utility with fluent API.
 /// </summary>
 public static class Size
 {
-    /// <summary>
-    /// Default theme radius: `rounded` with no suffix — in Tailwind’s default config typically `0.25rem` (maps to shadcn `--radius` usage when you align tokens).
-    /// </summary>
-    public static SizeBuilder Default => new(SizeType.Default);
-    /// <summary>
-    /// Fluent step for `Extra Small` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
-    /// </summary>
-    public static SizeBuilder ExtraSmall => new(SizeType.ExtraSmall);
-    /// <summary>
-    /// Fluent step for `Small` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
-    /// </summary>
-    public static SizeBuilder Small => new(SizeType.Small);
-    /// <summary>
-    /// Fluent step for `Medium` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
-    /// </summary>
-    public static SizeBuilder Medium => new(SizeType.Medium);
-    /// <summary>
-    /// Fluent step for `Large` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
-    /// </summary>
-    public static SizeBuilder Large => new(SizeType.Large);
-    /// <summary>
-    /// Fluent step for `Extra Large` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
-    /// </summary>
-    public static SizeBuilder ExtraLarge => new(SizeType.ExtraLarge);
-    /// <summary>
-    /// Fluent step for `Extra Extra Large` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
-    /// </summary>
-    public static SizeBuilder ExtraExtraLarge => new(SizeType.ExtraExtraLarge);
-
-    // shadcn/Tailwind convenience (size-*)
     /// <summary>
     /// Spacing/sizing scale step `0` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 0` for integer spacing utilities unless overridden).
     /// </summary>
@@ -88,8 +57,6 @@ public static class Size
     /// Spacing/sizing scale step `12` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 12` for integer spacing utilities unless overridden).
     /// </summary>
     public static SizeBuilder Is12 => new("12");
-
-    public static SizeBuilder From(SizeType sizeType) => new(sizeType);
 
     /// <summary>
     /// Create from an arbitrary Tailwind size token (e.g. "5", "full", "[18px]").
