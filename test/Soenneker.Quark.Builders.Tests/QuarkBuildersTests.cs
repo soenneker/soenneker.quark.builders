@@ -111,6 +111,20 @@ public sealed class QuarkBuildersTests : FixturedUnitTest
     }
 
     [Fact]
+    public void Split_alignment_builders_cover_shadcn_alignment_utilities()
+    {
+        string content = ContentAlign.Center.OnMd.Between.ToClass();
+        string justifyItems = JustifyItemsAlign.Start.OnLg.End.ToClass();
+        string justifySelf = JustifySelfAlign.Auto.OnMd.Center.ToClass();
+        string text = TextAlign.Start.OnSm.Center.ToClass();
+
+        Assert.Equal("content-center md:content-between", content);
+        Assert.Equal("justify-items-start lg:justify-items-end", justifyItems);
+        Assert.Equal("justify-self-auto md:justify-self-center", justifySelf);
+        Assert.Equal("text-start sm:text-center", text);
+    }
+
+    [Fact]
     public void DurationBuilder_builds_responsive_tailwind_classes()
     {
         string result = Duration.Is150.OnLg.Is300.ToClass();
