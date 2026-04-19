@@ -5,6 +5,6 @@ namespace Soenneker.Quark;
 [EnumValue<string>]
 public sealed partial class IsolationEnum
 {
-    public static readonly IsolationEnum Auto = new("auto");
-    public static readonly IsolationEnum Isolate = new("isolate");
+    public static readonly IsolationEnum Auto = new("isolation-auto");
+    public static readonly IsolationEnum Isolate = new("isolation-isolate");
 }

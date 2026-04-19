@@ -165,6 +165,38 @@ public sealed class QuarkBuildersTests : FixturedUnitTest
     }
 
     [Fact]
+    public void LeadingBuilder_builds_tailwind_leading_classes()
+    {
+        string result = Leading.Tight.OnMd.Loose.ToClass();
+
+        Assert.Equal("leading-tight md:leading-loose", result);
+    }
+
+    [Fact]
+    public void TrackingBuilder_builds_tailwind_tracking_classes()
+    {
+        string result = Tracking.Wide.OnSm.Widest.ToClass();
+
+        Assert.Equal("tracking-wide sm:tracking-widest", result);
+    }
+
+    [Fact]
+    public void IsolationBuilder_builds_tailwind_isolation_classes()
+    {
+        string result = Isolation.Auto.OnLg.Isolate.ToClass();
+
+        Assert.Equal("isolation-auto lg:isolation-isolate", result);
+    }
+
+    [Fact]
+    public void BackgroundBlendModeBuilder_builds_tailwind_background_blend_classes()
+    {
+        string result = BackgroundBlendMode.Multiply.OnXl.Screen.ToClass();
+
+        Assert.Equal("bg-blend-multiply xl:bg-blend-screen", result);
+    }
+
+    [Fact]
     public void GapBuilder_builds_directional_tailwind_gap_classes()
     {
         string result = Gap.Is2.Y.OnMd.Token("6").ToClass();
@@ -176,11 +208,15 @@ public sealed class QuarkBuildersTests : FixturedUnitTest
     public void BorderBuilder_builds_default_unsuffixed_border_classes()
     {
         string border = Border.Default.ToClass();
+        string is1Border = Border.Is1.ToClass();
+        string bottomIs1Border = Border.Is1.FromBottom.ToClass();
         string topBorder = Border.Default.FromTop.ToClass();
         string responsiveBorder = Border.Default.OnMd.Is2.ToClass();
         string transparentBorder = BorderColor.Transparent.ToClass();
 
         Assert.Equal("border", border);
+        Assert.Equal("border", is1Border);
+        Assert.Equal("border-b", bottomIs1Border);
         Assert.Equal("border-t", topBorder);
         Assert.Equal("border md:border-2", responsiveBorder);
         Assert.Equal("border-transparent", transparentBorder);

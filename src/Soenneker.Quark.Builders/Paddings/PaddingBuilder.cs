@@ -236,7 +236,7 @@ public sealed class PaddingBuilder : CssBuilderBase
             "8" => _token8,
             "16" => _token16,
             "-1" => _tokenAuto, // "auto"
-            _ => string.Empty
+            _ => size
         };
     }
 

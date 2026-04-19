@@ -7,6 +7,7 @@ namespace Soenneker.Quark;
 [TailwindPrefix("tracking-", Responsive = true)]
 public sealed class TrackingBuilder : CssBuilderBase
 {
+    private const string Prefix = "tracking-";
     private readonly List<TrackingRule> _rules = new(4);
     private BreakpointType? _pendingBreakpoint;
 
@@ -26,7 +27,7 @@ public sealed class TrackingBuilder : CssBuilderBase
     public TrackingBuilder Wide => Chain(TrackingEnum.Wide);
     public TrackingBuilder Wider => Chain(TrackingEnum.Wider);
     public TrackingBuilder Widest => Chain(TrackingEnum.Widest);
-    public TrackingBuilder Token(string value) => Chain(value);
+    public TrackingBuilder Token(string value) => Chain(Prefix + value);
 
     public TrackingBuilder OnBase => SetPendingBreakpoint(BreakpointType.Base);
     public TrackingBuilder OnSm => SetPendingBreakpoint(BreakpointType.Sm);
@@ -79,7 +80,7 @@ public sealed class TrackingBuilder : CssBuilderBase
             if (rule.Value.Length == 0)
                 continue;
 
-            string cls = "tracking-" + rule.Value;
+            string cls = rule.Value;
             string bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
 
             if (bp.Length != 0)

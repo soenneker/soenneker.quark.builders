@@ -7,6 +7,7 @@ namespace Soenneker.Quark;
 [TailwindPrefix("leading-", Responsive = true)]
 public sealed class LeadingBuilder : CssBuilderBase
 {
+    private const string Prefix = "leading-";
     private readonly List<LeadingRule> _rules = new(4);
     private BreakpointType? _pendingBreakpoint;
 
@@ -26,7 +27,7 @@ public sealed class LeadingBuilder : CssBuilderBase
     public LeadingBuilder Normal => Chain(LeadingEnum.Normal);
     public LeadingBuilder Relaxed => Chain(LeadingEnum.Relaxed);
     public LeadingBuilder Loose => Chain(LeadingEnum.Loose);
-    public LeadingBuilder Token(string value) => Chain(value);
+    public LeadingBuilder Token(string value) => Chain(Prefix + value);
 
     public LeadingBuilder OnBase => SetPendingBreakpoint(BreakpointType.Base);
     public LeadingBuilder OnSm => SetPendingBreakpoint(BreakpointType.Sm);
@@ -79,7 +80,7 @@ public sealed class LeadingBuilder : CssBuilderBase
             if (rule.Value.Length == 0)
                 continue;
 
-            string cls = "leading-" + rule.Value;
+            string cls = rule.Value;
             string bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
 
             if (bp.Length != 0)

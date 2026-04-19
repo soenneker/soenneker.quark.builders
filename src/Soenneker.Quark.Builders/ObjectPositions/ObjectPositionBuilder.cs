@@ -11,6 +11,7 @@ namespace Soenneker.Quark;
 [TailwindPrefix("object-", Responsive = true)]
 public sealed class ObjectPositionBuilder : CssBuilderBase
 {
+    private const string Prefix = "object-";
     private readonly List<ObjectPositionRule> _rules = new(4);
     private BreakpointType? _pendingBreakpoint;
 
@@ -70,7 +71,7 @@ public sealed class ObjectPositionBuilder : CssBuilderBase
     /// <summary>
     /// Applies an exact Tailwind object-position utility token suffix.
     /// </summary>
-    public ObjectPositionBuilder Token(string token) => Chain(token);
+    public ObjectPositionBuilder Token(string token) => Chain(Prefix + token);
 
     /// <summary>
     /// Applies the object position on phone breakpoint.
@@ -140,7 +141,7 @@ public sealed class ObjectPositionBuilder : CssBuilderBase
         for (var i = 0; i < _rules.Count; i++)
         {
             ObjectPositionRule rule = _rules[i];
-            string cls = "object-" + rule.Position;
+            string cls = rule.Position;
             if (cls.Length == 0)
                 continue;
 

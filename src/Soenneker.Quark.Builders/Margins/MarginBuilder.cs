@@ -210,7 +210,9 @@ public sealed class MarginBuilder : CssBuilderBase
                 first = false;
 
             // Tailwind: mt-1, md:mt-1 (not legacy mt-md-1 syntax)
-            string baseClass = _baseToken + (sideTok.Length != 0 ? sideTok : "") + "-" + sizeTok;
+            bool negative = sizeTok.Length > 0 && sizeTok[0] == '-';
+            string normalizedSizeTok = negative ? sizeTok[1..] : sizeTok;
+            string baseClass = (negative ? "-" : string.Empty) + _baseToken + (sideTok.Length != 0 ? sideTok : "") + "-" + normalizedSizeTok;
             string cls = bpTok.Length != 0 ? BreakpointUtil.ApplyTailwindBreakpoint(baseClass, bpTok) : baseClass;
             sb.Append(cls);
         }
@@ -234,7 +236,7 @@ public sealed class MarginBuilder : CssBuilderBase
                 MarginScaleEnum.Is5Value => _token5,
                 "8" => _token8,
                 "auto" => _tokenAuto,
-                _ => string.Empty
+                _ => size
             };
         }
 

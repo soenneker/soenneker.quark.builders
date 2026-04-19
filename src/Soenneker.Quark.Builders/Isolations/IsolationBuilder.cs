@@ -99,7 +99,7 @@ public sealed class IsolationBuilder : CssBuilderBase
             if (rule.Value.Length == 0)
                 continue;
 
-            string cls = "isolation-" + rule.Value;
+            string cls = rule.Value;
             string b = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
             if (b.Length != 0) cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, b);
             if (!first) sb.Append(' ');

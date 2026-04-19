@@ -11,6 +11,7 @@ namespace Soenneker.Quark;
 [TailwindPrefix("cursor-", Responsive = true)]
 public sealed class CursorBuilder : CssBuilderBase
 {
+    private const string Prefix = "cursor-";
     private readonly List<CursorRule> _rules = new(4);
     private BreakpointType? _pendingBreakpoint;
 
@@ -70,7 +71,7 @@ public sealed class CursorBuilder : CssBuilderBase
     /// <summary>
     /// Applies an exact Tailwind cursor utility token suffix, including arbitrary values.
     /// </summary>
-    public CursorBuilder Token(string token) => Chain(token);
+    public CursorBuilder Token(string token) => Chain(Prefix + token);
 
     /// <summary>
     /// Applies the cursor on phone breakpoint.
@@ -140,7 +141,7 @@ public sealed class CursorBuilder : CssBuilderBase
         for (var i = 0; i < _rules.Count; i++)
         {
             CursorRule rule = _rules[i];
-            string cls = "cursor-" + rule.Cursor;
+            string cls = rule.Cursor;
             if (cls.Length == 0)
                 continue;
 

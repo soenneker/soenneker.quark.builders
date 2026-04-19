@@ -8,5 +8,5 @@ public static class Tracking
     public static TrackingBuilder Wide => new(TrackingEnum.Wide);
     public static TrackingBuilder Wider => new(TrackingEnum.Wider);
     public static TrackingBuilder Widest => new(TrackingEnum.Widest);
-    public static TrackingBuilder Token(string value) => new(value);
+    public static TrackingBuilder Token(string value) => new("tracking-" + value);
 }
