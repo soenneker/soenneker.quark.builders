@@ -11,20 +11,32 @@ public sealed class RadioSizeBuilder : CssBuilderBase
 {
     private readonly List<string> _tokens = new(4);
 
+    internal RadioSizeBuilder(RadioSizeEnum value)
+    {
+        _tokens.Add(value.Value);
+    }
+
     internal RadioSizeBuilder(string value)
     {
         _tokens.Add(value);
     }
 
-    public RadioSizeBuilder Default => Chain("default");
-    public RadioSizeBuilder Xs => Chain("xs");
-    public RadioSizeBuilder Sm => Chain("sm");
-    public RadioSizeBuilder Md => Chain("md");
-    public RadioSizeBuilder Lg => Chain("lg");
-    public RadioSizeBuilder Xl => Chain("xl");
-    public RadioSizeBuilder Xxl => Chain("xxl");
+    public RadioSizeBuilder Default => Chain(RadioSizeEnum.Default);
+    public RadioSizeBuilder Xs => Chain(RadioSizeEnum.Xs);
+    public RadioSizeBuilder Sm => Chain(RadioSizeEnum.Sm);
+    public RadioSizeBuilder Md => Chain(RadioSizeEnum.Md);
+    public RadioSizeBuilder Lg => Chain(RadioSizeEnum.Lg);
+    public RadioSizeBuilder Xl => Chain(RadioSizeEnum.Xl);
+    public RadioSizeBuilder Xxl => Chain(RadioSizeEnum.Xxl);
 
     public RadioSizeBuilder Token(string value) => Chain(value);
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private RadioSizeBuilder Chain(RadioSizeEnum value)
+    {
+        _tokens.Add(value.Value);
+        return this;
+    }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private RadioSizeBuilder Chain(string value)

@@ -5,9 +5,9 @@ namespace Soenneker.Quark;
 /// </summary>
 public static class InputSizes
 {
-    public static InputSizeBuilder Default => new("default");
-    public static InputSizeBuilder Sm => new("sm");
-    public static InputSizeBuilder Lg => new("lg");
+    public static InputSizeBuilder Default => new(InputSizeEnum.Default);
+    public static InputSizeBuilder Sm => new(InputSizeEnum.Sm);
+    public static InputSizeBuilder Lg => new(InputSizeEnum.Lg);
 
     public static InputSizeBuilder Token(string value) => new(value);
 }

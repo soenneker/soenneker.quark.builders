@@ -11,20 +11,32 @@ public sealed class CheckSizeBuilder : CssBuilderBase
 {
     private readonly List<string> _tokens = new(4);
 
+    internal CheckSizeBuilder(CheckSizeEnum value)
+    {
+        _tokens.Add(value.Value);
+    }
+
     internal CheckSizeBuilder(string value)
     {
         _tokens.Add(value);
     }
 
-    public CheckSizeBuilder Default => Chain("default");
-    public CheckSizeBuilder Xs => Chain("xs");
-    public CheckSizeBuilder Sm => Chain("sm");
-    public CheckSizeBuilder Md => Chain("md");
-    public CheckSizeBuilder Lg => Chain("lg");
-    public CheckSizeBuilder Xl => Chain("xl");
-    public CheckSizeBuilder Xxl => Chain("xxl");
+    public CheckSizeBuilder Default => Chain(CheckSizeEnum.Default);
+    public CheckSizeBuilder Xs => Chain(CheckSizeEnum.Xs);
+    public CheckSizeBuilder Sm => Chain(CheckSizeEnum.Sm);
+    public CheckSizeBuilder Md => Chain(CheckSizeEnum.Md);
+    public CheckSizeBuilder Lg => Chain(CheckSizeEnum.Lg);
+    public CheckSizeBuilder Xl => Chain(CheckSizeEnum.Xl);
+    public CheckSizeBuilder Xxl => Chain(CheckSizeEnum.Xxl);
 
     public CheckSizeBuilder Token(string value) => Chain(value);
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private CheckSizeBuilder Chain(CheckSizeEnum value)
+    {
+        _tokens.Add(value.Value);
+        return this;
+    }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private CheckSizeBuilder Chain(string value)

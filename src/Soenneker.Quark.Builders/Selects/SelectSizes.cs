@@ -5,8 +5,8 @@ namespace Soenneker.Quark;
 /// </summary>
 public static class SelectSizes
 {
-    public static SelectSizeBuilder Default => new("default");
-    public static SelectSizeBuilder Sm => new("sm");
+    public static SelectSizeBuilder Default => new(SelectSizeEnum.Default);
+    public static SelectSizeBuilder Sm => new(SelectSizeEnum.Sm);
 
     public static SelectSizeBuilder Token(string value) => new(value);
 }

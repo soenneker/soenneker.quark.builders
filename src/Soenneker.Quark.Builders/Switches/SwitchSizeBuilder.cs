@@ -11,15 +11,27 @@ public sealed class SwitchSizeBuilder : CssBuilderBase
 {
     private readonly List<string> _tokens = new(4);
 
+    internal SwitchSizeBuilder(SwitchSizeEnum value)
+    {
+        _tokens.Add(value.Value);
+    }
+
     internal SwitchSizeBuilder(string value)
     {
         _tokens.Add(value);
     }
 
-    public SwitchSizeBuilder Default => Chain("default");
-    public SwitchSizeBuilder Sm => Chain("sm");
+    public SwitchSizeBuilder Default => Chain(SwitchSizeEnum.Default);
+    public SwitchSizeBuilder Sm => Chain(SwitchSizeEnum.Sm);
 
     public SwitchSizeBuilder Token(string value) => Chain(value);
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private SwitchSizeBuilder Chain(SwitchSizeEnum value)
+    {
+        _tokens.Add(value.Value);
+        return this;
+    }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private SwitchSizeBuilder Chain(string value)

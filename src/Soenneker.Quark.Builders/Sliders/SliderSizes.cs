@@ -5,9 +5,9 @@ namespace Soenneker.Quark;
 /// </summary>
 public static class SliderSizes
 {
-    public static SliderSizeBuilder Default => new("default");
-    public static SliderSizeBuilder Sm => new("sm");
-    public static SliderSizeBuilder Lg => new("lg");
+    public static SliderSizeBuilder Default => new(SliderSizeEnum.Default);
+    public static SliderSizeBuilder Sm => new(SliderSizeEnum.Sm);
+    public static SliderSizeBuilder Lg => new(SliderSizeEnum.Lg);
 
     public static SliderSizeBuilder Token(string value) => new(value);
 }

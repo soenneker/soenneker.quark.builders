@@ -5,9 +5,9 @@ namespace Soenneker.Quark;
 /// </summary>
 public static class PaginationSizes
 {
-    public static PaginationSizeBuilder Default => new("default");
-    public static PaginationSizeBuilder Sm => new("sm");
-    public static PaginationSizeBuilder Lg => new("lg");
+    public static PaginationSizeBuilder Default => new(PaginationSizeEnum.Default);
+    public static PaginationSizeBuilder Sm => new(PaginationSizeEnum.Sm);
+    public static PaginationSizeBuilder Lg => new(PaginationSizeEnum.Lg);
 
     public static PaginationSizeBuilder Token(string value) => new(value);
 }

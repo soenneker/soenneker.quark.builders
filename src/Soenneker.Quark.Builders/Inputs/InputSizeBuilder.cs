@@ -11,16 +11,28 @@ public sealed class InputSizeBuilder : CssBuilderBase
 {
     private readonly List<string> _tokens = new(4);
 
+    internal InputSizeBuilder(InputSizeEnum value)
+    {
+        _tokens.Add(value.Value);
+    }
+
     internal InputSizeBuilder(string value)
     {
         _tokens.Add(value);
     }
 
-    public InputSizeBuilder Default => Chain("default");
-    public InputSizeBuilder Sm => Chain("sm");
-    public InputSizeBuilder Lg => Chain("lg");
+    public InputSizeBuilder Default => Chain(InputSizeEnum.Default);
+    public InputSizeBuilder Sm => Chain(InputSizeEnum.Sm);
+    public InputSizeBuilder Lg => Chain(InputSizeEnum.Lg);
 
     public InputSizeBuilder Token(string value) => Chain(value);
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private InputSizeBuilder Chain(InputSizeEnum value)
+    {
+        _tokens.Add(value.Value);
+        return this;
+    }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private InputSizeBuilder Chain(string value)

@@ -11,16 +11,28 @@ public sealed class PaginationSizeBuilder : CssBuilderBase
 {
     private readonly List<string> _tokens = new(4);
 
+    internal PaginationSizeBuilder(PaginationSizeEnum value)
+    {
+        _tokens.Add(value.Value);
+    }
+
     internal PaginationSizeBuilder(string value)
     {
         _tokens.Add(value);
     }
 
-    public PaginationSizeBuilder Default => Chain("default");
-    public PaginationSizeBuilder Sm => Chain("sm");
-    public PaginationSizeBuilder Lg => Chain("lg");
+    public PaginationSizeBuilder Default => Chain(PaginationSizeEnum.Default);
+    public PaginationSizeBuilder Sm => Chain(PaginationSizeEnum.Sm);
+    public PaginationSizeBuilder Lg => Chain(PaginationSizeEnum.Lg);
 
     public PaginationSizeBuilder Token(string value) => Chain(value);
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private PaginationSizeBuilder Chain(PaginationSizeEnum value)
+    {
+        _tokens.Add(value.Value);
+        return this;
+    }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private PaginationSizeBuilder Chain(string value)

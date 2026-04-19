@@ -15,13 +15,13 @@ public sealed class QuarkBuildersTests : FixturedUnitTest
     {
         string result = ButtonSizes.Default.OnMd.IconSm.ToClass();
 
-        Assert.Equal("h-9 px-4 py-2 has-[>svg]:px-3 md:size-8", result);
+        Assert.Equal("h-8 gap-1.5 px-2.5 has-data-[icon=inline-end]:pr-2 has-data-[icon=inline-start]:pl-2 md:size-7 md:rounded-[min(var(--radius-md),12px)] md:in-data-[slot=button-group]:rounded-lg", result);
     }
 
     [Fact]
     public void ToggleSizeBuilder_builds_responsive_size_classes()
     {
-        string result = ToggleSizes.Default.OnLg.Small.ToClass();
+        string result = ToggleSizes.Default.OnLg.Sm.ToClass();
 
         Assert.Equal("h-8 min-w-8 px-2.5 has-data-[icon=inline-end]:pr-2 has-data-[icon=inline-start]:pl-2 lg:h-7 lg:min-w-7 lg:rounded-[min(var(--radius-md),12px)] lg:px-2.5 lg:text-[0.8rem] lg:has-data-[icon=inline-end]:pr-1.5 lg:has-data-[icon=inline-start]:pl-1.5 lg:[&_svg:not([class*='size-'])]:size-3.5", result);
     }

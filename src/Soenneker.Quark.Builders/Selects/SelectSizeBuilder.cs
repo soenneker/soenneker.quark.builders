@@ -11,15 +11,27 @@ public sealed class SelectSizeBuilder : CssBuilderBase
 {
     private readonly List<string> _tokens = new(4);
 
+    internal SelectSizeBuilder(SelectSizeEnum value)
+    {
+        _tokens.Add(value.Value);
+    }
+
     internal SelectSizeBuilder(string value)
     {
         _tokens.Add(value);
     }
 
-    public SelectSizeBuilder Default => Chain("default");
-    public SelectSizeBuilder Sm => Chain("sm");
+    public SelectSizeBuilder Default => Chain(SelectSizeEnum.Default);
+    public SelectSizeBuilder Sm => Chain(SelectSizeEnum.Sm);
 
     public SelectSizeBuilder Token(string value) => Chain(value);
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private SelectSizeBuilder Chain(SelectSizeEnum value)
+    {
+        _tokens.Add(value.Value);
+        return this;
+    }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private SelectSizeBuilder Chain(string value)
