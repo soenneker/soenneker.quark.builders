@@ -54,7 +54,7 @@ public sealed class ScaleBuilder : CssBuilderBase
         for (var i = 0; i < _rules.Count; i++)
         {
             ScaleRule rule = _rules[i];
-            string cls = string.IsNullOrEmpty(rule.Scale.Value) ? string.Empty : $"scale-{rule.Scale.Value}";
+            string cls = rule.Scale.Value;
             if (cls.Length == 0)
                 continue;
 

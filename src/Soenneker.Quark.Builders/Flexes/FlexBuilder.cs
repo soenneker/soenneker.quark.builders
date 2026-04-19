@@ -6,11 +6,11 @@ namespace Soenneker.Quark;
 [TailwindPrefix("flex-", Responsive = true)]
 public sealed class FlexBuilder : ResponsiveUtilityBuilder<FlexBuilder>
 {
-    internal FlexBuilder(FlexEnum value, BreakpointType? breakpoint = null) : base("flex-", value.Value, breakpoint)
+    internal FlexBuilder(FlexEnum value, BreakpointType? breakpoint = null) : base("", value.Value, breakpoint)
     {
     }
 
-    internal FlexBuilder(string value, BreakpointType? breakpoint = null) : base("flex-", value, breakpoint)
+    internal FlexBuilder(string value, BreakpointType? breakpoint = null) : base("", value, breakpoint)
     {
     }
 
@@ -18,7 +18,7 @@ public sealed class FlexBuilder : ResponsiveUtilityBuilder<FlexBuilder>
     public FlexBuilder Auto => ChainValue(FlexEnum.AutoValue);
     public FlexBuilder Initial => ChainValue(FlexEnum.InitialValue);
     public FlexBuilder None => ChainValue(FlexEnum.NoneValue);
-    public FlexBuilder Token(string value) => ChainValue(value);
+    public FlexBuilder Token(string value) => ChainValue($"flex-{value}");
 
     public FlexBuilder OnBase => SetPendingBreakpoint(BreakpointType.Base);
     public FlexBuilder OnSm => SetPendingBreakpoint(BreakpointType.Sm);

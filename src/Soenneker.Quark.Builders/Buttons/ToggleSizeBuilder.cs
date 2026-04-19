@@ -26,9 +26,9 @@ public sealed class ToggleSizeBuilder : CssBuilderBase
             _rules.AddRange(rules);
     }
 
-    public ToggleSizeBuilder Default => Chain("default");
-    public ToggleSizeBuilder Sm => Chain("sm");
-    public ToggleSizeBuilder Lg => Chain("lg");
+    public ToggleSizeBuilder Default => Chain("h-8 min-w-8 px-2.5 has-data-[icon=inline-end]:pr-2 has-data-[icon=inline-start]:pl-2");
+    public ToggleSizeBuilder Sm => Chain("h-7 min-w-7 rounded-[min(var(--radius-md),12px)] px-2.5 text-[0.8rem] has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5 [&_svg:not([class*='size-'])]:size-3.5");
+    public ToggleSizeBuilder Lg => Chain("h-9 min-w-9 px-2.5 has-data-[icon=inline-end]:pr-2 has-data-[icon=inline-start]:pl-2");
 
     public ToggleSizeBuilder Token(string value) => Chain(value);
 
@@ -66,7 +66,7 @@ public sealed class ToggleSizeBuilder : CssBuilderBase
         for (var i = 0; i < _rules.Count; i++)
         {
             ToggleSizeRule rule = _rules[i];
-            string cls = GetSizeClass(rule.Size, includeShrink: false);
+            string cls = rule.Size;
 
             if (cls.Length == 0)
                 continue;
@@ -113,16 +113,4 @@ public sealed class ToggleSizeBuilder : CssBuilderBase
         return sb.ToString();
     }
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static string GetSizeClass(string? size, bool includeShrink)
-    {
-        string prefix = includeShrink ? "shrink-0 " : string.Empty;
-
-        return size switch
-        {
-            "sm" => $"{prefix}h-7 min-w-7 rounded-[min(var(--radius-md),12px)] px-2.5 text-[0.8rem] has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5 [&_svg:not([class*='size-'])]:size-3.5",
-            "lg" => $"{prefix}h-9 min-w-9 px-2.5 has-data-[icon=inline-end]:pr-2 has-data-[icon=inline-start]:pl-2",
-            _ => $"{prefix}h-8 min-w-8 px-2.5 has-data-[icon=inline-end]:pr-2 has-data-[icon=inline-start]:pl-2"
-        };
-    }
 }

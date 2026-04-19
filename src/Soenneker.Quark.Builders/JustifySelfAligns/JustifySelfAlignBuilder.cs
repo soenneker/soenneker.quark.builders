@@ -3,11 +3,11 @@ namespace Soenneker.Quark;
 [TailwindPrefix("justify-self-", Responsive = true)]
 public sealed class JustifySelfAlignBuilder : ResponsiveUtilityBuilder<JustifySelfAlignBuilder>
 {
-    internal JustifySelfAlignBuilder(JustifySelfAlignEnum value, BreakpointType? breakpoint = null) : base("justify-self-", value.Value, breakpoint)
+    internal JustifySelfAlignBuilder(JustifySelfAlignEnum value, BreakpointType? breakpoint = null) : base("", value.Value, breakpoint)
     {
     }
 
-    internal JustifySelfAlignBuilder(string value, BreakpointType? breakpoint = null) : base("justify-self-", value, breakpoint)
+    internal JustifySelfAlignBuilder(string value, BreakpointType? breakpoint = null) : base("", value, breakpoint)
     {
     }
 
@@ -16,7 +16,7 @@ public sealed class JustifySelfAlignBuilder : ResponsiveUtilityBuilder<JustifySe
     public JustifySelfAlignBuilder End => ChainValue(JustifySelfAlignEnum.EndValue);
     public JustifySelfAlignBuilder Center => ChainValue(JustifySelfAlignEnum.CenterValue);
     public JustifySelfAlignBuilder Stretch => ChainValue(JustifySelfAlignEnum.StretchValue);
-    public JustifySelfAlignBuilder Token(string value) => ChainValue(value);
+    public JustifySelfAlignBuilder Token(string value) => ChainValue("justify-self-" + value);
 
     public JustifySelfAlignBuilder OnBase => SetPendingBreakpoint(BreakpointType.Base);
     public JustifySelfAlignBuilder OnSm => SetPendingBreakpoint(BreakpointType.Sm);

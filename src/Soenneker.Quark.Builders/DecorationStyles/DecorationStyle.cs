@@ -7,5 +7,5 @@ public static class DecorationStyle
     public static DecorationStyleBuilder Dotted => new(DecorationStyleEnum.Dotted);
     public static DecorationStyleBuilder Dashed => new(DecorationStyleEnum.Dashed);
     public static DecorationStyleBuilder Wavy => new(DecorationStyleEnum.Wavy);
-    public static DecorationStyleBuilder Token(string value) => new(value);
+    public static DecorationStyleBuilder Token(string value) => new("decoration-" + value);
 }

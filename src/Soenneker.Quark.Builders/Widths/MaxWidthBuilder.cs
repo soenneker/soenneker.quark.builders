@@ -17,17 +17,8 @@ public sealed class MaxWidthBuilder : CssBuilderBase
 
     public override string ToClass()
     {
-        string cls = GetMaxWidthClass(_token);
-        return cls.Length == 0 ? string.Empty : cls;
+        return _token.Length == 0 ? string.Empty : _token;
     }
 
     public override string ToStyle() => string.Empty;
-
-    private static string GetMaxWidthClass(string token)
-    {
-        if (string.IsNullOrEmpty(token))
-            return string.Empty;
-
-        return token.StartsWith("max-w-") ? token : "max-w-" + token;
-    }
 }

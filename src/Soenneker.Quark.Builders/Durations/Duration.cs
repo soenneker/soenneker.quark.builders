@@ -10,5 +10,5 @@ public static class Duration
     public static DurationBuilder Is500 => new(DurationEnum.Is500);
     public static DurationBuilder Is700 => new(DurationEnum.Is700);
     public static DurationBuilder Is1000 => new(DurationEnum.Is1000);
-    public static DurationBuilder Token(string value) => new(value);
+    public static DurationBuilder Token(string value) => new("duration-" + value);
 }

@@ -47,13 +47,20 @@ public sealed class PaginationSizeBuilder : CssBuilderBase
             return string.Empty;
 
         using var sb = new PooledStringBuilder();
+        var first = true;
 
         for (var i = 0; i < _tokens.Count; i++)
         {
-            if (i > 0)
-                sb.Append(' ');
+            string token = _tokens[i];
+            if (token.Length == 0)
+                continue;
 
-            sb.Append(_tokens[i]);
+            if (!first)
+                sb.Append(' ');
+            else
+                first = false;
+
+            sb.Append(token);
         }
 
         return sb.ToString();

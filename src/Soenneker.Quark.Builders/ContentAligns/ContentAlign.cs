@@ -11,5 +11,5 @@ public static class ContentAlign
     public static ContentAlignBuilder Evenly => new(ContentEnum.Evenly);
     public static ContentAlignBuilder Stretch => new(ContentEnum.Stretch);
     public static ContentAlignBuilder Baseline => new(ContentEnum.Baseline);
-    public static ContentAlignBuilder Token(string value) => new(value);
+    public static ContentAlignBuilder Token(string value) => new("content-" + value);
 }

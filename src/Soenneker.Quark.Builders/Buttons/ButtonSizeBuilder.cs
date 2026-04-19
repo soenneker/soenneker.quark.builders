@@ -26,14 +26,14 @@ public sealed class ButtonSizeBuilder : CssBuilderBase
             _rules.AddRange(rules);
     }
 
-    public ButtonSizeBuilder Default => Chain("default");
-    public ButtonSizeBuilder Xs => Chain("xs");
-    public ButtonSizeBuilder Sm => Chain("sm");
-    public ButtonSizeBuilder Lg => Chain("lg");
-    public ButtonSizeBuilder Icon => Chain("icon");
-    public ButtonSizeBuilder IconXs => Chain("icon-xs");
-    public ButtonSizeBuilder IconSm => Chain("icon-sm");
-    public ButtonSizeBuilder IconLg => Chain("icon-lg");
+    public ButtonSizeBuilder Default => Chain("h-8 gap-1.5 px-2.5 has-data-[icon=inline-end]:pr-2 has-data-[icon=inline-start]:pl-2");
+    public ButtonSizeBuilder Xs => Chain("h-6 gap-1 rounded-[min(var(--radius-md),10px)] px-2 text-xs in-data-[slot=button-group]:rounded-lg has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5 [&_svg:not([class*='size-'])]:size-3");
+    public ButtonSizeBuilder Sm => Chain("h-7 gap-1 rounded-[min(var(--radius-md),12px)] px-2.5 text-[0.8rem] in-data-[slot=button-group]:rounded-lg has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5 [&_svg:not([class*='size-'])]:size-3.5");
+    public ButtonSizeBuilder Lg => Chain("h-9 gap-1.5 px-2.5 has-data-[icon=inline-end]:pr-2 has-data-[icon=inline-start]:pl-2");
+    public ButtonSizeBuilder Icon => Chain("size-8");
+    public ButtonSizeBuilder IconXs => Chain("size-6 rounded-[min(var(--radius-md),10px)] in-data-[slot=button-group]:rounded-lg [&_svg:not([class*='size-'])]:size-3");
+    public ButtonSizeBuilder IconSm => Chain("size-7 rounded-[min(var(--radius-md),12px)] in-data-[slot=button-group]:rounded-lg");
+    public ButtonSizeBuilder IconLg => Chain("size-9");
 
     /// <summary>
     /// Adds an arbitrary button size token understood by the shared button style helper.
@@ -74,7 +74,7 @@ public sealed class ButtonSizeBuilder : CssBuilderBase
         for (var i = 0; i < _rules.Count; i++)
         {
             ButtonSizeRule rule = _rules[i];
-            string cls = GetSizeClass(rule.Size);
+            string cls = rule.Size;
 
             if (cls.Length == 0)
                 continue;
@@ -121,19 +121,4 @@ public sealed class ButtonSizeBuilder : CssBuilderBase
         return sb.ToString();
     }
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static string GetSizeClass(string? size)
-    {
-        return size switch
-        {
-            "xs" => "h-6 gap-1 rounded-[min(var(--radius-md),10px)] px-2 text-xs in-data-[slot=button-group]:rounded-lg has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5 [&_svg:not([class*='size-'])]:size-3",
-            "sm" => "h-7 gap-1 rounded-[min(var(--radius-md),12px)] px-2.5 text-[0.8rem] in-data-[slot=button-group]:rounded-lg has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5 [&_svg:not([class*='size-'])]:size-3.5",
-            "lg" => "h-9 gap-1.5 px-2.5 has-data-[icon=inline-end]:pr-2 has-data-[icon=inline-start]:pl-2",
-            "icon" => "size-8",
-            "icon-xs" => "size-6 rounded-[min(var(--radius-md),10px)] in-data-[slot=button-group]:rounded-lg [&_svg:not([class*='size-'])]:size-3",
-            "icon-sm" => "size-7 rounded-[min(var(--radius-md),12px)] in-data-[slot=button-group]:rounded-lg",
-            "icon-lg" => "size-9",
-            _ => "h-8 gap-1.5 px-2.5 has-data-[icon=inline-end]:pr-2 has-data-[icon=inline-start]:pl-2"
-        };
-    }
 }

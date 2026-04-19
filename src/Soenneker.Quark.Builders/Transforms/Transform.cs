@@ -20,5 +20,5 @@ public static class Transform
     /// Uses the CPU transform utility.
     /// </summary>
     public static TransformBuilder Cpu => new(TransformEnum.Cpu);
-    public static TransformBuilder Token(string value) => new(value);
+    public static TransformBuilder Token(string value) => new("transform-" + value);
 }

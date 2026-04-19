@@ -29,86 +29,86 @@ public sealed class HeightBuilder : CssBuilderBase
     /// <summary>
     /// Spacing/sizing scale step `25` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 25` for integer spacing utilities unless overridden).
     /// </summary>
-    public HeightBuilder Is25 => ChainWithSize("25");
+    public HeightBuilder Is25 => ChainWithSize("h-1/4");
     /// <summary>
     /// Spacing/sizing scale step `50` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 50` for integer spacing utilities unless overridden).
     /// </summary>
-    public HeightBuilder Is50 => ChainWithSize("50");
+    public HeightBuilder Is50 => ChainWithSize("h-1/2");
     /// <summary>
     /// Spacing/sizing scale step `75` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 75` for integer spacing utilities unless overridden).
     /// </summary>
-    public HeightBuilder Is75 => ChainWithSize("75");
+    public HeightBuilder Is75 => ChainWithSize("h-3/4");
     /// <summary>
     /// Spacing/sizing scale step `100` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 100` for integer spacing utilities unless overridden).
     /// </summary>
-    public HeightBuilder Is100 => ChainWithSize("100");
+    public HeightBuilder Is100 => ChainWithSize("h-full");
 
     /// <summary>
     /// Spacing/sizing scale step `0` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 0` for integer spacing utilities unless overridden).
     /// </summary>
-    public HeightBuilder Is0 => ChainWithSize("0");
+    public HeightBuilder Is0 => ChainWithSize("h-0");
     /// <summary>
     /// Spacing/sizing scale step `8` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 8` for integer spacing utilities unless overridden).
     /// </summary>
-    public HeightBuilder Is8 => ChainWithSize("8");
+    public HeightBuilder Is8 => ChainWithSize("h-8");
     /// <summary>
     /// Spacing/sizing scale step `16` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 16` for integer spacing utilities unless overridden).
     /// </summary>
-    public HeightBuilder Is16 => ChainWithSize("16");
+    public HeightBuilder Is16 => ChainWithSize("h-16");
     /// <summary>
     /// Fluent step for `Is Px` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public HeightBuilder IsPx => ChainWithSize("px");
+    public HeightBuilder IsPx => ChainWithSize("h-px");
     /// <summary>
     /// Fluent step for `Is Full` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public HeightBuilder IsFull => ChainWithSize("full");
+    public HeightBuilder IsFull => ChainWithSize("h-full");
     /// <summary>
     /// Fluent step for `Is Screen` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public HeightBuilder IsScreen => ChainWithSize("screen");
+    public HeightBuilder IsScreen => ChainWithSize("h-screen");
     /// <summary>
     /// Fluent step for `Is Fit` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public HeightBuilder IsFit => ChainWithSize("fit");
+    public HeightBuilder IsFit => ChainWithSize("h-fit");
     /// <summary>
     /// Fluent step for `Is Min` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public HeightBuilder IsMin => ChainWithSize("min");
+    public HeightBuilder IsMin => ChainWithSize("h-min");
     /// <summary>
     /// Fluent step for `Is Max` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public HeightBuilder IsMax => ChainWithSize("max");
+    public HeightBuilder IsMax => ChainWithSize("h-max");
 
     /// <summary>
     /// Fluent step for `Is1of2` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public HeightBuilder Is1of2 => ChainWithSize("1/2");
+    public HeightBuilder Is1of2 => ChainWithSize("h-1/2");
     /// <summary>
     /// Fluent step for `Is1of3` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public HeightBuilder Is1of3 => ChainWithSize("1/3");
+    public HeightBuilder Is1of3 => ChainWithSize("h-1/3");
     /// <summary>
     /// Fluent step for `Is2of3` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public HeightBuilder Is2of3 => ChainWithSize("2/3");
+    public HeightBuilder Is2of3 => ChainWithSize("h-2/3");
     /// <summary>
     /// Fluent step for `Is1of4` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public HeightBuilder Is1of4 => ChainWithSize("1/4");
+    public HeightBuilder Is1of4 => ChainWithSize("h-1/4");
     /// <summary>
     /// Fluent step for `Is2of4` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public HeightBuilder Is2of4 => ChainWithSize("2/4");
+    public HeightBuilder Is2of4 => ChainWithSize("h-2/4");
     /// <summary>
     /// Fluent step for `Is3of4` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public HeightBuilder Is3of4 => ChainWithSize("3/4");
+    public HeightBuilder Is3of4 => ChainWithSize("h-3/4");
 
     /// <summary>
     /// `auto` — browser-default sizing/behavior for the underlying utility.
     /// </summary>
-    public HeightBuilder Auto => ChainWithSize("auto");
+    public HeightBuilder Auto => ChainWithSize("h-auto");
 
     /// <summary>
     /// Scopes the next utility to the default (unprefixed) breakpoint. In Tailwind’s mobile‑first model, unprefixed utilities apply from 0px unless a larger breakpoint overrides them.
@@ -138,7 +138,7 @@ public sealed class HeightBuilder : CssBuilderBase
     /// <summary>
     /// Applies an arbitrary Tailwind height token (e.g. "72", "[18rem]", "full").
     /// </summary>
-    public HeightBuilder Token(string token) => ChainWithSize(token);
+    public HeightBuilder Token(string token) => ChainWithSize(NormalizeHeightClass(token));
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private HeightBuilder ChainWithSize(string size)
@@ -167,11 +167,11 @@ public sealed class HeightBuilder : CssBuilderBase
         for (var i = 0; i < _rules.Count; i++)
         {
             HeightRule rule = _rules[i];
-            string cls = GetHeightClass(rule.Size);
+            string cls = rule.Size;
             if (cls.Length == 0)
                 continue;
 
-            string bp = BreakpointUtil.GetBreakpointClass(rule.Breakpoint);
+            string bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
             if (bp.Length != 0)
                 cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, bp);
 
@@ -187,49 +187,11 @@ public sealed class HeightBuilder : CssBuilderBase
     public override string ToStyle() => string.Empty;
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static string GetHeightClass(string size)
+    private static string NormalizeHeightClass(string size)
     {
-        return size switch
-        {
-            "25" => "h-1/4",
-            "50" => "h-1/2",
-            "75" => "h-3/4",
-            "100" => "h-full",
-            "0" => "h-0",
-            "8" => "h-8",
-            "px" => "h-px",
-            "full" => "h-full",
-            "screen" => "h-screen",
-            "fit" => "h-fit",
-            "min" => "h-min",
-            "max" => "h-max",
-            "1/2" => "h-1/2",
-            "1/3" => "h-1/3",
-            "2/3" => "h-2/3",
-            "1/4" => "h-1/4",
-            "2/4" => "h-2/4",
-            "3/4" => "h-3/4",
-            "14" => "h-14",
-            "16" => "h-16",
-            "20" => "h-20",
-            "24" => "h-24",
-            "28" => "h-28",
-            "32" => "h-32",
-            "36" => "h-36",
-            "40" => "h-40",
-            "44" => "h-44",
-            "48" => "h-48",
-            "52" => "h-52",
-            "56" => "h-56",
-            "60" => "h-60",
-            "64" => "h-64",
-            "72" => "h-72",
-            "80" => "h-80",
-            "96" => "h-96",
-            "auto" => "h-auto",
-            _ when size.StartsWith("h-") => size,
-            _ when size.Length > 0 => "h-" + size,
-            _ => string.Empty
-        };
+        if (size.Length == 0)
+            return string.Empty;
+
+        return size.StartsWith("h-") ? size : "h-" + size;
     }
 }

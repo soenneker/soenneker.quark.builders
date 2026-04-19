@@ -14,7 +14,6 @@ public sealed class InsetBuilder : CssBuilderBase
     private readonly List<InsetRule> _rules = new(4);
     private BreakpointType? _pendingBreakpoint;
 
-    private const string _baseToken = "inset";
     internal InsetBuilder(InsetScaleEnum size, BreakpointType? breakpoint = null)
     {
         _rules.Add(new InsetRule(size, ElementSideEnum.All, breakpoint));
@@ -160,11 +159,8 @@ public sealed class InsetBuilder : CssBuilderBase
         for (var i = 0; i < _rules.Count; i++)
         {
             InsetRule rule = _rules[i];
-            string sizeTok = GetSizeToken(rule.Size);
-            if (sizeTok.Length == 0) continue;
-            string sidePrefix = GetInsetSidePrefix(rule.Side);
-            if (sidePrefix.Length == 0) continue;
-            string cls = sidePrefix + "-" + sizeTok;
+            string cls = ApplySide(rule.Size.Value, rule.Side);
+            if (cls.Length == 0) continue;
             string bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
             if (bp.Length != 0) cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, bp);
             if (!first) sb.Append(' ');
@@ -179,31 +175,26 @@ public sealed class InsetBuilder : CssBuilderBase
     public override string ToString() => ToClass();
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static string GetSizeToken(InsetScaleEnum size)
+    private static string ApplySide(string sizeClass, ElementSideEnum side)
     {
-        if (ReferenceEquals(size, InsetScaleEnum.Is0)) return InsetScaleEnum.Is0Value;
-        if (ReferenceEquals(size, InsetScaleEnum.Is1)) return InsetScaleEnum.Is1Value;
-        if (ReferenceEquals(size, InsetScaleEnum.Is2)) return InsetScaleEnum.Is2Value;
-        if (ReferenceEquals(size, InsetScaleEnum.Is3)) return InsetScaleEnum.Is3Value;
-        if (ReferenceEquals(size, InsetScaleEnum.Is4)) return InsetScaleEnum.Is4Value;
-        if (ReferenceEquals(size, InsetScaleEnum.Is5)) return InsetScaleEnum.Is5Value;
-        if (ReferenceEquals(size, InsetScaleEnum.Auto)) return InsetScaleEnum.AutoValue;
-        if (ReferenceEquals(size, InsetScaleEnum.Px)) return InsetScaleEnum.PxValue;
-        return string.Empty;
-    }
+        if (sizeClass.Length == 0)
+            return string.Empty;
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static string GetInsetSidePrefix(ElementSideEnum side)
-    {
-        if (ReferenceEquals(side, ElementSideEnum.All)) return _baseToken;
-        if (ReferenceEquals(side, ElementSideEnum.Top)) return "top";
-        if (ReferenceEquals(side, ElementSideEnum.Right)) return "right";
-        if (ReferenceEquals(side, ElementSideEnum.Bottom)) return "bottom";
-        if (ReferenceEquals(side, ElementSideEnum.Left)) return "left";
-        if (ReferenceEquals(side, ElementSideEnum.Horizontal) || ReferenceEquals(side, ElementSideEnum.LeftRight)) return "inset-x";
-        if (ReferenceEquals(side, ElementSideEnum.Vertical) || ReferenceEquals(side, ElementSideEnum.TopBottom)) return "inset-y";
-        if (ReferenceEquals(side, ElementSideEnum.InlineStart)) return "start";
-        if (ReferenceEquals(side, ElementSideEnum.InlineEnd)) return "end";
+        if (ReferenceEquals(side, ElementSideEnum.All))
+            return sizeClass;
+
+        if (!sizeClass.StartsWith("inset-"))
+            return sizeClass;
+
+        string suffix = sizeClass["inset-".Length..];
+        if (ReferenceEquals(side, ElementSideEnum.Top)) return "top-" + suffix;
+        if (ReferenceEquals(side, ElementSideEnum.Right)) return "right-" + suffix;
+        if (ReferenceEquals(side, ElementSideEnum.Bottom)) return "bottom-" + suffix;
+        if (ReferenceEquals(side, ElementSideEnum.Left)) return "left-" + suffix;
+        if (ReferenceEquals(side, ElementSideEnum.Horizontal) || ReferenceEquals(side, ElementSideEnum.LeftRight)) return "inset-x-" + suffix;
+        if (ReferenceEquals(side, ElementSideEnum.Vertical) || ReferenceEquals(side, ElementSideEnum.TopBottom)) return "inset-y-" + suffix;
+        if (ReferenceEquals(side, ElementSideEnum.InlineStart)) return "start-" + suffix;
+        if (ReferenceEquals(side, ElementSideEnum.InlineEnd)) return "end-" + suffix;
         return string.Empty;
     }
 

@@ -27,60 +27,60 @@ public sealed class SizeBuilder : CssBuilderBase
     /// <summary>
     /// Spacing/sizing scale step `0` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 0` for integer spacing utilities unless overridden).
     /// </summary>
-    public SizeBuilder Is0 => ChainWithValue("0");
+    public SizeBuilder Is0 => ChainWithValue("size-0");
     /// <summary>
     /// Spacing/sizing scale step `1` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 1` for integer spacing utilities unless overridden).
     /// </summary>
-    public SizeBuilder Is1 => ChainWithValue("1");
+    public SizeBuilder Is1 => ChainWithValue("size-1");
     /// <summary>
     /// Spacing/sizing scale step `2` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 2` for integer spacing utilities unless overridden).
     /// </summary>
-    public SizeBuilder Is2 => ChainWithValue("2");
+    public SizeBuilder Is2 => ChainWithValue("size-2");
     /// <summary>
     /// Spacing/sizing scale step `3` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 3` for integer spacing utilities unless overridden).
     /// </summary>
-    public SizeBuilder Is3 => ChainWithValue("3");
+    public SizeBuilder Is3 => ChainWithValue("size-3");
     /// <summary>
     /// Spacing/sizing scale step `4` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 4` for integer spacing utilities unless overridden).
     /// </summary>
-    public SizeBuilder Is4 => ChainWithValue("4");
+    public SizeBuilder Is4 => ChainWithValue("size-4");
     /// <summary>
     /// Spacing/sizing scale step `5` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 5` for integer spacing utilities unless overridden).
     /// </summary>
-    public SizeBuilder Is5 => ChainWithValue("5");
+    public SizeBuilder Is5 => ChainWithValue("size-5");
     /// <summary>
     /// Spacing/sizing scale step `6` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 6` for integer spacing utilities unless overridden).
     /// </summary>
-    public SizeBuilder Is6 => ChainWithValue("6");
+    public SizeBuilder Is6 => ChainWithValue("size-6");
     /// <summary>
     /// Spacing/sizing scale step `7` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 7` for integer spacing utilities unless overridden).
     /// </summary>
-    public SizeBuilder Is7 => ChainWithValue("7");
+    public SizeBuilder Is7 => ChainWithValue("size-7");
     /// <summary>
     /// Spacing/sizing scale step `8` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 8` for integer spacing utilities unless overridden).
     /// </summary>
-    public SizeBuilder Is8 => ChainWithValue("8");
+    public SizeBuilder Is8 => ChainWithValue("size-8");
     /// <summary>
     /// Spacing/sizing scale step `9` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 9` for integer spacing utilities unless overridden).
     /// </summary>
-    public SizeBuilder Is9 => ChainWithValue("9");
+    public SizeBuilder Is9 => ChainWithValue("size-9");
     /// <summary>
     /// Spacing/sizing scale step `10` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 10` for integer spacing utilities unless overridden).
     /// </summary>
-    public SizeBuilder Is10 => ChainWithValue("10");
+    public SizeBuilder Is10 => ChainWithValue("size-10");
     /// <summary>
     /// Spacing/sizing scale step `11` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 11` for integer spacing utilities unless overridden).
     /// </summary>
-    public SizeBuilder Is11 => ChainWithValue("11");
+    public SizeBuilder Is11 => ChainWithValue("size-11");
     /// <summary>
     /// Spacing/sizing scale step `12` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 12` for integer spacing utilities unless overridden).
     /// </summary>
-    public SizeBuilder Is12 => ChainWithValue("12");
+    public SizeBuilder Is12 => ChainWithValue("size-12");
 
     /// <summary>
     /// Applies an arbitrary Tailwind size token (e.g. "4", "5", "[18px]", "full").
     /// </summary>
-    public SizeBuilder Token(string value) => ChainWithValue(value);
+    public SizeBuilder Token(string value) => ChainWithValue(NormalizeSizeClass(value));
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private SizeBuilder ChainWithValue(string value)
@@ -99,7 +99,7 @@ public sealed class SizeBuilder : CssBuilderBase
 
         for (var i = 0; i < _rules.Count; i++)
         {
-            string cls = GetSizeClass(_rules[i].Value);
+            string cls = _rules[i].Value;
             if (cls.Length == 0)
                 continue;
 
@@ -115,48 +115,12 @@ public sealed class SizeBuilder : CssBuilderBase
     public override string ToStyle() => string.Empty;
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static string GetSizeClass(string value)
+    private static string NormalizeSizeClass(string value)
     {
-        return value switch
-        {
-            "" => string.Empty,
-            "0" => "size-0",
-            "1" => "size-1",
-            "2" => "size-2",
-            "3" => "size-3",
-            "4" => "size-4",
-            "5" => "size-5",
-            "6" => "size-6",
-            "7" => "size-7",
-            "8" => "size-8",
-            "9" => "size-9",
-            "10" => "size-10",
-            "11" => "size-11",
-            "12" => "size-12",
-            "14" => "size-14",
-            "16" => "size-16",
-            "20" => "size-20",
-            "24" => "size-24",
-            "28" => "size-28",
-            "32" => "size-32",
-            "36" => "size-36",
-            "40" => "size-40",
-            "44" => "size-44",
-            "48" => "size-48",
-            "52" => "size-52",
-            "56" => "size-56",
-            "60" => "size-60",
-            "64" => "size-64",
-            "72" => "size-72",
-            "80" => "size-80",
-            "96" => "size-96",
-            "px" => "size-px",
-            "full" => "size-full",
-            "auto" => "size-auto",
+        if (value.Length == 0)
+            return string.Empty;
 
-            _ when value.StartsWith("size-") => value,
-            _ => string.Empty
-        };
+        return value.StartsWith("size-") ? value : "size-" + value;
     }
 
     public override string ToString() => ToClass();

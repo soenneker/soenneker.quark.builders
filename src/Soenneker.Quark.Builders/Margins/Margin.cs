@@ -32,14 +32,14 @@ public static class Margin
     /// <summary>
     /// Spacing/sizing scale step `8` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 8` for integer spacing utilities unless overridden).
     /// </summary>
-    public static MarginBuilder Is8 => new("8");
+    public static MarginBuilder Is8 => new("m-8");
     /// <summary>
     /// `auto` — browser-default sizing/behavior for the underlying utility.
     /// </summary>
-    public static MarginBuilder Auto => new("auto");
+    public static MarginBuilder Auto => new("m-auto");
 
     /// <summary>
     /// Creates a margin utility from an arbitrary Tailwind spacing token.
     /// </summary>
-    public static MarginBuilder Token(string value) => new(value);
+    public static MarginBuilder Token(string value) => new(value.StartsWith("-m-") || value.StartsWith("m-") ? value : value[0] == '-' ? "-m-" + value[1..] : "m-" + value);
 }

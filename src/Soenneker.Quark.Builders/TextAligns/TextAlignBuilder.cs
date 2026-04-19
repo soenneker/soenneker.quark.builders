@@ -14,7 +14,7 @@ public sealed class TextAlignBuilder : ResponsiveUtilityBuilder<TextAlignBuilder
     public TextAlignBuilder Start => ChainValue(TextAlignmentEnum.StartValue);
     public TextAlignBuilder Center => ChainValue(TextAlignmentEnum.CenterValue);
     public TextAlignBuilder End => ChainValue(TextAlignmentEnum.EndValue);
-    public TextAlignBuilder Token(string value) => ChainValue(value);
+    public TextAlignBuilder Token(string value) => ChainValue("text-" + value);
 
     public TextAlignBuilder OnBase => SetPendingBreakpoint(BreakpointType.Base);
     public TextAlignBuilder OnSm => SetPendingBreakpoint(BreakpointType.Sm);

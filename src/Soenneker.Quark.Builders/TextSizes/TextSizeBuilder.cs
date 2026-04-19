@@ -29,41 +29,41 @@ public sealed class TextSizeBuilder : CssBuilderBase
     /// <summary>
     /// Fluent step for `Xs` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public TextSizeBuilder Xs => ChainSize("xs");
+    public TextSizeBuilder Xs => ChainSize("text-xs");
     /// <summary>
     /// `rounded-sm` — small radius (default theme `0.125rem`).
     /// </summary>
-    public TextSizeBuilder Sm => ChainSize("sm");
+    public TextSizeBuilder Sm => ChainSize("text-sm");
     /// <summary>
     /// Fluent step for `Base` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public TextSizeBuilder Base => ChainSize("base");
+    public TextSizeBuilder Base => ChainSize("text-base");
     /// <summary>
     /// `rounded-lg` — large radius (default theme `0.5rem`).
     /// </summary>
-    public TextSizeBuilder Lg => ChainSize("lg");
+    public TextSizeBuilder Lg => ChainSize("text-lg");
     /// <summary>
     /// `rounded-xl` — extra-large radius (default theme `0.75rem`).
     /// </summary>
-    public TextSizeBuilder Xl => ChainSize("xl");
+    public TextSizeBuilder Xl => ChainSize("text-xl");
     /// <summary>
     /// `rounded-2xl` — 2× XL radius (default theme `1rem`).
     /// </summary>
-    public TextSizeBuilder TwoXl => ChainSize("2xl");
+    public TextSizeBuilder TwoXl => ChainSize("text-2xl");
     /// <summary>
     /// `rounded-3xl` — very large radius (default theme `1.5rem`).
     /// </summary>
-    public TextSizeBuilder ThreeXl => ChainSize("3xl");
+    public TextSizeBuilder ThreeXl => ChainSize("text-3xl");
     /// <summary>
     /// Fluent step for `Four Xl` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public TextSizeBuilder FourXl => ChainSize("4xl");
+    public TextSizeBuilder FourXl => ChainSize("text-4xl");
 
     /// <summary>
     /// Tailwind token segment (spacing scale step, arbitrary value like `[17rem]`, or theme key). Builds the matching utility class for this builder.
     /// </summary>
     /// <param name="value">Suffix/token after the utility prefix (see Tailwind docs for this family).</param>
-    public TextSizeBuilder Token(string value) => ChainSize(value);
+    public TextSizeBuilder Token(string value) => ChainSize(NormalizeTextSizeClass(value));
 
     // ----- BreakpointType chaining -----
     /// <summary>
@@ -119,7 +119,7 @@ public sealed class TextSizeBuilder : CssBuilderBase
         {
             TextSizeRule rule = _rules[i];
 
-            string sizeClass = GetSizeClass(rule.Size);
+            string sizeClass = rule.Size;
             if (sizeClass.Length == 0)
                 continue;
 
@@ -141,21 +141,11 @@ public sealed class TextSizeBuilder : CssBuilderBase
     public override string ToStyle() => string.Empty;
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static string GetSizeClass(string size)
+    private static string NormalizeTextSizeClass(string size)
     {
-        return size switch
-        {
-            "xs" => "text-xs",
-            "sm" => "text-sm",
-            "base" => "text-base",
-            "lg" => "text-lg",
-            "xl" => "text-xl",
-            "2xl" => "text-2xl",
-            "3xl" => "text-3xl",
-            "4xl" => "text-4xl",
-            _ when size.StartsWith("text-") => size,
-            _ when size.Length > 0 => $"text-{size}",
-            _ => string.Empty
-        };
+        if (size.Length == 0)
+            return string.Empty;
+
+        return size.StartsWith("text-") ? size : "text-" + size;
     }
 }

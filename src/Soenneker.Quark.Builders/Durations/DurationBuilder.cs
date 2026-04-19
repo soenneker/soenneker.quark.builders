@@ -3,11 +3,11 @@ namespace Soenneker.Quark;
 [TailwindPrefix("duration-", Responsive = true)]
 public sealed class DurationBuilder : ResponsiveUtilityBuilder<DurationBuilder>
 {
-    internal DurationBuilder(DurationEnum value, BreakpointType? breakpoint = null) : base("duration-", value.Value, breakpoint)
+    internal DurationBuilder(DurationEnum value, BreakpointType? breakpoint = null) : base("", value.Value, breakpoint)
     {
     }
 
-    internal DurationBuilder(string value, BreakpointType? breakpoint = null) : base("duration-", value, breakpoint)
+    internal DurationBuilder(string value, BreakpointType? breakpoint = null) : base("", value, breakpoint)
     {
     }
 
@@ -19,7 +19,7 @@ public sealed class DurationBuilder : ResponsiveUtilityBuilder<DurationBuilder>
     public DurationBuilder Is500 => ChainValue(DurationEnum.Is500Value);
     public DurationBuilder Is700 => ChainValue(DurationEnum.Is700Value);
     public DurationBuilder Is1000 => ChainValue(DurationEnum.Is1000Value);
-    public DurationBuilder Token(string value) => ChainValue(value);
+    public DurationBuilder Token(string value) => ChainValue("duration-" + value);
 
     public DurationBuilder OnBase => SetPendingBreakpoint(BreakpointType.Base);
     public DurationBuilder OnSm => SetPendingBreakpoint(BreakpointType.Sm);

@@ -10,5 +10,5 @@ public static class Justify
     public static JustifyBuilder Around => new(JustifyEnum.Around);
     public static JustifyBuilder Evenly => new(JustifyEnum.Evenly);
     public static JustifyBuilder Stretch => new(JustifyEnum.Stretch);
-    public static JustifyBuilder Token(string value) => new(value);
+    public static JustifyBuilder Token(string value) => new("justify-" + value);
 }

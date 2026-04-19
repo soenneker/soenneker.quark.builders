@@ -14,16 +14,6 @@ public sealed class PaddingBuilder : CssBuilderBase
     private readonly List<PaddingRule> _rules = new(4);
     private BreakpointType? _pendingBreakpoint;
 
-    // ----- Class tokens -----
-    private const string _baseToken = "p";
-
-    // ----- Size tokens -----
-    private const string _token0 = "0";
-    private const string _token6 = "6";
-    private const string _token8 = "8";
-    private const string _token16 = "16";
-    private const string _tokenAuto = "auto";
-
     internal PaddingBuilder(string size, BreakpointType? breakpoint = null)
     {
         _rules.Add(new PaddingRule(size, ElementSideEnum.All, breakpoint));
@@ -99,21 +89,21 @@ public sealed class PaddingBuilder : CssBuilderBase
     /// <summary>
     /// Spacing/sizing scale step `6` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 6` for integer spacing utilities unless overridden).
     /// </summary>
-    public PaddingBuilder Is6 => ChainWithSize("6");
+    public PaddingBuilder Is6 => ChainWithSize("p-6");
     /// <summary>
     /// Spacing/sizing scale step `8` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 8` for integer spacing utilities unless overridden).
     /// </summary>
-    public PaddingBuilder Is8 => ChainWithSize("8");
+    public PaddingBuilder Is8 => ChainWithSize("p-8");
     /// <summary>
     /// Spacing/sizing scale step `16` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 16` for integer spacing utilities unless overridden).
     /// </summary>
-    public PaddingBuilder Is16 => ChainWithSize("16");
+    public PaddingBuilder Is16 => ChainWithSize("p-16");
 
     /// <summary>
     /// Tailwind token segment (spacing scale step, arbitrary value like `[17rem]`, or theme key). Builds the matching utility class for this builder.
     /// </summary>
     /// <param name="value">Suffix/token after the utility prefix (see Tailwind docs for this family).</param>
-    public PaddingBuilder Token(string value) => ChainWithSize(value);
+    public PaddingBuilder Token(string value) => ChainWithSize(NormalizePaddingClass(value));
 
 	/// <summary>
 	/// Applies the padding on phone breakpoint.
@@ -199,19 +189,17 @@ public sealed class PaddingBuilder : CssBuilderBase
         {
             PaddingRule rule = _rules[i];
 
-            string sizeTok = GetSizeToken(rule.Size);
-            if (sizeTok.Length == 0)
+            string cls = ApplySide(rule.Size, rule.Side);
+            if (cls.Length == 0)
                 continue;
 
-            string sideTok = rule.Side.Value;
             string bpTok = BreakpointUtil.GetBreakpointToken(rule.Breakpoint); // "", "sm", "md", ...
+            if (bpTok.Length != 0)
+                cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, bpTok);
 
             if (!first) sb.Append(' ');
             else first = false;
 
-            // Tailwind-style: p-4, md:p-4 (breakpoint-prefixed)
-            string baseClass = _baseToken + (sideTok.Length != 0 ? sideTok : "") + "-" + sizeTok;
-            string cls = bpTok.Length != 0 ? BreakpointUtil.ApplyTailwindBreakpoint(baseClass, bpTok) : baseClass;
             sb.Append(cls);
         }
 
@@ -222,22 +210,23 @@ public sealed class PaddingBuilder : CssBuilderBase
     public override string ToStyle() => string.Empty;
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static string GetSizeToken(string size)
+    private static string NormalizePaddingClass(string size)
     {
-        return size switch
-        {
-            PaddingScaleEnum.Is0Value => _token0,
-            PaddingScaleEnum.Is1Value => PaddingScaleEnum.Is1Value,
-            PaddingScaleEnum.Is2Value => PaddingScaleEnum.Is2Value,
-            PaddingScaleEnum.Is3Value => PaddingScaleEnum.Is3Value,
-            PaddingScaleEnum.Is4Value => PaddingScaleEnum.Is4Value,
-            PaddingScaleEnum.Is5Value => PaddingScaleEnum.Is5Value,
-            "6" => _token6,
-            "8" => _token8,
-            "16" => _token16,
-            "-1" => _tokenAuto, // "auto"
-            _ => size
-        };
+        if (size.Length == 0)
+            return string.Empty;
+
+        return size.StartsWith("p-") ? size : "p-" + size;
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private static string ApplySide(string sizeClass, ElementSideEnum side)
+    {
+        if (sizeClass.Length == 0)
+            return string.Empty;
+
+        if (ReferenceEquals(side, ElementSideEnum.All))
+            return sizeClass;
+
+        return sizeClass.StartsWith("p-") ? "p" + side.Value + sizeClass[1..] : sizeClass;
+    }
 }

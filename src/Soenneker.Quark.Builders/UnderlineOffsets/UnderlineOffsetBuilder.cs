@@ -3,11 +3,11 @@ namespace Soenneker.Quark;
 [TailwindPrefix("underline-offset-", Responsive = true)]
 public sealed class UnderlineOffsetBuilder : ResponsiveUtilityBuilder<UnderlineOffsetBuilder>
 {
-    internal UnderlineOffsetBuilder(UnderlineOffsetEnum value, BreakpointType? breakpoint = null) : base("underline-offset-", value.Value, breakpoint)
+    internal UnderlineOffsetBuilder(UnderlineOffsetEnum value, BreakpointType? breakpoint = null) : base("", value.Value, breakpoint)
     {
     }
 
-    internal UnderlineOffsetBuilder(string value, BreakpointType? breakpoint = null) : base("underline-offset-", value, breakpoint)
+    internal UnderlineOffsetBuilder(string value, BreakpointType? breakpoint = null) : base("", value, breakpoint)
     {
     }
 
@@ -17,7 +17,7 @@ public sealed class UnderlineOffsetBuilder : ResponsiveUtilityBuilder<UnderlineO
     public UnderlineOffsetBuilder Is2 => ChainValue(UnderlineOffsetEnum.Is2Value);
     public UnderlineOffsetBuilder Is4 => ChainValue(UnderlineOffsetEnum.Is4Value);
     public UnderlineOffsetBuilder Is8 => ChainValue(UnderlineOffsetEnum.Is8Value);
-    public UnderlineOffsetBuilder Token(string value) => ChainValue(value);
+    public UnderlineOffsetBuilder Token(string value) => ChainValue("underline-offset-" + value);
 
     public UnderlineOffsetBuilder OnBase => SetPendingBreakpoint(BreakpointType.Base);
     public UnderlineOffsetBuilder OnSm => SetPendingBreakpoint(BreakpointType.Sm);

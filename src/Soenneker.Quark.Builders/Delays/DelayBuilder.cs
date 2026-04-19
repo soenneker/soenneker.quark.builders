@@ -3,11 +3,11 @@ namespace Soenneker.Quark;
 [TailwindPrefix("delay-", Responsive = true)]
 public sealed class DelayBuilder : ResponsiveUtilityBuilder<DelayBuilder>
 {
-    internal DelayBuilder(DelayEnum value, BreakpointType? breakpoint = null) : base("delay-", value.Value, breakpoint)
+    internal DelayBuilder(DelayEnum value, BreakpointType? breakpoint = null) : base("", value.Value, breakpoint)
     {
     }
 
-    internal DelayBuilder(string value, BreakpointType? breakpoint = null) : base("delay-", value, breakpoint)
+    internal DelayBuilder(string value, BreakpointType? breakpoint = null) : base("", value, breakpoint)
     {
     }
 
@@ -19,7 +19,7 @@ public sealed class DelayBuilder : ResponsiveUtilityBuilder<DelayBuilder>
     public DelayBuilder Is500 => ChainValue(DelayEnum.Is500Value);
     public DelayBuilder Is700 => ChainValue(DelayEnum.Is700Value);
     public DelayBuilder Is1000 => ChainValue(DelayEnum.Is1000Value);
-    public DelayBuilder Token(string value) => ChainValue(value);
+    public DelayBuilder Token(string value) => ChainValue("delay-" + value);
 
     public DelayBuilder OnBase => SetPendingBreakpoint(BreakpointType.Base);
     public DelayBuilder OnSm => SetPendingBreakpoint(BreakpointType.Sm);

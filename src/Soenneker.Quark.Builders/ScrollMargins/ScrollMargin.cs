@@ -32,9 +32,9 @@ public static class ScrollMargin
     /// <summary>
     /// Spacing/sizing scale step `24` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 24` for integer spacing utilities unless overridden).
     /// </summary>
-    public static ScrollMarginBuilder Is24 => new("24");
+    public static ScrollMarginBuilder Is24 => new("scroll-m-24");
     /// <summary>
     /// One pixel (`px` unit) — hairline borders, fixed 1px tracks, etc.
     /// </summary>
-    public static ScrollMarginBuilder Px => new("px");
+    public static ScrollMarginBuilder Px => new("scroll-m-px");
 }

@@ -5,10 +5,10 @@ namespace Soenneker.Quark;
 [EnumValue<string>]
 public sealed partial class SelfEnum
 {
-    public static readonly SelfEnum Auto = new("auto");
-    public static readonly SelfEnum Start = new("start");
-    public static readonly SelfEnum End = new("end");
-    public static readonly SelfEnum Center = new("center");
-    public static readonly SelfEnum Stretch = new("stretch");
-    public static readonly SelfEnum Baseline = new("baseline");
+    public static readonly SelfEnum Auto = new("self-auto");
+    public static readonly SelfEnum Start = new("self-start");
+    public static readonly SelfEnum End = new("self-end");
+    public static readonly SelfEnum Center = new("self-center");
+    public static readonly SelfEnum Stretch = new("self-stretch");
+    public static readonly SelfEnum Baseline = new("self-baseline");
 }

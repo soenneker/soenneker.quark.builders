@@ -3,7 +3,7 @@ namespace Soenneker.Quark;
 [TailwindPrefix("grid-rows-", Responsive = true)]
 public sealed class GridRowsBuilder : ResponsiveUtilityBuilder<GridRowsBuilder>
 {
-    internal GridRowsBuilder(string value, BreakpointType? breakpoint = null) : base("grid-rows-", value, breakpoint)
+    internal GridRowsBuilder(string value, BreakpointType? breakpoint = null) : base("", value, breakpoint)
     {
     }
 
@@ -16,7 +16,7 @@ public sealed class GridRowsBuilder : ResponsiveUtilityBuilder<GridRowsBuilder>
     public GridRowsBuilder None => ChainValue("none");
     public GridRowsBuilder Subgrid => ChainValue("subgrid");
     public GridRowsBuilder Count(int value) => ChainValue(value.ToString());
-    public GridRowsBuilder Token(string value) => ChainValue(value);
+    public GridRowsBuilder Token(string value) => ChainValue("grid-rows-" + value);
 
     public GridRowsBuilder OnBase => SetPendingBreakpoint(BreakpointType.Base);
     public GridRowsBuilder OnSm => SetPendingBreakpoint(BreakpointType.Sm);

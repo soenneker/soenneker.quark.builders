@@ -11,5 +11,5 @@ public static class Rotate
     public static RotateBuilder Is45 => new(RotateEnum.Is45);
     public static RotateBuilder Is90 => new(RotateEnum.Is90);
     public static RotateBuilder Is180 => new(RotateEnum.Is180);
-    public static RotateBuilder Token(string value) => new(value);
+    public static RotateBuilder Token(string value) => new("rotate-" + value);
 }

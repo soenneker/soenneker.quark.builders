@@ -14,7 +14,6 @@ public sealed class ScrollPaddingBuilder : CssBuilderBase
     private readonly List<ScrollPaddingRule> _rules = new(4);
     private BreakpointType? _pendingBreakpoint;
 
-    private const string _baseToken = "scroll-p";
     internal ScrollPaddingBuilder(string size, BreakpointType? breakpoint = null)
     {
         _rules.Add(new ScrollPaddingRule(size, ElementSideEnum.All, breakpoint));
@@ -90,7 +89,7 @@ public sealed class ScrollPaddingBuilder : CssBuilderBase
     /// <summary>
     /// One pixel (`px` unit) — hairline borders, fixed 1px tracks, etc.
     /// </summary>
-    public ScrollPaddingBuilder Px => ChainWithSize("px");
+    public ScrollPaddingBuilder Px => ChainWithSize("scroll-p-px");
 
     /// <summary>
     /// Applies the preceding utility from the `sm` breakpoint and up (`sm:` prefix). Tailwind default: `min-width: 40rem` (640px).
@@ -163,10 +162,8 @@ public sealed class ScrollPaddingBuilder : CssBuilderBase
         for (var i = 0; i < _rules.Count; i++)
         {
             ScrollPaddingRule rule = _rules[i];
-            string sizeTok = GetSizeToken(rule.Size);
-            if (sizeTok.Length == 0) continue;
-            string sideTok = rule.Side.Value;
-            string baseClass = _baseToken + sideTok + "-" + sizeTok;
+            string baseClass = ApplySide(rule.Size, rule.Side);
+            if (baseClass.Length == 0) continue;
             string bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
             if (bp.Length != 0) baseClass = BreakpointUtil.ApplyTailwindBreakpoint(baseClass, bp);
             if (!first) sb.Append(' ');
@@ -180,16 +177,15 @@ public sealed class ScrollPaddingBuilder : CssBuilderBase
 
     public override string ToString() => ToClass();
 
-    private static string GetSizeToken(string size) => size switch
+    private static string ApplySide(string sizeClass, ElementSideEnum side)
     {
-        ScrollPaddingScaleEnum.Is0Value => "0",
-        ScrollPaddingScaleEnum.Is1Value => "1",
-        ScrollPaddingScaleEnum.Is2Value => "2",
-        ScrollPaddingScaleEnum.Is3Value => "3",
-        ScrollPaddingScaleEnum.Is4Value => "4",
-        ScrollPaddingScaleEnum.Is5Value => "5",
-        "px" => "px",
-        _ => string.Empty
-    };
+        if (sizeClass.Length == 0)
+            return string.Empty;
+
+        if (ReferenceEquals(side, ElementSideEnum.All))
+            return sizeClass;
+
+        return sizeClass.StartsWith("scroll-p-") ? "scroll-p" + side.Value + sizeClass["scroll-p".Length..] : sizeClass;
+    }
 
 }

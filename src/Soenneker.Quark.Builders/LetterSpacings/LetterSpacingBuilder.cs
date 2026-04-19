@@ -1,12 +1,14 @@
+using System.Runtime.CompilerServices;
+
 namespace Soenneker.Quark;
 
 public sealed class LetterSpacingBuilder : ResponsiveUtilityBuilder<LetterSpacingBuilder>
 {
     private string _lastValue;
 
-    internal LetterSpacingBuilder(string value, BreakpointType? breakpoint = null) : base("tracking-", value, breakpoint)
+    internal LetterSpacingBuilder(string value, BreakpointType? breakpoint = null) : base("", value, breakpoint)
     {
-        _lastValue = value;
+        _lastValue = NormalizeValue(value);
     }
 
     public LetterSpacingBuilder Tighter => Set("tighter");
@@ -27,7 +29,7 @@ public sealed class LetterSpacingBuilder : ResponsiveUtilityBuilder<LetterSpacin
     private LetterSpacingBuilder Set(string value)
     {
         _lastValue = value;
-        return ChainValue(value);
+        return ChainValue($"tracking-{value}");
     }
 
     public override string ToStyle() => _lastValue switch
@@ -40,4 +42,8 @@ public sealed class LetterSpacingBuilder : ResponsiveUtilityBuilder<LetterSpacin
         "widest" => "letter-spacing: 0.1em",
         _ => string.Empty
     };
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private static string NormalizeValue(string value) =>
+        value.StartsWith("tracking-", System.StringComparison.Ordinal) ? value["tracking-".Length..] : value;
 }

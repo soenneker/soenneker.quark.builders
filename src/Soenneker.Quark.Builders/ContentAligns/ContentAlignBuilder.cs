@@ -3,11 +3,11 @@ namespace Soenneker.Quark;
 [TailwindPrefix("content-", Responsive = true)]
 public sealed class ContentAlignBuilder : ResponsiveUtilityBuilder<ContentAlignBuilder>
 {
-    internal ContentAlignBuilder(ContentEnum value, BreakpointType? breakpoint = null) : base("content-", value.Value, breakpoint)
+    internal ContentAlignBuilder(ContentEnum value, BreakpointType? breakpoint = null) : base("", value.Value, breakpoint)
     {
     }
 
-    internal ContentAlignBuilder(string value, BreakpointType? breakpoint = null) : base("content-", value, breakpoint)
+    internal ContentAlignBuilder(string value, BreakpointType? breakpoint = null) : base("", value, breakpoint)
     {
     }
 
@@ -20,7 +20,7 @@ public sealed class ContentAlignBuilder : ResponsiveUtilityBuilder<ContentAlignB
     public ContentAlignBuilder Evenly => ChainValue(ContentEnum.EvenlyValue);
     public ContentAlignBuilder Stretch => ChainValue(ContentEnum.StretchValue);
     public ContentAlignBuilder Baseline => ChainValue(ContentEnum.BaselineValue);
-    public ContentAlignBuilder Token(string value) => ChainValue(value);
+    public ContentAlignBuilder Token(string value) => ChainValue("content-" + value);
 
     public ContentAlignBuilder OnBase => SetPendingBreakpoint(BreakpointType.Base);
     public ContentAlignBuilder OnSm => SetPendingBreakpoint(BreakpointType.Sm);

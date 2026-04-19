@@ -22,15 +22,6 @@ public static class BreakpointUtil
     }
 
     /// <summary>
-    /// Converts a BreakpointType to its corresponding CSS class token.
-    /// Alias for GetBreakpointToken for backward compatibility.
-    /// </summary>
-    /// <param name="breakpoint">The BreakpointType to convert</param>
-    /// <returns>The CSS class token (e.g., "sm", "md", "lg", "xl", "2xl") or empty string.</returns>
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static string GetBreakpointClass(BreakpointType? breakpoint) => GetBreakpointToken(breakpoint);
-
-    /// <summary>
     /// Returns the Tailwind responsive class: breakpoint prefix + class (e.g. "md" + "col-span-2" => "md:col-span-2").
     /// Use for all Tailwind utilities that use the bp:utility format.
     /// </summary>

@@ -10,5 +10,5 @@ public static class Delay
     public static DelayBuilder Is500 => new(DelayEnum.Is500);
     public static DelayBuilder Is700 => new(DelayEnum.Is700);
     public static DelayBuilder Is1000 => new(DelayEnum.Is1000);
-    public static DelayBuilder Token(string value) => new(value);
+    public static DelayBuilder Token(string value) => new("delay-" + value);
 }

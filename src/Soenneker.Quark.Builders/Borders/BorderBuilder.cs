@@ -17,9 +17,6 @@ public sealed class BorderBuilder : CssBuilderBase
     private readonly List<BorderRule> _rules = new(4);
     private BreakpointType? _pendingBreakpoint;
 
-    // ----- Class tokens -----
-    private const string _baseToken = "border";
-
     internal BorderBuilder(string size, BreakpointType? breakpoint = null, bool allowEmpty = false)
     {
         if (allowEmpty || size.HasContent())
@@ -72,7 +69,7 @@ public sealed class BorderBuilder : CssBuilderBase
 	/// <summary>
 	/// Uses Tailwind’s default unsuffixed border width utility.
 	/// </summary>
-    public BorderBuilder Default => ChainWithSize(string.Empty, allowEmpty: true);
+    public BorderBuilder Default => ChainWithSize(BorderScaleEnum.Is1Value, allowEmpty: true);
     /// <summary>
     /// Sets the border width from an arbitrary Tailwind border token.
     /// </summary>
@@ -102,7 +99,7 @@ public sealed class BorderBuilder : CssBuilderBase
     /// Tailwind token segment (spacing scale step, arbitrary value like `[17rem]`, or theme key). Builds the matching utility class for this builder.
     /// </summary>
     /// <param name="value">Suffix/token after the utility prefix (see Tailwind docs for this family).</param>
-    public BorderBuilder Token(string value) => ChainWithSize(value);
+    public BorderBuilder Token(string value) => ChainWithSize(NormalizeBorderClass(value));
 
 	/// <summary>
 	/// Applies the border on phone breakpoint.
@@ -133,7 +130,7 @@ public sealed class BorderBuilder : CssBuilderBase
     private BorderBuilder AddRule(ElementSideEnum side)
     {
         BreakpointType? pending = ConsumePendingBreakpoint();
-        string size = _rules.Count > 0 ? _rules[^1].Size : "0";
+        string size = _rules.Count > 0 ? _rules[^1].Size : BorderScaleEnum.Is0Value;
         BreakpointType? bp = pending ?? (_rules.Count > 0 ? _rules[^1].Breakpoint : null);
 
         if (_rules.Count > 0 && ReferenceEquals(_rules[^1].Side, ElementSideEnum.All))
@@ -197,35 +194,20 @@ public sealed class BorderBuilder : CssBuilderBase
         {
             BorderRule rule = _rules[i];
 
-            string sizeTok = rule.Size;
+            string cls = ApplySide(rule.Size, rule.Side);
+            if (cls.Length == 0)
+                continue;
 
-            string sideTok = rule.Side.Value;
             string bpTok = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
+            if (bpTok.Length != 0)
+                cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, bpTok);
 
             if (!first)
                 sb.Append(' ');
             else
                 first = false;
 
-            if (bpTok.Length != 0)
-            {
-                sb.Append(bpTok);
-                sb.Append(':');
-            }
-
-            sb.Append(_baseToken);
-
-            if (sideTok.Length != 0)
-            {
-                sb.Append('-');
-                sb.Append(sideTok);
-            }
-
-            if (sizeTok.Length != 0)
-            {
-                sb.Append('-');
-                sb.Append(sizeTok);
-            }
+            sb.Append(cls);
         }
 
         return sb.ToString();
@@ -234,4 +216,33 @@ public sealed class BorderBuilder : CssBuilderBase
     /// <summary>Gets the CSS style string for the current configuration.</summary>
     public override string ToStyle() => string.Empty;
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private static string NormalizeBorderClass(string value)
+    {
+        if (value.Length == 0)
+            return string.Empty;
+
+        if (value == "border" || value.StartsWith("border-"))
+            return value;
+
+        return "border-" + value;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private static string ApplySide(string sizeClass, ElementSideEnum side)
+    {
+        if (sizeClass.Length == 0)
+            return string.Empty;
+
+        if (ReferenceEquals(side, ElementSideEnum.All))
+            return sizeClass;
+
+        if (sizeClass == "border")
+            return "border-" + side.Value;
+
+        if (!sizeClass.StartsWith("border-"))
+            return sizeClass;
+
+        return "border-" + side.Value + sizeClass["border".Length..];
+    }
 }

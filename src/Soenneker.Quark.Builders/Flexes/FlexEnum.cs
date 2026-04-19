@@ -5,8 +5,8 @@ namespace Soenneker.Quark;
 [EnumValue<string>]
 public sealed partial class FlexEnum
 {
-    public static readonly FlexEnum Is1 = new("1");
-    public static readonly FlexEnum Auto = new("auto");
-    public static readonly FlexEnum Initial = new("initial");
-    public static readonly FlexEnum None = new("none");
+    public static readonly FlexEnum Is1 = new("flex-1");
+    public static readonly FlexEnum Auto = new("flex-auto");
+    public static readonly FlexEnum Initial = new("flex-initial");
+    public static readonly FlexEnum None = new("flex-none");
 }

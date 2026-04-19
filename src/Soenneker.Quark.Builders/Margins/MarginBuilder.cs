@@ -14,19 +14,6 @@ public sealed class MarginBuilder : CssBuilderBase
     private readonly List<MarginRule> _rules = new(4);
     private BreakpointType? _pendingBreakpoint;
 
-    // ----- Class tokens -----
-    private const string _baseToken = "m";
-
-    // ----- Size tokens -----
-    private const string _token0 = "0";
-    private const string _token1 = "1";
-    private const string _token2 = "2";
-    private const string _token3 = "3";
-    private const string _token4 = "4";
-    private const string _token5 = "5";
-    private const string _token8 = "8";
-    private const string _tokenAuto = "auto";
-
     internal MarginBuilder(string size, BreakpointType? breakpoint = null)
     {
         _rules.Add(new MarginRule(size, ElementSideEnum.All, breakpoint));
@@ -78,7 +65,7 @@ public sealed class MarginBuilder : CssBuilderBase
 	/// <summary>
 	/// Sets the margin to auto.
 	/// </summary>
-    public MarginBuilder Auto => ChainWithSize("auto");
+    public MarginBuilder Auto => ChainWithSize("m-auto");
 
     /// <summary>
     /// Spacing/sizing scale step `0` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 0` for integer spacing utilities unless overridden).
@@ -107,12 +94,12 @@ public sealed class MarginBuilder : CssBuilderBase
     /// <summary>
     /// Spacing/sizing scale step `8` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 8` for integer spacing utilities unless overridden).
     /// </summary>
-    public MarginBuilder Is8 => ChainWithSize("8");
+    public MarginBuilder Is8 => ChainWithSize("m-8");
 
 	/// <summary>
 	/// Sets the margin size from an arbitrary Tailwind spacing token.
 	/// </summary>
-    public MarginBuilder Token(string value) => ChainWithSize(value);
+    public MarginBuilder Token(string value) => ChainWithSize(NormalizeMarginClass(value));
 
 	/// <summary>
 	/// Applies the margin on phone breakpoint.
@@ -196,24 +183,19 @@ public sealed class MarginBuilder : CssBuilderBase
         {
             MarginRule rule = _rules[i];
 
-            string sizeTok = GetSizeToken(rule.Size);
-
-            if (sizeTok.Length == 0)
+            string cls = ApplySide(rule.Size, rule.Side);
+            if (cls.Length == 0)
                 continue;
 
-            string sideTok = rule.Side.Value;
             string bpTok = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
+            if (bpTok.Length != 0)
+                cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, bpTok);
 
             if (!first)
                 sb.Append(' ');
             else
                 first = false;
 
-            // Tailwind: mt-1, md:mt-1 (not legacy mt-md-1 syntax)
-            bool negative = sizeTok.Length > 0 && sizeTok[0] == '-';
-            string normalizedSizeTok = negative ? sizeTok[1..] : sizeTok;
-            string baseClass = (negative ? "-" : string.Empty) + _baseToken + (sideTok.Length != 0 ? sideTok : "") + "-" + normalizedSizeTok;
-            string cls = bpTok.Length != 0 ? BreakpointUtil.ApplyTailwindBreakpoint(baseClass, bpTok) : baseClass;
             sb.Append(cls);
         }
 
@@ -223,21 +205,35 @@ public sealed class MarginBuilder : CssBuilderBase
     /// <summary>Gets the CSS style string for the current configuration.</summary>
     public override string ToStyle() => string.Empty;
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static string GetSizeToken(string size)
-        {
-            return size switch
-            {
-                MarginScaleEnum.Is0Value => _token0,
-                MarginScaleEnum.Is1Value => _token1,
-                MarginScaleEnum.Is2Value => _token2,
-                MarginScaleEnum.Is3Value => _token3,
-                MarginScaleEnum.Is4Value => _token4,
-                MarginScaleEnum.Is5Value => _token5,
-                "8" => _token8,
-                "auto" => _tokenAuto,
-                _ => size
-            };
-        }
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private static string NormalizeMarginClass(string size)
+    {
+        if (size.Length == 0)
+            return string.Empty;
 
+        if (size.StartsWith("-m-") || size.StartsWith("m-"))
+            return size;
+
+        return size[0] == '-' ? "-m-" + size[1..] : "m-" + size;
     }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private static string ApplySide(string sizeClass, ElementSideEnum side)
+    {
+        if (sizeClass.Length == 0)
+            return string.Empty;
+
+        if (ReferenceEquals(side, ElementSideEnum.All))
+            return sizeClass;
+
+        bool negative = sizeClass[0] == '-';
+        string classWithoutNegative = negative ? sizeClass[1..] : sizeClass;
+
+        if (!classWithoutNegative.StartsWith("m-"))
+            return sizeClass;
+
+        string result = "m" + side.Value + classWithoutNegative[1..];
+        return negative ? "-" + result : result;
+    }
+
+}

@@ -96,7 +96,7 @@ public sealed class TextOverflowBuilder : CssBuilderBase
             if (baseClass.Length == 0)
                 continue;
 
-            string bp = BreakpointUtil.GetBreakpointClass(rule.Breakpoint);
+            string bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
             if (bp.Length != 0)
                 baseClass = BreakpointUtil.ApplyTailwindBreakpoint(baseClass, bp);
 

@@ -3,11 +3,11 @@ namespace Soenneker.Quark;
 [TailwindPrefix("origin-", Responsive = true)]
 public sealed class OriginBuilder : ResponsiveUtilityBuilder<OriginBuilder>
 {
-    internal OriginBuilder(OriginEnum value, BreakpointType? breakpoint = null) : base("origin-", value.Value, breakpoint)
+    internal OriginBuilder(OriginEnum value, BreakpointType? breakpoint = null) : base("", value.Value, breakpoint)
     {
     }
 
-    internal OriginBuilder(string value, BreakpointType? breakpoint = null) : base("origin-", value, breakpoint)
+    internal OriginBuilder(string value, BreakpointType? breakpoint = null) : base("", value, breakpoint)
     {
     }
 
@@ -20,7 +20,7 @@ public sealed class OriginBuilder : ResponsiveUtilityBuilder<OriginBuilder>
     public OriginBuilder BottomLeft => ChainValue(OriginEnum.BottomLeftValue);
     public OriginBuilder Left => ChainValue(OriginEnum.LeftValue);
     public OriginBuilder TopLeft => ChainValue(OriginEnum.TopLeftValue);
-    public OriginBuilder Token(string value) => ChainValue(value);
+    public OriginBuilder Token(string value) => ChainValue("origin-" + value);
 
     public OriginBuilder OnBase => SetPendingBreakpoint(BreakpointType.Base);
     public OriginBuilder OnSm => SetPendingBreakpoint(BreakpointType.Sm);

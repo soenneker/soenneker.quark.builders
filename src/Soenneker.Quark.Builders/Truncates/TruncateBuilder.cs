@@ -82,7 +82,7 @@ public sealed class TruncateBuilder : CssBuilderBase
             TruncateRule rule = _rules[i];
             string cls = TruncateEnum.DefaultValue;
 
-            string bp = BreakpointUtil.GetBreakpointClass(rule.Breakpoint);
+            string bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
             if (bp.Length != 0)
                 cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, bp);
 

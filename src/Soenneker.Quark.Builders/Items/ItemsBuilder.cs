@@ -3,11 +3,11 @@ namespace Soenneker.Quark;
 [TailwindPrefix("items-", Responsive = true)]
 public sealed class ItemsBuilder : ResponsiveUtilityBuilder<ItemsBuilder>
 {
-    internal ItemsBuilder(ItemsEnum value, BreakpointType? breakpoint = null) : base("items-", value.Value, breakpoint)
+    internal ItemsBuilder(ItemsEnum value, BreakpointType? breakpoint = null) : base("", value.Value, breakpoint)
     {
     }
 
-    internal ItemsBuilder(string value, BreakpointType? breakpoint = null) : base("items-", value, breakpoint)
+    internal ItemsBuilder(string value, BreakpointType? breakpoint = null) : base("", value, breakpoint)
     {
     }
 
@@ -16,7 +16,7 @@ public sealed class ItemsBuilder : ResponsiveUtilityBuilder<ItemsBuilder>
     public ItemsBuilder Center => ChainValue(ItemsEnum.CenterValue);
     public ItemsBuilder Baseline => ChainValue(ItemsEnum.BaselineValue);
     public ItemsBuilder Stretch => ChainValue(ItemsEnum.StretchValue);
-    public ItemsBuilder Token(string value) => ChainValue(value);
+    public ItemsBuilder Token(string value) => ChainValue("items-" + value);
 
     public ItemsBuilder OnBase => SetPendingBreakpoint(BreakpointType.Base);
     public ItemsBuilder OnSm => SetPendingBreakpoint(BreakpointType.Sm);

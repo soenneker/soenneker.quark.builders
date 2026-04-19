@@ -3,11 +3,11 @@ namespace Soenneker.Quark;
 [TailwindPrefix("decoration-", Responsive = true)]
 public sealed class DecorationStyleBuilder : ResponsiveUtilityBuilder<DecorationStyleBuilder>
 {
-    internal DecorationStyleBuilder(DecorationStyleEnum value, BreakpointType? breakpoint = null) : base("decoration-", value.Value, breakpoint)
+    internal DecorationStyleBuilder(DecorationStyleEnum value, BreakpointType? breakpoint = null) : base("", value.Value, breakpoint)
     {
     }
 
-    internal DecorationStyleBuilder(string value, BreakpointType? breakpoint = null) : base("decoration-", value, breakpoint)
+    internal DecorationStyleBuilder(string value, BreakpointType? breakpoint = null) : base("", value, breakpoint)
     {
     }
 
@@ -16,7 +16,7 @@ public sealed class DecorationStyleBuilder : ResponsiveUtilityBuilder<Decoration
     public DecorationStyleBuilder Dotted => ChainValue(DecorationStyleEnum.DottedValue);
     public DecorationStyleBuilder Dashed => ChainValue(DecorationStyleEnum.DashedValue);
     public DecorationStyleBuilder Wavy => ChainValue(DecorationStyleEnum.WavyValue);
-    public DecorationStyleBuilder Token(string value) => ChainValue(value);
+    public DecorationStyleBuilder Token(string value) => ChainValue("decoration-" + value);
 
     public DecorationStyleBuilder OnBase => SetPendingBreakpoint(BreakpointType.Base);
     public DecorationStyleBuilder OnSm => SetPendingBreakpoint(BreakpointType.Sm);

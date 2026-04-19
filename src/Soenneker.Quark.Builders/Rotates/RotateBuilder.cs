@@ -3,11 +3,11 @@ namespace Soenneker.Quark;
 [TailwindPrefix("rotate-", Responsive = true)]
 public sealed class RotateBuilder : ResponsiveUtilityBuilder<RotateBuilder>
 {
-    internal RotateBuilder(RotateEnum value, BreakpointType? breakpoint = null) : base("rotate-", value.Value, breakpoint)
+    internal RotateBuilder(RotateEnum value, BreakpointType? breakpoint = null) : base("", value.Value, breakpoint)
     {
     }
 
-    internal RotateBuilder(string value, BreakpointType? breakpoint = null) : base("rotate-", value, breakpoint)
+    internal RotateBuilder(string value, BreakpointType? breakpoint = null) : base("", value, breakpoint)
     {
     }
 
@@ -20,7 +20,7 @@ public sealed class RotateBuilder : ResponsiveUtilityBuilder<RotateBuilder>
     public RotateBuilder Is45 => ChainValue(RotateEnum.Is45Value);
     public RotateBuilder Is90 => ChainValue(RotateEnum.Is90Value);
     public RotateBuilder Is180 => ChainValue(RotateEnum.Is180Value);
-    public RotateBuilder Token(string value) => ChainValue(value);
+    public RotateBuilder Token(string value) => ChainValue("rotate-" + value);
 
     public RotateBuilder OnBase => SetPendingBreakpoint(BreakpointType.Base);
     public RotateBuilder OnSm => SetPendingBreakpoint(BreakpointType.Sm);

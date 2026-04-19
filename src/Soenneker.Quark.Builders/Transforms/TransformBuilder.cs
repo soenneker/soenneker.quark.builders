@@ -6,11 +6,11 @@ namespace Soenneker.Quark;
 [TailwindPrefix("transform-", Responsive = true)]
 public sealed class TransformBuilder : ResponsiveUtilityBuilder<TransformBuilder>
 {
-    internal TransformBuilder(TransformEnum value, BreakpointType? breakpoint = null) : base("transform-", value.Value, breakpoint)
+    internal TransformBuilder(TransformEnum value, BreakpointType? breakpoint = null) : base("", value.Value, breakpoint)
     {
     }
 
-    internal TransformBuilder(string value, BreakpointType? breakpoint = null) : base("transform-", value, breakpoint)
+    internal TransformBuilder(string value, BreakpointType? breakpoint = null) : base("", value, breakpoint)
     {
     }
 
@@ -30,7 +30,7 @@ public sealed class TransformBuilder : ResponsiveUtilityBuilder<TransformBuilder
     /// <summary>
     /// Applies the transform value suffix after the `transform-` prefix, including arbitrary values.
     /// </summary>
-    public TransformBuilder Token(string value) => ChainValue(value);
+    public TransformBuilder Token(string value) => ChainValue("transform-" + value);
 
     public TransformBuilder OnBase => SetPendingBreakpoint(BreakpointType.Base);
     public TransformBuilder OnSm => SetPendingBreakpoint(BreakpointType.Sm);

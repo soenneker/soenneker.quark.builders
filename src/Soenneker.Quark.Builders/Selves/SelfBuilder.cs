@@ -3,11 +3,11 @@ namespace Soenneker.Quark;
 [TailwindPrefix("self-", Responsive = true)]
 public sealed class SelfBuilder : ResponsiveUtilityBuilder<SelfBuilder>
 {
-    internal SelfBuilder(SelfEnum value, BreakpointType? breakpoint = null) : base("self-", value.Value, breakpoint)
+    internal SelfBuilder(SelfEnum value, BreakpointType? breakpoint = null) : base("", value.Value, breakpoint)
     {
     }
 
-    internal SelfBuilder(string value, BreakpointType? breakpoint = null) : base("self-", value, breakpoint)
+    internal SelfBuilder(string value, BreakpointType? breakpoint = null) : base("", value, breakpoint)
     {
     }
 
@@ -17,7 +17,7 @@ public sealed class SelfBuilder : ResponsiveUtilityBuilder<SelfBuilder>
     public SelfBuilder Center => ChainValue(SelfEnum.CenterValue);
     public SelfBuilder Stretch => ChainValue(SelfEnum.StretchValue);
     public SelfBuilder Baseline => ChainValue(SelfEnum.BaselineValue);
-    public SelfBuilder Token(string value) => ChainValue(value);
+    public SelfBuilder Token(string value) => ChainValue("self-" + value);
 
     public SelfBuilder OnBase => SetPendingBreakpoint(BreakpointType.Base);
     public SelfBuilder OnSm => SetPendingBreakpoint(BreakpointType.Sm);

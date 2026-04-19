@@ -14,7 +14,6 @@ public sealed class ScrollMarginBuilder : CssBuilderBase
     private readonly List<ScrollMarginRule> _rules = new(4);
     private BreakpointType? _pendingBreakpoint;
 
-    private const string _baseToken = "scroll-m";
     internal ScrollMarginBuilder(string size, BreakpointType? breakpoint = null)
     {
         _rules.Add(new ScrollMarginRule(size, ElementSideEnum.All, breakpoint));
@@ -90,11 +89,11 @@ public sealed class ScrollMarginBuilder : CssBuilderBase
     /// <summary>
     /// Spacing/sizing scale step `24` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 24` for integer spacing utilities unless overridden).
     /// </summary>
-    public ScrollMarginBuilder Is24 => ChainWithSize("24");
+    public ScrollMarginBuilder Is24 => ChainWithSize("scroll-m-24");
     /// <summary>
     /// One pixel (`px` unit) — hairline borders, fixed 1px tracks, etc.
     /// </summary>
-    public ScrollMarginBuilder Px => ChainWithSize("px");
+    public ScrollMarginBuilder Px => ChainWithSize("scroll-m-px");
 
     /// <summary>
     /// Applies the preceding utility from the `sm` breakpoint and up (`sm:` prefix). Tailwind default: `min-width: 40rem` (640px).
@@ -120,7 +119,7 @@ public sealed class ScrollMarginBuilder : CssBuilderBase
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private ScrollMarginBuilder AddRule(ElementSideEnum side)
     {
-        string size = _rules.Count > 0 ? _rules[^1].Size : ScrollMarginScaleEnum.Is0Value;
+            string size = _rules.Count > 0 ? _rules[^1].Size : ScrollMarginScaleEnum.Is0Value;
         BreakpointType? existingBp = _rules.Count > 0 ? _rules[^1].Breakpoint : null;
         BreakpointType? bp = _pendingBreakpoint ?? existingBp;
         _pendingBreakpoint = null;
@@ -164,10 +163,8 @@ public sealed class ScrollMarginBuilder : CssBuilderBase
         for (var i = 0; i < _rules.Count; i++)
         {
             ScrollMarginRule rule = _rules[i];
-            string sizeTok = GetSizeToken(rule.Size);
-            if (sizeTok.Length == 0) continue;
-            string sideTok = rule.Side.Value;
-            string baseClass = _baseToken + sideTok + "-" + sizeTok;
+            string baseClass = ApplySide(rule.Size, rule.Side);
+            if (baseClass.Length == 0) continue;
             string bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
             if (bp.Length != 0) baseClass = BreakpointUtil.ApplyTailwindBreakpoint(baseClass, bp);
             if (!first) sb.Append(' ');
@@ -181,17 +178,15 @@ public sealed class ScrollMarginBuilder : CssBuilderBase
 
     public override string ToString() => ToClass();
 
-    private static string GetSizeToken(string size) => size switch
+    private static string ApplySide(string sizeClass, ElementSideEnum side)
     {
-        ScrollMarginScaleEnum.Is0Value => "0",
-        ScrollMarginScaleEnum.Is1Value => "1",
-        ScrollMarginScaleEnum.Is2Value => "2",
-        ScrollMarginScaleEnum.Is3Value => "3",
-        ScrollMarginScaleEnum.Is4Value => "4",
-        ScrollMarginScaleEnum.Is5Value => "5",
-        "24" => "24",
-        "px" => "px",
-        _ => string.Empty
-    };
+        if (sizeClass.Length == 0)
+            return string.Empty;
+
+        if (ReferenceEquals(side, ElementSideEnum.All))
+            return sizeClass;
+
+        return sizeClass.StartsWith("scroll-m-") ? "scroll-m" + side.Value + sizeClass["scroll-m".Length..] : sizeClass;
+    }
 
 }

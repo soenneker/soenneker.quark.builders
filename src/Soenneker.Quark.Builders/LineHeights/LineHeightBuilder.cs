@@ -1,12 +1,14 @@
+using System.Runtime.CompilerServices;
+
 namespace Soenneker.Quark;
 
 public sealed class LineHeightBuilder : ResponsiveUtilityBuilder<LineHeightBuilder>
 {
     private string _lastValue;
 
-    internal LineHeightBuilder(string value, BreakpointType? breakpoint = null) : base("leading-", value, breakpoint)
+    internal LineHeightBuilder(string value, BreakpointType? breakpoint = null) : base("", value, breakpoint)
     {
-        _lastValue = value;
+        _lastValue = NormalizeValue(value);
     }
 
     public LineHeightBuilder Is1 => Set("1");
@@ -29,7 +31,7 @@ public sealed class LineHeightBuilder : ResponsiveUtilityBuilder<LineHeightBuild
     private LineHeightBuilder Set(string value)
     {
         _lastValue = value;
-        return ChainValue(value);
+        return ChainValue($"leading-{value}");
     }
 
     public override string ToStyle() => _lastValue switch
@@ -43,4 +45,8 @@ public sealed class LineHeightBuilder : ResponsiveUtilityBuilder<LineHeightBuild
         "loose" => "line-height: 2",
         _ => string.Empty
     };
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private static string NormalizeValue(string value) =>
+        value.StartsWith("leading-", System.StringComparison.Ordinal) ? value["leading-".Length..] : value;
 }

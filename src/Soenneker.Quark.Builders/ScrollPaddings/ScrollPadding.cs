@@ -32,5 +32,5 @@ public static class ScrollPadding
     /// <summary>
     /// One pixel (`px` unit) — hairline borders, fixed 1px tracks, etc.
     /// </summary>
-    public static ScrollPaddingBuilder Px => new("px");
+    public static ScrollPaddingBuilder Px => new("scroll-p-px");
 }

@@ -3,7 +3,7 @@ namespace Soenneker.Quark;
 [TailwindPrefix("grid-cols-", Responsive = true)]
 public sealed class ColumnBuilder : ResponsiveUtilityBuilder<ColumnBuilder>
 {
-    public ColumnBuilder(string value, BreakpointType? breakpoint = null) : base("grid-cols-", value, breakpoint)
+    public ColumnBuilder(string value, BreakpointType? breakpoint = null) : base("", value, breakpoint)
     {
     }
 
@@ -22,7 +22,7 @@ public sealed class ColumnBuilder : ResponsiveUtilityBuilder<ColumnBuilder>
     public ColumnBuilder None => ChainValue("none");
     public ColumnBuilder Subgrid => ChainValue("subgrid");
     public ColumnBuilder Count(int value) => ChainValue(value.ToString());
-    public ColumnBuilder Token(string value) => ChainValue(value);
+    public ColumnBuilder Token(string value) => ChainValue("grid-cols-" + value);
 
     public ColumnBuilder OnBase => SetPendingBreakpoint(BreakpointType.Base);
     public ColumnBuilder OnSm => SetPendingBreakpoint(BreakpointType.Sm);

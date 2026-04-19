@@ -8,5 +8,5 @@ public static class Self
     public static SelfBuilder Center => new(SelfEnum.Center);
     public static SelfBuilder Stretch => new(SelfEnum.Stretch);
     public static SelfBuilder Baseline => new(SelfEnum.Baseline);
-    public static SelfBuilder Token(string value) => new(value);
+    public static SelfBuilder Token(string value) => new("self-" + value);
 }

@@ -6,22 +6,21 @@ namespace Soenneker.Quark;
 
 public abstract class ResponsiveUtilityBuilder<TBuilder> : CssBuilderBase where TBuilder : ResponsiveUtilityBuilder<TBuilder>
 {
-    private readonly string _prefix;
-    private readonly List<UtilityRule> _rules = new(4);
+    protected readonly List<UtilityRule> Rules = new(4);
     private BreakpointType? _pendingBreakpoint;
 
     protected ResponsiveUtilityBuilder(string prefix, string value, BreakpointType? breakpoint = null)
     {
-        _prefix = prefix;
+        _ = prefix;
 
         if (value.Length != 0)
-            _rules.Add(new UtilityRule(value, breakpoint));
+            Rules.Add(new UtilityRule(value, breakpoint));
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     protected TBuilder ChainValue(string value)
     {
-        _rules.Add(new UtilityRule(value, ConsumePendingBreakpoint()));
+        Rules.Add(new UtilityRule(value, ConsumePendingBreakpoint()));
         return (TBuilder)this;
     }
 
@@ -42,20 +41,20 @@ public abstract class ResponsiveUtilityBuilder<TBuilder> : CssBuilderBase where 
 
     public override string ToClass()
     {
-        if (_rules.Count == 0)
+        if (Rules.Count == 0)
             return string.Empty;
 
         using var sb = new PooledStringBuilder();
         var first = true;
 
-        for (var i = 0; i < _rules.Count; i++)
+        for (var i = 0; i < Rules.Count; i++)
         {
-            UtilityRule rule = _rules[i];
+            UtilityRule rule = Rules[i];
 
             if (rule.Value.Length == 0)
                 continue;
 
-            string cls = _prefix.Length == 0 ? rule.Value : _prefix + rule.Value;
+            string cls = rule.Value;
             string breakpoint = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
 
             if (breakpoint.Length != 0)
@@ -77,4 +76,4 @@ public abstract class ResponsiveUtilityBuilder<TBuilder> : CssBuilderBase where 
     public override string ToString() => ToClass();
 }
 
-internal readonly record struct UtilityRule(string Value, BreakpointType? Breakpoint);
+public readonly record struct UtilityRule(string Value, BreakpointType? Breakpoint);

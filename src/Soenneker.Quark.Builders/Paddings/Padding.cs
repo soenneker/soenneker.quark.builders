@@ -32,18 +32,18 @@ public static class Padding
     /// <summary>
     /// Spacing/sizing scale step `6` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 6` for integer spacing utilities unless overridden).
     /// </summary>
-    public static PaddingBuilder Is6 => new("6");
+    public static PaddingBuilder Is6 => new("p-6");
     /// <summary>
     /// Spacing/sizing scale step `8` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 8` for integer spacing utilities unless overridden).
     /// </summary>
-    public static PaddingBuilder Is8 => new("8");
+    public static PaddingBuilder Is8 => new("p-8");
     /// <summary>
     /// Spacing/sizing scale step `16` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 16` for integer spacing utilities unless overridden).
     /// </summary>
-    public static PaddingBuilder Is16 => new("16");
+    public static PaddingBuilder Is16 => new("p-16");
 
     /// <summary>
     /// Creates a padding utility from an arbitrary Tailwind spacing token.
     /// </summary>
-    public static PaddingBuilder Token(string value) => new(value);
+    public static PaddingBuilder Token(string value) => new(value.StartsWith("p-") ? value : "p-" + value);
 }

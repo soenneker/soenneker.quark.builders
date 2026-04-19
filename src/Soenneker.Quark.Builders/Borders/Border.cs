@@ -8,7 +8,7 @@ public static class Border
     /// <summary>
     /// Tailwind default border width utility with no numeric suffix.
     /// </summary>
-    public static BorderBuilder Default => new(string.Empty, allowEmpty: true);
+    public static BorderBuilder Default => new(BorderScaleEnum.Is1Value, allowEmpty: true);
     /// <summary>
     /// Spacing/sizing scale step `0` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 0` for integer spacing utilities unless overridden).
     /// </summary>
@@ -37,5 +37,5 @@ public static class Border
     /// <summary>
     /// Creates a border width utility from an arbitrary Tailwind token.
     /// </summary>
-    public static BorderBuilder Token(string value) => new(value);
+    public static BorderBuilder Token(string value) => new(value == "border" || value.StartsWith("border-") ? value : "border-" + value);
 }

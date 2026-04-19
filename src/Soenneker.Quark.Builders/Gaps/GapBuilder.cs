@@ -60,7 +60,7 @@ public sealed class GapBuilder : CssBuilderBase
     /// <summary>
     /// Chain with an arbitrary Tailwind gap token for the next rule.
     /// </summary>
-    public GapBuilder Token(string value) => ChainWithSize(value);
+    public GapBuilder Token(string value) => ChainWithSize($"gap-{value}");
 
     /// <summary>
     /// Apply to column gap only.
@@ -159,11 +159,11 @@ public sealed class GapBuilder : CssBuilderBase
         for (var i = 0; i < _rules.Count; i++)
         {
             GapRule rule = _rules[i];
-            string cls = rule.Size.Length == 0 ? string.Empty : rule.Axis.Value + rule.Size;
+            string cls = BuildClass(rule);
             if (cls.Length == 0)
                 continue;
 
-            string bp = BreakpointUtil.GetBreakpointClass(rule.Breakpoint);
+            string bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
 
             if (bp.Length != 0)
                 cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, bp);
@@ -179,5 +179,22 @@ public sealed class GapBuilder : CssBuilderBase
     }
 
     public override string ToStyle() => string.Empty;
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private static string BuildClass(GapRule rule)
+    {
+        if (rule.Size.Length == 0)
+            return string.Empty;
+
+        if (rule.Axis == GapAxisEnum.All)
+            return rule.Size;
+
+        const string defaultPrefix = "gap-";
+
+        if (rule.Size.StartsWith(defaultPrefix, System.StringComparison.Ordinal))
+            return rule.Axis.Value + rule.Size[defaultPrefix.Length..];
+
+        return rule.Axis.Value + rule.Size;
+    }
 
 }

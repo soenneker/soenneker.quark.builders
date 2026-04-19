@@ -9,5 +9,5 @@ public static class DecorationThickness
     public static DecorationThicknessBuilder Is2 => new(DecorationThicknessEnum.Is2);
     public static DecorationThicknessBuilder Is4 => new(DecorationThicknessEnum.Is4);
     public static DecorationThicknessBuilder Is8 => new(DecorationThicknessEnum.Is8);
-    public static DecorationThicknessBuilder Token(string value) => new(value);
+    public static DecorationThicknessBuilder Token(string value) => new("decoration-" + value);
 }

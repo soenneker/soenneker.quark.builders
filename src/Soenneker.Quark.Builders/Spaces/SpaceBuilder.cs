@@ -109,7 +109,7 @@ public sealed class SpaceBuilder : CssBuilderBase
         {
             SpaceRule rule = _rules[i];
             string cls = rule.Value;
-            string bp = BreakpointUtil.GetBreakpointClass(rule.Breakpoint);
+            string bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
             if (bp.Length != 0)
                 cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, bp);
 

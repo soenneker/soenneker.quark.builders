@@ -7,5 +7,5 @@ public static class JustifySelfAlign
     public static JustifySelfAlignBuilder End => new(JustifySelfAlignEnum.End);
     public static JustifySelfAlignBuilder Center => new(JustifySelfAlignEnum.Center);
     public static JustifySelfAlignBuilder Stretch => new(JustifySelfAlignEnum.Stretch);
-    public static JustifySelfAlignBuilder Token(string value) => new(value);
+    public static JustifySelfAlignBuilder Token(string value) => new("justify-self-" + value);
 }

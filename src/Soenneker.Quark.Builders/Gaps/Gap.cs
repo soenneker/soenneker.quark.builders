@@ -38,5 +38,5 @@ public static class Gap
     /// <summary>
     /// Create from an arbitrary Tailwind gap token (e.g. "1.5", "6", "8", "16", "20").
     /// </summary>
-    public static GapBuilder Token(string value) => new(value);
+    public static GapBuilder Token(string value) => new($"gap-{value}");
 }

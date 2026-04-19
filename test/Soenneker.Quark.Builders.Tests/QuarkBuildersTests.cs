@@ -205,6 +205,38 @@ public sealed class QuarkBuildersTests : FixturedUnitTest
     }
 
     [Fact]
+    public void FlexBuilder_stores_full_tailwind_classes()
+    {
+        string result = Flex.Is1.OnMd.Auto.Token("2").ToClass();
+
+        Assert.Equal("flex-1 md:flex-auto flex-2", result);
+    }
+
+    [Fact]
+    public void FlexDirectionBuilder_includes_flex_display_for_tailwind_container_utilities()
+    {
+        string result = FlexDirection.Col.OnMd.Row.ToClass();
+
+        Assert.Equal("flex flex-col md:flex md:flex-row", result);
+    }
+
+    [Fact]
+    public void FlexWrapBuilder_includes_flex_display_for_tailwind_container_utilities()
+    {
+        string result = FlexWrap.Wrap.OnLg.NoWrap.ToClass();
+
+        Assert.Equal("flex flex-wrap lg:flex lg:flex-nowrap", result);
+    }
+
+    [Fact]
+    public void GapBuilder_stores_full_tailwind_classes_and_rewrites_axis_variants()
+    {
+        string result = Gap.Is1.OnMd.Is2.X.Token("6").Y.ToClass();
+
+        Assert.Equal("gap-1 md:gap-x-2 gap-y-6", result);
+    }
+
+    [Fact]
     public void BorderBuilder_builds_default_unsuffixed_border_classes()
     {
         string border = Border.Default.ToClass();

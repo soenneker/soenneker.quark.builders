@@ -11,5 +11,5 @@ public static class Origin
     public static OriginBuilder BottomLeft => new(OriginEnum.BottomLeft);
     public static OriginBuilder Left => new(OriginEnum.Left);
     public static OriginBuilder TopLeft => new(OriginEnum.TopLeft);
-    public static OriginBuilder Token(string value) => new(value);
+    public static OriginBuilder Token(string value) => new("origin-" + value);
 }
