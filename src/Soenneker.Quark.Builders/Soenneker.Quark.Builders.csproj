@@ -43,7 +43,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Soenneker.Extensions.String" Version="4.0.667" />
+        <PackageReference Include="Soenneker.Extensions.String" Version="4.0.668" />
         <PackageReference Include="Soenneker.Quark.Enums.BoxShadows" Version="4.0.47" />
         <PackageReference Include="Soenneker.Quark.Enums.Breakpoints" Version="4.0.42" />
         <PackageReference Include="Soenneker.Quark.Enums.DisplayTypes" Version="4.0.49" />

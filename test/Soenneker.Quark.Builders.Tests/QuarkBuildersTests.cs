@@ -1,4 +1,5 @@
 using Soenneker.Tests.HostedUnit;
+using AwesomeAssertions;
 
 namespace Soenneker.Quark.Builders.Tests;
 
@@ -14,7 +15,7 @@ public sealed class QuarkBuildersTests : HostedUnitTest
     {
         string result = ButtonSizes.Default.OnMd.IconSm.ToClass();
 
-        Assert.Equal("h-8 gap-1.5 px-2.5 has-data-[icon=inline-end]:pr-2 has-data-[icon=inline-start]:pl-2 md:size-7 md:rounded-[min(var(--radius-md),12px)] md:in-data-[slot=button-group]:rounded-lg", result);
+        result.Should().Be("h-8 gap-1.5 px-2.5 has-data-[icon=inline-end]:pr-2 has-data-[icon=inline-start]:pl-2 md:size-7 md:rounded-[min(var(--radius-md),12px)] md:in-data-[slot=button-group]:rounded-lg");
     }
 
     [Test]
@@ -22,7 +23,7 @@ public sealed class QuarkBuildersTests : HostedUnitTest
     {
         string result = ToggleSizes.Default.OnLg.Sm.ToClass();
 
-        Assert.Equal("h-8 min-w-8 px-2.5 has-data-[icon=inline-end]:pr-2 has-data-[icon=inline-start]:pl-2 lg:h-7 lg:min-w-7 lg:rounded-[min(var(--radius-md),12px)] lg:px-2.5 lg:text-[0.8rem] lg:has-data-[icon=inline-end]:pr-1.5 lg:has-data-[icon=inline-start]:pl-1.5 lg:[&_svg:not([class*='size-'])]:size-3.5", result);
+        result.Should().Be("h-8 min-w-8 px-2.5 has-data-[icon=inline-end]:pr-2 has-data-[icon=inline-start]:pl-2 lg:h-7 lg:min-w-7 lg:rounded-[min(var(--radius-md),12px)] lg:px-2.5 lg:text-[0.8rem] lg:has-data-[icon=inline-end]:pr-1.5 lg:has-data-[icon=inline-start]:pl-1.5 lg:[&_svg:not([class*='size-'])]:size-3.5");
     }
 
     [Test]
@@ -30,7 +31,7 @@ public sealed class QuarkBuildersTests : HostedUnitTest
     {
         string result = Variant.Of(Tracking.Wide).Hover.FocusVisible.DataState("open").ToClass();
 
-        Assert.Equal("hover:focus-visible:data-[state=open]:tracking-wide", result);
+        result.Should().Be("hover:focus-visible:data-[state=open]:tracking-wide");
     }
 
     [Test]
@@ -39,8 +40,8 @@ public sealed class QuarkBuildersTests : HostedUnitTest
         string rounded = Rounded.Full.After.ToClass();
         string border = BorderColor.Border.After.ToClass();
 
-        Assert.Equal("after:rounded-full", rounded);
-        Assert.Equal("after:border-border", border);
+        rounded.Should().Be("after:rounded-full");
+        border.Should().Be("after:border-border");
     }
 
     [Test]
@@ -50,7 +51,7 @@ public sealed class QuarkBuildersTests : HostedUnitTest
             .Modifiers("md", "after")
             .ToClass();
 
-        Assert.Equal("md:after:hidden", result);
+        result.Should().Be("md:after:hidden");
     }
 
     [Test]
@@ -59,8 +60,8 @@ public sealed class QuarkBuildersTests : HostedUnitTest
         string rounded = Rounded.Full.After.OnMd.ToClass();
         string hidden = Display.None.Dark.Hover.OnLg.ToClass();
 
-        Assert.Equal("md:after:rounded-full", rounded);
-        Assert.Equal("lg:dark:hover:hidden", hidden);
+        rounded.Should().Be("md:after:rounded-full");
+        hidden.Should().Be("lg:dark:hover:hidden");
     }
 
     [Test]
@@ -69,8 +70,8 @@ public sealed class QuarkBuildersTests : HostedUnitTest
         string group = Opacity.Is100.Group("data-[state=open]", "navigation-menu").ToClass();
         string peer = TextColor.Utility("text-sidebar-accent-foreground").Peer("data-[active=true]", "menu-button").ToClass();
 
-        Assert.Equal("group-data-[state=open]/navigation-menu:opacity-100", group);
-        Assert.Equal("peer-data-[active=true]/menu-button:text-sidebar-accent-foreground", peer);
+        group.Should().Be("group-data-[state=open]/navigation-menu:opacity-100");
+        peer.Should().Be("peer-data-[active=true]/menu-button:text-sidebar-accent-foreground");
     }
 
     [Test]
@@ -81,7 +82,7 @@ public sealed class QuarkBuildersTests : HostedUnitTest
             Rounded.Full.After
         );
 
-        Assert.Equal("rounded-full after:rounded-full", value.ToString());
+        value.ToString().Should().Be("rounded-full after:rounded-full");
     }
 
     [Test]
@@ -90,7 +91,7 @@ public sealed class QuarkBuildersTests : HostedUnitTest
         CssValue<RoundedBuilder> value = CssValue<RoundedBuilder>.For(Rounded.Full)
             .Add(Rounded.Full.After);
 
-        Assert.Equal("rounded-full after:rounded-full", value.ToString());
+        value.ToString().Should().Be("rounded-full after:rounded-full");
     }
 
     [Test]
@@ -98,7 +99,7 @@ public sealed class QuarkBuildersTests : HostedUnitTest
     {
         CssValue<RoundedBuilder> value = Rounded.Full.After;
 
-        Assert.Equal("after:rounded-full", value.ToString());
+        value.ToString().Should().Be("after:rounded-full");
     }
 
     [Test]
@@ -106,7 +107,7 @@ public sealed class QuarkBuildersTests : HostedUnitTest
     {
         string result = Justify.Start.OnMd.Between.ToClass();
 
-        Assert.Equal("justify-start md:justify-between", result);
+        result.Should().Be("justify-start md:justify-between");
     }
 
     [Test]
@@ -117,10 +118,10 @@ public sealed class QuarkBuildersTests : HostedUnitTest
         string justifySelf = JustifySelfAlign.Auto.OnMd.Center.ToClass();
         string text = TextAlign.Start.OnSm.Center.ToClass();
 
-        Assert.Equal("content-center md:content-between", content);
-        Assert.Equal("justify-items-start lg:justify-items-end", justifyItems);
-        Assert.Equal("justify-self-auto md:justify-self-center", justifySelf);
-        Assert.Equal("text-start sm:text-center", text);
+        content.Should().Be("content-center md:content-between");
+        justifyItems.Should().Be("justify-items-start lg:justify-items-end");
+        justifySelf.Should().Be("justify-self-auto md:justify-self-center");
+        text.Should().Be("text-start sm:text-center");
     }
 
     [Test]
@@ -128,7 +129,7 @@ public sealed class QuarkBuildersTests : HostedUnitTest
     {
         string result = Duration.Is150.OnLg.Is300.ToClass();
 
-        Assert.Equal("duration-150 lg:duration-300", result);
+        result.Should().Be("duration-150 lg:duration-300");
     }
 
     [Test]
@@ -136,7 +137,7 @@ public sealed class QuarkBuildersTests : HostedUnitTest
     {
         string result = Transform.Gpu.OnMd.None.ToClass();
 
-        Assert.Equal("transform-gpu md:transform-none", result);
+        result.Should().Be("transform-gpu md:transform-none");
     }
 
     [Test]
@@ -144,7 +145,7 @@ public sealed class QuarkBuildersTests : HostedUnitTest
     {
         string result = DecorationLine.Underline.OnSm.LineThrough.ToClass();
 
-        Assert.Equal("underline sm:line-through", result);
+        result.Should().Be("underline sm:line-through");
     }
 
     [Test]
@@ -152,7 +153,7 @@ public sealed class QuarkBuildersTests : HostedUnitTest
     {
         string result = Cursor.Auto.OnMd.ZoomIn.ToClass();
 
-        Assert.Equal("cursor-auto md:cursor-zoom-in", result);
+        result.Should().Be("cursor-auto md:cursor-zoom-in");
     }
 
     [Test]
@@ -160,7 +161,7 @@ public sealed class QuarkBuildersTests : HostedUnitTest
     {
         string result = ObjectPosition.Center.OnLg.BottomRight.ToClass();
 
-        Assert.Equal("object-center lg:object-bottom-right", result);
+        result.Should().Be("object-center lg:object-bottom-right");
     }
 
     [Test]
@@ -168,7 +169,7 @@ public sealed class QuarkBuildersTests : HostedUnitTest
     {
         string result = Leading.Tight.OnMd.Loose.ToClass();
 
-        Assert.Equal("leading-tight md:leading-loose", result);
+        result.Should().Be("leading-tight md:leading-loose");
     }
 
     [Test]
@@ -176,7 +177,7 @@ public sealed class QuarkBuildersTests : HostedUnitTest
     {
         string result = Tracking.Wide.OnSm.Widest.ToClass();
 
-        Assert.Equal("tracking-wide sm:tracking-widest", result);
+        result.Should().Be("tracking-wide sm:tracking-widest");
     }
 
     [Test]
@@ -184,7 +185,7 @@ public sealed class QuarkBuildersTests : HostedUnitTest
     {
         string result = Isolation.Auto.OnLg.Isolate.ToClass();
 
-        Assert.Equal("isolation-auto lg:isolation-isolate", result);
+        result.Should().Be("isolation-auto lg:isolation-isolate");
     }
 
     [Test]
@@ -192,7 +193,7 @@ public sealed class QuarkBuildersTests : HostedUnitTest
     {
         string result = BackgroundBlendMode.Multiply.OnXl.Screen.ToClass();
 
-        Assert.Equal("bg-blend-multiply xl:bg-blend-screen", result);
+        result.Should().Be("bg-blend-multiply xl:bg-blend-screen");
     }
 
     [Test]
@@ -200,7 +201,7 @@ public sealed class QuarkBuildersTests : HostedUnitTest
     {
         string result = Gap.Is2.Y.OnMd.Token("6").ToClass();
 
-        Assert.Equal("gap-y-2 md:gap-6", result);
+        result.Should().Be("gap-y-2 md:gap-6");
     }
 
     [Test]
@@ -208,7 +209,7 @@ public sealed class QuarkBuildersTests : HostedUnitTest
     {
         string result = Flex.Is1.OnMd.Auto.Token("2").ToClass();
 
-        Assert.Equal("flex-1 md:flex-auto flex-2", result);
+        result.Should().Be("flex-1 md:flex-auto flex-2");
     }
 
     [Test]
@@ -216,7 +217,7 @@ public sealed class QuarkBuildersTests : HostedUnitTest
     {
         string result = FlexDirection.Col.OnMd.Row.ToClass();
 
-        Assert.Equal("flex flex-col md:flex md:flex-row", result);
+        result.Should().Be("flex flex-col md:flex md:flex-row");
     }
 
     [Test]
@@ -224,7 +225,7 @@ public sealed class QuarkBuildersTests : HostedUnitTest
     {
         string result = FlexWrap.Wrap.OnLg.NoWrap.ToClass();
 
-        Assert.Equal("flex flex-wrap lg:flex lg:flex-nowrap", result);
+        result.Should().Be("flex flex-wrap lg:flex lg:flex-nowrap");
     }
 
     [Test]
@@ -232,7 +233,7 @@ public sealed class QuarkBuildersTests : HostedUnitTest
     {
         string result = Gap.Is1.OnMd.Is2.X.Token("6").Y.ToClass();
 
-        Assert.Equal("gap-1 md:gap-x-2 gap-y-6", result);
+        result.Should().Be("gap-1 md:gap-x-2 gap-y-6");
     }
 
     [Test]
@@ -245,26 +246,26 @@ public sealed class QuarkBuildersTests : HostedUnitTest
         string responsiveBorder = Border.Default.OnMd.Is2.ToClass();
         string transparentBorder = BorderColor.Transparent.ToClass();
 
-        Assert.Equal("border", border);
-        Assert.Equal("border", is1Border);
-        Assert.Equal("border-b", bottomIs1Border);
-        Assert.Equal("border-t", topBorder);
-        Assert.Equal("border md:border-2", responsiveBorder);
-        Assert.Equal("border-transparent", transparentBorder);
+        border.Should().Be("border");
+        is1Border.Should().Be("border");
+        bottomIs1Border.Should().Be("border-b");
+        topBorder.Should().Be("border-t");
+        responsiveBorder.Should().Be("border md:border-2");
+        transparentBorder.Should().Be("border-transparent");
     }
 
     [Test]
     public void Common_shadcn_tailwind_utility_forms_are_expressible()
     {
-        Assert.Equal("ring", Ring.Default.ToClass());
-        Assert.Equal("rounded", Rounded.Default.ToClass());
-        Assert.Equal("shadow", BoxShadow.Default.ToClass());
-        Assert.Equal("truncate", Truncate.Default.ToClass());
-        Assert.Equal("bg-transparent", BackgroundColor.Transparent.ToClass());
-        Assert.Equal("divide-border", Divide.Border.ToClass());
-        Assert.Equal("divide-x md:divide-dashed", Divide.X.OnMd.Dashed.ToClass());
-        Assert.Equal("ring-offset-background", RingOffset.Background.ToClass());
-        Assert.Equal("ring-offset-1 md:ring-offset-2", RingOffset.Width("1").OnMd.Width("2").ToClass());
+        Ring.Default.ToClass().Should().Be("ring");
+        Rounded.Default.ToClass().Should().Be("rounded");
+        BoxShadow.Default.ToClass().Should().Be("shadow");
+        Truncate.Default.ToClass().Should().Be("truncate");
+        BackgroundColor.Transparent.ToClass().Should().Be("bg-transparent");
+        Divide.Border.ToClass().Should().Be("divide-border");
+        Divide.X.OnMd.Dashed.ToClass().Should().Be("divide-x md:divide-dashed");
+        RingOffset.Background.ToClass().Should().Be("ring-offset-background");
+        RingOffset.Width("1").OnMd.Width("2").ToClass().Should().Be("ring-offset-1 md:ring-offset-2");
     }
 
     [Test]
@@ -272,7 +273,7 @@ public sealed class QuarkBuildersTests : HostedUnitTest
     {
         string result = Scale.Scale95.Scale125.ToClass();
 
-        Assert.Equal("scale-95 scale-125", result);
+        result.Should().Be("scale-95 scale-125");
     }
 
     [Test]
@@ -280,7 +281,7 @@ public sealed class QuarkBuildersTests : HostedUnitTest
     {
         string result = OutlineStyle.None.OnMd.Double.ToClass();
 
-        Assert.Equal("outline-none md:outline-double", result);
+        result.Should().Be("outline-none md:outline-double");
     }
 
     [Test]
@@ -288,6 +289,6 @@ public sealed class QuarkBuildersTests : HostedUnitTest
     {
         string result = StrokeLineCap.Auto.OnSm.Butt.ToClass();
 
-        Assert.Equal("stroke-cap-auto sm:stroke-cap-butt", result);
+        result.Should().Be("stroke-cap-auto sm:stroke-cap-butt");
     }
 }
