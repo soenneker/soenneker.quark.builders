@@ -34,4 +34,9 @@ public static class Transition
     /// Transform transition (transform).
     /// </summary>
     public static TransitionBuilder Transform => new(TransitionEnum.Transform);
+
+    /// <summary>
+    /// Applies an exact Tailwind transition utility token, e.g. "transition-[color,box-shadow]".
+    /// </summary>
+    public static TransitionBuilder Token(string token) => new(token);
 }
