@@ -10,6 +10,6 @@ public static class GridRows
     public static GridRowsBuilder Is6 => new("grid-rows-6");
     public static GridRowsBuilder None => new("grid-rows-none");
     public static GridRowsBuilder Subgrid => new("grid-rows-subgrid");
-    public static GridRowsBuilder Count(int value) => new(value.ToString());
+    public static GridRowsBuilder Count(int value) => new("grid-rows-" + value);
     public static GridRowsBuilder Token(string value) => new("grid-rows-" + value);
 }

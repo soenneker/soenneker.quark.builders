@@ -16,6 +16,6 @@ public static class GridCols
     public static GridColsBuilder Is12 => new("grid-cols-12");
     public static GridColsBuilder None => new("grid-cols-none");
     public static GridColsBuilder Subgrid => new("grid-cols-subgrid");
-    public static GridColsBuilder Count(int value) => new(value.ToString());
+    public static GridColsBuilder Count(int value) => new("grid-cols-" + value);
     public static GridColsBuilder Token(string value) => new("grid-cols-" + value);
 }

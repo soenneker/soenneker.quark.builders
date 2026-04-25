@@ -17,13 +17,20 @@ public sealed class ListStyleTypeBuilder : CssBuilderBase
 
     /// <summary>
     /// Gets the CSS class string for the current configuration.
-    /// list-style-type is a CSS property, not a class utility, so this returns an empty string.
+    /// Tailwind exposes the common values as utilities and supports other
+    /// list-style-type values through arbitrary utilities.
     /// </summary>
-    /// <returns>An empty string.</returns>
+    /// <returns>The Tailwind utility class string.</returns>
     public override string ToClass()
     {
-        // list-style-type is a CSS property, not a class utility
-        return string.Empty;
+        return _value.Value switch
+        {
+            "none" => "list-none",
+            "disc" => "list-disc",
+            "decimal" => "list-decimal",
+            var value when value.Length > 0 => $"list-[{value}]",
+            _ => string.Empty
+        };
     }
 
     /// <summary>
@@ -33,9 +40,9 @@ public sealed class ListStyleTypeBuilder : CssBuilderBase
     public override string ToStyle() => string.Empty;
 
     /// <summary>
-    /// Returns the CSS style string representation of this list style type builder.
+    /// Returns the CSS class string representation of this list style type builder.
     /// </summary>
-    /// <returns>The CSS style string.</returns>
-    public override string ToString() => ToStyle();
+    /// <returns>The CSS class string.</returns>
+    public override string ToString() => ToClass();
 }
 

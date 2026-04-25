@@ -23,7 +23,7 @@ public sealed class QuarkBuildersTests : HostedUnitTest
     {
         string result = ToggleSizes.Default.OnLg.Sm.ToClass();
 
-        result.Should().Be("h-8 min-w-8 px-2.5 has-data-[icon=inline-end]:pr-2 has-data-[icon=inline-start]:pl-2 lg:h-7 lg:min-w-7 lg:rounded-[min(var(--radius-md),12px)] lg:px-2.5 lg:text-[0.8rem] lg:has-data-[icon=inline-end]:pr-1.5 lg:has-data-[icon=inline-start]:pl-1.5 lg:[&_svg:not([class*='size-'])]:size-3.5");
+        result.Should().Be("h-9 min-w-9 px-2 lg:h-8 lg:min-w-8 lg:px-1.5");
     }
 
     [Test]
@@ -213,6 +213,14 @@ public sealed class QuarkBuildersTests : HostedUnitTest
     }
 
     [Test]
+    public void FlexBuilder_supports_wrap_utilities_for_flex_parameter_usage()
+    {
+        string result = Flex.Wrap.OnMd.NoWrap.WrapReverse.ToClass();
+
+        result.Should().Be("flex-wrap md:flex-nowrap flex-wrap-reverse");
+    }
+
+    [Test]
     public void FlexDirectionBuilder_includes_flex_display_for_tailwind_container_utilities()
     {
         string result = FlexDirection.Col.OnMd.Row.ToClass();
@@ -226,6 +234,24 @@ public sealed class QuarkBuildersTests : HostedUnitTest
         string result = FlexWrap.Wrap.OnLg.NoWrap.ToClass();
 
         result.Should().Be("flex flex-wrap lg:flex lg:flex-nowrap");
+    }
+
+    [Test]
+    public void GridTrackBuilders_emit_prefixed_responsive_classes()
+    {
+        GridCols.Is1.OnMd.Is3.Count(4).ToClass().Should().Be("grid-cols-1 md:grid-cols-3 grid-cols-4");
+        GridRows.Is2.OnLg.Is4.Count(5).ToClass().Should().Be("grid-rows-2 lg:grid-rows-4 grid-rows-5");
+    }
+
+    [Test]
+    public void ListStyleTypeBuilder_emits_tailwind_list_style_utilities()
+    {
+        ListStyleType.None.ToClass().Should().Be("list-none");
+        ListStyleType.Disc.ToClass().Should().Be("list-disc");
+        ListStyleType.Decimal.ToClass().Should().Be("list-decimal");
+        ListStyleType.LowerAlpha.ToClass().Should().Be("list-[lower-alpha]");
+        ListStyleType.DecimalLeadingZero.ToClass().Should().Be("list-[decimal-leading-zero]");
+        ListStyleType.Square.ToString().Should().Be("list-[square]");
     }
 
     [Test]
