@@ -10,4 +10,5 @@ public sealed partial class ZIndexEnum
     public static readonly ZIndexEnum Z1 = new("z-1");
     public static readonly ZIndexEnum Z2 = new("z-2");
     public static readonly ZIndexEnum Z3 = new("z-3");
+    public static readonly ZIndexEnum Z50 = new("z-50");
 }

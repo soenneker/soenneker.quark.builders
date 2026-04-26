@@ -30,6 +30,10 @@ public sealed class OutlineStyleBuilder : CssBuilderBase
     /// </summary>
     public OutlineStyleBuilder None => Chain(OutlineStyleEnum.None);
     /// <summary>
+    /// Hides the outline while preserving forced-colors accessibility behavior. Tailwind: outline-hidden.
+    /// </summary>
+    public OutlineStyleBuilder Hidden => Chain(OutlineStyleEnum.Hidden);
+    /// <summary>
     /// Fluent step for `Solid` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
     public OutlineStyleBuilder Solid => Chain(OutlineStyleEnum.Solid);

@@ -305,9 +305,16 @@ public sealed class QuarkBuildersTests : HostedUnitTest
     [Test]
     public void OutlineStyleBuilder_builds_tailwind_outline_classes()
     {
-        string result = OutlineStyle.None.OnMd.Double.ToClass();
+        string result = OutlineStyle.None.OnMd.Double.OnLg.Hidden.ToClass();
 
-        result.Should().Be("outline-none md:outline-double");
+        result.Should().Be("outline-none md:outline-double lg:outline-hidden");
+    }
+
+    [Test]
+    public void Common_missing_suite_defaults_are_expressible()
+    {
+        MinWidth.Is32.ToClass().Should().Be("min-w-32");
+        ZIndex.Z0.OnMd.Z50.ToClass().Should().Be("z-0 md:z-50");
     }
 
     [Test]

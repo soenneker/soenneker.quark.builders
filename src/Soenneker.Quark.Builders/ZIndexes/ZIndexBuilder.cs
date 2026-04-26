@@ -52,6 +52,11 @@ public sealed class ZIndexBuilder : CssBuilderBase
     public ZIndexBuilder Z3 => Chain(ZIndexEnum.Z3);
 
     /// <summary>
+    /// Sets the z-index to 50.
+    /// </summary>
+    public ZIndexBuilder Z50 => Chain(ZIndexEnum.Z50);
+
+    /// <summary>
     /// Applies the z-index on phone breakpoint.
     /// </summary>
     public ZIndexBuilder OnBase => SetPendingBreakpoint(BreakpointType.Base);
