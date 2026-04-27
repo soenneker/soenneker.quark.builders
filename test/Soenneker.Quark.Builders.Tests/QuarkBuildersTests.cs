@@ -285,7 +285,7 @@ public sealed class QuarkBuildersTests : HostedUnitTest
     {
         Ring.Default.ToClass().Should().Be("ring");
         Rounded.Default.ToClass().Should().Be("rounded");
-        BoxShadow.Default.ToClass().Should().Be("shadow");
+        Shadow.Default.ToClass().Should().Be("shadow");
         Truncate.Default.ToClass().Should().Be("truncate");
         BackgroundColor.Transparent.ToClass().Should().Be("bg-transparent");
         Divide.Border.ToClass().Should().Be("divide-border");

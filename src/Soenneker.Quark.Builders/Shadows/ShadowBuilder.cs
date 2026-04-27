@@ -6,111 +6,111 @@ using Soenneker.Utils.PooledStringBuilders;
 namespace Soenneker.Quark;
 
 /// <summary>
-/// High-performance box shadow builder with fluent API for chaining box shadow rules.
+/// High-performance shadow builder with fluent API for chaining shadow rules.
 /// </summary>
 [TailwindPrefix("shadow-", Responsive = true)]
-public sealed class BoxShadowBuilder : CssBuilderBase
+public sealed class ShadowBuilder : CssBuilderBase
 {
-    private readonly List<BoxShadowRule> _rules = new(4);
+    private readonly List<ShadowRule> _rules = new(4);
     private BreakpointType? _pendingBreakpoint;
 
-    internal BoxShadowBuilder(BoxShadowEnum value, BreakpointType? breakpoint = null)
+    internal ShadowBuilder(ShadowKeyword value, BreakpointType? breakpoint = null)
     {
-        _rules.Add(new BoxShadowRule(value.Value, breakpoint));
+        _rules.Add(new ShadowRule(value.Value, breakpoint));
     }
 
-    internal BoxShadowBuilder(List<BoxShadowRule> rules)
+    internal ShadowBuilder(List<ShadowRule> rules)
     {
         if (rules is { Count: > 0 })
             _rules.AddRange(rules);
     }
 
     /// <summary>
-    /// Sets the box shadow to none.
+    /// Sets the shadow to none.
     /// </summary>
-    public BoxShadowBuilder None => Chain(BoxShadowEnum.None);
+    public ShadowBuilder None => Chain(ShadowKeyword.None);
 
     /// <summary>
-    /// Sets the box shadow to extra small.
+    /// Sets the shadow to extra small.
     /// </summary>
-    public BoxShadowBuilder Xs => Chain(BoxShadowEnum.Xs);
+    public ShadowBuilder Xs => Chain(ShadowKeyword.Xs);
 
     /// <summary>
-    /// Sets the box shadow to small.
+    /// Sets the shadow to small.
     /// </summary>
-    public BoxShadowBuilder Sm => Chain(BoxShadowEnum.Sm);
+    public ShadowBuilder Sm => Chain(ShadowKeyword.Sm);
 
     /// <summary>
-    /// Sets the box shadow to the default value.
+    /// Sets the shadow to the default value.
     /// </summary>
-    public BoxShadowBuilder Default => Chain(BoxShadowEnum.Default);
+    public ShadowBuilder Default => Chain(ShadowKeyword.Default);
 
     /// <summary>
-    /// Sets the box shadow to medium.
+    /// Sets the shadow to medium.
     /// </summary>
-    public BoxShadowBuilder Md => Chain(BoxShadowEnum.Md);
+    public ShadowBuilder Md => Chain(ShadowKeyword.Md);
 
     /// <summary>
-    /// Sets the box shadow to large.
+    /// Sets the shadow to large.
     /// </summary>
-    public BoxShadowBuilder Lg => Chain(BoxShadowEnum.Lg);
+    public ShadowBuilder Lg => Chain(ShadowKeyword.Lg);
 
     /// <summary>
-    /// Sets the box shadow to extra large.
+    /// Sets the shadow to extra large.
     /// </summary>
-    public BoxShadowBuilder Xl => Chain(BoxShadowEnum.Xl);
+    public ShadowBuilder Xl => Chain(ShadowKeyword.Xl);
 
     /// <summary>
-    /// Sets the box shadow to 2x extra large.
+    /// Sets the shadow to 2x extra large.
     /// </summary>
-    public BoxShadowBuilder TwoXl => Chain(BoxShadowEnum.TwoXl);
+    public ShadowBuilder TwoXl => Chain(ShadowKeyword.TwoXl);
 
     /// <summary>
-    /// Sets the box shadow to inner.
+    /// Sets the shadow to inner.
     /// </summary>
-    public BoxShadowBuilder Inner => Chain(BoxShadowEnum.Inner);
+    public ShadowBuilder Inner => Chain(ShadowKeyword.Inner);
 
     /// <summary>
-    /// Applies the box shadow on phone breakpoint.
+    /// Applies the shadow on phone breakpoint.
     /// </summary>
-    public BoxShadowBuilder OnBase => SetPendingBreakpoint(BreakpointType.Base);
+    public ShadowBuilder OnBase => SetPendingBreakpoint(BreakpointType.Base);
 
     /// <summary>
-    /// Applies the box shadow on small breakpoint (≥640px).
+    /// Applies the shadow on small breakpoint (≥640px).
     /// </summary>
-    public BoxShadowBuilder OnSm => SetPendingBreakpoint(BreakpointType.Sm);
+    public ShadowBuilder OnSm => SetPendingBreakpoint(BreakpointType.Sm);
 
     /// <summary>
-    /// Applies the box shadow on tablet breakpoint.
+    /// Applies the shadow on tablet breakpoint.
     /// </summary>
-    public BoxShadowBuilder OnMd => SetPendingBreakpoint(BreakpointType.Md);
+    public ShadowBuilder OnMd => SetPendingBreakpoint(BreakpointType.Md);
 
     /// <summary>
-    /// Applies the box shadow on laptop breakpoint.
+    /// Applies the shadow on laptop breakpoint.
     /// </summary>
-    public BoxShadowBuilder OnLg => SetPendingBreakpoint(BreakpointType.Lg);
+    public ShadowBuilder OnLg => SetPendingBreakpoint(BreakpointType.Lg);
 
     /// <summary>
-    /// Applies the box shadow on desktop breakpoint.
+    /// Applies the shadow on desktop breakpoint.
     /// </summary>
-    public BoxShadowBuilder OnXl => SetPendingBreakpoint(BreakpointType.Xl);
+    public ShadowBuilder OnXl => SetPendingBreakpoint(BreakpointType.Xl);
 
     /// <summary>
-    /// Applies the box shadow on the 2xl breakpoint.
+    /// Applies the shadow on the 2xl breakpoint.
     /// </summary>
-    public BoxShadowBuilder On2xl => SetPendingBreakpoint(BreakpointType.Xxl);
+    public ShadowBuilder On2xl => SetPendingBreakpoint(BreakpointType.Xxl);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private BoxShadowBuilder Chain(BoxShadowEnum value)
+    private ShadowBuilder Chain(ShadowKeyword value)
     {
         BreakpointType? bp = _pendingBreakpoint;
         _pendingBreakpoint = null;
-        _rules.Add(new BoxShadowRule(value.Value, bp));
+        _rules.Add(new ShadowRule(value.Value, bp));
         return this;
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private BoxShadowBuilder SetPendingBreakpoint(BreakpointType bp)
+    private ShadowBuilder SetPendingBreakpoint(BreakpointType bp)
     {
         _pendingBreakpoint = bp;
         return this;
@@ -130,7 +130,7 @@ public sealed class BoxShadowBuilder : CssBuilderBase
 
         for (var i = 0; i < _rules.Count; i++)
         {
-            BoxShadowRule rule = _rules[i];
+            ShadowRule rule = _rules[i];
             string cssClass = rule.Value;
 
             if (cssClass.Length == 0)
