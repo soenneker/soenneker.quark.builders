@@ -324,4 +324,16 @@ public sealed class QuarkBuildersTests : HostedUnitTest
 
         result.Should().Be("stroke-cap-auto sm:stroke-cap-butt");
     }
+
+    [Test]
+    public void Offset_side_builders_build_tailwind_position_offset_classes()
+    {
+        Top.Is0.OnMd.Is4.ToClass().Should().Be("top-0 md:top-4");
+        Right.Px.OnLg.Auto.ToClass().Should().Be("right-px lg:right-auto");
+        Bottom.Is2.OnSm.Is5.ToClass().Should().Be("bottom-2 sm:bottom-5");
+        Left.Auto.OnXl.Is1.ToClass().Should().Be("left-auto xl:left-1");
+
+        Top.Token("[calc(100%-1rem)]").ToClass().Should().Be("top-[calc(100%-1rem)]");
+        Right.Is0.OnMd.Token("full").ToClass().Should().Be("right-0 md:right-full");
+    }
 }
