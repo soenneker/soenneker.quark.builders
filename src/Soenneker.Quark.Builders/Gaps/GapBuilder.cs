@@ -58,6 +58,26 @@ public sealed class GapBuilder : CssBuilderBase
     public GapBuilder Is5 => ChainWithSize(GapScaleEnum.Is5Value);
 
     /// <summary>
+    /// Chain with a new size for the next rule.
+    /// </summary>
+    public GapBuilder Is6 => ChainWithSize(GapScaleEnum.Is6Value);
+
+    /// <summary>
+    /// Chain with a new size for the next rule.
+    /// </summary>
+    public GapBuilder Is8 => ChainWithSize(GapScaleEnum.Is8Value);
+
+    /// <summary>
+    /// Chain with a new size for the next rule.
+    /// </summary>
+    public GapBuilder Is10 => ChainWithSize(GapScaleEnum.Is10Value);
+
+    /// <summary>
+    /// Chain with a new size for the next rule.
+    /// </summary>
+    public GapBuilder Is12 => ChainWithSize(GapScaleEnum.Is12Value);
+
+    /// <summary>
     /// Chain with an arbitrary Tailwind gap token for the next rule.
     /// </summary>
     public GapBuilder Token(string value) => ChainWithSize($"gap-{value}");

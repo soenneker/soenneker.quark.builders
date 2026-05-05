@@ -95,6 +95,50 @@ public static class Height
     /// </summary>
     public static HeightBuilder Is32 => new("h-32");
     /// <summary>
+    /// Spacing/sizing scale step `36`.
+    /// </summary>
+    public static HeightBuilder Is36 => new("h-36");
+    /// <summary>
+    /// Spacing/sizing scale step `40`.
+    /// </summary>
+    public static HeightBuilder Is40 => new("h-40");
+    /// <summary>
+    /// Spacing/sizing scale step `44`.
+    /// </summary>
+    public static HeightBuilder Is44 => new("h-44");
+    /// <summary>
+    /// Spacing/sizing scale step `48`.
+    /// </summary>
+    public static HeightBuilder Is48 => new("h-48");
+    /// <summary>
+    /// Spacing/sizing scale step `52`.
+    /// </summary>
+    public static HeightBuilder Is52 => new("h-52");
+    /// <summary>
+    /// Spacing/sizing scale step `56`.
+    /// </summary>
+    public static HeightBuilder Is56 => new("h-56");
+    /// <summary>
+    /// Spacing/sizing scale step `60`.
+    /// </summary>
+    public static HeightBuilder Is60 => new("h-60");
+    /// <summary>
+    /// Spacing/sizing scale step `64`.
+    /// </summary>
+    public static HeightBuilder Is64 => new("h-64");
+    /// <summary>
+    /// Spacing/sizing scale step `72`.
+    /// </summary>
+    public static HeightBuilder Is72 => new("h-72");
+    /// <summary>
+    /// Spacing/sizing scale step `80`.
+    /// </summary>
+    public static HeightBuilder Is80 => new("h-80");
+    /// <summary>
+    /// Spacing/sizing scale step `96`.
+    /// </summary>
+    public static HeightBuilder Is96 => new("h-96");
+    /// <summary>
     /// Fluent step for `Is Px` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
     public static HeightBuilder IsPx => new("h-px");

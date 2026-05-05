@@ -36,6 +36,26 @@ public static class Gap
     public static GapBuilder Is5 => new(GapScaleEnum.Is5Value);
 
     /// <summary>
+    /// Size 6 gap.
+    /// </summary>
+    public static GapBuilder Is6 => new(GapScaleEnum.Is6Value);
+
+    /// <summary>
+    /// Size 8 gap.
+    /// </summary>
+    public static GapBuilder Is8 => new(GapScaleEnum.Is8Value);
+
+    /// <summary>
+    /// Size 10 gap.
+    /// </summary>
+    public static GapBuilder Is10 => new(GapScaleEnum.Is10Value);
+
+    /// <summary>
+    /// Size 12 gap.
+    /// </summary>
+    public static GapBuilder Is12 => new(GapScaleEnum.Is12Value);
+
+    /// <summary>
     /// Create from an arbitrary Tailwind gap token (e.g. "1.5", "6", "8", "16", "20").
     /// </summary>
     public static GapBuilder Token(string value) => new($"gap-{value}");

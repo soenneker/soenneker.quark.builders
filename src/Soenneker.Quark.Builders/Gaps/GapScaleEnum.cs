@@ -11,4 +11,8 @@ public sealed partial class GapScaleEnum
     public static readonly GapScaleEnum Is3 = new("gap-3");
     public static readonly GapScaleEnum Is4 = new("gap-4");
     public static readonly GapScaleEnum Is5 = new("gap-5");
+    public static readonly GapScaleEnum Is6 = new("gap-6");
+    public static readonly GapScaleEnum Is8 = new("gap-8");
+    public static readonly GapScaleEnum Is10 = new("gap-10");
+    public static readonly GapScaleEnum Is12 = new("gap-12");
 }

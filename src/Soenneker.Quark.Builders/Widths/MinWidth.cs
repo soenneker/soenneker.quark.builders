@@ -10,9 +10,17 @@ public static class MinWidth
     /// </summary>
     public static MinWidthBuilder Is0 => new("min-w-0");
     /// <summary>
+    /// Spacing/sizing scale step `24`.
+    /// </summary>
+    public static MinWidthBuilder Is24 => new("min-w-24");
+    /// <summary>
     /// Spacing/sizing scale step `32`.
     /// </summary>
     public static MinWidthBuilder Is32 => new("min-w-32");
+    /// <summary>
+    /// Spacing/sizing scale step `56`.
+    /// </summary>
+    public static MinWidthBuilder Is56 => new("min-w-56");
     /// <summary>
     /// Fluent step for `Is Px` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>

@@ -95,6 +95,50 @@ public static class Width
     /// </summary>
     public static WidthBuilder Is32 => new("w-32");
     /// <summary>
+    /// Spacing/sizing scale step `36`.
+    /// </summary>
+    public static WidthBuilder Is36 => new("w-36");
+    /// <summary>
+    /// Spacing/sizing scale step `40`.
+    /// </summary>
+    public static WidthBuilder Is40 => new("w-40");
+    /// <summary>
+    /// Spacing/sizing scale step `44`.
+    /// </summary>
+    public static WidthBuilder Is44 => new("w-44");
+    /// <summary>
+    /// Spacing/sizing scale step `48`.
+    /// </summary>
+    public static WidthBuilder Is48 => new("w-48");
+    /// <summary>
+    /// Spacing/sizing scale step `52`.
+    /// </summary>
+    public static WidthBuilder Is52 => new("w-52");
+    /// <summary>
+    /// Spacing/sizing scale step `56`.
+    /// </summary>
+    public static WidthBuilder Is56 => new("w-56");
+    /// <summary>
+    /// Spacing/sizing scale step `60`.
+    /// </summary>
+    public static WidthBuilder Is60 => new("w-60");
+    /// <summary>
+    /// Spacing/sizing scale step `64`.
+    /// </summary>
+    public static WidthBuilder Is64 => new("w-64");
+    /// <summary>
+    /// Spacing/sizing scale step `72`.
+    /// </summary>
+    public static WidthBuilder Is72 => new("w-72");
+    /// <summary>
+    /// Spacing/sizing scale step `80`.
+    /// </summary>
+    public static WidthBuilder Is80 => new("w-80");
+    /// <summary>
+    /// Spacing/sizing scale step `96`.
+    /// </summary>
+    public static WidthBuilder Is96 => new("w-96");
+    /// <summary>
     /// <c>w-px</c> — fixed <c>1px</c> width (hairline columns/dividers).
     /// </summary>
     public static WidthBuilder IsPx => new("w-px");
