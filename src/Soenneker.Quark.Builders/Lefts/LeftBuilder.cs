@@ -35,6 +35,10 @@ public sealed class LeftBuilder : CssBuilderBase
     public LeftBuilder Is3 => Chain(LeftEnum.Is3);
     public LeftBuilder Is4 => Chain(LeftEnum.Is4);
     public LeftBuilder Is5 => Chain(LeftEnum.Is5);
+    public LeftBuilder Is8 => Chain(LeftEnum.Is8);
+    public LeftBuilder Is12 => Chain(LeftEnum.Is12);
+    public LeftBuilder Is16 => Chain(LeftEnum.Is16);
+    public LeftBuilder Is24 => Chain(LeftEnum.Is24);
     public LeftBuilder Auto => Chain(LeftEnum.Auto);
     public LeftBuilder Px => Chain(LeftEnum.Px);
     public LeftBuilder Token(string value) => Chain(value.StartsWith("left-") ? value : "left-" + value);

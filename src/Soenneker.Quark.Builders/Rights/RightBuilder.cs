@@ -35,6 +35,10 @@ public sealed class RightBuilder : CssBuilderBase
     public RightBuilder Is3 => Chain(RightEnum.Is3);
     public RightBuilder Is4 => Chain(RightEnum.Is4);
     public RightBuilder Is5 => Chain(RightEnum.Is5);
+    public RightBuilder Is8 => Chain(RightEnum.Is8);
+    public RightBuilder Is12 => Chain(RightEnum.Is12);
+    public RightBuilder Is16 => Chain(RightEnum.Is16);
+    public RightBuilder Is24 => Chain(RightEnum.Is24);
     public RightBuilder Auto => Chain(RightEnum.Auto);
     public RightBuilder Px => Chain(RightEnum.Px);
     public RightBuilder Token(string value) => Chain(value.StartsWith("right-") ? value : "right-" + value);

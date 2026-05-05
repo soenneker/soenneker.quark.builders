@@ -35,6 +35,10 @@ public sealed class TopBuilder : CssBuilderBase
     public TopBuilder Is3 => Chain(TopEnum.Is3);
     public TopBuilder Is4 => Chain(TopEnum.Is4);
     public TopBuilder Is5 => Chain(TopEnum.Is5);
+    public TopBuilder Is8 => Chain(TopEnum.Is8);
+    public TopBuilder Is12 => Chain(TopEnum.Is12);
+    public TopBuilder Is16 => Chain(TopEnum.Is16);
+    public TopBuilder Is24 => Chain(TopEnum.Is24);
     public TopBuilder Auto => Chain(TopEnum.Auto);
     public TopBuilder Px => Chain(TopEnum.Px);
     public TopBuilder Token(string value) => Chain(value.StartsWith("top-") ? value : "top-" + value);
