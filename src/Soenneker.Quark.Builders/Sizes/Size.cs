@@ -57,6 +57,26 @@ public static class Size
     /// Spacing/sizing scale step `12` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 12` for integer spacing utilities unless overridden).
     /// </summary>
     public static SizeBuilder Is12 => new("size-12");
+    /// <summary>
+    /// Spacing/sizing scale step `14`.
+    /// </summary>
+    public static SizeBuilder Is14 => new("size-14");
+    /// <summary>
+    /// Spacing/sizing scale step `16`.
+    /// </summary>
+    public static SizeBuilder Is16 => new("size-16");
+    /// <summary>
+    /// Spacing/sizing scale step `20`.
+    /// </summary>
+    public static SizeBuilder Is20 => new("size-20");
+    /// <summary>
+    /// Spacing/sizing scale step `24`.
+    /// </summary>
+    public static SizeBuilder Is24 => new("size-24");
+    /// <summary>
+    /// Spacing/sizing scale step `32`.
+    /// </summary>
+    public static SizeBuilder Is32 => new("size-32");
 
     /// <summary>
     /// Create from an arbitrary Tailwind size token (e.g. "5", "full", "[18px]").
