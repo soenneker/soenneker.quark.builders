@@ -27,13 +27,73 @@ public static class Height
     /// </summary>
     public static HeightBuilder Is0 => new("h-0");
     /// <summary>
+    /// Spacing/sizing scale step `1`.
+    /// </summary>
+    public static HeightBuilder Is1 => new("h-1");
+    /// <summary>
+    /// Spacing/sizing scale step `2`.
+    /// </summary>
+    public static HeightBuilder Is2 => new("h-2");
+    /// <summary>
+    /// Spacing/sizing scale step `3`.
+    /// </summary>
+    public static HeightBuilder Is3 => new("h-3");
+    /// <summary>
+    /// Spacing/sizing scale step `4`.
+    /// </summary>
+    public static HeightBuilder Is4 => new("h-4");
+    /// <summary>
+    /// Spacing/sizing scale step `5`.
+    /// </summary>
+    public static HeightBuilder Is5 => new("h-5");
+    /// <summary>
+    /// Spacing/sizing scale step `6`.
+    /// </summary>
+    public static HeightBuilder Is6 => new("h-6");
+    /// <summary>
+    /// Spacing/sizing scale step `7`.
+    /// </summary>
+    public static HeightBuilder Is7 => new("h-7");
+    /// <summary>
     /// Spacing/sizing scale step `8` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 8` for integer spacing utilities unless overridden).
     /// </summary>
     public static HeightBuilder Is8 => new("h-8");
     /// <summary>
+    /// Spacing/sizing scale step `9`.
+    /// </summary>
+    public static HeightBuilder Is9 => new("h-9");
+    /// <summary>
+    /// Spacing/sizing scale step `10`.
+    /// </summary>
+    public static HeightBuilder Is10 => new("h-10");
+    /// <summary>
+    /// Spacing/sizing scale step `11`.
+    /// </summary>
+    public static HeightBuilder Is11 => new("h-11");
+    /// <summary>
+    /// Spacing/sizing scale step `12`.
+    /// </summary>
+    public static HeightBuilder Is12 => new("h-12");
+    /// <summary>
+    /// Spacing/sizing scale step `14`.
+    /// </summary>
+    public static HeightBuilder Is14 => new("h-14");
+    /// <summary>
     /// Spacing/sizing scale step `16` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 16` for integer spacing utilities unless overridden).
     /// </summary>
     public static HeightBuilder Is16 => new("h-16");
+    /// <summary>
+    /// Spacing/sizing scale step `20`.
+    /// </summary>
+    public static HeightBuilder Is20 => new("h-20");
+    /// <summary>
+    /// Spacing/sizing scale step `24`.
+    /// </summary>
+    public static HeightBuilder Is24 => new("h-24");
+    /// <summary>
+    /// Spacing/sizing scale step `32`.
+    /// </summary>
+    public static HeightBuilder Is32 => new("h-32");
     /// <summary>
     /// Fluent step for `Is Px` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>

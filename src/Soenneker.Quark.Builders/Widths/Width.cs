@@ -27,6 +27,74 @@ public static class Width
     /// </summary>
     public static WidthBuilder Is0 => new("w-0");
     /// <summary>
+    /// Spacing/sizing scale step `1`.
+    /// </summary>
+    public static WidthBuilder Is1 => new("w-1");
+    /// <summary>
+    /// Spacing/sizing scale step `2`.
+    /// </summary>
+    public static WidthBuilder Is2 => new("w-2");
+    /// <summary>
+    /// Spacing/sizing scale step `3`.
+    /// </summary>
+    public static WidthBuilder Is3 => new("w-3");
+    /// <summary>
+    /// Spacing/sizing scale step `4`.
+    /// </summary>
+    public static WidthBuilder Is4 => new("w-4");
+    /// <summary>
+    /// Spacing/sizing scale step `5`.
+    /// </summary>
+    public static WidthBuilder Is5 => new("w-5");
+    /// <summary>
+    /// Spacing/sizing scale step `6`.
+    /// </summary>
+    public static WidthBuilder Is6 => new("w-6");
+    /// <summary>
+    /// Spacing/sizing scale step `7`.
+    /// </summary>
+    public static WidthBuilder Is7 => new("w-7");
+    /// <summary>
+    /// Spacing/sizing scale step `8`.
+    /// </summary>
+    public static WidthBuilder Is8 => new("w-8");
+    /// <summary>
+    /// Spacing/sizing scale step `9`.
+    /// </summary>
+    public static WidthBuilder Is9 => new("w-9");
+    /// <summary>
+    /// Spacing/sizing scale step `10`.
+    /// </summary>
+    public static WidthBuilder Is10 => new("w-10");
+    /// <summary>
+    /// Spacing/sizing scale step `11`.
+    /// </summary>
+    public static WidthBuilder Is11 => new("w-11");
+    /// <summary>
+    /// Spacing/sizing scale step `12`.
+    /// </summary>
+    public static WidthBuilder Is12 => new("w-12");
+    /// <summary>
+    /// Spacing/sizing scale step `14`.
+    /// </summary>
+    public static WidthBuilder Is14 => new("w-14");
+    /// <summary>
+    /// Spacing/sizing scale step `16`.
+    /// </summary>
+    public static WidthBuilder Is16 => new("w-16");
+    /// <summary>
+    /// Spacing/sizing scale step `20`.
+    /// </summary>
+    public static WidthBuilder Is20 => new("w-20");
+    /// <summary>
+    /// Spacing/sizing scale step `24`.
+    /// </summary>
+    public static WidthBuilder Is24 => new("w-24");
+    /// <summary>
+    /// Spacing/sizing scale step `32`.
+    /// </summary>
+    public static WidthBuilder Is32 => new("w-32");
+    /// <summary>
     /// <c>w-px</c> — fixed <c>1px</c> width (hairline columns/dividers).
     /// </summary>
     public static WidthBuilder IsPx => new("w-px");

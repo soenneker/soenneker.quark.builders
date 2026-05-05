@@ -19,6 +19,14 @@ public static class Opacity
     /// </summary>
     public static OpacityBuilder Is50 => new(OpacityEnum.Is50);
     /// <summary>
+    /// Gets an opacity builder with value 60 (60% opacity).
+    /// </summary>
+    public static OpacityBuilder Is60 => new(OpacityEnum.Is60);
+    /// <summary>
+    /// Gets an opacity builder with value 70 (70% opacity).
+    /// </summary>
+    public static OpacityBuilder Is70 => new(OpacityEnum.Is70);
+    /// <summary>
     /// Gets an opacity builder with value 75 (75% opacity).
     /// </summary>
     public static OpacityBuilder Is75 => new(OpacityEnum.Is75);

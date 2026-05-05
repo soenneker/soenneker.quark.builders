@@ -32,6 +32,11 @@ public static class ZIndex
     public static ZIndexBuilder Z3 => new(ZIndexEnum.Z3);
 
     /// <summary>
+    /// Gets a Z-index builder with value 10.
+    /// </summary>
+    public static ZIndexBuilder Z10 => new(ZIndexEnum.Z10);
+
+    /// <summary>
     /// Gets a Z-index builder with value 50.
     /// </summary>
     public static ZIndexBuilder Z50 => new(ZIndexEnum.Z50);

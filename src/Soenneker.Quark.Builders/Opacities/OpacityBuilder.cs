@@ -41,6 +41,16 @@ public sealed class OpacityBuilder : CssBuilderBase
     public OpacityBuilder Is50 => Chain(OpacityEnum.Is50);
 
     /// <summary>
+    /// Sets the opacity to 60%.
+    /// </summary>
+    public OpacityBuilder Is60 => Chain(OpacityEnum.Is60);
+
+    /// <summary>
+    /// Sets the opacity to 70%.
+    /// </summary>
+    public OpacityBuilder Is70 => Chain(OpacityEnum.Is70);
+
+    /// <summary>
     /// Sets the opacity to 75%.
     /// </summary>
     public OpacityBuilder Is75 => Chain(OpacityEnum.Is75);
