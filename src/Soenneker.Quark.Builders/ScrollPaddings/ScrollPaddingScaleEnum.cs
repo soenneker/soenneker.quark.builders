@@ -11,4 +11,5 @@ public sealed partial class ScrollPaddingScaleEnum
     public static readonly ScrollPaddingScaleEnum Is3 = new("scroll-p-3");
     public static readonly ScrollPaddingScaleEnum Is4 = new("scroll-p-4");
     public static readonly ScrollPaddingScaleEnum Is5 = new("scroll-p-5");
+    public static readonly ScrollPaddingScaleEnum Px = new("scroll-p-px");
 }

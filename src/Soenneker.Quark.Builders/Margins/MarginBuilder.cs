@@ -65,7 +65,7 @@ public sealed class MarginBuilder : CssBuilderBase
 	/// <summary>
 	/// Sets the margin to auto.
 	/// </summary>
-    public MarginBuilder Auto => ChainWithSize("m-auto");
+    public MarginBuilder Auto => ChainWithSize(MarginScaleEnum.Auto);
 
     /// <summary>
     /// Spacing/sizing scale step `0` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 0` for integer spacing utilities unless overridden).
@@ -94,7 +94,7 @@ public sealed class MarginBuilder : CssBuilderBase
     /// <summary>
     /// Spacing/sizing scale step `8` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 8` for integer spacing utilities unless overridden).
     /// </summary>
-    public MarginBuilder Is8 => ChainWithSize("m-8");
+    public MarginBuilder Is8 => ChainWithSize(MarginScaleEnum.Is8);
 
 	/// <summary>
 	/// Sets the margin size from an arbitrary Tailwind spacing token.

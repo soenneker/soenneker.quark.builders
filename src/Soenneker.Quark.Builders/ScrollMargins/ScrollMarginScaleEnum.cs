@@ -11,4 +11,6 @@ public sealed partial class ScrollMarginScaleEnum
     public static readonly ScrollMarginScaleEnum Is3 = new("scroll-m-3");
     public static readonly ScrollMarginScaleEnum Is4 = new("scroll-m-4");
     public static readonly ScrollMarginScaleEnum Is5 = new("scroll-m-5");
+    public static readonly ScrollMarginScaleEnum Is24 = new("scroll-m-24");
+    public static readonly ScrollMarginScaleEnum Px = new("scroll-m-px");
 }

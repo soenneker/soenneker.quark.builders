@@ -89,7 +89,7 @@ public sealed class ScrollPaddingBuilder : CssBuilderBase
     /// <summary>
     /// One pixel (`px` unit) — hairline borders, fixed 1px tracks, etc.
     /// </summary>
-    public ScrollPaddingBuilder Px => ChainWithSize("scroll-p-px");
+    public ScrollPaddingBuilder Px => ChainWithSize(ScrollPaddingScaleEnum.Px);
 
     /// <summary>
     /// Applies the preceding utility from the `sm` breakpoint and up (`sm:` prefix). Tailwind default: `min-width: 40rem` (640px).

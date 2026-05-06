@@ -89,11 +89,11 @@ public sealed class ScrollMarginBuilder : CssBuilderBase
     /// <summary>
     /// Spacing/sizing scale step `24` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 24` for integer spacing utilities unless overridden).
     /// </summary>
-    public ScrollMarginBuilder Is24 => ChainWithSize("scroll-m-24");
+    public ScrollMarginBuilder Is24 => ChainWithSize(ScrollMarginScaleEnum.Is24);
     /// <summary>
     /// One pixel (`px` unit) — hairline borders, fixed 1px tracks, etc.
     /// </summary>
-    public ScrollMarginBuilder Px => ChainWithSize("scroll-m-px");
+    public ScrollMarginBuilder Px => ChainWithSize(ScrollMarginScaleEnum.Px);
 
     /// <summary>
     /// Applies the preceding utility from the `sm` breakpoint and up (`sm:` prefix). Tailwind default: `min-width: 40rem` (640px).

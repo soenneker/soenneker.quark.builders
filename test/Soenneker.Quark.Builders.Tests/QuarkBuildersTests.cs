@@ -263,6 +263,25 @@ public sealed class QuarkBuildersTests : HostedUnitTest
     }
 
     [Test]
+    public void PaddingBuilder_builds_axis_specific_tailwind_classes()
+    {
+        Padding.OnX.Is2.ToClass().Should().Be("px-2");
+        Padding.OnY.Is3.ToClass().Should().Be("py-3");
+        Padding.OnX.Token("1.5").ToClass().Should().Be("px-1.5");
+        Padding.Is2.OnX.ToClass().Should().Be("px-2");
+        Padding.Is3.OnY.ToClass().Should().Be("py-3");
+        Padding.Token("1.5").OnX.Is4.OnY.ToClass().Should().Be("px-1.5 py-4");
+    }
+
+    [Test]
+    public void PaddingBuilder_builds_responsive_axis_specific_tailwind_classes()
+    {
+        string result = Padding.OnX.Is4.OnMd.Is6.OnX.OnLg.Token("8").OnY.ToClass();
+
+        result.Should().Be("px-4 md:px-6 lg:py-8");
+    }
+
+    [Test]
     public void BorderBuilder_builds_default_unsuffixed_border_classes()
     {
         string border = Border.Default.ToClass();

@@ -13,10 +13,16 @@ public sealed class PaddingBuilder : CssBuilderBase
 {
     private readonly List<PaddingRule> _rules = new(4);
     private BreakpointType? _pendingBreakpoint;
+    private ElementSideEnum? _pendingSide;
 
     internal PaddingBuilder(string size, BreakpointType? breakpoint = null)
     {
         _rules.Add(new PaddingRule(size, ElementSideEnum.All, breakpoint));
+    }
+
+    internal PaddingBuilder(ElementSideEnum side)
+    {
+        _pendingSide = side;
     }
 
     internal PaddingBuilder(List<PaddingRule> rules)
@@ -89,15 +95,15 @@ public sealed class PaddingBuilder : CssBuilderBase
     /// <summary>
     /// Spacing/sizing scale step `6` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 6` for integer spacing utilities unless overridden).
     /// </summary>
-    public PaddingBuilder Is6 => ChainWithSize("p-6");
+    public PaddingBuilder Is6 => ChainWithSize(PaddingScaleEnum.Is6);
     /// <summary>
     /// Spacing/sizing scale step `8` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 8` for integer spacing utilities unless overridden).
     /// </summary>
-    public PaddingBuilder Is8 => ChainWithSize("p-8");
+    public PaddingBuilder Is8 => ChainWithSize(PaddingScaleEnum.Is8);
     /// <summary>
     /// Spacing/sizing scale step `16` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 16` for integer spacing utilities unless overridden).
     /// </summary>
-    public PaddingBuilder Is16 => ChainWithSize("p-16");
+    public PaddingBuilder Is16 => ChainWithSize(PaddingScaleEnum.Is16);
 
     /// <summary>
     /// Tailwind token segment (spacing scale step, arbitrary value like `[17rem]`, or theme key). Builds the matching utility class for this builder.
@@ -133,6 +139,12 @@ public sealed class PaddingBuilder : CssBuilderBase
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private PaddingBuilder AddRule(ElementSideEnum side)
     {
+        if (_rules.Count == 0)
+        {
+            _pendingSide = side;
+            return this;
+        }
+
         string size = _rules.Count > 0 ? _rules[^1].Size : PaddingScaleEnum.Is0Value;
         BreakpointType? existingBp = _rules.Count > 0 ? _rules[^1].Breakpoint : null;
         BreakpointType? bp = _pendingBreakpoint ?? existingBp;
@@ -155,8 +167,10 @@ public sealed class PaddingBuilder : CssBuilderBase
     private PaddingBuilder ChainWithSize(string size)
     {
         BreakpointType? bp = _pendingBreakpoint;
+        ElementSideEnum side = _pendingSide ?? ElementSideEnum.All;
         _pendingBreakpoint = null;
-        _rules.Add(new PaddingRule(size, ElementSideEnum.All, bp));
+        _pendingSide = null;
+        _rules.Add(new PaddingRule(size, side, bp));
         return this;
     }
 
@@ -164,8 +178,10 @@ public sealed class PaddingBuilder : CssBuilderBase
     private PaddingBuilder ChainWithSize(PaddingScaleEnum scale)
     {
         BreakpointType? bp = _pendingBreakpoint;
+        ElementSideEnum side = _pendingSide ?? ElementSideEnum.All;
         _pendingBreakpoint = null;
-        _rules.Add(new PaddingRule(scale.Value, ElementSideEnum.All, bp));
+        _pendingSide = null;
+        _rules.Add(new PaddingRule(scale.Value, side, bp));
         return this;
     }
 

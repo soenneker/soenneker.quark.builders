@@ -11,4 +11,6 @@ public sealed partial class MarginScaleEnum
     public static readonly MarginScaleEnum Is3 = new("m-3");
     public static readonly MarginScaleEnum Is4 = new("m-4");
     public static readonly MarginScaleEnum Is5 = new("m-5");
+    public static readonly MarginScaleEnum Is8 = new("m-8");
+    public static readonly MarginScaleEnum Auto = new("m-auto");
 }
