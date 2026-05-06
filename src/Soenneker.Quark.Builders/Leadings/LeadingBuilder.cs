@@ -27,6 +27,17 @@ public sealed class LeadingBuilder : CssBuilderBase
     public LeadingBuilder Normal => Chain(LeadingEnum.Normal);
     public LeadingBuilder Relaxed => Chain(LeadingEnum.Relaxed);
     public LeadingBuilder Loose => Chain(LeadingEnum.Loose);
+    public LeadingBuilder Is0 => Chain(LeadingEnum.Is0);
+    public LeadingBuilder Is1 => Chain(LeadingEnum.Is1);
+    public LeadingBuilder Is2 => Chain(LeadingEnum.Is2);
+    public LeadingBuilder Is3 => Chain(LeadingEnum.Is3);
+    public LeadingBuilder Is4 => Chain(LeadingEnum.Is4);
+    public LeadingBuilder Is5 => Chain(LeadingEnum.Is5);
+    public LeadingBuilder Is6 => Chain(LeadingEnum.Is6);
+    public LeadingBuilder Is7 => Chain(LeadingEnum.Is7);
+    public LeadingBuilder Is8 => Chain(LeadingEnum.Is8);
+    public LeadingBuilder Is9 => Chain(LeadingEnum.Is9);
+    public LeadingBuilder Is10 => Chain(LeadingEnum.Is10);
     public LeadingBuilder Token(string value) => Chain(Prefix + value);
 
     public LeadingBuilder OnBase => SetPendingBreakpoint(BreakpointType.Base);

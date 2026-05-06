@@ -173,6 +173,13 @@ public sealed class QuarkBuildersTests : HostedUnitTest
     }
 
     [Test]
+    public void LeadingBuilder_builds_spacing_scale_line_height_classes()
+    {
+        Leading.Is1.ToClass().Should().Be("leading-1");
+        Leading.Is6.OnMd.Is8.OnLg.Normal.ToClass().Should().Be("leading-6 md:leading-8 lg:leading-normal");
+    }
+
+    [Test]
     public void TrackingBuilder_builds_tailwind_tracking_classes()
     {
         string result = Tracking.Wide.OnSm.Widest.ToClass();
