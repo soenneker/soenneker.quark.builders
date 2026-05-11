@@ -31,12 +31,13 @@ public sealed class LineClampBuilder : CssBuilderBase
     }
 
     public LineClampBuilder None => Chain(LineClampEnum.None);
-    public LineClampBuilder One => Chain(LineClampEnum.One);
-    public LineClampBuilder Two => Chain(LineClampEnum.Two);
-    public LineClampBuilder Three => Chain(LineClampEnum.Three);
-    public LineClampBuilder Four => Chain(LineClampEnum.Four);
-    public LineClampBuilder Five => Chain(LineClampEnum.Five);
-    public LineClampBuilder Six => Chain(LineClampEnum.Six);
+    public LineClampBuilder Is1 => Chain(LineClampEnum.Is1);
+    public LineClampBuilder Is2 => Chain(LineClampEnum.Is2);
+    public LineClampBuilder Is3 => Chain(LineClampEnum.Is3);
+    public LineClampBuilder Is4 => Chain(LineClampEnum.Is4);
+    public LineClampBuilder Is5 => Chain(LineClampEnum.Is5);
+    public LineClampBuilder Is6 => Chain(LineClampEnum.Is6);
+    public LineClampBuilder Token(string value) => Chain(NormalizeLineClampClass(value));
 
     public LineClampBuilder OnBase => SetPendingBreakpoint(BreakpointType.Base);
     public LineClampBuilder OnSm => SetPendingBreakpoint(BreakpointType.Sm);
@@ -106,4 +107,12 @@ public sealed class LineClampBuilder : CssBuilderBase
     public override string ToStyle() => string.Empty;
 
     public override string ToString() => ToClass();
+
+    private static string NormalizeLineClampClass(string value)
+    {
+        if (string.IsNullOrWhiteSpace(value))
+            return string.Empty;
+
+        return value.StartsWith("line-clamp-") ? value : "line-clamp-" + value;
+    }
 }

@@ -16,7 +16,12 @@ public sealed class FontWeightBuilder : CssBuilderBase
 
     internal FontWeightBuilder(FontWeightEnum value, BreakpointType? breakpoint = null)
     {
-        _rules.Add(new FontWeightRule(value, breakpoint));
+        _rules.Add(new FontWeightRule(value.Value, breakpoint));
+    }
+
+    internal FontWeightBuilder(string value, BreakpointType? breakpoint = null)
+    {
+        _rules.Add(new FontWeightRule(NormalizeFontWeightClass(value), breakpoint));
     }
 
     internal FontWeightBuilder(List<FontWeightRule> rules)
@@ -54,6 +59,10 @@ public sealed class FontWeightBuilder : CssBuilderBase
     /// </summary>
     public FontWeightBuilder Extrabold => Chain(FontWeightEnum.Extrabold);
     /// <summary>
+    /// Sets an arbitrary font weight token such as [450] or font-[450].
+    /// </summary>
+    public FontWeightBuilder Token(string value) => Chain(NormalizeFontWeightClass(value));
+    /// <summary>
     /// Applies the font weight on phone breakpoint.
     /// </summary>
     public FontWeightBuilder OnBase => SetPendingBreakpoint(BreakpointType.Base);
@@ -88,6 +97,15 @@ public sealed class FontWeightBuilder : CssBuilderBase
     {
         BreakpointType? bp = _pendingBreakpoint;
         _pendingBreakpoint = null;
+        _rules.Add(new FontWeightRule(value.Value, bp));
+        return this;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private FontWeightBuilder Chain(string value)
+    {
+        BreakpointType? bp = _pendingBreakpoint;
+        _pendingBreakpoint = null;
         _rules.Add(new FontWeightRule(value, bp));
         return this;
     }
@@ -112,7 +130,7 @@ public sealed class FontWeightBuilder : CssBuilderBase
         for (var i = 0; i < _rules.Count; i++)
         {
             FontWeightRule rule = _rules[i];
-            string cls = rule.Value.Value;
+            string cls = rule.Value;
             if (cls.Length == 0)
                 continue;
 
@@ -134,4 +152,12 @@ public sealed class FontWeightBuilder : CssBuilderBase
     /// <returns>The CSS style string.</returns>
     public override string ToStyle() => string.Empty;
     public override string ToString() => ToClass();
+
+    private static string NormalizeFontWeightClass(string value)
+    {
+        if (string.IsNullOrWhiteSpace(value))
+            return string.Empty;
+
+        return value.StartsWith("font-") ? value : "font-" + value;
+    }
 }

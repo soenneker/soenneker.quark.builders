@@ -33,4 +33,9 @@ public static class FontWeight
     /// Gets a font weight builder with extrabold value (800).
     /// </summary>
     public static FontWeightBuilder Extrabold => new(FontWeightEnum.Extrabold);
+
+    /// <summary>
+    /// Gets a font weight builder with an arbitrary token such as [450] or font-[450].
+    /// </summary>
+    public static FontWeightBuilder Token(string value) => new(value);
 }

@@ -149,6 +149,14 @@ public sealed class QuarkBuildersTests : HostedUnitTest
     }
 
     [Test]
+    public void Typography_builders_support_arbitrary_tokens()
+    {
+        FontWeight.Token("[450]").OnSm.Token("font-[350]").ToClass().Should().Be("font-[450] sm:font-[350]");
+        LineClamp.Is2.OnSm.Is3.Token("line-clamp-[7]").ToClass().Should().Be("line-clamp-2 sm:line-clamp-3 line-clamp-[7]");
+        LineClamp.Token("3").OnMd.Token("line-clamp-[7]").ToClass().Should().Be("line-clamp-3 md:line-clamp-[7]");
+    }
+
+    [Test]
     public void CursorBuilder_builds_tailwind_cursor_classes()
     {
         string result = Cursor.Auto.OnMd.ZoomIn.ToClass();

@@ -38,22 +38,10 @@ public sealed class RingBuilder : CssBuilderBase
     /// Disables the effect (`none` token) or sets size to zero, depending on the utility.
     /// </summary>
     public RingBuilder None => Chain(RingEnum.None);
-    /// <summary>
-    /// Fluent step for `One` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
-    /// </summary>
-    public RingBuilder One => Chain(RingEnum.One);
-    /// <summary>
-    /// Fluent step for `Two` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
-    /// </summary>
-    public RingBuilder Two => Chain(RingEnum.Two);
-    /// <summary>
-    /// Fluent step for `Four` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
-    /// </summary>
-    public RingBuilder Four => Chain(RingEnum.Four);
-    /// <summary>
-    /// Fluent step for `Eight` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
-    /// </summary>
-    public RingBuilder Eight => Chain(RingEnum.Eight);
+    public RingBuilder Is1 => Chain(RingEnum.Is1);
+    public RingBuilder Is2 => Chain(RingEnum.Is2);
+    public RingBuilder Is4 => Chain(RingEnum.Is4);
+    public RingBuilder Is8 => Chain(RingEnum.Is8);
     /// <summary>
     /// Fluent step for `Inset` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>

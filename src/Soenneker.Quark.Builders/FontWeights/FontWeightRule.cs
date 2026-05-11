@@ -1,3 +1,3 @@
 namespace Soenneker.Quark;
 
-internal readonly record struct FontWeightRule(FontWeightEnum Value, BreakpointType? Breakpoint);
+internal readonly record struct FontWeightRule(string Value, BreakpointType? Breakpoint);

@@ -13,22 +13,10 @@ public static class Ring
     /// Disables the effect (`none` token) or sets size to zero, depending on the utility.
     /// </summary>
     public static RingBuilder None => new(RingEnum.None);
-    /// <summary>
-    /// Fluent step for `One` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
-    /// </summary>
-    public static RingBuilder One => new(RingEnum.One);
-    /// <summary>
-    /// Fluent step for `Two` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
-    /// </summary>
-    public static RingBuilder Two => new(RingEnum.Two);
-    /// <summary>
-    /// Fluent step for `Four` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
-    /// </summary>
-    public static RingBuilder Four => new(RingEnum.Four);
-    /// <summary>
-    /// Fluent step for `Eight` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
-    /// </summary>
-    public static RingBuilder Eight => new(RingEnum.Eight);
+    public static RingBuilder Is1 => new(RingEnum.Is1);
+    public static RingBuilder Is2 => new(RingEnum.Is2);
+    public static RingBuilder Is4 => new(RingEnum.Is4);
+    public static RingBuilder Is8 => new(RingEnum.Is8);
     /// <summary>
     /// Fluent step for `Inset` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
