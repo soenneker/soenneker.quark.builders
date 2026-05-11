@@ -101,4 +101,14 @@ public static class RingColor
     /// Fluent step for `Black` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
     public static RingColorBuilder Black => new(RingColorEnum.Black);
+
+    /// <summary>
+    /// Creates a ring color builder from a Tailwind color token suffix such as <c>foreground/10</c>, <c>zinc-900</c>, or <c>[var(--brand)]</c>.
+    /// </summary>
+    public static RingColorBuilder Token(string token) => new(ColorUtility.CreateClass("ring-", token));
+
+    /// <summary>
+    /// Passes through a fully-prefixed Tailwind utility such as <c>ring-foreground/10</c>.
+    /// </summary>
+    public static RingColorBuilder Utility(string utility) => new(ColorUtility.CreateUtilityClass("ring-", utility));
 }

@@ -1,3 +1,3 @@
 namespace Soenneker.Quark;
 
-internal readonly record struct RingColorRule(RingColorEnum Value, BreakpointType? Breakpoint);
+internal readonly record struct RingColorRule(string Value, BreakpointType? Breakpoint);

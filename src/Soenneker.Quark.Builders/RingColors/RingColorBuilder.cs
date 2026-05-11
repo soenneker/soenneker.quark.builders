@@ -18,7 +18,13 @@ public sealed class RingColorBuilder : CssBuilderBase
 
     internal RingColorBuilder(RingColorEnum value, BreakpointType? breakpoint = null)
     {
-        _rules.Add(new RingColorRule(value, breakpoint));
+        _rules.Add(new RingColorRule(value.Value, breakpoint));
+    }
+
+    internal RingColorBuilder(string value, BreakpointType? breakpoint = null)
+    {
+        if (value.HasContent())
+            _rules.Add(new RingColorRule(value, breakpoint));
     }
 
     internal RingColorBuilder(List<RingColorRule> rules)
@@ -124,6 +130,10 @@ public sealed class RingColorBuilder : CssBuilderBase
     /// </summary>
     public RingColorBuilder Black => ChainValue(RingColorEnum.Black);
 
+    public RingColorBuilder Token(string token) => ChainClass(ColorUtility.CreateClass("ring-", token));
+
+    public RingColorBuilder Utility(string utility) => ChainClass(ColorUtility.CreateUtilityClass("ring-", utility));
+
     /// <summary>
     /// Scopes the next utility to the default (unprefixed) breakpoint. In Tailwind’s mobile‑first model, unprefixed utilities apply from 0px unless a larger breakpoint overrides them.
     /// </summary>
@@ -154,7 +164,19 @@ public sealed class RingColorBuilder : CssBuilderBase
     {
         BreakpointType? breakpoint = _pendingBreakpoint;
         _pendingBreakpoint = null;
-        _rules.Add(new RingColorRule(value, breakpoint));
+        _rules.Add(new RingColorRule(value.Value, breakpoint));
+        return this;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private RingColorBuilder ChainClass(string value)
+    {
+        BreakpointType? breakpoint = _pendingBreakpoint;
+        _pendingBreakpoint = null;
+
+        if (value.HasContent())
+            _rules.Add(new RingColorRule(value, breakpoint));
+
         return this;
     }
 
@@ -176,7 +198,7 @@ public sealed class RingColorBuilder : CssBuilderBase
         for (var i = 0; i < _rules.Count; i++)
         {
             RingColorRule rule = _rules[i];
-            string cls = rule.Value.Value;
+            string cls = rule.Value;
             if (cls.Length == 0)
                 continue;
 
