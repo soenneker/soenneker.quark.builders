@@ -6,6 +6,10 @@ namespace Soenneker.Quark;
 [TailwindPrefix("flex-", Responsive = true)]
 public sealed class FlexWrapBuilder : ResponsiveUtilityBuilder<FlexWrapBuilder>
 {
+    internal FlexWrapBuilder()
+    {
+    }
+
     internal FlexWrapBuilder(FlexWrapEnum value, BreakpointType? breakpoint = null) : base("", value.Value, breakpoint)
     {
     }

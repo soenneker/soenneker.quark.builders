@@ -3,6 +3,10 @@ namespace Soenneker.Quark;
 [TailwindPrefix("col-end-", Responsive = true)]
 public sealed class ColEndBuilder : ResponsiveUtilityBuilder<ColEndBuilder>
 {
+    internal ColEndBuilder()
+    {
+    }
+
     internal ColEndBuilder(string value, BreakpointType? breakpoint = null) : base("", value, breakpoint)
     {
     }

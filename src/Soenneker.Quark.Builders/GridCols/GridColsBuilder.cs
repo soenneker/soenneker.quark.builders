@@ -3,6 +3,10 @@ namespace Soenneker.Quark;
 [TailwindPrefix("grid-cols-", Responsive = true)]
 public sealed class GridColsBuilder : ResponsiveUtilityBuilder<GridColsBuilder>
 {
+    internal GridColsBuilder()
+    {
+    }
+
     internal GridColsBuilder(string value, BreakpointType? breakpoint = null) : base("", value, breakpoint)
     {
     }

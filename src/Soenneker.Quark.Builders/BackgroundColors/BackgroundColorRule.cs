@@ -1,3 +1,3 @@
 namespace Soenneker.Quark;
 
-internal readonly record struct BackgroundColorRule(string Value, BreakpointType? Breakpoint);
+internal readonly record struct BackgroundColorRule(string Value, BreakpointType? Breakpoint, string? ModifierChain = null);

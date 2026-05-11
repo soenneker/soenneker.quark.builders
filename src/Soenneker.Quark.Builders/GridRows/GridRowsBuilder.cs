@@ -3,6 +3,10 @@ namespace Soenneker.Quark;
 [TailwindPrefix("grid-rows-", Responsive = true)]
 public sealed class GridRowsBuilder : ResponsiveUtilityBuilder<GridRowsBuilder>
 {
+    internal GridRowsBuilder()
+    {
+    }
+
     internal GridRowsBuilder(string value, BreakpointType? breakpoint = null) : base("", value, breakpoint)
     {
     }

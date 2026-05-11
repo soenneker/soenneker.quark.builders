@@ -3,6 +3,10 @@ namespace Soenneker.Quark;
 [TailwindPrefix("outline-offset-", Responsive = true)]
 public sealed class OutlineOffsetBuilder : ResponsiveUtilityBuilder<OutlineOffsetBuilder>
 {
+    internal OutlineOffsetBuilder()
+    {
+    }
+
     internal OutlineOffsetBuilder(OutlineOffsetEnum value, BreakpointType? breakpoint = null) : base("", value.Value, breakpoint)
     {
     }

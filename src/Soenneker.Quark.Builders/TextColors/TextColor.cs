@@ -5,6 +5,33 @@ namespace Soenneker.Quark;
 /// </summary>
 public static class TextColor
 {
+    public static TextColorBuilder OnHover => new TextColorBuilder().OnHover;
+    public static TextColorBuilder OnFocus => new TextColorBuilder().OnFocus;
+    public static TextColorBuilder OnFocusVisible => new TextColorBuilder().OnFocusVisible;
+    public static TextColorBuilder OnActive => new TextColorBuilder().OnActive;
+    public static TextColorBuilder OnDisabled => new TextColorBuilder().OnDisabled;
+    public static TextColorBuilder OnDark => new TextColorBuilder().OnDark;
+    public static TextColorBuilder OnVisited => new TextColorBuilder().OnVisited;
+    public static TextColorBuilder OnChecked => new TextColorBuilder().OnChecked;
+    public static TextColorBuilder OnOpen => new TextColorBuilder().OnOpen;
+    public static TextColorBuilder OnFirst => new TextColorBuilder().OnFirst;
+    public static TextColorBuilder OnLast => new TextColorBuilder().OnLast;
+    public static TextColorBuilder OnOdd => new TextColorBuilder().OnOdd;
+    public static TextColorBuilder OnEven => new TextColorBuilder().OnEven;
+    public static TextColorBuilder OnBefore => new TextColorBuilder().OnBefore;
+    public static TextColorBuilder OnAfter => new TextColorBuilder().OnAfter;
+    public static TextColorBuilder OnPlaceholder => new TextColorBuilder().OnPlaceholder;
+    public static TextColorBuilder OnSelection => new TextColorBuilder().OnSelection;
+    public static TextColorBuilder OnMarker => new TextColorBuilder().OnMarker;
+    public static TextColorBuilder OnFirstLetter => new TextColorBuilder().OnFirstLetter;
+    public static TextColorBuilder OnFirstLine => new TextColorBuilder().OnFirstLine;
+    public static TextColorBuilder OnFile => new TextColorBuilder().OnFile;
+    public static TextColorBuilder OnBackdrop => new TextColorBuilder().OnBackdrop;
+    public static TextColorBuilder OnGroupHover => new TextColorBuilder().OnGroupHover;
+    public static TextColorBuilder OnGroupFocus => new TextColorBuilder().OnGroupFocus;
+    public static TextColorBuilder OnPeerHover => new TextColorBuilder().OnPeerHover;
+    public static TextColorBuilder OnPeerFocus => new TextColorBuilder().OnPeerFocus;
+
     public static TextColorBuilder Primary => new(TextColorEnum.Primary);
     public static TextColorBuilder PrimaryForeground => new(TextColorEnum.PrimaryForeground);
     public static TextColorBuilder Secondary => new(TextColorEnum.Secondary);

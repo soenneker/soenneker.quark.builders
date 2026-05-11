@@ -5,12 +5,16 @@ using Soenneker.Utils.PooledStringBuilders;
 namespace Soenneker.Quark;
 
 [TailwindPrefix("text-", Responsive = true)]
-public sealed class TextColorBuilder : CssBuilderBase
+public sealed class TextColorBuilder : CssBuilderBase<TextColorBuilder>
 {
     private const string Prefix = "text-";
 
     private readonly List<TextColorRule> _rules = new(4);
     private BreakpointType? _pendingBreakpoint;
+
+    internal TextColorBuilder()
+    {
+    }
 
     internal TextColorBuilder(TextColorEnum value, BreakpointType? breakpoint = null)
     {
@@ -50,7 +54,6 @@ public sealed class TextColorBuilder : CssBuilderBase
     public TextColorBuilder OnLg => SetPendingBreakpoint(BreakpointType.Lg);
     public TextColorBuilder OnXl => SetPendingBreakpoint(BreakpointType.Xl);
     public TextColorBuilder On2xl => SetPendingBreakpoint(BreakpointType.Xxl);
-
     public TextColorBuilder Token(string token) => ChainClass(ColorUtility.CreateClass(Prefix, token));
 
     public TextColorBuilder Utility(string utility) => ChainClass(ColorUtility.CreateUtilityClass(Prefix, utility));
@@ -60,7 +63,7 @@ public sealed class TextColorBuilder : CssBuilderBase
     {
         BreakpointType? bp = _pendingBreakpoint;
         _pendingBreakpoint = null;
-        _rules.Add(new TextColorRule(value.Value, bp));
+        _rules.Add(new TextColorRule(value.Value, bp, ConsumePendingModifierChain()));
         return this;
     }
 
@@ -70,7 +73,7 @@ public sealed class TextColorBuilder : CssBuilderBase
         BreakpointType? bp = _pendingBreakpoint;
         _pendingBreakpoint = null;
         if (value.Length != 0)
-            _rules.Add(new TextColorRule(value, bp));
+            _rules.Add(new TextColorRule(value, bp, ConsumePendingModifierChain()));
         return this;
     }
 
@@ -99,6 +102,9 @@ public sealed class TextColorBuilder : CssBuilderBase
             string bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
             if (bp.Length != 0)
                 cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, bp);
+
+            if (rule.ModifierChain is { Length: > 0 })
+                cls = BreakpointUtil.ApplyTailwindModifiers(cls, rule.ModifierChain);
 
             if (!first) sb.Append(' ');
             else first = false;

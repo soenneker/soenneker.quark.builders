@@ -3,6 +3,10 @@ namespace Soenneker.Quark;
 [TailwindPrefix("col-start-", Responsive = true)]
 public sealed class ColStartBuilder : ResponsiveUtilityBuilder<ColStartBuilder>
 {
+    internal ColStartBuilder()
+    {
+    }
+
     internal ColStartBuilder(string value, BreakpointType? breakpoint = null) : base("", value, breakpoint)
     {
     }

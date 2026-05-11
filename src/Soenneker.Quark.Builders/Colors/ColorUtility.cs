@@ -14,6 +14,39 @@ internal static partial class ColorUtility
         "white"
     };
 
+    private static readonly HashSet<string> ThemeTokens = new(System.StringComparer.Ordinal)
+    {
+        "primary",
+        "primary-foreground",
+        "secondary",
+        "secondary-foreground",
+        "success",
+        "danger",
+        "destructive",
+        "destructive-foreground",
+        "warning",
+        "info",
+        "light",
+        "dark",
+        "background",
+        "foreground",
+        "card",
+        "card-foreground",
+        "popover",
+        "popover-foreground",
+        "accent",
+        "accent-foreground",
+        "input",
+        "ring",
+        "border",
+        "body",
+        "body-secondary",
+        "body-tertiary",
+        "link",
+        "muted",
+        "muted-foreground"
+    };
+
     public static string CreateClass(string prefix, string value)
     {
         return IsTokenAllowed(value) ? $"{prefix}{value}" : string.Empty;
@@ -36,11 +69,11 @@ internal static partial class ColorUtility
             string baseToken = token[..slashIndex];
             string modifier = token[(slashIndex + 1)..];
 
-            if ((IsPaletteToken(baseToken) || KeywordTokens.Contains(baseToken)) && IsOpacityModifier(modifier))
+            if ((IsPaletteToken(baseToken) || ThemeTokens.Contains(baseToken) || KeywordTokens.Contains(baseToken)) && IsOpacityModifier(modifier))
                 return true;
         }
 
-        return IsPaletteToken(token) || KeywordTokens.Contains(token) || IsArbitraryToken(token);
+        return IsPaletteToken(token) || ThemeTokens.Contains(token) || KeywordTokens.Contains(token) || IsArbitraryToken(token);
     }
 
     private static bool IsPaletteToken(string token)

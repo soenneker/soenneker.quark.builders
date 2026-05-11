@@ -3,6 +3,10 @@ namespace Soenneker.Quark;
 [TailwindPrefix("self-", Responsive = true)]
 public sealed class SelfBuilder : ResponsiveUtilityBuilder<SelfBuilder>
 {
+    internal SelfBuilder()
+    {
+    }
+
     internal SelfBuilder(SelfEnum value, BreakpointType? breakpoint = null) : base("", value.Value, breakpoint)
     {
     }

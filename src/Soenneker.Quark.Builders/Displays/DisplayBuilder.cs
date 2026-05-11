@@ -9,10 +9,14 @@ namespace Soenneker.Quark;
 /// Simplified display builder with fluent API for chaining display rules.
 /// </summary>
 [TailwindPrefix("block", Responsive = true)]
-public sealed class DisplayBuilder : CssBuilderBase
+public sealed class DisplayBuilder : CssBuilderBase<DisplayBuilder>
 {
     private readonly List<DisplayRule> _rules = new(4);
     private BreakpointType? _pendingBreakpoint;
+
+    internal DisplayBuilder()
+    {
+    }
 
     internal DisplayBuilder(DisplayEnum display, BreakpointType? breakpoint = null)
     {
@@ -93,11 +97,10 @@ public sealed class DisplayBuilder : CssBuilderBase
     /// Applies the display on the 2xl breakpoint.
     /// </summary>
     public DisplayBuilder On2xl => SetPendingBreakpoint(BreakpointType.Xxl);
-
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private DisplayBuilder ChainWithDisplay(DisplayEnum display)
     {
-        _rules.Add(new DisplayRule(display.Value, ConsumePendingBreakpoint()));
+        _rules.Add(new DisplayRule(display.Value, ConsumePendingBreakpoint(), ConsumePendingModifierChain()));
         return this;
     }
 
@@ -138,6 +141,9 @@ public sealed class DisplayBuilder : CssBuilderBase
             string bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
             if (bp.Length != 0)
                 cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, bp);
+
+            if (rule.ModifierChain is { Length: > 0 })
+                cls = BreakpointUtil.ApplyTailwindModifiers(cls, rule.ModifierChain);
 
             if (!first) sb.Append(' ');
             else first = false;

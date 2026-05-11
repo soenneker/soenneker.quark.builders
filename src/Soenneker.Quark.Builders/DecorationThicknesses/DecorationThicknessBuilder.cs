@@ -3,6 +3,10 @@ namespace Soenneker.Quark;
 [TailwindPrefix("decoration-", Responsive = true)]
 public sealed class DecorationThicknessBuilder : ResponsiveUtilityBuilder<DecorationThicknessBuilder>
 {
+    internal DecorationThicknessBuilder()
+    {
+    }
+
     internal DecorationThicknessBuilder(DecorationThicknessEnum value, BreakpointType? breakpoint = null) : base("", value.Value, breakpoint)
     {
     }

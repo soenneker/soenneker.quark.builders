@@ -3,6 +3,10 @@ namespace Soenneker.Quark;
 [TailwindPrefix("rotate-", Responsive = true)]
 public sealed class RotateBuilder : ResponsiveUtilityBuilder<RotateBuilder>
 {
+    internal RotateBuilder()
+    {
+    }
+
     internal RotateBuilder(RotateEnum value, BreakpointType? breakpoint = null) : base("", value.Value, breakpoint)
     {
     }

@@ -3,6 +3,10 @@ namespace Soenneker.Quark;
 [TailwindPrefix("ease-", Responsive = true)]
 public sealed class EaseBuilder : ResponsiveUtilityBuilder<EaseBuilder>
 {
+    internal EaseBuilder()
+    {
+    }
+
     internal EaseBuilder(EaseEnum value, BreakpointType? breakpoint = null) : base("", value.Value, breakpoint)
     {
     }

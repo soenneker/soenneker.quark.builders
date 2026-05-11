@@ -4,10 +4,14 @@ using Soenneker.Utils.PooledStringBuilders;
 
 namespace Soenneker.Quark;
 
-public abstract class ResponsiveUtilityBuilder<TBuilder> : CssBuilderBase where TBuilder : ResponsiveUtilityBuilder<TBuilder>
+public abstract class ResponsiveUtilityBuilder<TBuilder> : CssBuilderBase<TBuilder> where TBuilder : ResponsiveUtilityBuilder<TBuilder>
 {
     protected readonly List<UtilityRule> Rules = new(4);
     private BreakpointType? _pendingBreakpoint;
+
+    protected ResponsiveUtilityBuilder()
+    {
+    }
 
     protected ResponsiveUtilityBuilder(string prefix, string value, BreakpointType? breakpoint = null)
     {
@@ -20,7 +24,7 @@ public abstract class ResponsiveUtilityBuilder<TBuilder> : CssBuilderBase where 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     protected TBuilder ChainValue(string value)
     {
-        Rules.Add(new UtilityRule(value, ConsumePendingBreakpoint()));
+        Rules.Add(new UtilityRule(value, ConsumePendingBreakpoint(), ConsumePendingModifierChain()));
         return (TBuilder)this;
     }
 
@@ -60,6 +64,9 @@ public abstract class ResponsiveUtilityBuilder<TBuilder> : CssBuilderBase where 
             if (breakpoint.Length != 0)
                 cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, breakpoint);
 
+            if (rule.ModifierChain is { Length: > 0 })
+                cls = BreakpointUtil.ApplyTailwindModifiers(cls, rule.ModifierChain);
+
             if (!first)
                 sb.Append(' ');
             else
@@ -76,4 +83,4 @@ public abstract class ResponsiveUtilityBuilder<TBuilder> : CssBuilderBase where 
     public override string ToString() => ToClass();
 }
 
-public readonly record struct UtilityRule(string Value, BreakpointType? Breakpoint);
+public readonly record struct UtilityRule(string Value, BreakpointType? Breakpoint, string? ModifierChain = null);

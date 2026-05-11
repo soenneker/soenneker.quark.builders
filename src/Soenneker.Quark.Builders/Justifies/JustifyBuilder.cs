@@ -3,6 +3,10 @@ namespace Soenneker.Quark;
 [TailwindPrefix("justify-", Responsive = true)]
 public sealed class JustifyBuilder : ResponsiveUtilityBuilder<JustifyBuilder>
 {
+    internal JustifyBuilder()
+    {
+    }
+
     internal JustifyBuilder(JustifyEnum value, BreakpointType? breakpoint = null) : base("", value.Value, breakpoint)
     {
     }

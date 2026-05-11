@@ -3,6 +3,10 @@ namespace Soenneker.Quark;
 [TailwindPrefix("content-", Responsive = true)]
 public sealed class ContentAlignBuilder : ResponsiveUtilityBuilder<ContentAlignBuilder>
 {
+    internal ContentAlignBuilder()
+    {
+    }
+
     internal ContentAlignBuilder(ContentEnum value, BreakpointType? breakpoint = null) : base("", value.Value, breakpoint)
     {
     }

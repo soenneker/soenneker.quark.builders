@@ -6,6 +6,10 @@ namespace Soenneker.Quark;
 [TailwindPrefix("flex-", Responsive = true)]
 public sealed class FlexDirectionBuilder : ResponsiveUtilityBuilder<FlexDirectionBuilder>
 {
+    internal FlexDirectionBuilder()
+    {
+    }
+
     internal FlexDirectionBuilder(FlexDirectionEnum value, BreakpointType? breakpoint = null) : base("", value.Value, breakpoint)
     {
     }

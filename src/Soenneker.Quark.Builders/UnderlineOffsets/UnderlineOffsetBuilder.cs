@@ -3,6 +3,10 @@ namespace Soenneker.Quark;
 [TailwindPrefix("underline-offset-", Responsive = true)]
 public sealed class UnderlineOffsetBuilder : ResponsiveUtilityBuilder<UnderlineOffsetBuilder>
 {
+    internal UnderlineOffsetBuilder()
+    {
+    }
+
     internal UnderlineOffsetBuilder(UnderlineOffsetEnum value, BreakpointType? breakpoint = null) : base("", value.Value, breakpoint)
     {
     }

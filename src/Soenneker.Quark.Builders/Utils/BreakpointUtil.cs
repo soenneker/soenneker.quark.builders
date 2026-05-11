@@ -83,6 +83,31 @@ public static class BreakpointUtil
         return sb.ToString();
     }
 
+    public static string ApplyTailwindModifiers(string classGroup, string modifierChain)
+    {
+        if (string.IsNullOrEmpty(classGroup) || string.IsNullOrEmpty(modifierChain))
+            return classGroup;
+
+        string[] tokens = classGroup.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+
+        if (tokens.Length == 0)
+            return string.Empty;
+
+        using var sb = new Soenneker.Utils.PooledStringBuilders.PooledStringBuilder();
+
+        for (var i = 0; i < tokens.Length; i++)
+        {
+            string token = AppendTailwindModifierChain(tokens[i], modifierChain);
+
+            if (i > 0)
+                sb.Append(' ');
+
+            sb.Append(token);
+        }
+
+        return sb.ToString();
+    }
+
     private static string AppendTailwindModifiers(string token, IReadOnlyList<string> modifiers)
     {
         if (string.IsNullOrEmpty(token))
@@ -107,6 +132,24 @@ public static class BreakpointUtil
         segments.Add(utility);
 
         return string.Join(":", segments);
+    }
+
+    private static string AppendTailwindModifierChain(string token, string modifierChain)
+    {
+        if (string.IsNullOrEmpty(token))
+            return token;
+
+        List<string> segments = SplitTailwindSegments(token);
+
+        if (segments.Count == 0)
+            return token;
+
+        string utility = segments[^1];
+        segments.RemoveAt(segments.Count - 1);
+
+        return segments.Count == 0
+            ? $"{modifierChain}:{utility}"
+            : $"{string.Join(":", segments)}:{modifierChain}:{utility}";
     }
 
     private static List<string> SplitTailwindSegments(string token)

@@ -6,6 +6,10 @@ namespace Soenneker.Quark;
 [TailwindPrefix("transform-", Responsive = true)]
 public sealed class TransformBuilder : ResponsiveUtilityBuilder<TransformBuilder>
 {
+    internal TransformBuilder()
+    {
+    }
+
     internal TransformBuilder(TransformEnum value, BreakpointType? breakpoint = null) : base("", value.Value, breakpoint)
     {
     }

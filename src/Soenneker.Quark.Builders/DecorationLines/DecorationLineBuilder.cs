@@ -3,6 +3,10 @@ namespace Soenneker.Quark;
 [TailwindPrefix("", Responsive = true)]
 public sealed class DecorationLineBuilder : ResponsiveUtilityBuilder<DecorationLineBuilder>
 {
+    internal DecorationLineBuilder()
+    {
+    }
+
     internal DecorationLineBuilder(DecorationLineEnum value, BreakpointType? breakpoint = null) : base("", value.Value, breakpoint)
     {
     }

@@ -35,6 +35,88 @@ public sealed class QuarkBuildersTests : HostedUnitTest
     }
 
     [Test]
+    public void DisplayBuilder_supports_pending_on_variant_before_display_value()
+    {
+        string result = Display.OnHover.OnFocus.Flex.ToClass();
+
+        result.Should().Be("hover:focus:flex");
+    }
+
+    [Test]
+    public void ResponsiveUtilityBuilder_supports_pending_on_variants_before_utility_values()
+    {
+        string result = TextAlign.OnHover.Center.OnFocus.End.ToClass();
+        string responsive = TextAlign.OnHover.OnMd.Center.ToClass();
+
+        result.Should().Be("hover:text-center focus:text-end");
+        responsive.Should().Be("md:hover:text-center");
+    }
+
+    [Test]
+    public void TextColorBuilder_supports_pending_on_variants_before_color_values()
+    {
+        string result = TextColor.OnHover.Primary.OnFocus.Foreground.ToClass();
+
+        result.Should().Be("hover:text-primary focus:text-foreground");
+    }
+
+    [Test]
+    public void BackgroundColorBuilder_supports_pending_on_variants_before_color_values()
+    {
+        string result = BackgroundColor.OnHover.Accent.ToClass();
+
+        result.Should().Be("hover:bg-accent");
+    }
+
+    [Test]
+    public void BackgroundColorBuilder_supports_chained_pending_variants_with_opacity_tokens()
+    {
+        string result = BackgroundColor.OnDark.OnHover.Token("accent/50").ToClass();
+
+        result.Should().Be("dark:hover:bg-accent/50");
+    }
+
+    [Test]
+    public void BackgroundColorBuilder_supports_foreground_token()
+    {
+        string result = BackgroundColor.Foreground.OnDark.Primary.ToClass();
+
+        result.Should().Be("bg-foreground dark:bg-primary");
+    }
+
+    [Test]
+    public void BackgroundColorBuilder_consumes_pending_variants_per_color_value()
+    {
+        CssValue<BackgroundColorBuilder>? backgroundColor = null;
+
+        backgroundColor ??= BackgroundColor.OnHover.Accent.OnDark.OnHover.Token("accent/50");
+
+        backgroundColor.ToString().Should().Be("hover:bg-accent dark:hover:bg-accent/50");
+    }
+
+    [Test]
+    public void Builders_support_pending_disabled_variant_before_utility_values()
+    {
+        string background = BackgroundColor.OnDisabled.Muted.ToClass();
+        string display = Display.OnDisabled.None.ToClass();
+        string responsive = TextAlign.OnDisabled.OnMd.Center.ToClass();
+
+        background.Should().Be("disabled:bg-muted");
+        display.Should().Be("disabled:hidden");
+        responsive.Should().Be("md:disabled:text-center");
+    }
+
+    [Test]
+    public void CssValue_nullable_slots_accept_on_hover_variant_with_coalesce_assignment()
+    {
+        CssValue<DisplayBuilder>? display = null;
+
+        display ??= Display.OnHover.Flex;
+
+        display.ToString().Should().Be("hover:flex");
+    }
+
+    [Test]
     public void VariantBuilder_builds_pseudo_element_utilities()
     {
         string rounded = Rounded.Full.After.ToClass();

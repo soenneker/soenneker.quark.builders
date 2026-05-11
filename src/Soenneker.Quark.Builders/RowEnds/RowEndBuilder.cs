@@ -3,6 +3,10 @@ namespace Soenneker.Quark;
 [TailwindPrefix("row-end-", Responsive = true)]
 public sealed class RowEndBuilder : ResponsiveUtilityBuilder<RowEndBuilder>
 {
+    internal RowEndBuilder()
+    {
+    }
+
     internal RowEndBuilder(string value, BreakpointType? breakpoint = null) : base("", value, breakpoint)
     {
     }

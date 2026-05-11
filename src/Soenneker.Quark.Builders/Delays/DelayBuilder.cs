@@ -3,6 +3,10 @@ namespace Soenneker.Quark;
 [TailwindPrefix("delay-", Responsive = true)]
 public sealed class DelayBuilder : ResponsiveUtilityBuilder<DelayBuilder>
 {
+    internal DelayBuilder()
+    {
+    }
+
     internal DelayBuilder(DelayEnum value, BreakpointType? breakpoint = null) : base("", value.Value, breakpoint)
     {
     }

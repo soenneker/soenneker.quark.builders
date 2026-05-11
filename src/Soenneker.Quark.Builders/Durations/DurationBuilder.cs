@@ -3,6 +3,10 @@ namespace Soenneker.Quark;
 [TailwindPrefix("duration-", Responsive = true)]
 public sealed class DurationBuilder : ResponsiveUtilityBuilder<DurationBuilder>
 {
+    internal DurationBuilder()
+    {
+    }
+
     internal DurationBuilder(DurationEnum value, BreakpointType? breakpoint = null) : base("", value.Value, breakpoint)
     {
     }

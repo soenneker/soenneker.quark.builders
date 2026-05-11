@@ -5,12 +5,16 @@ using Soenneker.Utils.PooledStringBuilders;
 namespace Soenneker.Quark;
 
 [TailwindPrefix("bg-", Responsive = true)]
-public sealed class BackgroundColorBuilder : CssBuilderBase
+public sealed class BackgroundColorBuilder : CssBuilderBase<BackgroundColorBuilder>
 {
     private const string Prefix = "bg-";
 
     private readonly List<BackgroundColorRule> _rules = new(4);
     private BreakpointType? _pendingBreakpoint;
+
+    internal BackgroundColorBuilder()
+    {
+    }
 
     internal BackgroundColorBuilder(BackgroundColorEnum value, BreakpointType? breakpoint = null)
     {
@@ -37,6 +41,7 @@ public sealed class BackgroundColorBuilder : CssBuilderBase
     public BackgroundColorBuilder Popover => ChainValue(BackgroundColorEnum.Popover);
     public BackgroundColorBuilder Card => ChainValue(BackgroundColorEnum.Card);
     public BackgroundColorBuilder Background => ChainValue(BackgroundColorEnum.Background);
+    public BackgroundColorBuilder Foreground => ChainValue(BackgroundColorEnum.Foreground);
 
     public BackgroundColorBuilder White => ChainValue(BackgroundColorEnum.White);
     public BackgroundColorBuilder Black => ChainValue(BackgroundColorEnum.Black);
@@ -48,7 +53,6 @@ public sealed class BackgroundColorBuilder : CssBuilderBase
     public BackgroundColorBuilder OnLg => SetPendingBreakpoint(BreakpointType.Lg);
     public BackgroundColorBuilder OnXl => SetPendingBreakpoint(BreakpointType.Xl);
     public BackgroundColorBuilder On2xl => SetPendingBreakpoint(BreakpointType.Xxl);
-
     public BackgroundColorBuilder Token(string token) => ChainClass(ColorUtility.CreateClass(Prefix, token));
 
     public BackgroundColorBuilder Utility(string utility) => ChainClass(ColorUtility.CreateUtilityClass(Prefix, utility));
@@ -58,7 +62,7 @@ public sealed class BackgroundColorBuilder : CssBuilderBase
     {
         BreakpointType? bp = _pendingBreakpoint;
         _pendingBreakpoint = null;
-        _rules.Add(new BackgroundColorRule(value.Value, bp));
+        _rules.Add(new BackgroundColorRule(value.Value, bp, ConsumePendingModifierChain()));
         return this;
     }
 
@@ -68,7 +72,7 @@ public sealed class BackgroundColorBuilder : CssBuilderBase
         BreakpointType? bp = _pendingBreakpoint;
         _pendingBreakpoint = null;
         if (value.Length != 0)
-            _rules.Add(new BackgroundColorRule(value, bp));
+            _rules.Add(new BackgroundColorRule(value, bp, ConsumePendingModifierChain()));
         return this;
     }
 
@@ -97,6 +101,9 @@ public sealed class BackgroundColorBuilder : CssBuilderBase
             string bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
             if (bp.Length != 0)
                 cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, bp);
+
+            if (rule.ModifierChain is { Length: > 0 })
+                cls = BreakpointUtil.ApplyTailwindModifiers(cls, rule.ModifierChain);
 
             if (!first) sb.Append(' ');
             else first = false;

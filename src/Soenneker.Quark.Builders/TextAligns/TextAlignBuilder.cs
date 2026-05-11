@@ -3,6 +3,10 @@ namespace Soenneker.Quark;
 [TailwindPrefix("text-", Responsive = true)]
 public sealed class TextAlignBuilder : ResponsiveUtilityBuilder<TextAlignBuilder>
 {
+    internal TextAlignBuilder()
+    {
+    }
+
     internal TextAlignBuilder(TextAlignmentEnum value, BreakpointType? breakpoint = null) : base("", value.Value, breakpoint)
     {
     }

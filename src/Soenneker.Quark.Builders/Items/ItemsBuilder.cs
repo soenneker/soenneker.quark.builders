@@ -3,6 +3,10 @@ namespace Soenneker.Quark;
 [TailwindPrefix("items-", Responsive = true)]
 public sealed class ItemsBuilder : ResponsiveUtilityBuilder<ItemsBuilder>
 {
+    internal ItemsBuilder()
+    {
+    }
+
     internal ItemsBuilder(ItemsEnum value, BreakpointType? breakpoint = null) : base("", value.Value, breakpoint)
     {
     }

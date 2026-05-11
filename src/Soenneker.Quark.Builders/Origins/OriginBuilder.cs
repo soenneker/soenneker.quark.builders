@@ -3,6 +3,10 @@ namespace Soenneker.Quark;
 [TailwindPrefix("origin-", Responsive = true)]
 public sealed class OriginBuilder : ResponsiveUtilityBuilder<OriginBuilder>
 {
+    internal OriginBuilder()
+    {
+    }
+
     internal OriginBuilder(OriginEnum value, BreakpointType? breakpoint = null) : base("", value.Value, breakpoint)
     {
     }
