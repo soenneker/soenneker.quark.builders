@@ -202,20 +202,7 @@ public abstract class CssBuilderBase<TBuilder> : CssBuilderBase where TBuilder :
 
         if (IsBreakpointModifier(modifier))
         {
-            string[] existingModifiers = _pendingModifierChain.Split(':');
-            var insertIndex = 0;
-
-            while (insertIndex < existingModifiers.Length && IsBreakpointModifier(existingModifiers[insertIndex]))
-            {
-                insertIndex++;
-            }
-
-            if (insertIndex == 0)
-                _pendingModifierChain = $"{modifier}:{_pendingModifierChain}";
-            else if (insertIndex == existingModifiers.Length)
-                _pendingModifierChain = $"{_pendingModifierChain}:{modifier}";
-            else
-                _pendingModifierChain = $"{string.Join(":", existingModifiers[..insertIndex])}:{modifier}:{string.Join(":", existingModifiers[insertIndex..])}";
+            _pendingModifierChain = AppendModifierChain(_pendingModifierChain, modifier);
         }
         else
         {
@@ -225,7 +212,32 @@ public abstract class CssBuilderBase<TBuilder> : CssBuilderBase where TBuilder :
         return (TBuilder)this;
     }
 
-    private static bool IsBreakpointModifier(string modifier)
+    protected static string AppendModifierChain(string? existingModifierChain, string modifier)
+    {
+        if (string.IsNullOrEmpty(existingModifierChain))
+            return modifier;
+
+        if (!IsBreakpointModifier(modifier))
+            return $"{existingModifierChain}:{modifier}";
+
+        string[] existingModifiers = existingModifierChain.Split(':');
+        var insertIndex = 0;
+
+        while (insertIndex < existingModifiers.Length && IsBreakpointModifier(existingModifiers[insertIndex]))
+        {
+            insertIndex++;
+        }
+
+        if (insertIndex == 0)
+            return $"{modifier}:{existingModifierChain}";
+
+        if (insertIndex == existingModifiers.Length)
+            return $"{existingModifierChain}:{modifier}";
+
+        return $"{string.Join(":", existingModifiers[..insertIndex])}:{modifier}:{string.Join(":", existingModifiers[insertIndex..])}";
+    }
+
+    protected static bool IsBreakpointModifier(string modifier)
     {
         return modifier is "sm" or "md" or "lg" or "xl" or "2xl" or "max-sm" or "max-md" or "max-lg" or "max-xl"
             or "@sm" or "@md" or "@lg" or "@xl" or "@2xl" or "@max-sm" or "@max-md";
@@ -237,4 +249,6 @@ public abstract class CssBuilderBase<TBuilder> : CssBuilderBase where TBuilder :
         _pendingModifierChain = null;
         return modifiers;
     }
+
+    protected string? PendingModifierChain => _pendingModifierChain;
 }

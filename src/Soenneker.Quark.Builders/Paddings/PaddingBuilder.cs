@@ -20,7 +20,7 @@ public sealed class PaddingBuilder : CssBuilderBase<PaddingBuilder>
 
     internal PaddingBuilder(string size, BreakpointType? breakpoint = null)
     {
-        _rules.Add(new PaddingRule(size, ElementSideEnum.All, breakpoint));
+        _rules.Add(new PaddingRule(size, ElementSideEnum.All, breakpoint, CanRetargetSide: true));
     }
 
     internal PaddingBuilder(ElementSideEnum side)
@@ -117,6 +117,18 @@ public sealed class PaddingBuilder : CssBuilderBase<PaddingBuilder>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private PaddingBuilder AddRule(ElementSideEnum side)
     {
+        if (_pendingSide is null && _rules.Count > 0)
+        {
+            var lastIndex = _rules.Count - 1;
+            PaddingRule lastRule = _rules[lastIndex];
+
+            if (lastRule.CanRetargetSide && ReferenceEquals(lastRule.Side, ElementSideEnum.All))
+            {
+                _rules[lastIndex] = lastRule with { Side = side, CanRetargetSide = false };
+                return this;
+            }
+        }
+
         _pendingSide = side;
         return this;
     }
@@ -124,18 +136,20 @@ public sealed class PaddingBuilder : CssBuilderBase<PaddingBuilder>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private PaddingBuilder ChainWithSize(string size)
     {
+        var hadPendingSide = _pendingSide is not null;
         ElementSideEnum side = _pendingSide ?? ElementSideEnum.All;
         _pendingSide = null;
-        _rules.Add(new PaddingRule(size, side, null, ConsumePendingModifierChain()));
+        _rules.Add(new PaddingRule(size, side, null, ConsumePendingModifierChain(), ReferenceEquals(side, ElementSideEnum.All) && !hadPendingSide));
         return this;
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private PaddingBuilder ChainWithSize(PaddingScaleEnum scale)
     {
+        var hadPendingSide = _pendingSide is not null;
         ElementSideEnum side = _pendingSide ?? ElementSideEnum.All;
         _pendingSide = null;
-        _rules.Add(new PaddingRule(scale.Value, side, null, ConsumePendingModifierChain()));
+        _rules.Add(new PaddingRule(scale.Value, side, null, ConsumePendingModifierChain(), ReferenceEquals(side, ElementSideEnum.All) && !hadPendingSide));
         return this;
     }
 

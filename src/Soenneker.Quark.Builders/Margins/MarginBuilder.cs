@@ -20,7 +20,7 @@ public sealed class MarginBuilder : CssBuilderBase<MarginBuilder>
 
     internal MarginBuilder(string size, BreakpointType? breakpoint = null)
     {
-        _rules.Add(new MarginRule(size, ElementSideEnum.All, breakpoint));
+        _rules.Add(new MarginRule(size, ElementSideEnum.All, breakpoint, CanRetargetSide: true));
     }
 
     internal MarginBuilder(ElementSideEnum side)
@@ -113,6 +113,18 @@ public sealed class MarginBuilder : CssBuilderBase<MarginBuilder>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private MarginBuilder AddRule(ElementSideEnum side)
     {
+        if (_pendingSide is null && _rules.Count > 0)
+        {
+            var lastIndex = _rules.Count - 1;
+            MarginRule lastRule = _rules[lastIndex];
+
+            if (lastRule.CanRetargetSide && ReferenceEquals(lastRule.Side, ElementSideEnum.All))
+            {
+                _rules[lastIndex] = lastRule with { Side = side, CanRetargetSide = false };
+                return this;
+            }
+        }
+
         _pendingSide = side;
         return this;
     }
@@ -120,18 +132,20 @@ public sealed class MarginBuilder : CssBuilderBase<MarginBuilder>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private MarginBuilder ChainWithSize(string size)
     {
+        var hadPendingSide = _pendingSide is not null;
         ElementSideEnum side = _pendingSide ?? ElementSideEnum.All;
         _pendingSide = null;
-        _rules.Add(new MarginRule(size, side, null, ConsumePendingModifierChain()));
+        _rules.Add(new MarginRule(size, side, null, ConsumePendingModifierChain(), ReferenceEquals(side, ElementSideEnum.All) && !hadPendingSide));
         return this;
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private MarginBuilder ChainWithSize(MarginScaleEnum scale)
     {
+        var hadPendingSide = _pendingSide is not null;
         ElementSideEnum side = _pendingSide ?? ElementSideEnum.All;
         _pendingSide = null;
-        _rules.Add(new MarginRule(scale.Value, side, null, ConsumePendingModifierChain()));
+        _rules.Add(new MarginRule(scale.Value, side, null, ConsumePendingModifierChain(), ReferenceEquals(side, ElementSideEnum.All) && !hadPendingSide));
         return this;
     }
 

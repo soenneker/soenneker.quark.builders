@@ -372,10 +372,11 @@ public sealed class QuarkBuildersTests : HostedUnitTest
         Padding.OnX.Is2.ToClass().Should().Be("px-2");
         Padding.OnY.Is3.ToClass().Should().Be("py-3");
         Padding.OnX.Token("1.5").ToClass().Should().Be("px-1.5");
-        Padding.Is2.OnX.ToClass().Should().Be("p-2");
-        Padding.Is3.OnY.ToClass().Should().Be("p-3");
-        Padding.Token("1.5").OnX.Is4.OnY.ToClass().Should().Be("p-1.5 px-4");
+        Padding.Is2.OnX.ToClass().Should().Be("px-2");
+        Padding.Is3.OnY.ToClass().Should().Be("py-3");
+        Padding.Token("1.5").OnX.Is4.OnY.ToClass().Should().Be("px-1.5 py-4");
         Padding.OnX.Is2.OnY.ToClass().Should().Be("px-2");
+        Padding.OnX.Is2.OnY.Is1.ToClass().Should().Be("px-2 py-1");
     }
 
     [Test]
@@ -403,7 +404,7 @@ public sealed class QuarkBuildersTests : HostedUnitTest
         topBorder.Should().Be("border-t");
         responsiveBorder.Should().Be("border md:border-2");
         transparentBorder.Should().Be("border-transparent");
-        trailingBottomBorder.Should().Be("border");
+        trailingBottomBorder.Should().Be("border-b");
     }
 
     [Test]
@@ -607,6 +608,15 @@ public sealed class QuarkBuildersTests : HostedUnitTest
 
         PointerEvents.OnDisabled.None.OnEnabled.Auto.ToClass()
             .Should().Be("disabled:pointer-events-none enabled:pointer-events-auto");
+
+        PointerEvents.None.OnDisabled.ToClass()
+            .Should().Be("disabled:pointer-events-none");
+
+        Opacity.Is50.OnDisabled.OnMd.ToClass()
+            .Should().Be("md:disabled:opacity-50");
+
+        Cursor.NotAllowed.OnDisabled.ToClass()
+            .Should().Be("disabled:cursor-not-allowed");
 
         Resize.OnHover.Both.OnMd.OnFocus.Vertical.ToClass()
             .Should().Be("hover:resize md:focus:resize-y");

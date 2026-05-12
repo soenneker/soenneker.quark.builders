@@ -103,8 +103,6 @@ public sealed class OpacityBuilder : CssBuilderBase<OpacityBuilder>
         return this;
     }
 
-
-
     /// <summary>
     /// Gets the CSS class string for the current configuration.
     /// </summary>
@@ -119,6 +117,7 @@ public sealed class OpacityBuilder : CssBuilderBase<OpacityBuilder>
         {
             OpacityRule rule = _rules[i];
             string cls = rule.Value;
+            string? modifierChain = rule.ModifierChain ?? (i == _rules.Count - 1 ? PendingModifierChain : null);
             if (cls.Length == 0)
                 continue;
 
@@ -126,8 +125,8 @@ public sealed class OpacityBuilder : CssBuilderBase<OpacityBuilder>
             if (bp.Length != 0)
                 cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, bp);
 
-            if (rule.ModifierChain is { Length: > 0 })
-                cls = BreakpointUtil.ApplyTailwindModifiers(cls, rule.ModifierChain);
+            if (modifierChain is { Length: > 0 })
+                cls = BreakpointUtil.ApplyTailwindModifiers(cls, modifierChain);
 
             if (!first) sb.Append(' ');
             else first = false;

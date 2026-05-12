@@ -90,8 +90,6 @@ public sealed class CursorBuilder : CssBuilderBase<CursorBuilder>
         return this;
     }
 
-
-
     /// <summary>
     /// Gets the CSS class string for the current configuration.
     /// </summary>
@@ -108,6 +106,7 @@ public sealed class CursorBuilder : CssBuilderBase<CursorBuilder>
         {
             CursorRule rule = _rules[i];
             string cls = rule.Cursor;
+            string? modifierChain = rule.ModifierChain ?? (i == _rules.Count - 1 ? PendingModifierChain : null);
             if (cls.Length == 0)
                 continue;
 
@@ -115,8 +114,8 @@ public sealed class CursorBuilder : CssBuilderBase<CursorBuilder>
             if (bp.Length != 0)
                 cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, bp);
 
-            if (rule.ModifierChain is { Length: > 0 })
-                cls = BreakpointUtil.ApplyTailwindModifiers(cls, rule.ModifierChain);
+            if (modifierChain is { Length: > 0 })
+                cls = BreakpointUtil.ApplyTailwindModifiers(cls, modifierChain);
 
             if (!first) sb.Append(' ');
             else first = false;

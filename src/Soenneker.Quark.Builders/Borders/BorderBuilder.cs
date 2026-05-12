@@ -24,7 +24,7 @@ public sealed class BorderBuilder : CssBuilderBase<BorderBuilder>
     internal BorderBuilder(string size, BreakpointType? breakpoint = null, bool allowEmpty = false)
     {
         if (allowEmpty || size.HasContent())
-            _rules.Add(new BorderRule(size, ElementSideEnum.All, breakpoint));
+            _rules.Add(new BorderRule(size, ElementSideEnum.All, breakpoint, CanRetargetSide: true));
     }
 
     internal BorderBuilder(ElementSideEnum side)
@@ -114,6 +114,18 @@ public sealed class BorderBuilder : CssBuilderBase<BorderBuilder>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private BorderBuilder AddRule(ElementSideEnum side)
     {
+        if (_pendingSide is null && _rules.Count > 0)
+        {
+            var lastIndex = _rules.Count - 1;
+            BorderRule lastRule = _rules[lastIndex];
+
+            if (lastRule.CanRetargetSide && ReferenceEquals(lastRule.Side, ElementSideEnum.All))
+            {
+                _rules[lastIndex] = lastRule with { Side = side, CanRetargetSide = false };
+                return this;
+            }
+        }
+
         _pendingSide = side;
         return this;
     }
@@ -121,9 +133,10 @@ public sealed class BorderBuilder : CssBuilderBase<BorderBuilder>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private BorderBuilder ChainWithSize(BorderScaleEnum scale)
     {
+        var hadPendingSide = _pendingSide is not null;
         ElementSideEnum side = _pendingSide ?? ElementSideEnum.All;
         _pendingSide = null;
-        _rules.Add(new BorderRule(scale.Value, side, null, ConsumePendingModifierChain()));
+            _rules.Add(new BorderRule(scale.Value, side, null, ConsumePendingModifierChain(), ReferenceEquals(side, ElementSideEnum.All) && !hadPendingSide));
         return this;
     }
 
@@ -136,11 +149,12 @@ public sealed class BorderBuilder : CssBuilderBase<BorderBuilder>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private BorderBuilder ChainWithSize(string value, bool allowEmpty)
     {
+        var hadPendingSide = _pendingSide is not null;
         ElementSideEnum side = _pendingSide ?? ElementSideEnum.All;
         _pendingSide = null;
 
         if (allowEmpty || value.Length != 0)
-            _rules.Add(new BorderRule(value, side, null, ConsumePendingModifierChain()));
+            _rules.Add(new BorderRule(value, side, null, ConsumePendingModifierChain(), ReferenceEquals(side, ElementSideEnum.All) && !hadPendingSide));
         return this;
     }
 

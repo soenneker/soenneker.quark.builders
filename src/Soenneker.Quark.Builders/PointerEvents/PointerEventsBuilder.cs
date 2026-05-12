@@ -50,8 +50,6 @@ public sealed class PointerEventsBuilder : CssBuilderBase<PointerEventsBuilder>
         return this;
     }
 
-
-
     /// <summary>
     /// Gets the CSS class string for the current configuration.
     /// </summary>
@@ -68,6 +66,7 @@ public sealed class PointerEventsBuilder : CssBuilderBase<PointerEventsBuilder>
         {
             PointerEventsRule rule = _rules[i];
             string baseClass = rule.Value.Value;
+            string? modifierChain = rule.ModifierChain ?? (i == _rules.Count - 1 ? PendingModifierChain : null);
 
             if (baseClass.Length == 0)
                 continue;
@@ -76,8 +75,8 @@ public sealed class PointerEventsBuilder : CssBuilderBase<PointerEventsBuilder>
             if (bp.Length != 0)
                 baseClass = BreakpointUtil.ApplyTailwindBreakpoint(baseClass, bp);
 
-            if (rule.ModifierChain is { Length: > 0 })
-                baseClass = BreakpointUtil.ApplyTailwindModifiers(baseClass, rule.ModifierChain);
+            if (modifierChain is { Length: > 0 })
+                baseClass = BreakpointUtil.ApplyTailwindModifiers(baseClass, modifierChain);
 
             if (!first) sb.Append(' ');
             else first = false;
