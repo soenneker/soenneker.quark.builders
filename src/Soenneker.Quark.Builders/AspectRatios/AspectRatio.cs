@@ -12,7 +12,7 @@ public static partial class AspectRatio
     /// </summary>
     public static AspectRatioBuilder R1X1 => new(AspectRatioEnum.R1X1);
 
-    /// <summary>
+    /// <summary> 
     /// 4:3 aspect ratio.
     /// </summary>
     public static AspectRatioBuilder R4X3 => new(AspectRatioEnum.R4X3);
