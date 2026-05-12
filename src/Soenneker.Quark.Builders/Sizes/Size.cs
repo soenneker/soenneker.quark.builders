@@ -21,10 +21,12 @@ public static class Size
     /// Spacing/sizing scale step `3` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 3` for integer spacing utilities unless overridden).
     /// </summary>
     public static SizeBuilder Is3 => new("size-3");
+    public static SizeBuilder Is3_5 => new("size-3.5");
     /// <summary>
     /// Spacing/sizing scale step `4` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 4` for integer spacing utilities unless overridden).
     /// </summary>
     public static SizeBuilder Is4 => new("size-4");
+    public static SizeBuilder Is4_5 => new("size-4.5");
     /// <summary>
     /// Spacing/sizing scale step `5` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 5` for integer spacing utilities unless overridden).
     /// </summary>
@@ -33,6 +35,7 @@ public static class Size
     /// Spacing/sizing scale step `6` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 6` for integer spacing utilities unless overridden).
     /// </summary>
     public static SizeBuilder Is6 => new("size-6");
+    public static SizeBuilder Is6_5 => new("size-6.5");
     /// <summary>
     /// Spacing/sizing scale step `7` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 7` for integer spacing utilities unless overridden).
     /// </summary>

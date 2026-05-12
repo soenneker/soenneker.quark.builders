@@ -9,6 +9,7 @@ public static class MaxWidth
     /// Fluent step for `Is None` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
     public static MaxWidthBuilder IsNone => new("max-w-none");
+    public static MaxWidthBuilder Is48 => new("max-w-48");
     /// <summary>
     /// Fluent step for `Is Xs` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>

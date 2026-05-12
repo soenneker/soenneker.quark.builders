@@ -9,6 +9,8 @@ public static class MinWidth
     /// Spacing/sizing scale step `0` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 0` for integer spacing utilities unless overridden).
     /// </summary>
     public static MinWidthBuilder Is0 => new("min-w-0");
+    public static MinWidthBuilder Is5 => new("min-w-5");
+    public static MinWidthBuilder Is16 => new("min-w-16");
     /// <summary>
     /// Spacing/sizing scale step `24`.
     /// </summary>
@@ -17,6 +19,7 @@ public static class MinWidth
     /// Spacing/sizing scale step `32`.
     /// </summary>
     public static MinWidthBuilder Is32 => new("min-w-32");
+    public static MinWidthBuilder Is36 => new("min-w-36");
     /// <summary>
     /// Spacing/sizing scale step `56`.
     /// </summary>

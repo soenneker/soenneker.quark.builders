@@ -16,6 +16,7 @@ public sealed partial class BorderColorEnum
     public static readonly BorderColorEnum Border = new("border-border");
     public static readonly BorderColorEnum Input = new("border-input");
     public static readonly BorderColorEnum Ring = new("border-ring");
+    public static readonly BorderColorEnum Current = new("border-current");
     public static readonly BorderColorEnum White = new("border-white");
     public static readonly BorderColorEnum Black = new("border-black");
     public static readonly BorderColorEnum Transparent = new("border-transparent");

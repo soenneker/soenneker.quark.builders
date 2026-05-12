@@ -10,16 +10,21 @@ public static partial class Gap
     /// No gap (0).
     /// </summary>
     public static GapBuilder Is0 => new(GapScaleEnum.Is0Value);
+    public static GapBuilder Is0_25 => new(GapScaleEnum.Is0_25Value);
+    public static GapBuilder Is0_5 => new(GapScaleEnum.Is0_5Value);
 
     /// <summary>
     /// Size 1 gap (0.25rem).
     /// </summary>
     public static GapBuilder Is1 => new(GapScaleEnum.Is1Value);
+    public static GapBuilder Is1_25 => new(GapScaleEnum.Is1_25Value);
+    public static GapBuilder Is1_5 => new(GapScaleEnum.Is1_5Value);
 
     /// <summary>
     /// Size 2 gap (0.5rem).
     /// </summary>
     public static GapBuilder Is2 => new(GapScaleEnum.Is2Value);
+    public static GapBuilder Is2_5 => new(GapScaleEnum.Is2_5Value);
 
     /// <summary>
     /// Size 3 gap (1rem).

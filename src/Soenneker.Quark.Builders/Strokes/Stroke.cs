@@ -12,4 +12,5 @@ public static partial class Stroke
     /// Disables the effect (`none` token) or sets size to zero, depending on the utility.
     /// </summary>
     public static StrokeBuilder None => new(StrokeEnum.None);
+    public static StrokeBuilder Current => new(StrokeEnum.Current);
 }

@@ -14,8 +14,10 @@ public static partial class Leading
     public static LeadingBuilder Is2 => new(LeadingEnum.Is2);
     public static LeadingBuilder Is3 => new(LeadingEnum.Is3);
     public static LeadingBuilder Is4 => new(LeadingEnum.Is4);
+    public static LeadingBuilder Is4_5 => new(LeadingEnum.Is4_5);
     public static LeadingBuilder Is5 => new(LeadingEnum.Is5);
     public static LeadingBuilder Is6 => new(LeadingEnum.Is6);
+    public static LeadingBuilder Is6_5 => new(LeadingEnum.Is6_5);
     public static LeadingBuilder Is7 => new(LeadingEnum.Is7);
     public static LeadingBuilder Is8 => new(LeadingEnum.Is8);
     public static LeadingBuilder Is9 => new(LeadingEnum.Is9);

@@ -16,7 +16,9 @@ public sealed class TextAlignBuilder : ResponsiveUtilityBuilder<TextAlignBuilder
     }
 
     public TextAlignBuilder Start => ChainValue(TextAlignmentEnum.StartValue);
+    public TextAlignBuilder Left => ChainValue("text-left");
     public TextAlignBuilder Center => ChainValue(TextAlignmentEnum.CenterValue);
+    public TextAlignBuilder Right => ChainValue("text-right");
     public TextAlignBuilder End => ChainValue(TextAlignmentEnum.EndValue);
     public TextAlignBuilder Token(string value) => ChainValue("text-" + value);
 

@@ -51,6 +51,36 @@ public sealed class WidthBuilder : CssBuilderBase<WidthBuilder>
     /// <c>w-0</c> — <c>width: 0px</c>.
     /// </summary>
     public WidthBuilder Is0 => ChainWithSize("w-0");
+    public WidthBuilder Is0_5 => ChainWithSize("w-0.5");
+    public WidthBuilder Is1 => ChainWithSize("w-1");
+    public WidthBuilder Is1_5 => ChainWithSize("w-1.5");
+    public WidthBuilder Is2 => ChainWithSize("w-2");
+    public WidthBuilder Is3 => ChainWithSize("w-3");
+    public WidthBuilder Is4 => ChainWithSize("w-4");
+    public WidthBuilder Is5 => ChainWithSize("w-5");
+    public WidthBuilder Is6 => ChainWithSize("w-6");
+    public WidthBuilder Is7 => ChainWithSize("w-7");
+    public WidthBuilder Is8 => ChainWithSize("w-8");
+    public WidthBuilder Is9 => ChainWithSize("w-9");
+    public WidthBuilder Is10 => ChainWithSize("w-10");
+    public WidthBuilder Is11 => ChainWithSize("w-11");
+    public WidthBuilder Is12 => ChainWithSize("w-12");
+    public WidthBuilder Is14 => ChainWithSize("w-14");
+    public WidthBuilder Is16 => ChainWithSize("w-16");
+    public WidthBuilder Is20 => ChainWithSize("w-20");
+    public WidthBuilder Is24 => ChainWithSize("w-24");
+    public WidthBuilder Is32 => ChainWithSize("w-32");
+    public WidthBuilder Is36 => ChainWithSize("w-36");
+    public WidthBuilder Is40 => ChainWithSize("w-40");
+    public WidthBuilder Is44 => ChainWithSize("w-44");
+    public WidthBuilder Is48 => ChainWithSize("w-48");
+    public WidthBuilder Is52 => ChainWithSize("w-52");
+    public WidthBuilder Is56 => ChainWithSize("w-56");
+    public WidthBuilder Is60 => ChainWithSize("w-60");
+    public WidthBuilder Is64 => ChainWithSize("w-64");
+    public WidthBuilder Is72 => ChainWithSize("w-72");
+    public WidthBuilder Is80 => ChainWithSize("w-80");
+    public WidthBuilder Is96 => ChainWithSize("w-96");
     /// <summary>
     /// <c>w-px</c> — fixed <c>1px</c> width.
     /// </summary>

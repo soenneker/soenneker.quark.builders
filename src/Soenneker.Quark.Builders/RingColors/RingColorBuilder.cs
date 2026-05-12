@@ -112,6 +112,7 @@ public sealed class RingColorBuilder : CssBuilderBase<RingColorBuilder>
     /// Fluent step for `Ring` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
     public RingColorBuilder Ring => ChainValue(RingColorEnum.Ring);
+    public RingColorBuilder Ring50 => ChainValue(RingColorEnum.Ring50);
     /// <summary>
     /// Fluent step for `Success` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>

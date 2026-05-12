@@ -80,10 +80,12 @@ public sealed class MarginBuilder : CssBuilderBase<MarginBuilder>
     /// Spacing/sizing scale step `0` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 0` for integer spacing utilities unless overridden).
     /// </summary>
     public MarginBuilder Is0 => ChainWithSize(MarginScaleEnum.Is0);
+    public MarginBuilder Is0_5 => ChainWithSize(MarginScaleEnum.Is0_5);
     /// <summary>
     /// Spacing/sizing scale step `1` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 1` for integer spacing utilities unless overridden).
     /// </summary>
     public MarginBuilder Is1 => ChainWithSize(MarginScaleEnum.Is1);
+    public MarginBuilder Is1_5 => ChainWithSize(MarginScaleEnum.Is1_5);
     /// <summary>
     /// Spacing/sizing scale step `2` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 2` for integer spacing utilities unless overridden).
     /// </summary>
@@ -92,6 +94,7 @@ public sealed class MarginBuilder : CssBuilderBase<MarginBuilder>
     /// Spacing/sizing scale step `3` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 3` for integer spacing utilities unless overridden).
     /// </summary>
     public MarginBuilder Is3 => ChainWithSize(MarginScaleEnum.Is3);
+    public MarginBuilder Is3_5 => ChainWithSize(MarginScaleEnum.Is3_5);
     /// <summary>
     /// Spacing/sizing scale step `4` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 4` for integer spacing utilities unless overridden).
     /// </summary>
@@ -100,10 +103,14 @@ public sealed class MarginBuilder : CssBuilderBase<MarginBuilder>
     /// Spacing/sizing scale step `5` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 5` for integer spacing utilities unless overridden).
     /// </summary>
     public MarginBuilder Is5 => ChainWithSize(MarginScaleEnum.Is5);
+    public MarginBuilder Is6 => ChainWithSize(MarginScaleEnum.Is6);
     /// <summary>
     /// Spacing/sizing scale step `8` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 8` for integer spacing utilities unless overridden).
     /// </summary>
     public MarginBuilder Is8 => ChainWithSize(MarginScaleEnum.Is8);
+    public MarginBuilder Is12 => ChainWithSize(MarginScaleEnum.Is12);
+    public MarginBuilder Negative1 => ChainWithSize(MarginScaleEnum.Negative1);
+    public MarginBuilder Negative2 => ChainWithSize(MarginScaleEnum.Negative2);
 
 	/// <summary>
 	/// Sets the margin size from an arbitrary Tailwind spacing token.

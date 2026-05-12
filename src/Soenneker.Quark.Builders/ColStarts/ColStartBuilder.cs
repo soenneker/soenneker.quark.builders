@@ -11,6 +11,8 @@ public sealed class ColStartBuilder : ResponsiveUtilityBuilder<ColStartBuilder>
     {
     }
 
+    public ColStartBuilder Is1 => ChainValue("col-start-1");
+    public ColStartBuilder Is2 => ChainValue("col-start-2");
     public ColStartBuilder Auto => ChainValue("auto");
     public ColStartBuilder At(int value) => ChainValue(value.ToString());
     public ColStartBuilder Token(string value) => ChainValue("col-start-" + value);

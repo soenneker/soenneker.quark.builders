@@ -17,6 +17,7 @@ public static partial class BorderColor
     public static BorderColorBuilder Border => new(BorderColorEnum.Border);
     public static BorderColorBuilder Input => new(BorderColorEnum.Input);
     public static BorderColorBuilder Ring => new(BorderColorEnum.Ring);
+    public static BorderColorBuilder Current => new(BorderColorEnum.Current);
     public static BorderColorBuilder White => new(BorderColorEnum.White);
     public static BorderColorBuilder Black => new(BorderColorEnum.Black);
     public static BorderColorBuilder Transparent => new(BorderColorEnum.Transparent);

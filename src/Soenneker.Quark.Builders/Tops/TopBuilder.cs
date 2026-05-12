@@ -34,6 +34,8 @@ public sealed class TopBuilder : CssBuilderBase<TopBuilder>
 
     public TopBuilder Is0 => Chain(TopEnum.Is0);
     public TopBuilder Is1 => Chain(TopEnum.Is1);
+    public TopBuilder Is1of2 => Chain(TopEnum.Is1of2);
+    public TopBuilder Is1of3 => Chain(TopEnum.Is1of3);
     public TopBuilder Is2 => Chain(TopEnum.Is2);
     public TopBuilder Is3 => Chain(TopEnum.Is3);
     public TopBuilder Is4 => Chain(TopEnum.Is4);

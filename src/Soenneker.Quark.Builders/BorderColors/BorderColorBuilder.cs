@@ -43,6 +43,7 @@ public sealed class BorderColorBuilder : CssBuilderBase<BorderColorBuilder>
     public BorderColorBuilder Border => ChainValue(BorderColorEnum.Border);
     public BorderColorBuilder Input => ChainValue(BorderColorEnum.Input);
     public BorderColorBuilder Ring => ChainValue(BorderColorEnum.Ring);
+    public BorderColorBuilder Current => ChainValue(BorderColorEnum.Current);
 
     public BorderColorBuilder White => ChainValue(BorderColorEnum.White);
     public BorderColorBuilder Black => ChainValue(BorderColorEnum.Black);

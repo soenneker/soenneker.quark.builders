@@ -24,6 +24,7 @@ public sealed partial class RingColorEnum
     public static readonly RingColorEnum Border = new("ring-border");
     public static readonly RingColorEnum Input = new("ring-input");
     public static readonly RingColorEnum Ring = new("ring-ring");
+    public static readonly RingColorEnum Ring50 = new("ring-ring/50");
     public static readonly RingColorEnum Success = new("ring-success");
     public static readonly RingColorEnum Warning = new("ring-warning");
     public static readonly RingColorEnum Info = new("ring-info");

@@ -371,12 +371,28 @@ public sealed class QuarkBuildersTests : HostedUnitTest
     {
         Padding.OnX.Is2.ToClass().Should().Be("px-2");
         Padding.OnY.Is3.ToClass().Should().Be("py-3");
+        Padding.OnX.Is1_5.ToClass().Should().Be("px-1.5");
         Padding.OnX.Token("1.5").ToClass().Should().Be("px-1.5");
         Padding.Is2.OnX.ToClass().Should().Be("px-2");
         Padding.Is3.OnY.ToClass().Should().Be("py-3");
+        Padding.Is2_5.OnX.Is0_5.OnY.ToClass().Should().Be("px-2.5 py-0.5");
         Padding.Token("1.5").OnX.Is4.OnY.ToClass().Should().Be("px-1.5 py-4");
         Padding.OnX.Is2.OnY.ToClass().Should().Be("px-2");
         Padding.OnX.Is2.OnY.Is1.ToClass().Should().Be("px-2 py-1");
+    }
+
+    [Test]
+    public void Shadcn_suite_token_values_have_fluent_members()
+    {
+        Gap.Is1_5.ToClass().Should().Be("gap-1.5");
+        Margin.OnX.Negative1.FromTop.Is1_5.ToClass().Should().Be("-mx-1 mt-1.5");
+        Size.Is3_5.Is4_5.Is6_5.ToClass().Should().Be("size-3.5 size-4.5 size-6.5");
+        Height.Is0_5.Is5_5.Is72.ToClass().Should().Be("h-0.5 h-5.5 h-72");
+        Width.Is0_5.Is64.Is72.ToClass().Should().Be("w-0.5 w-64 w-72");
+        Leading.Is4_5.Is6_5.ToClass().Should().Be("leading-4.5 leading-6.5");
+        Stroke.Current.ToClass().Should().Be("stroke-current");
+        TextAlign.Left.OnMd.Right.ToClass().Should().Be("text-left md:text-right");
+        RingColor.Ring50.ToClass().Should().Be("ring-ring/50");
     }
 
     [Test]

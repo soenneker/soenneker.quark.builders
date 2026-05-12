@@ -34,6 +34,7 @@ public sealed class LeftBuilder : CssBuilderBase<LeftBuilder>
 
     public LeftBuilder Is0 => Chain(LeftEnum.Is0);
     public LeftBuilder Is1 => Chain(LeftEnum.Is1);
+    public LeftBuilder Is1_5 => Chain(LeftEnum.Is1_5);
     public LeftBuilder Is2 => Chain(LeftEnum.Is2);
     public LeftBuilder Is3 => Chain(LeftEnum.Is3);
     public LeftBuilder Is4 => Chain(LeftEnum.Is4);

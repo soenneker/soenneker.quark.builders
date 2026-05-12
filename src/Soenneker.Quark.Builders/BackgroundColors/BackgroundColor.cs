@@ -15,6 +15,7 @@ public static partial class BackgroundColor
     public static BackgroundColorBuilder Card => new(BackgroundColorEnum.Card);
     public static BackgroundColorBuilder Background => new(BackgroundColorEnum.Background);
     public static BackgroundColorBuilder Foreground => new(BackgroundColorEnum.Foreground);
+    public static BackgroundColorBuilder Border => new(BackgroundColorEnum.Border);
     public static BackgroundColorBuilder White => new(BackgroundColorEnum.White);
     public static BackgroundColorBuilder Black => new(BackgroundColorEnum.Black);
     public static BackgroundColorBuilder Transparent => new(BackgroundColorEnum.Transparent);

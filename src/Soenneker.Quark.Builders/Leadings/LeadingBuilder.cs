@@ -35,8 +35,10 @@ public sealed class LeadingBuilder : CssBuilderBase<LeadingBuilder>
     public LeadingBuilder Is2 => Chain(LeadingEnum.Is2);
     public LeadingBuilder Is3 => Chain(LeadingEnum.Is3);
     public LeadingBuilder Is4 => Chain(LeadingEnum.Is4);
+    public LeadingBuilder Is4_5 => Chain(LeadingEnum.Is4_5);
     public LeadingBuilder Is5 => Chain(LeadingEnum.Is5);
     public LeadingBuilder Is6 => Chain(LeadingEnum.Is6);
+    public LeadingBuilder Is6_5 => Chain(LeadingEnum.Is6_5);
     public LeadingBuilder Is7 => Chain(LeadingEnum.Is7);
     public LeadingBuilder Is8 => Chain(LeadingEnum.Is8);
     public LeadingBuilder Is9 => Chain(LeadingEnum.Is9);

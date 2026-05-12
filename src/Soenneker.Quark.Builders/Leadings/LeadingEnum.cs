@@ -16,8 +16,10 @@ public sealed partial class LeadingEnum
     public static readonly LeadingEnum Is2 = new("leading-2");
     public static readonly LeadingEnum Is3 = new("leading-3");
     public static readonly LeadingEnum Is4 = new("leading-4");
+    public static readonly LeadingEnum Is4_5 = new("leading-4.5");
     public static readonly LeadingEnum Is5 = new("leading-5");
     public static readonly LeadingEnum Is6 = new("leading-6");
+    public static readonly LeadingEnum Is6_5 = new("leading-6.5");
     public static readonly LeadingEnum Is7 = new("leading-7");
     public static readonly LeadingEnum Is8 = new("leading-8");
     public static readonly LeadingEnum Is9 = new("leading-9");

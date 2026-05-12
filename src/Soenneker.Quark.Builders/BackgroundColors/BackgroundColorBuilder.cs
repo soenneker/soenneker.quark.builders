@@ -41,6 +41,7 @@ public sealed class BackgroundColorBuilder : CssBuilderBase<BackgroundColorBuild
     public BackgroundColorBuilder Card => ChainValue(BackgroundColorEnum.Card);
     public BackgroundColorBuilder Background => ChainValue(BackgroundColorEnum.Background);
     public BackgroundColorBuilder Foreground => ChainValue(BackgroundColorEnum.Foreground);
+    public BackgroundColorBuilder Border => ChainValue(BackgroundColorEnum.Border);
 
     public BackgroundColorBuilder White => ChainValue(BackgroundColorEnum.White);
     public BackgroundColorBuilder Black => ChainValue(BackgroundColorEnum.Black);

@@ -50,10 +50,12 @@ public static partial class Margin
     /// Spacing/sizing scale step `0` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 0` for integer spacing utilities unless overridden).
     /// </summary>
     public static MarginBuilder Is0 => new(MarginScaleEnum.Is0Value);
+    public static MarginBuilder Is0_5 => new(MarginScaleEnum.Is0_5Value);
     /// <summary>
     /// Spacing/sizing scale step `1` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 1` for integer spacing utilities unless overridden).
     /// </summary>
     public static MarginBuilder Is1 => new(MarginScaleEnum.Is1Value);
+    public static MarginBuilder Is1_5 => new(MarginScaleEnum.Is1_5Value);
     /// <summary>
     /// Spacing/sizing scale step `2` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 2` for integer spacing utilities unless overridden).
     /// </summary>
@@ -62,6 +64,7 @@ public static partial class Margin
     /// Spacing/sizing scale step `3` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 3` for integer spacing utilities unless overridden).
     /// </summary>
     public static MarginBuilder Is3 => new(MarginScaleEnum.Is3Value);
+    public static MarginBuilder Is3_5 => new(MarginScaleEnum.Is3_5Value);
     /// <summary>
     /// Spacing/sizing scale step `4` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 4` for integer spacing utilities unless overridden).
     /// </summary>
@@ -70,14 +73,18 @@ public static partial class Margin
     /// Spacing/sizing scale step `5` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 5` for integer spacing utilities unless overridden).
     /// </summary>
     public static MarginBuilder Is5 => new(MarginScaleEnum.Is5Value);
+    public static MarginBuilder Is6 => new(MarginScaleEnum.Is6Value);
     /// <summary>
     /// Spacing/sizing scale step `8` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 8` for integer spacing utilities unless overridden).
     /// </summary>
     public static MarginBuilder Is8 => new(MarginScaleEnum.Is8Value);
+    public static MarginBuilder Is12 => new(MarginScaleEnum.Is12Value);
     /// <summary>
     /// `auto` — browser-default sizing/behavior for the underlying utility.
     /// </summary>
     public static MarginBuilder Auto => new(MarginScaleEnum.AutoValue);
+    public static MarginBuilder Negative1 => new(MarginScaleEnum.Negative1Value);
+    public static MarginBuilder Negative2 => new(MarginScaleEnum.Negative2Value);
 
     /// <summary>
     /// Creates a margin utility from an arbitrary Tailwind spacing token.

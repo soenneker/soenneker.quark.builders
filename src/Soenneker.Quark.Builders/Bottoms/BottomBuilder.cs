@@ -38,12 +38,14 @@ public sealed class BottomBuilder : CssBuilderBase<BottomBuilder>
     public BottomBuilder Is3 => Chain(BottomEnum.Is3);
     public BottomBuilder Is4 => Chain(BottomEnum.Is4);
     public BottomBuilder Is5 => Chain(BottomEnum.Is5);
+    public BottomBuilder Is6 => Chain(BottomEnum.Is6);
     public BottomBuilder Is8 => Chain(BottomEnum.Is8);
     public BottomBuilder Is12 => Chain(BottomEnum.Is12);
     public BottomBuilder Is16 => Chain(BottomEnum.Is16);
     public BottomBuilder Is24 => Chain(BottomEnum.Is24);
     public BottomBuilder Auto => Chain(BottomEnum.Auto);
     public BottomBuilder Px => Chain(BottomEnum.Px);
+    public BottomBuilder Negative1 => Chain(BottomEnum.Negative1);
     public BottomBuilder Token(string value) => Chain(value.StartsWith("bottom-") ? value : "bottom-" + value);
 
 

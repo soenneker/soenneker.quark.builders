@@ -34,16 +34,21 @@ public sealed class GapBuilder : CssBuilderBase<GapBuilder>
     /// Chain with a new size for the next rule.
     /// </summary>
     public GapBuilder Is0 => ChainWithSize(GapScaleEnum.Is0Value);
+    public GapBuilder Is0_25 => ChainWithSize(GapScaleEnum.Is0_25Value);
+    public GapBuilder Is0_5 => ChainWithSize(GapScaleEnum.Is0_5Value);
 
     /// <summary>
     /// Chain with a new size for the next rule.
     /// </summary>
     public GapBuilder Is1 => ChainWithSize(GapScaleEnum.Is1Value);
+    public GapBuilder Is1_25 => ChainWithSize(GapScaleEnum.Is1_25Value);
+    public GapBuilder Is1_5 => ChainWithSize(GapScaleEnum.Is1_5Value);
 
     /// <summary>
     /// Chain with a new size for the next rule.
     /// </summary>
     public GapBuilder Is2 => ChainWithSize(GapScaleEnum.Is2Value);
+    public GapBuilder Is2_5 => ChainWithSize(GapScaleEnum.Is2_5Value);
 
     /// <summary>
     /// Chain with a new size for the next rule.

@@ -50,14 +50,43 @@ public sealed class HeightBuilder : CssBuilderBase<HeightBuilder>
     /// Spacing/sizing scale step `0` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 0` for integer spacing utilities unless overridden).
     /// </summary>
     public HeightBuilder Is0 => ChainWithSize("h-0");
+    public HeightBuilder Is0_5 => ChainWithSize("h-0.5");
+    public HeightBuilder Is1 => ChainWithSize("h-1");
+    public HeightBuilder Is1_5 => ChainWithSize("h-1.5");
+    public HeightBuilder Is2 => ChainWithSize("h-2");
+    public HeightBuilder Is3 => ChainWithSize("h-3");
+    public HeightBuilder Is4 => ChainWithSize("h-4");
+    public HeightBuilder Is5 => ChainWithSize("h-5");
+    public HeightBuilder Is5_5 => ChainWithSize("h-5.5");
+    public HeightBuilder Is6 => ChainWithSize("h-6");
+    public HeightBuilder Is7 => ChainWithSize("h-7");
     /// <summary>
     /// Spacing/sizing scale step `8` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 8` for integer spacing utilities unless overridden).
     /// </summary>
     public HeightBuilder Is8 => ChainWithSize("h-8");
+    public HeightBuilder Is9 => ChainWithSize("h-9");
+    public HeightBuilder Is10 => ChainWithSize("h-10");
+    public HeightBuilder Is11 => ChainWithSize("h-11");
+    public HeightBuilder Is12 => ChainWithSize("h-12");
+    public HeightBuilder Is14 => ChainWithSize("h-14");
     /// <summary>
     /// Spacing/sizing scale step `16` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 16` for integer spacing utilities unless overridden).
     /// </summary>
     public HeightBuilder Is16 => ChainWithSize("h-16");
+    public HeightBuilder Is20 => ChainWithSize("h-20");
+    public HeightBuilder Is24 => ChainWithSize("h-24");
+    public HeightBuilder Is32 => ChainWithSize("h-32");
+    public HeightBuilder Is36 => ChainWithSize("h-36");
+    public HeightBuilder Is40 => ChainWithSize("h-40");
+    public HeightBuilder Is44 => ChainWithSize("h-44");
+    public HeightBuilder Is48 => ChainWithSize("h-48");
+    public HeightBuilder Is52 => ChainWithSize("h-52");
+    public HeightBuilder Is56 => ChainWithSize("h-56");
+    public HeightBuilder Is60 => ChainWithSize("h-60");
+    public HeightBuilder Is64 => ChainWithSize("h-64");
+    public HeightBuilder Is72 => ChainWithSize("h-72");
+    public HeightBuilder Is80 => ChainWithSize("h-80");
+    public HeightBuilder Is96 => ChainWithSize("h-96");
     /// <summary>
     /// Fluent step for `Is Px` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>

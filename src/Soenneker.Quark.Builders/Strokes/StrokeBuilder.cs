@@ -19,5 +19,6 @@ public sealed class StrokeBuilder : FinalClassUtilityBuilder<StrokeBuilder>
     /// Disables the effect (`none` token) or sets size to zero, depending on the utility.
     /// </summary>
     public StrokeBuilder None => ChainClass(StrokeEnum.NoneValue);
+    public StrokeBuilder Current => ChainClass(StrokeEnum.CurrentValue);
 
 }

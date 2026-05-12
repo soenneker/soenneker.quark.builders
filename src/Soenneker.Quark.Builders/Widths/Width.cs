@@ -27,10 +27,12 @@ public static partial class Width
     /// <c>w-0</c> — <c>width: 0px</c>.
     /// </summary>
     public static WidthBuilder Is0 => new("w-0");
+    public static WidthBuilder Is0_5 => new("w-0.5");
     /// <summary>
     /// Spacing/sizing scale step `1`.
     /// </summary>
     public static WidthBuilder Is1 => new("w-1");
+    public static WidthBuilder Is1_5 => new("w-1.5");
     /// <summary>
     /// Spacing/sizing scale step `2`.
     /// </summary>

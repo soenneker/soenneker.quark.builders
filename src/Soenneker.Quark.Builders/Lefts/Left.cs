@@ -8,6 +8,7 @@ public static partial class Left
 {
     public static LeftBuilder Is0 => new(LeftEnum.Is0);
     public static LeftBuilder Is1 => new(LeftEnum.Is1);
+    public static LeftBuilder Is1_5 => new(LeftEnum.Is1_5);
     public static LeftBuilder Is2 => new(LeftEnum.Is2);
     public static LeftBuilder Is3 => new(LeftEnum.Is3);
     public static LeftBuilder Is4 => new(LeftEnum.Is4);
