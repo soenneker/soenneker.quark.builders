@@ -4,7 +4,8 @@ namespace Soenneker.Quark;
 /// <summary>
 /// Tailwind/shadcn-aligned cursor utility.
 /// </summary>
-public static class Cursor
+[TailwindModifiers(typeof(CursorBuilder))]
+public static partial class Cursor
 {
     /// <summary>
     /// `cursor-auto`

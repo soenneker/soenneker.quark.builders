@@ -9,12 +9,20 @@ namespace Soenneker.Quark;
 /// Simplified opacity builder with fluent API for chaining opacity rules.
 /// </summary>
 [TailwindPrefix("opacity-", Responsive = true)]
-public sealed class OpacityBuilder : CssBuilderBase
+public sealed class OpacityBuilder : CssBuilderBase<OpacityBuilder>
 {
     private readonly List<OpacityRule> _rules = new(4);
-    private BreakpointType? _pendingBreakpoint;
+
+    internal OpacityBuilder()
+    {
+    }
 
     internal OpacityBuilder(OpacityEnum value, BreakpointType? breakpoint = null)
+    {
+        _rules.Add(new OpacityRule(value.Value, breakpoint));
+    }
+
+    internal OpacityBuilder(string value, BreakpointType? breakpoint = null)
     {
         _rules.Add(new OpacityRule(value, breakpoint));
     }
@@ -29,21 +37,31 @@ public sealed class OpacityBuilder : CssBuilderBase
     /// Sets the opacity to 0 (fully transparent).
     /// </summary>
     public OpacityBuilder Is0 => Chain(OpacityEnum.Is0);
+    public OpacityBuilder Is5 => Chain(OpacityEnum.Is5);
+    public OpacityBuilder Is10 => Chain(OpacityEnum.Is10);
+    public OpacityBuilder Is15 => Chain(OpacityEnum.Is15);
+    public OpacityBuilder Is20 => Chain(OpacityEnum.Is20);
 
     /// <summary>
     /// Sets the opacity to 25%.
     /// </summary>
     public OpacityBuilder Is25 => Chain(OpacityEnum.Is25);
+    public OpacityBuilder Is30 => Chain(OpacityEnum.Is30);
+    public OpacityBuilder Is35 => Chain(OpacityEnum.Is35);
+    public OpacityBuilder Is40 => Chain(OpacityEnum.Is40);
+    public OpacityBuilder Is45 => Chain(OpacityEnum.Is45);
 
     /// <summary>
     /// Sets the opacity to 50%.
     /// </summary>
     public OpacityBuilder Is50 => Chain(OpacityEnum.Is50);
+    public OpacityBuilder Is55 => Chain(OpacityEnum.Is55);
 
     /// <summary>
     /// Sets the opacity to 60%.
     /// </summary>
     public OpacityBuilder Is60 => Chain(OpacityEnum.Is60);
+    public OpacityBuilder Is65 => Chain(OpacityEnum.Is65);
 
     /// <summary>
     /// Sets the opacity to 70%.
@@ -54,63 +72,38 @@ public sealed class OpacityBuilder : CssBuilderBase
     /// Sets the opacity to 75%.
     /// </summary>
     public OpacityBuilder Is75 => Chain(OpacityEnum.Is75);
+    public OpacityBuilder Is80 => Chain(OpacityEnum.Is80);
+    public OpacityBuilder Is85 => Chain(OpacityEnum.Is85);
+    public OpacityBuilder Is90 => Chain(OpacityEnum.Is90);
+    public OpacityBuilder Is95 => Chain(OpacityEnum.Is95);
 
     /// <summary>
     /// Sets the opacity to 100% (fully opaque).
     /// </summary>
     public OpacityBuilder Is100 => Chain(OpacityEnum.Is100);
 
-    /// <summary>
-    /// Applies the opacity on phone breakpoint.
-    /// </summary>
-    public OpacityBuilder OnBase => SetPendingBreakpoint(BreakpointType.Base);
+    public OpacityBuilder Token(string value) => Chain(NormalizeOpacityClass(value));
 
-    /// <summary>
-    /// Applies the opacity on small breakpoint (≥640px).
-    /// </summary>
-    public OpacityBuilder OnSm => SetPendingBreakpoint(BreakpointType.Sm);
 
-    /// <summary>
-    /// Applies the opacity on tablet breakpoint.
-    /// </summary>
-    public OpacityBuilder OnMd => SetPendingBreakpoint(BreakpointType.Md);
 
-    /// <summary>
-    /// Applies the opacity on laptop breakpoint.
-    /// </summary>
-    public OpacityBuilder OnLg => SetPendingBreakpoint(BreakpointType.Lg);
 
-    /// <summary>
-    /// Applies the opacity on desktop breakpoint.
-    /// </summary>
-    public OpacityBuilder OnXl => SetPendingBreakpoint(BreakpointType.Xl);
 
-    /// <summary>
-    /// Applies the opacity on the 2xl breakpoint.
-    /// </summary>
-    public OpacityBuilder On2xl => SetPendingBreakpoint(BreakpointType.Xxl);
+
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private OpacityBuilder Chain(OpacityEnum value)
     {
-        _rules.Add(new OpacityRule(value, ConsumePendingBreakpoint()));
-        return this;
+        return Chain(value.Value);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private OpacityBuilder SetPendingBreakpoint(BreakpointType breakpoint)
+    private OpacityBuilder Chain(string value)
     {
-        _pendingBreakpoint = breakpoint;
+        _rules.Add(new OpacityRule(value, null, ConsumePendingModifierChain()));
         return this;
     }
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private BreakpointType? ConsumePendingBreakpoint()
-    {
-        BreakpointType? breakpoint = _pendingBreakpoint;
-        _pendingBreakpoint = null;
-        return breakpoint;
-    }
+
 
     /// <summary>
     /// Gets the CSS class string for the current configuration.
@@ -125,13 +118,16 @@ public sealed class OpacityBuilder : CssBuilderBase
         for (var i = 0; i < _rules.Count; i++)
         {
             OpacityRule rule = _rules[i];
-            string cls = rule.Value.Value;
+            string cls = rule.Value;
             if (cls.Length == 0)
                 continue;
 
             string bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
             if (bp.Length != 0)
                 cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, bp);
+
+            if (rule.ModifierChain is { Length: > 0 })
+                cls = BreakpointUtil.ApplyTailwindModifiers(cls, rule.ModifierChain);
 
             if (!first) sb.Append(' ');
             else first = false;
@@ -142,6 +138,15 @@ public sealed class OpacityBuilder : CssBuilderBase
     }
 
     public override string ToStyle() => string.Empty;
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private static string NormalizeOpacityClass(string value)
+    {
+        if (value.Length == 0)
+            return string.Empty;
+
+        return value.StartsWith("opacity-") ? value : "opacity-" + value;
+    }
     
     public override string ToString() => ToClass();
 }

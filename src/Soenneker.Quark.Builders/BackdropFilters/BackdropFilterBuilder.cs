@@ -11,10 +11,13 @@ namespace Soenneker.Quark;
 /// Simplified backdrop filter builder with fluent API for chaining backdrop filter rules.
 /// </summary>
 [TailwindPrefix("backdrop-", Responsive = true)]
-public sealed class BackdropFilterBuilder : CssBuilderBase
+public sealed class BackdropFilterBuilder : CssBuilderBase<BackdropFilterBuilder>
 {
     private readonly List<BackdropFilterRule> _rules = new(4);
-    private BreakpointType? _pendingBreakpoint;
+
+    internal BackdropFilterBuilder()
+    {
+    }
 
     internal BackdropFilterBuilder(BackdropFilterEnum filter, BreakpointType? breakpoint = null)
     {
@@ -78,31 +81,6 @@ public sealed class BackdropFilterBuilder : CssBuilderBase
     /// </summary>
     public BackdropFilterBuilder Token(string token) => ChainWithFilter(token);
 
-    /// <summary>
-    /// Applies the backdrop filter on phone breakpoint.
-    /// </summary>
-    public BackdropFilterBuilder OnBase => SetPendingBreakpoint(BreakpointType.Base);
-    /// <summary>
-    /// Applies the backdrop filter on small breakpoint (≥640px).
-    /// </summary>
-    public BackdropFilterBuilder OnSm => SetPendingBreakpoint(BreakpointType.Sm);
-    /// <summary>
-    /// Applies the backdrop filter on tablet breakpoint.
-    /// </summary>
-    public BackdropFilterBuilder OnMd => SetPendingBreakpoint(BreakpointType.Md);
-    /// <summary>
-    /// Applies the backdrop filter on laptop breakpoint.
-    /// </summary>
-    public BackdropFilterBuilder OnLg => SetPendingBreakpoint(BreakpointType.Lg);
-    /// <summary>
-    /// Applies the backdrop filter on desktop breakpoint.
-    /// </summary>
-    public BackdropFilterBuilder OnXl => SetPendingBreakpoint(BreakpointType.Xl);
-    /// <summary>
-    /// Applies the backdrop filter on the 2xl breakpoint.
-    /// </summary>
-    public BackdropFilterBuilder On2xl => SetPendingBreakpoint(BreakpointType.Xxl);
-
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private BackdropFilterBuilder ChainWithFilter(BackdropFilterEnum filter)
     {
@@ -112,16 +90,7 @@ public sealed class BackdropFilterBuilder : CssBuilderBase
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private BackdropFilterBuilder ChainWithFilter(string filter)
     {
-        BreakpointType? bp = _pendingBreakpoint;
-        _pendingBreakpoint = null;
-        _rules.Add(new BackdropFilterRule(filter, bp));
-        return this;
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private BackdropFilterBuilder SetPendingBreakpoint(BreakpointType breakpoint)
-    {
-        _pendingBreakpoint = breakpoint;
+        _rules.Add(new BackdropFilterRule(filter, null, ConsumePendingModifierChain()));
         return this;
     }
 
@@ -147,6 +116,9 @@ public sealed class BackdropFilterBuilder : CssBuilderBase
             string bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
             if (bp.Length != 0)
                 cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, bp);
+
+            if (rule.ModifierChain is { Length: > 0 })
+                cls = BreakpointUtil.ApplyTailwindModifiers(cls, rule.ModifierChain);
 
             if (!first) sb.Append(' ');
             else first = false;

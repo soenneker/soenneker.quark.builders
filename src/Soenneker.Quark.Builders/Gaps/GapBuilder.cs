@@ -10,10 +10,13 @@ namespace Soenneker.Quark;
 /// Simplified gap builder with fluent API for chaining gap rules.
 /// </summary>
 [TailwindPrefix("gap-", Responsive = true)]
-public sealed class GapBuilder : CssBuilderBase
+public sealed class GapBuilder : CssBuilderBase<GapBuilder>
 {
     private readonly List<GapRule> _rules = new(4);
-    private BreakpointType? _pendingBreakpoint;
+
+    internal GapBuilder()
+    {
+    }
 
     internal GapBuilder(string size, BreakpointType? breakpoint = null, GapAxisEnum? axis = null)
     {
@@ -96,46 +99,10 @@ public sealed class GapBuilder : CssBuilderBase
 
     public GapBuilder Row => Y;
 
-    /// <summary>
-    /// Applies on the base breakpoint.
-    /// </summary>
-    public GapBuilder OnBase => SetPendingBreakpoint(BreakpointType.Base);
-
-    /// <summary>
-    /// Apply on small screens (≥640px).
-    /// </summary>
-    public GapBuilder OnSm => SetPendingBreakpoint(BreakpointType.Sm);
-
-    /// <summary>
-    /// Applies on the md breakpoint.
-    /// </summary>
-    public GapBuilder OnMd => SetPendingBreakpoint(BreakpointType.Md);
-
-    /// <summary>
-    /// Applies on the lg breakpoint.
-    /// </summary>
-    public GapBuilder OnLg => SetPendingBreakpoint(BreakpointType.Lg);
-
-    /// <summary>
-    /// Applies on the xl breakpoint.
-    /// </summary>
-    public GapBuilder OnXl => SetPendingBreakpoint(BreakpointType.Xl);
-
-    /// <summary>
-    /// Applies on the 2xl breakpoint.
-    /// </summary>
-    public GapBuilder On2xl => SetPendingBreakpoint(BreakpointType.Xxl);
-
-    /// <summary>
-    /// Applies on the 2xl breakpoint.
-    /// </summary>
-
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private GapBuilder ChainWithSize(string size)
     {
-        BreakpointType? bp = _pendingBreakpoint;
-        _pendingBreakpoint = null;
-        _rules.Add(new GapRule(size, GapAxisEnum.All, bp));
+        _rules.Add(new GapRule(size, GapAxisEnum.All, null, ConsumePendingModifierChain()));
         return this;
     }
 
@@ -144,24 +111,16 @@ public sealed class GapBuilder : CssBuilderBase
     {
         if (_rules.Count == 0)
         {
-            BreakpointType? bpEmpty = _pendingBreakpoint;
-            _pendingBreakpoint = null;
-            _rules.Add(new GapRule(GapScaleEnum.Is0Value, axis, bpEmpty));
+            _rules.Add(new GapRule(GapScaleEnum.Is0Value, axis, null, ConsumePendingModifierChain()));
             return this;
         }
 
         int lastIdx = _rules.Count - 1;
         GapRule last = _rules[lastIdx];
-        BreakpointType? bpRewrite = _pendingBreakpoint ?? last.Breakpoint;
-        _pendingBreakpoint = null;
-        _rules[lastIdx] = new GapRule(last.Size, axis, bpRewrite);
-        return this;
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private GapBuilder SetPendingBreakpoint(BreakpointType breakpoint)
-    {
-        _pendingBreakpoint = breakpoint;
+        string? modifierChain = ConsumePendingModifierChain();
+        if (modifierChain is not { Length: > 0 })
+            modifierChain = last.ModifierChain;
+        _rules[lastIdx] = new GapRule(last.Size, axis, last.Breakpoint, modifierChain);
         return this;
     }
 
@@ -187,6 +146,9 @@ public sealed class GapBuilder : CssBuilderBase
 
             if (bp.Length != 0)
                 cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, bp);
+
+            if (rule.ModifierChain is { Length: > 0 })
+                cls = BreakpointUtil.ApplyTailwindModifiers(cls, rule.ModifierChain);
 
             if (!first) 
                 sb.Append(' ');

@@ -3,7 +3,8 @@ namespace Soenneker.Quark;
 /// <summary>
 /// Static utility for stroke line cap. Tailwind: stroke-cap-*.
 /// </summary>
-public static class StrokeLineCap
+[TailwindModifiers(typeof(StrokeLineCapBuilder))]
+public static partial class StrokeLineCap
 {
     /// <summary>
     /// `auto` — browser-default sizing/behavior for the underlying utility.

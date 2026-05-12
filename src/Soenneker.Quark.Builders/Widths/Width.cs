@@ -3,7 +3,8 @@ namespace Soenneker.Quark;
 /// <summary>
 /// Width utility with fluent API and Tailwind-first mappings.
 /// </summary>
-public static class Width
+[TailwindModifiers(typeof(WidthBuilder))]
+public static partial class Width
 {
     /// <summary>
     /// <c>w-25</c> — width from the same spacing scale as padding/margin (<c>25</c> → <c>6.25rem</c> in Tailwind’s default theme).

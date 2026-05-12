@@ -1,4 +1,3 @@
-
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Soenneker.Utils.PooledStringBuilders;
@@ -9,10 +8,13 @@ namespace Soenneker.Quark;
 /// Scroll snap stop builder. Tailwind: snap-stop-normal, snap-stop-always.
 /// </summary>
 [TailwindPrefix("snap-stop-", Responsive = true)]
-public sealed class ScrollSnapStopBuilder : CssBuilderBase
+public sealed class ScrollSnapStopBuilder : CssBuilderBase<ScrollSnapStopBuilder>
 {
     private readonly List<ScrollSnapStopRule> _rules = new(4);
-    private BreakpointType? _pendingBreakpoint;
+
+    internal ScrollSnapStopBuilder()
+    {
+    }
 
     internal ScrollSnapStopBuilder(ScrollSnapStopEnum value, BreakpointType? breakpoint = null)
     {
@@ -25,71 +27,45 @@ public sealed class ScrollSnapStopBuilder : CssBuilderBase
             _rules.AddRange(rules);
     }
 
-    /// <summary>
-    /// Fluent step for `Normal` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
-    /// </summary>
     public ScrollSnapStopBuilder Normal => Chain(ScrollSnapStopEnum.Normal);
-    /// <summary>
-    /// Fluent step for `Always` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
-    /// </summary>
     public ScrollSnapStopBuilder Always => Chain(ScrollSnapStopEnum.Always);
-
-    /// <summary>
-    /// Scopes the next utility to the default (unprefixed) breakpoint.
-    /// </summary>
-    public ScrollSnapStopBuilder OnBase => ChainBp(BreakpointType.Base);
-    /// <summary>
-    /// Applies the preceding utility from the `sm` breakpoint and up (`sm:` prefix). Tailwind default: `min-width: 40rem` (640px).
-    /// </summary>
-    public ScrollSnapStopBuilder OnSm => ChainBp(BreakpointType.Sm);
-    /// <summary>
-    /// Applies from the `md` breakpoint and up (`md:`). Tailwind default: `min-width: 48rem` (768px).
-    /// </summary>
-    public ScrollSnapStopBuilder OnMd => ChainBp(BreakpointType.Md);
-    /// <summary>
-    /// Applies from the `lg` breakpoint and up (`lg:`). Tailwind default: `min-width: 64rem` (1024px).
-    /// </summary>
-    public ScrollSnapStopBuilder OnLg => ChainBp(BreakpointType.Lg);
-    /// <summary>
-    /// Applies from the `xl` breakpoint and up (`xl:`). Tailwind default: `min-width: 80rem` (1280px).
-    /// </summary>
-    public ScrollSnapStopBuilder OnXl => ChainBp(BreakpointType.Xl);
-    /// <summary>
-    /// Applies from the `2xl` breakpoint and up (`2xl:`). Tailwind default: `min-width: 96rem` (1536px).
-    /// </summary>
-    public ScrollSnapStopBuilder On2xl => ChainBp(BreakpointType.Xxl);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private ScrollSnapStopBuilder Chain(ScrollSnapStopEnum value)
     {
-        BreakpointType? breakpoint = _pendingBreakpoint;
-        _pendingBreakpoint = null;
-        _rules.Add(new ScrollSnapStopRule(value, breakpoint));
-        return this;
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private ScrollSnapStopBuilder ChainBp(BreakpointType bp)
-    {
-        _pendingBreakpoint = bp;
+        _rules.Add(new ScrollSnapStopRule(value, null, ConsumePendingModifierChain()));
         return this;
     }
 
     public override string ToClass()
     {
-        if (_rules.Count == 0) return string.Empty;
+        if (_rules.Count == 0)
+            return string.Empty;
+
         using var sb = new PooledStringBuilder();
         var first = true;
+
         foreach (ScrollSnapStopRule rule in _rules)
         {
             string cls = rule.Value.Value;
-            if (cls.Length == 0) continue;
+            if (cls.Length == 0)
+                continue;
+
             string b = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
-            if (b.Length != 0) cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, b);
-            if (!first) sb.Append(' ');
-            else first = false;
+            if (b.Length != 0)
+                cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, b);
+
+            if (rule.ModifierChain is { Length: > 0 })
+                cls = BreakpointUtil.ApplyTailwindModifiers(cls, rule.ModifierChain);
+
+            if (!first)
+                sb.Append(' ');
+            else
+                first = false;
+
             sb.Append(cls);
         }
+
         return sb.ToString();
     }
 

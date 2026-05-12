@@ -76,6 +76,16 @@ public sealed class SizeBuilder : CssBuilderBase
     /// Spacing/sizing scale step `12` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 12` for integer spacing utilities unless overridden).
     /// </summary>
     public SizeBuilder Is12 => ChainWithValue("size-12");
+    public SizeBuilder Is14 => ChainWithValue("size-14");
+    public SizeBuilder Is16 => ChainWithValue("size-16");
+    public SizeBuilder Is20 => ChainWithValue("size-20");
+    public SizeBuilder Is24 => ChainWithValue("size-24");
+    public SizeBuilder Is32 => ChainWithValue("size-32");
+    public SizeBuilder IsPx => ChainWithValue("size-px");
+    public SizeBuilder IsFull => ChainWithValue("size-full");
+    public SizeBuilder IsMin => ChainWithValue("size-min");
+    public SizeBuilder IsMax => ChainWithValue("size-max");
+    public SizeBuilder IsFit => ChainWithValue("size-fit");
 
     /// <summary>
     /// Applies an arbitrary Tailwind size token (e.g. "4", "5", "[18px]", "full").

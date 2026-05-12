@@ -10,10 +10,13 @@ namespace Soenneker.Quark;
 /// Simplified z-index builder with fluent API for chaining z-index rules.
 /// </summary>
 [TailwindPrefix("z-", Responsive = true)]
-public sealed class ZIndexBuilder : CssBuilderBase
+public sealed class ZIndexBuilder : CssBuilderBase<ZIndexBuilder>
 {
     private readonly List<ZIndexRule> _rules = new(4);
-    private BreakpointType? _pendingBreakpoint;
+
+    internal ZIndexBuilder()
+    {
+    }
 
     internal ZIndexBuilder(ZIndexEnum value, BreakpointType? breakpoint = null)
     {
@@ -61,51 +64,20 @@ public sealed class ZIndexBuilder : CssBuilderBase
     /// </summary>
     public ZIndexBuilder Z50 => Chain(ZIndexEnum.Z50);
 
-    /// <summary>
-    /// Applies the z-index on phone breakpoint.
-    /// </summary>
-    public ZIndexBuilder OnBase => SetPendingBreakpoint(BreakpointType.Base);
 
-    /// <summary>
-    /// Applies the z-index on small breakpoint (≥640px).
-    /// </summary>
-    public ZIndexBuilder OnSm => SetPendingBreakpoint(BreakpointType.Sm);
 
-    /// <summary>
-    /// Applies the z-index on tablet breakpoint.
-    /// </summary>
-    public ZIndexBuilder OnMd => SetPendingBreakpoint(BreakpointType.Md);
 
-    /// <summary>
-    /// Applies the z-index on laptop breakpoint.
-    /// </summary>
-    public ZIndexBuilder OnLg => SetPendingBreakpoint(BreakpointType.Lg);
 
-    /// <summary>
-    /// Applies the z-index on desktop breakpoint.
-    /// </summary>
-    public ZIndexBuilder OnXl => SetPendingBreakpoint(BreakpointType.Xl);
 
-    /// <summary>
-    /// Applies the z-index on the 2xl breakpoint.
-    /// </summary>
-    public ZIndexBuilder On2xl => SetPendingBreakpoint(BreakpointType.Xxl);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private ZIndexBuilder Chain(ZIndexEnum value)
     {
-        BreakpointType? bp = _pendingBreakpoint;
-        _pendingBreakpoint = null;
-        _rules.Add(new ZIndexRule(value, bp));
+        BreakpointType? bp = null;
+        _rules.Add(new ZIndexRule(value, bp, ConsumePendingModifierChain()));
         return this;
     }
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private ZIndexBuilder SetPendingBreakpoint(BreakpointType bp)
-    {
-        _pendingBreakpoint = bp;
-        return this;
-    }
 
     /// <summary>
     /// Gets the CSS class string for the current configuration.
@@ -127,6 +99,9 @@ public sealed class ZIndexBuilder : CssBuilderBase
             string bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
             if (bp.Length != 0)
                 cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, bp);
+
+            if (rule.ModifierChain is { Length: > 0 })
+                cls = BreakpointUtil.ApplyTailwindModifiers(cls, rule.ModifierChain);
 
             if (!first) sb.Append(' ');
             else first = false;

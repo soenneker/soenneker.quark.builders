@@ -10,10 +10,13 @@ namespace Soenneker.Quark;
 /// Tailwind/shadcn-aligned text size builder.
 /// </summary>
 [TailwindPrefix("text-", Responsive = true)]
-public sealed class TextSizeBuilder : CssBuilderBase
+public sealed class TextSizeBuilder : CssBuilderBase<TextSizeBuilder>
 {
     private readonly List<TextSizeRule> _rules = new(4);
-    private BreakpointType? _pendingBreakpoint;
+
+    internal TextSizeBuilder()
+    {
+    }
 
     internal TextSizeBuilder(string size, BreakpointType? breakpoint = null)
     {
@@ -58,6 +61,11 @@ public sealed class TextSizeBuilder : CssBuilderBase
     /// Fluent step for `Four Xl` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
     public TextSizeBuilder FourXl => ChainSize("text-4xl");
+    public TextSizeBuilder FiveXl => ChainSize("text-5xl");
+    public TextSizeBuilder SixXl => ChainSize("text-6xl");
+    public TextSizeBuilder SevenXl => ChainSize("text-7xl");
+    public TextSizeBuilder EightXl => ChainSize("text-8xl");
+    public TextSizeBuilder NineXl => ChainSize("text-9xl");
 
     /// <summary>
     /// Tailwind token segment (spacing scale step, arbitrary value like `[17rem]`, or theme key). Builds the matching utility class for this builder.
@@ -65,44 +73,10 @@ public sealed class TextSizeBuilder : CssBuilderBase
     /// <param name="value">Suffix/token after the utility prefix (see Tailwind docs for this family).</param>
     public TextSizeBuilder Token(string value) => ChainSize(NormalizeTextSizeClass(value));
 
-    // ----- BreakpointType chaining -----
-    /// <summary>
-    /// Applies the text size on phone breakpoint.
-    /// </summary>
-    public TextSizeBuilder OnBase => SetPendingBreakpoint(BreakpointType.Base);
-    /// <summary>
-    /// Applies the text size on small breakpoint (≥640px).
-    /// </summary>
-    public TextSizeBuilder OnSm => SetPendingBreakpoint(BreakpointType.Sm);
-    /// <summary>
-    /// Applies the text size on tablet breakpoint.
-    /// </summary>
-    public TextSizeBuilder OnMd => SetPendingBreakpoint(BreakpointType.Md);
-    /// <summary>
-    /// Applies the text size on laptop breakpoint.
-    /// </summary>
-    public TextSizeBuilder OnLg => SetPendingBreakpoint(BreakpointType.Lg);
-    /// <summary>
-    /// Applies the text size on desktop breakpoint.
-    /// </summary>
-    public TextSizeBuilder OnXl => SetPendingBreakpoint(BreakpointType.Xl);
-    /// <summary>
-    /// Applies from the `2xl` breakpoint and up (`2xl:`). Tailwind default: `min-width: 96rem` (1536px).
-    /// </summary>
-    public TextSizeBuilder On2xl => SetPendingBreakpoint(BreakpointType.Xxl);
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private TextSizeBuilder ChainSize(string size)
     {
-        BreakpointType? bp = _pendingBreakpoint;
-        _pendingBreakpoint = null;
-        _rules.Add(new TextSizeRule(size, bp));
-        return this;
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private TextSizeBuilder SetPendingBreakpoint(BreakpointType bp)
-    {
-        _pendingBreakpoint = bp;
+        _rules.Add(new TextSizeRule(size, null, ConsumePendingModifierChain()));
         return this;
     }
 
@@ -126,6 +100,9 @@ public sealed class TextSizeBuilder : CssBuilderBase
             string bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
             if (bp.Length != 0)
                 sizeClass = BreakpointUtil.ApplyTailwindBreakpoint(sizeClass, bp);
+
+            if (rule.ModifierChain is { Length: > 0 })
+                sizeClass = BreakpointUtil.ApplyTailwindModifiers(sizeClass, rule.ModifierChain);
 
             if (!first)
                 sb.Append(' ');

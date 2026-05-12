@@ -8,10 +8,13 @@ namespace Soenneker.Quark;
 /// Start (inset-inline-start) builder. Tailwind: start-*.
 /// </summary>
 [TailwindPrefix("start-", Responsive = true)]
-public sealed class StartBuilder : CssBuilderBase
+public sealed class StartBuilder : CssBuilderBase<StartBuilder>
 {
     private readonly List<StartRule> _rules = new(4);
-    private BreakpointType? _pendingBreakpoint;
+
+    internal StartBuilder()
+    {
+    }
 
     internal StartBuilder(StartEnum value, BreakpointType? breakpoint = null)
     {
@@ -33,28 +36,14 @@ public sealed class StartBuilder : CssBuilderBase
     public StartBuilder Auto => Chain(StartEnum.Auto);
     public StartBuilder Px => Chain(StartEnum.Px);
 
-    public StartBuilder OnBase => ChainBp(BreakpointType.Base);
-    public StartBuilder OnSm => ChainBp(BreakpointType.Sm);
-    public StartBuilder OnMd => ChainBp(BreakpointType.Md);
-    public StartBuilder OnLg => ChainBp(BreakpointType.Lg);
-    public StartBuilder OnXl => ChainBp(BreakpointType.Xl);
-    public StartBuilder On2xl => ChainBp(BreakpointType.Xxl);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private StartBuilder Chain(StartEnum value)
     {
-        BreakpointType? breakpoint = _pendingBreakpoint;
-        _pendingBreakpoint = null;
-        _rules.Add(new StartRule(value, breakpoint));
+        _rules.Add(new StartRule(value, null, ConsumePendingModifierChain()));
         return this;
     }
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private StartBuilder ChainBp(BreakpointType bp)
-    {
-        _pendingBreakpoint = bp;
-        return this;
-    }
 
     public override string ToClass()
     {
@@ -67,6 +56,7 @@ public sealed class StartBuilder : CssBuilderBase
             if (cls.Length == 0) continue;
             string b = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
             if (b.Length != 0) cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, b);
+            if (rule.ModifierChain is { Length: > 0 }) cls = BreakpointUtil.ApplyTailwindModifiers(cls, rule.ModifierChain);
             if (!first) sb.Append(' ');
             else first = false;
             sb.Append(cls);

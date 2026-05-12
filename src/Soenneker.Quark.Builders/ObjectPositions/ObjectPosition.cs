@@ -4,7 +4,8 @@ namespace Soenneker.Quark;
 /// <summary>
 /// Tailwind/shadcn-aligned object-position utility.
 /// </summary>
-public static class ObjectPosition
+[TailwindModifiers(typeof(ObjectPositionBuilder))]
+public static partial class ObjectPosition
 {
     /// <summary>
     /// `object-center`

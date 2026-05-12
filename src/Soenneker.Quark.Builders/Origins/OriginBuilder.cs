@@ -26,10 +26,4 @@ public sealed class OriginBuilder : ResponsiveUtilityBuilder<OriginBuilder>
     public OriginBuilder TopLeft => ChainValue(OriginEnum.TopLeftValue);
     public OriginBuilder Token(string value) => ChainValue("origin-" + value);
 
-    public OriginBuilder OnBase => SetPendingBreakpoint(BreakpointType.Base);
-    public OriginBuilder OnSm => SetPendingBreakpoint(BreakpointType.Sm);
-    public OriginBuilder OnMd => SetPendingBreakpoint(BreakpointType.Md);
-    public OriginBuilder OnLg => SetPendingBreakpoint(BreakpointType.Lg);
-    public OriginBuilder OnXl => SetPendingBreakpoint(BreakpointType.Xl);
-    public OriginBuilder On2xl => SetPendingBreakpoint(BreakpointType.Xxl);
 }

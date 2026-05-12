@@ -8,10 +8,13 @@ namespace Soenneker.Quark;
 /// Top offset builder. Tailwind: top-*.
 /// </summary>
 [TailwindPrefix("top-", Responsive = true)]
-public sealed class TopBuilder : CssBuilderBase
+public sealed class TopBuilder : CssBuilderBase<TopBuilder>
 {
     private readonly List<TopRule> _rules = new(4);
-    private BreakpointType? _pendingBreakpoint;
+
+    internal TopBuilder()
+    {
+    }
 
     internal TopBuilder(TopEnum value, BreakpointType? breakpoint = null)
     {
@@ -43,41 +46,22 @@ public sealed class TopBuilder : CssBuilderBase
     public TopBuilder Px => Chain(TopEnum.Px);
     public TopBuilder Token(string value) => Chain(value.StartsWith("top-") ? value : "top-" + value);
 
-    public TopBuilder OnBase => SetPendingBreakpoint(BreakpointType.Base);
-    public TopBuilder OnSm => SetPendingBreakpoint(BreakpointType.Sm);
-    public TopBuilder OnMd => SetPendingBreakpoint(BreakpointType.Md);
-    public TopBuilder OnLg => SetPendingBreakpoint(BreakpointType.Lg);
-    public TopBuilder OnXl => SetPendingBreakpoint(BreakpointType.Xl);
-    public TopBuilder On2xl => SetPendingBreakpoint(BreakpointType.Xxl);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private TopBuilder Chain(TopEnum value)
     {
-        _rules.Add(new TopRule(value.Value, ConsumePendingBreakpoint()));
+        _rules.Add(new TopRule(value.Value, null, ConsumePendingModifierChain()));
         return this;
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private TopBuilder Chain(string value)
     {
-        _rules.Add(new TopRule(value, ConsumePendingBreakpoint()));
+        _rules.Add(new TopRule(value, null, ConsumePendingModifierChain()));
         return this;
     }
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private TopBuilder SetPendingBreakpoint(BreakpointType breakpoint)
-    {
-        _pendingBreakpoint = breakpoint;
-        return this;
-    }
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private BreakpointType? ConsumePendingBreakpoint()
-    {
-        BreakpointType? breakpoint = _pendingBreakpoint;
-        _pendingBreakpoint = null;
-        return breakpoint;
-    }
 
     public override string ToClass()
     {
@@ -90,6 +74,7 @@ public sealed class TopBuilder : CssBuilderBase
             if (cls.Length == 0) continue;
             string breakpoint = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
             if (breakpoint.Length != 0) cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, breakpoint);
+            if (rule.ModifierChain is { Length: > 0 }) cls = BreakpointUtil.ApplyTailwindModifiers(cls, rule.ModifierChain);
             if (!first) sb.Append(' ');
             else first = false;
             sb.Append(cls);

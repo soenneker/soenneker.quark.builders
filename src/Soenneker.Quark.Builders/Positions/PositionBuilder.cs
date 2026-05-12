@@ -10,10 +10,13 @@ namespace Soenneker.Quark;
 /// High-performance position builder with fluent API for chaining position rules.
 /// </summary>
 [TailwindPrefix("", Responsive = true)]
-public sealed class PositionBuilder : CssBuilderBase
+public sealed class PositionBuilder : CssBuilderBase<PositionBuilder>
 {
     private readonly List<PositionRule> _rules = new(4);
-    private BreakpointType? _pendingBreakpoint;
+
+    internal PositionBuilder()
+    {
+    }
 
     internal PositionBuilder(string position, BreakpointType? breakpoint = null)
     {
@@ -37,40 +40,15 @@ public sealed class PositionBuilder : CssBuilderBase
     /// <summary>Chain with sticky positioning for the next rule.</summary>
     public PositionBuilder Sticky => ChainWithPosition(PositionKeyword.StickyValue);
 
-    /// <summary>Applies the position on phone breakpoint.</summary>
-    public PositionBuilder OnBase => SetPendingBreakpoint(BreakpointType.Base);
-    /// <summary>Applies the position on small breakpoint (≥640px).</summary>
-    public PositionBuilder OnSm => SetPendingBreakpoint(BreakpointType.Sm);
-    /// <summary>Applies the position on tablet breakpoint.</summary>
-    public PositionBuilder OnMd => SetPendingBreakpoint(BreakpointType.Md);
-    /// <summary>Applies the position on laptop breakpoint.</summary>
-    public PositionBuilder OnLg => SetPendingBreakpoint(BreakpointType.Lg);
-    /// <summary>Applies the position on desktop breakpoint.</summary>
-    public PositionBuilder OnXl => SetPendingBreakpoint(BreakpointType.Xl);
-    /// <summary>Applies the position on the 2xl breakpoint.</summary>
-    public PositionBuilder On2xl => SetPendingBreakpoint(BreakpointType.Xxl);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private PositionBuilder ChainWithPosition(string position)
     {
-        _rules.Add(new PositionRule(position, ConsumePendingBreakpoint()));
+        _rules.Add(new PositionRule(position, null, ConsumePendingModifierChain()));
         return this;
     }
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private PositionBuilder SetPendingBreakpoint(BreakpointType breakpoint)
-    {
-        _pendingBreakpoint = breakpoint;
-        return this;
-    }
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private BreakpointType? ConsumePendingBreakpoint()
-    {
-        BreakpointType? breakpoint = _pendingBreakpoint;
-        _pendingBreakpoint = null;
-        return breakpoint;
-    }
 
     /// <summary>Gets the CSS class string for the current configuration.</summary>
     public override string ToClass()
@@ -92,6 +70,9 @@ public sealed class PositionBuilder : CssBuilderBase
             string bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
             if (bp.Length != 0)
                 baseClass = BreakpointUtil.ApplyTailwindBreakpoint(baseClass, bp);
+
+            if (rule.ModifierChain is { Length: > 0 })
+                baseClass = BreakpointUtil.ApplyTailwindModifiers(baseClass, rule.ModifierChain);
 
             if (!first)
                 sb.Append(' ');

@@ -8,10 +8,13 @@ namespace Soenneker.Quark;
 /// Left offset builder. Tailwind: left-*.
 /// </summary>
 [TailwindPrefix("left-", Responsive = true)]
-public sealed class LeftBuilder : CssBuilderBase
+public sealed class LeftBuilder : CssBuilderBase<LeftBuilder>
 {
     private readonly List<LeftRule> _rules = new(4);
-    private BreakpointType? _pendingBreakpoint;
+
+    internal LeftBuilder()
+    {
+    }
 
     internal LeftBuilder(LeftEnum value, BreakpointType? breakpoint = null)
     {
@@ -43,41 +46,22 @@ public sealed class LeftBuilder : CssBuilderBase
     public LeftBuilder Px => Chain(LeftEnum.Px);
     public LeftBuilder Token(string value) => Chain(value.StartsWith("left-") ? value : "left-" + value);
 
-    public LeftBuilder OnBase => SetPendingBreakpoint(BreakpointType.Base);
-    public LeftBuilder OnSm => SetPendingBreakpoint(BreakpointType.Sm);
-    public LeftBuilder OnMd => SetPendingBreakpoint(BreakpointType.Md);
-    public LeftBuilder OnLg => SetPendingBreakpoint(BreakpointType.Lg);
-    public LeftBuilder OnXl => SetPendingBreakpoint(BreakpointType.Xl);
-    public LeftBuilder On2xl => SetPendingBreakpoint(BreakpointType.Xxl);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private LeftBuilder Chain(LeftEnum value)
     {
-        _rules.Add(new LeftRule(value.Value, ConsumePendingBreakpoint()));
+        _rules.Add(new LeftRule(value.Value, null, ConsumePendingModifierChain()));
         return this;
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private LeftBuilder Chain(string value)
     {
-        _rules.Add(new LeftRule(value, ConsumePendingBreakpoint()));
+        _rules.Add(new LeftRule(value, null, ConsumePendingModifierChain()));
         return this;
     }
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private LeftBuilder SetPendingBreakpoint(BreakpointType breakpoint)
-    {
-        _pendingBreakpoint = breakpoint;
-        return this;
-    }
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private BreakpointType? ConsumePendingBreakpoint()
-    {
-        BreakpointType? breakpoint = _pendingBreakpoint;
-        _pendingBreakpoint = null;
-        return breakpoint;
-    }
 
     public override string ToClass()
     {
@@ -90,6 +74,7 @@ public sealed class LeftBuilder : CssBuilderBase
             if (cls.Length == 0) continue;
             string breakpoint = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
             if (breakpoint.Length != 0) cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, breakpoint);
+            if (rule.ModifierChain is { Length: > 0 }) cls = BreakpointUtil.ApplyTailwindModifiers(cls, rule.ModifierChain);
             if (!first) sb.Append(' ');
             else first = false;
             sb.Append(cls);

@@ -4,7 +4,8 @@ namespace Soenneker.Quark;
 /// <summary>
 /// Simplified clip path utility with fluent API and Tailwind/shadcn-aligned fluent API.
 /// </summary>
-public static class ClipPath
+[TailwindModifiers(typeof(ClipPathBuilder))]
+public static partial class ClipPath
 {
     /// <summary>
     /// No clip path (none).

@@ -3,7 +3,8 @@ namespace Soenneker.Quark;
 /// <summary>
 /// Simplified transition utility with fluent API and Tailwind/shadcn-aligned fluent API.
 /// </summary>
-public static class Transition
+[TailwindModifiers(typeof(TransitionBuilder))]
+public static partial class Transition
 {
     /// <summary>
     /// No transition (none).

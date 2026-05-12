@@ -3,7 +3,8 @@ namespace Soenneker.Quark;
 /// <summary>
 /// Tailwind overscroll-behavior utility entry points.
 /// </summary>
-public static class Overscroll
+[TailwindModifiers(typeof(OverscrollBuilder))]
+public static partial class Overscroll
 {
     /// <summary>
     /// `auto` — browser-default sizing/behavior for the underlying utility.

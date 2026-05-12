@@ -3,7 +3,8 @@ namespace Soenneker.Quark;
 /// <summary>
 /// Static utility for mix-blend-mode. Tailwind: mix-blend-*.
 /// </summary>
-public static class MixBlendMode
+[TailwindModifiers(typeof(MixBlendModeBuilder))]
+public static partial class MixBlendMode
 {
     /// <summary>
     /// Fluent step for `Normal` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.

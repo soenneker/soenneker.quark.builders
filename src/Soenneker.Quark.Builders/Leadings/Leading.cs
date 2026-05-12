@@ -1,6 +1,7 @@
 namespace Soenneker.Quark;
 
-public static class Leading
+[TailwindModifiers(typeof(LeadingBuilder))]
+public static partial class Leading
 {
     public static LeadingBuilder None => new(LeadingEnum.None);
     public static LeadingBuilder Tight => new(LeadingEnum.Tight);

@@ -4,7 +4,8 @@ namespace Soenneker.Quark;
 /// <summary>
 /// Simplified scroll behavior utility with fluent API and Tailwind/shadcn-aligned fluent API.
 /// </summary>
-public static class ScrollBehavior
+[TailwindModifiers(typeof(ScrollBehaviorBuilder))]
+public static partial class ScrollBehavior
 {
     /// <summary>
     /// Auto scroll behavior (auto).

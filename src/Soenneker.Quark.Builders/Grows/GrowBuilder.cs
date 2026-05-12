@@ -4,10 +4,13 @@ using Soenneker.Utils.PooledStringBuilders;
 
 namespace Soenneker.Quark;
 
-public sealed class GrowBuilder : CssBuilderBase
+public sealed class GrowBuilder : CssBuilderBase<GrowBuilder>
 {
     private readonly List<GrowRule> _rules = new(4);
-    private BreakpointType? _pendingBreakpoint;
+
+    internal GrowBuilder()
+    {
+    }
 
     internal GrowBuilder(GrowEnum value, BreakpointType? breakpoint = null)
     {
@@ -23,33 +26,11 @@ public sealed class GrowBuilder : CssBuilderBase
     public GrowBuilder Is1 => Chain(GrowEnum.Is1);
     public GrowBuilder Is0 => Chain(GrowEnum.Is0);
 
-    public GrowBuilder OnBase => SetPendingBreakpoint(BreakpointType.Base);
-    public GrowBuilder OnSm => SetPendingBreakpoint(BreakpointType.Sm);
-    public GrowBuilder OnMd => SetPendingBreakpoint(BreakpointType.Md);
-    public GrowBuilder OnLg => SetPendingBreakpoint(BreakpointType.Lg);
-    public GrowBuilder OnXl => SetPendingBreakpoint(BreakpointType.Xl);
-    public GrowBuilder On2xl => SetPendingBreakpoint(BreakpointType.Xxl);
-
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private GrowBuilder Chain(GrowEnum value)
     {
-        _rules.Add(new GrowRule(value, ConsumePendingBreakpoint()));
+        _rules.Add(new GrowRule(value, null, ConsumePendingModifierChain()));
         return this;
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private GrowBuilder SetPendingBreakpoint(BreakpointType breakpoint)
-    {
-        _pendingBreakpoint = breakpoint;
-        return this;
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private BreakpointType? ConsumePendingBreakpoint()
-    {
-        BreakpointType? breakpoint = _pendingBreakpoint;
-        _pendingBreakpoint = null;
-        return breakpoint;
     }
 
     public override string ToClass()
@@ -66,6 +47,9 @@ public sealed class GrowBuilder : CssBuilderBase
             string breakpoint = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
             if (breakpoint.Length != 0)
                 cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, breakpoint);
+
+            if (rule.ModifierChain is { Length: > 0 })
+                cls = BreakpointUtil.ApplyTailwindModifiers(cls, rule.ModifierChain);
 
             if (!first)
                 sb.Append(' ');

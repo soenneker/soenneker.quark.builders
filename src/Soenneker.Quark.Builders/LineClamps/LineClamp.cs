@@ -3,7 +3,8 @@ namespace Soenneker.Quark;
 /// <summary>
 /// Tailwind/shadcn line clamp utility shortcuts.
 /// </summary>
-public static class LineClamp
+[TailwindModifiers(typeof(LineClampBuilder))]
+public static partial class LineClamp
 {
     public static LineClampBuilder None => new(LineClampEnum.None);
     public static LineClampBuilder Is1 => new(LineClampEnum.Is1);

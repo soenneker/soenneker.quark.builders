@@ -3,7 +3,8 @@ namespace Soenneker.Quark;
 /// <summary>
 /// Static utility for inset (position offset) builders. Tailwind: inset-*, top-*, right-*, bottom-*, left-*, start-*, end-*.
 /// </summary>
-public static class Inset
+[TailwindModifiers(typeof(InsetBuilder))]
+public static partial class Inset
 {
     /// <summary>
     /// Spacing/sizing scale step `0` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 0` for integer spacing utilities unless overridden).

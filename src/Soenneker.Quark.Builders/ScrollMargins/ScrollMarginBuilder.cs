@@ -9,10 +9,13 @@ namespace Soenneker.Quark;
 /// Scroll margin builder. Tailwind: scroll-m-*, scroll-mt-*, scroll-mr-*, etc.
 /// </summary>
 [TailwindPrefix("scroll-m", Responsive = true)]
-public sealed class ScrollMarginBuilder : CssBuilderBase
+public sealed class ScrollMarginBuilder : CssBuilderBase<ScrollMarginBuilder>
 {
     private readonly List<ScrollMarginRule> _rules = new(4);
-    private BreakpointType? _pendingBreakpoint;
+
+    internal ScrollMarginBuilder()
+    {
+    }
 
     internal ScrollMarginBuilder(string size, BreakpointType? breakpoint = null)
     {
@@ -95,63 +98,32 @@ public sealed class ScrollMarginBuilder : CssBuilderBase
     /// </summary>
     public ScrollMarginBuilder Px => ChainWithSize(ScrollMarginScaleEnum.Px);
 
-    /// <summary>
-    /// Applies the preceding utility from the `sm` breakpoint and up (`sm:` prefix). Tailwind default: `min-width: 40rem` (640px).
-    /// </summary>
-    public ScrollMarginBuilder OnSm => SetPendingBreakpoint(BreakpointType.Sm);
-    /// <summary>
-    /// Applies from the `md` breakpoint and up (`md:`). Tailwind default: `min-width: 48rem` (768px).
-    /// </summary>
-    public ScrollMarginBuilder OnMd => SetPendingBreakpoint(BreakpointType.Md);
-    /// <summary>
-    /// Applies from the `lg` breakpoint and up (`lg:`). Tailwind default: `min-width: 64rem` (1024px).
-    /// </summary>
-    public ScrollMarginBuilder OnLg => SetPendingBreakpoint(BreakpointType.Lg);
-    /// <summary>
-    /// Applies from the `xl` breakpoint and up (`xl:`). Tailwind default: `min-width: 80rem` (1280px).
-    /// </summary>
-    public ScrollMarginBuilder OnXl => SetPendingBreakpoint(BreakpointType.Xl);
-    /// <summary>
-    /// Applies from the `2xl` breakpoint and up (`2xl:`). Tailwind default: `min-width: 96rem` (1536px).
-    /// </summary>
-    public ScrollMarginBuilder On2xl => SetPendingBreakpoint(BreakpointType.Xxl);
-
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private ScrollMarginBuilder AddRule(ElementSideEnum side)
     {
-            string size = _rules.Count > 0 ? _rules[^1].Size : ScrollMarginScaleEnum.Is0Value;
+        string size = _rules.Count > 0 ? _rules[^1].Size : ScrollMarginScaleEnum.Is0Value;
         BreakpointType? existingBp = _rules.Count > 0 ? _rules[^1].Breakpoint : null;
-        BreakpointType? bp = _pendingBreakpoint ?? existingBp;
-        _pendingBreakpoint = null;
+        string? modifierChain = ConsumePendingModifierChain();
+        if (modifierChain is not { Length: > 0 } && _rules.Count > 0)
+            modifierChain = _rules[^1].ModifierChain;
         if (_rules.Count > 0 && ReferenceEquals(_rules[^1].Side, ElementSideEnum.All))
-            _rules[^1] = new ScrollMarginRule(size, side, bp);
+            _rules[^1] = new ScrollMarginRule(size, side, existingBp, modifierChain);
         else
-            _rules.Add(new ScrollMarginRule(size, side, bp));
+            _rules.Add(new ScrollMarginRule(size, side, existingBp, modifierChain));
         return this;
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private ScrollMarginBuilder ChainWithSize(string size)
     {
-        BreakpointType? bp = _pendingBreakpoint;
-        _pendingBreakpoint = null;
-        _rules.Add(new ScrollMarginRule(size, ElementSideEnum.All, bp));
+        _rules.Add(new ScrollMarginRule(size, ElementSideEnum.All, null, ConsumePendingModifierChain()));
         return this;
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private ScrollMarginBuilder ChainWithSize(ScrollMarginScaleEnum scale)
     {
-        BreakpointType? bp = _pendingBreakpoint;
-        _pendingBreakpoint = null;
-        _rules.Add(new ScrollMarginRule(scale.Value, ElementSideEnum.All, bp));
-        return this;
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private ScrollMarginBuilder SetPendingBreakpoint(BreakpointType breakpoint)
-    {
-        _pendingBreakpoint = breakpoint;
+        _rules.Add(new ScrollMarginRule(scale.Value, ElementSideEnum.All, null, ConsumePendingModifierChain()));
         return this;
     }
 
@@ -167,6 +139,7 @@ public sealed class ScrollMarginBuilder : CssBuilderBase
             if (baseClass.Length == 0) continue;
             string bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
             if (bp.Length != 0) baseClass = BreakpointUtil.ApplyTailwindBreakpoint(baseClass, bp);
+            if (rule.ModifierChain is { Length: > 0 }) baseClass = BreakpointUtil.ApplyTailwindModifiers(baseClass, rule.ModifierChain);
             if (!first) sb.Append(' ');
             else first = false;
             sb.Append(baseClass);

@@ -9,10 +9,13 @@ namespace Soenneker.Quark;
 /// High-performance font weight builder with fluent API for chaining font weight rules.
 /// </summary>
 [TailwindPrefix("font-", Responsive = true)]
-public sealed class FontWeightBuilder : CssBuilderBase
+public sealed class FontWeightBuilder : CssBuilderBase<FontWeightBuilder>
 {
     private readonly List<FontWeightRule> _rules = new(6);
-    private BreakpointType? _pendingBreakpoint;
+
+    internal FontWeightBuilder()
+    {
+    }
 
     internal FontWeightBuilder(FontWeightEnum value, BreakpointType? breakpoint = null)
     {
@@ -62,60 +65,24 @@ public sealed class FontWeightBuilder : CssBuilderBase
     /// Sets an arbitrary font weight token such as [450] or font-[450].
     /// </summary>
     public FontWeightBuilder Token(string value) => Chain(NormalizeFontWeightClass(value));
-    /// <summary>
-    /// Applies the font weight on phone breakpoint.
-    /// </summary>
-    public FontWeightBuilder OnBase => SetPendingBreakpoint(BreakpointType.Base);
 
-    /// <summary>
-    /// Applies the font weight on small breakpoint (≥640px).
-    /// </summary>
-    public FontWeightBuilder OnSm => SetPendingBreakpoint(BreakpointType.Sm);
-
-    /// <summary>
-    /// Applies the font weight on tablet breakpoint.
-    /// </summary>
-    public FontWeightBuilder OnMd => SetPendingBreakpoint(BreakpointType.Md);
-
-    /// <summary>
-    /// Applies the font weight on laptop breakpoint.
-    /// </summary>
-    public FontWeightBuilder OnLg => SetPendingBreakpoint(BreakpointType.Lg);
-
-    /// <summary>
-    /// Applies the font weight on desktop breakpoint.
-    /// </summary>
-    public FontWeightBuilder OnXl => SetPendingBreakpoint(BreakpointType.Xl);
-
-    /// <summary>
-    /// Applies the font weight on the 2xl breakpoint.
-    /// </summary>
-    public FontWeightBuilder On2xl => SetPendingBreakpoint(BreakpointType.Xxl);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private FontWeightBuilder Chain(FontWeightEnum value)
     {
-        BreakpointType? bp = _pendingBreakpoint;
-        _pendingBreakpoint = null;
-        _rules.Add(new FontWeightRule(value.Value, bp));
+        BreakpointType? bp = null;
+        _rules.Add(new FontWeightRule(value.Value, bp, ConsumePendingModifierChain()));
         return this;
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private FontWeightBuilder Chain(string value)
     {
-        BreakpointType? bp = _pendingBreakpoint;
-        _pendingBreakpoint = null;
-        _rules.Add(new FontWeightRule(value, bp));
+        BreakpointType? bp = null;
+        _rules.Add(new FontWeightRule(value, bp, ConsumePendingModifierChain()));
         return this;
     }
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private FontWeightBuilder SetPendingBreakpoint(BreakpointType bp)
-    {
-        _pendingBreakpoint = bp;
-        return this;
-    }
 
     /// <summary>
     /// Gets the CSS class string for the current configuration.
@@ -137,6 +104,9 @@ public sealed class FontWeightBuilder : CssBuilderBase
             string bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
             if (bp.Length != 0)
                 cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, bp);
+
+            if (rule.ModifierChain is { Length: > 0 })
+                cls = BreakpointUtil.ApplyTailwindModifiers(cls, rule.ModifierChain);
 
             if (!first) sb.Append(' ');
             else first = false;

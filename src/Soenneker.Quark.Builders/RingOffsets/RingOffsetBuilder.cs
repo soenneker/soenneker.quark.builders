@@ -6,10 +6,13 @@ using Soenneker.Utils.PooledStringBuilders;
 namespace Soenneker.Quark;
 
 [TailwindPrefix("ring-offset-", Responsive = true)]
-public sealed class RingOffsetBuilder : CssBuilderBase
+public sealed class RingOffsetBuilder : CssBuilderBase<RingOffsetBuilder>
 {
     private readonly List<RingOffsetRule> _rules = new(4);
-    private BreakpointType? _pendingBreakpoint;
+
+    internal RingOffsetBuilder()
+    {
+    }
 
     internal RingOffsetBuilder(string value, BreakpointType? breakpoint = null)
     {
@@ -36,52 +39,12 @@ public sealed class RingOffsetBuilder : CssBuilderBase
     public RingOffsetBuilder Color(string value) => Chain(ColorUtility.CreateClass("ring-offset-", value));
     public RingOffsetBuilder Utility(string utility) => Chain(ColorUtility.CreateUtilityClass("ring-offset-", utility));
 
-    /// <summary>
-    /// Scopes the next utility to the default (unprefixed) breakpoint. In Tailwind’s mobile‑first model, unprefixed utilities apply from 0px unless a larger breakpoint overrides them.
-    /// </summary>
-    public RingOffsetBuilder OnBase => SetPendingBreakpoint(BreakpointType.Base);
-    /// <summary>
-    /// Applies the preceding utility from the `sm` breakpoint and up (`sm:` prefix). Tailwind default: `min-width: 40rem` (640px).
-    /// </summary>
-    public RingOffsetBuilder OnSm => SetPendingBreakpoint(BreakpointType.Sm);
-    /// <summary>
-    /// Applies from the `md` breakpoint and up (`md:`). Tailwind default: `min-width: 48rem` (768px).
-    /// </summary>
-    public RingOffsetBuilder OnMd => SetPendingBreakpoint(BreakpointType.Md);
-    /// <summary>
-    /// Applies from the `lg` breakpoint and up (`lg:`). Tailwind default: `min-width: 64rem` (1024px).
-    /// </summary>
-    public RingOffsetBuilder OnLg => SetPendingBreakpoint(BreakpointType.Lg);
-    /// <summary>
-    /// Applies from the `xl` breakpoint and up (`xl:`). Tailwind default: `min-width: 80rem` (1280px).
-    /// </summary>
-    public RingOffsetBuilder OnXl => SetPendingBreakpoint(BreakpointType.Xl);
-    /// <summary>
-    /// Applies from the `2xl` breakpoint and up (`2xl:`). Tailwind default: `min-width: 96rem` (1536px).
-    /// </summary>
-    public RingOffsetBuilder On2xl => SetPendingBreakpoint(BreakpointType.Xxl);
-
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private RingOffsetBuilder Chain(string value)
     {
         if (value.Length != 0)
-            _rules.Add(new RingOffsetRule(value, ConsumePendingBreakpoint()));
+            _rules.Add(new RingOffsetRule(value, null, ConsumePendingModifierChain()));
         return this;
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private RingOffsetBuilder SetPendingBreakpoint(BreakpointType breakpoint)
-    {
-        _pendingBreakpoint = breakpoint;
-        return this;
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private BreakpointType? ConsumePendingBreakpoint()
-    {
-        BreakpointType? breakpoint = _pendingBreakpoint;
-        _pendingBreakpoint = null;
-        return breakpoint;
     }
 
     public override string ToClass()
@@ -98,6 +61,9 @@ public sealed class RingOffsetBuilder : CssBuilderBase
             string bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
             if (bp.Length != 0)
                 cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, bp);
+
+            if (rule.ModifierChain is { Length: > 0 })
+                cls = BreakpointUtil.ApplyTailwindModifiers(cls, rule.ModifierChain);
 
             if (!first)
                 sb.Append(' ');

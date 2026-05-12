@@ -3,7 +3,8 @@ namespace Soenneker.Quark;
 /// <summary>
 /// Static utility for top (top offset). Tailwind: top-*.
 /// </summary>
-public static class Top
+[TailwindModifiers(typeof(TopBuilder))]
+public static partial class Top
 {
     public static TopBuilder Is0 => new(TopEnum.Is0);
     public static TopBuilder Is1 => new(TopEnum.Is1);

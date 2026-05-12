@@ -9,10 +9,13 @@ namespace Soenneker.Quark;
 /// High-performance text wrap builder with fluent API for chaining text wrap rules.
 /// </summary>
 [TailwindPrefix("text-", Responsive = true)]
-public sealed class TextWrapBuilder : CssBuilderBase
+public sealed class TextWrapBuilder : CssBuilderBase<TextWrapBuilder>
 {
     private readonly List<TextWrapRule> _rules = new(4);
-    private BreakpointType? _pendingBreakpoint;
+
+    internal TextWrapBuilder()
+    {
+    }
 
     internal TextWrapBuilder(TextWrapEnum value, BreakpointType? breakpoint = null)
     {
@@ -37,46 +40,15 @@ public sealed class TextWrapBuilder : CssBuilderBase
     /// Sets the text wrap to pretty.
     /// </summary>
     public TextWrapBuilder Pretty => Chain(TextWrapEnum.Pretty);
-    /// <summary>
-    /// Applies the text wrap on phone breakpoint.
-    /// </summary>
-    public TextWrapBuilder OnBase => SetPendingBreakpoint(BreakpointType.Base);
-    /// <summary>
-    /// Applies the text wrap on small breakpoint (≥640px).
-    /// </summary>
-    public TextWrapBuilder OnSm => SetPendingBreakpoint(BreakpointType.Sm);
-    /// <summary>
-    /// Applies the text wrap on tablet breakpoint.
-    /// </summary>
-    public TextWrapBuilder OnMd => SetPendingBreakpoint(BreakpointType.Md);
-    /// <summary>
-    /// Applies the text wrap on laptop breakpoint.
-    /// </summary>
-    public TextWrapBuilder OnLg => SetPendingBreakpoint(BreakpointType.Lg);
-    /// <summary>
-    /// Applies the text wrap on desktop breakpoint.
-    /// </summary>
-    public TextWrapBuilder OnXl => SetPendingBreakpoint(BreakpointType.Xl);
-    /// <summary>
-    /// Applies the text wrap on the 2xl breakpoint.
-    /// </summary>
-    public TextWrapBuilder On2xl => SetPendingBreakpoint(BreakpointType.Xxl);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private TextWrapBuilder Chain(TextWrapEnum value)
     {
-        BreakpointType? bp = _pendingBreakpoint;
-        _pendingBreakpoint = null;
-        _rules.Add(new TextWrapRule(value.Value, bp));
+        BreakpointType? bp = null;
+        _rules.Add(new TextWrapRule(value.Value, bp, ConsumePendingModifierChain()));
         return this;
     }
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private TextWrapBuilder SetPendingBreakpoint(BreakpointType bp)
-    {
-        _pendingBreakpoint = bp;
-        return this;
-    }
 
     /// <summary>
     /// Gets the CSS class string for the current configuration.
@@ -100,6 +72,9 @@ public sealed class TextWrapBuilder : CssBuilderBase
             string bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
             if (bp.Length != 0)
                 cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, bp);
+
+            if (rule.ModifierChain is { Length: > 0 })
+                cls = BreakpointUtil.ApplyTailwindModifiers(cls, rule.ModifierChain);
 
             if (!first) sb.Append(' ');
             else first = false;

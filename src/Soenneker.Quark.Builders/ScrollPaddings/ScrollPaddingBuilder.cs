@@ -9,10 +9,13 @@ namespace Soenneker.Quark;
 /// Scroll padding builder. Tailwind: scroll-p-*, scroll-pt-*, scroll-pr-*, etc.
 /// </summary>
 [TailwindPrefix("scroll-p", Responsive = true)]
-public sealed class ScrollPaddingBuilder : CssBuilderBase
+public sealed class ScrollPaddingBuilder : CssBuilderBase<ScrollPaddingBuilder>
 {
     private readonly List<ScrollPaddingRule> _rules = new(4);
-    private BreakpointType? _pendingBreakpoint;
+
+    internal ScrollPaddingBuilder()
+    {
+    }
 
     internal ScrollPaddingBuilder(string size, BreakpointType? breakpoint = null)
     {
@@ -91,67 +94,33 @@ public sealed class ScrollPaddingBuilder : CssBuilderBase
     /// </summary>
     public ScrollPaddingBuilder Px => ChainWithSize(ScrollPaddingScaleEnum.Px);
 
-    /// <summary>
-    /// Applies the preceding utility from the `sm` breakpoint and up (`sm:` prefix). Tailwind default: `min-width: 40rem` (640px).
-    /// </summary>
-    public ScrollPaddingBuilder OnSm => SetPendingBreakpoint(BreakpointType.Sm);
-    /// <summary>
-    /// Applies from the `md` breakpoint and up (`md:`). Tailwind default: `min-width: 48rem` (768px).
-    /// </summary>
-    public ScrollPaddingBuilder OnMd => SetPendingBreakpoint(BreakpointType.Md);
-    /// <summary>
-    /// Applies from the `lg` breakpoint and up (`lg:`). Tailwind default: `min-width: 64rem` (1024px).
-    /// </summary>
-    public ScrollPaddingBuilder OnLg => SetPendingBreakpoint(BreakpointType.Lg);
-    /// <summary>
-    /// Applies from the `xl` breakpoint and up (`xl:`). Tailwind default: `min-width: 80rem` (1280px).
-    /// </summary>
-    public ScrollPaddingBuilder OnXl => SetPendingBreakpoint(BreakpointType.Xl);
-    /// <summary>
-    /// Applies from the `2xl` breakpoint and up (`2xl:`). Tailwind default: `min-width: 96rem` (1536px).
-    /// </summary>
-    public ScrollPaddingBuilder On2xl => SetPendingBreakpoint(BreakpointType.Xxl);
-
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private ScrollPaddingBuilder AddRule(ElementSideEnum side)
     {
-        BreakpointType? pending = ConsumePendingBreakpoint();
         string size = _rules.Count > 0 ? _rules[^1].Size : ScrollPaddingScaleEnum.Is0Value;
-        BreakpointType? bp = pending ?? (_rules.Count > 0 ? _rules[^1].Breakpoint : null);
+        BreakpointType? bp = _rules.Count > 0 ? _rules[^1].Breakpoint : null;
+        string? modifierChain = ConsumePendingModifierChain();
+        if (modifierChain is not { Length: > 0 } && _rules.Count > 0)
+            modifierChain = _rules[^1].ModifierChain;
         if (_rules.Count > 0 && ReferenceEquals(_rules[^1].Side, ElementSideEnum.All))
-            _rules[^1] = new ScrollPaddingRule(size, side, bp);
+            _rules[^1] = new ScrollPaddingRule(size, side, bp, modifierChain);
         else
-            _rules.Add(new ScrollPaddingRule(size, side, bp));
+            _rules.Add(new ScrollPaddingRule(size, side, bp, modifierChain));
         return this;
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private ScrollPaddingBuilder ChainWithSize(string size)
     {
-        _rules.Add(new ScrollPaddingRule(size, ElementSideEnum.All, ConsumePendingBreakpoint()));
+        _rules.Add(new ScrollPaddingRule(size, ElementSideEnum.All, null, ConsumePendingModifierChain()));
         return this;
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private ScrollPaddingBuilder ChainWithSize(ScrollPaddingScaleEnum scale)
     {
-        _rules.Add(new ScrollPaddingRule(scale.Value, ElementSideEnum.All, ConsumePendingBreakpoint()));
+        _rules.Add(new ScrollPaddingRule(scale.Value, ElementSideEnum.All, null, ConsumePendingModifierChain()));
         return this;
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private ScrollPaddingBuilder SetPendingBreakpoint(BreakpointType breakpoint)
-    {
-        _pendingBreakpoint = breakpoint;
-        return this;
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private BreakpointType? ConsumePendingBreakpoint()
-    {
-        BreakpointType? breakpoint = _pendingBreakpoint;
-        _pendingBreakpoint = null;
-        return breakpoint;
     }
 
     public override string ToClass()
@@ -166,6 +135,7 @@ public sealed class ScrollPaddingBuilder : CssBuilderBase
             if (baseClass.Length == 0) continue;
             string bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
             if (bp.Length != 0) baseClass = BreakpointUtil.ApplyTailwindBreakpoint(baseClass, bp);
+            if (rule.ModifierChain is { Length: > 0 }) baseClass = BreakpointUtil.ApplyTailwindModifiers(baseClass, rule.ModifierChain);
             if (!first) sb.Append(' ');
             else first = false;
             sb.Append(baseClass);

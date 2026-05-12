@@ -3,7 +3,8 @@ namespace Soenneker.Quark;
 /// <summary>
 /// Tailwind font variant numeric utility entry points.
 /// </summary>
-public static class FontVariantNumeric
+[TailwindModifiers(typeof(FontVariantNumericBuilder))]
+public static partial class FontVariantNumeric
 {
     /// <summary>
     /// Fluent step for `Normal Nums` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.

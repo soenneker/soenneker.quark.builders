@@ -7,12 +7,12 @@ namespace Soenneker.Quark;
 /// <summary>
 /// Builds Tailwind/shadcn rounded classes.
 /// </summary>
-public sealed class RoundedBuilder : CssBuilderBase
+public sealed class RoundedBuilder : CssBuilderBase<RoundedBuilder>
 {
     private readonly List<RoundedRule> _rules = new(4);
 
     private RoundedPositionEnum _pendingPosition = RoundedPositionEnum.All;
-    private BreakpointType? _pendingBreakpoint;
+    private string? _pendingCtorModifier;
 
     private const string _base = "rounded";
 
@@ -26,7 +26,8 @@ public sealed class RoundedBuilder : CssBuilderBase
             _rules.AddRange(rules);
 
         _pendingPosition = position ?? RoundedPositionEnum.All;
-        _pendingBreakpoint = bp;
+        if (bp is not null)
+            _pendingCtorModifier = BreakpointUtil.GetBreakpointToken(bp);
     }
 
     // ----- Positions -----
@@ -113,33 +114,6 @@ public sealed class RoundedBuilder : CssBuilderBase
     /// <param name="value">The segment after <c>rounded-</c> (and any corner prefix such as <c>tl-</c>).</param>
     public RoundedBuilder Token(string value) => Add(value);
 
-    // ----- Breakpoints -----
-
-    /// <summary>
-    /// Scopes the next utility to the default (unprefixed) breakpoint. In Tailwind’s mobile‑first model, unprefixed utilities apply from 0px unless a larger breakpoint overrides them.
-    /// </summary>
-    public RoundedBuilder OnBase => SetBreakpoint(BreakpointType.Base);
-    /// <summary>
-    /// Applies the preceding utility from the `sm` breakpoint and up (`sm:` prefix). Tailwind default: `min-width: 40rem` (640px).
-    /// </summary>
-    public RoundedBuilder OnSm => SetBreakpoint(BreakpointType.Sm);
-    /// <summary>
-    /// Applies from the `md` breakpoint and up (`md:`). Tailwind default: `min-width: 48rem` (768px).
-    /// </summary>
-    public RoundedBuilder OnMd => SetBreakpoint(BreakpointType.Md);
-    /// <summary>
-    /// Applies from the `lg` breakpoint and up (`lg:`). Tailwind default: `min-width: 64rem` (1024px).
-    /// </summary>
-    public RoundedBuilder OnLg => SetBreakpoint(BreakpointType.Lg);
-    /// <summary>
-    /// Applies from the `xl` breakpoint and up (`xl:`). Tailwind default: `min-width: 80rem` (1280px).
-    /// </summary>
-    public RoundedBuilder OnXl => SetBreakpoint(BreakpointType.Xl);
-    /// <summary>
-    /// Applies from the `2xl` breakpoint and up (`2xl:`). Tailwind default: `min-width: 96rem` (1536px).
-    /// </summary>
-    public RoundedBuilder On2xl => SetBreakpoint(BreakpointType.Xxl);
-
     // ----- Core -----
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -150,19 +124,16 @@ public sealed class RoundedBuilder : CssBuilderBase
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private RoundedBuilder SetBreakpoint(BreakpointType bp)
-    {
-        _pendingBreakpoint = bp;
-        return this;
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private RoundedBuilder Add(string? size)
     {
-        _rules.Add(new RoundedRule(size, _pendingPosition, _pendingBreakpoint));
+        string? modifierChain = ConsumePendingModifierChain();
+        if (modifierChain is not { Length: > 0 })
+            modifierChain = _pendingCtorModifier;
+
+        _rules.Add(new RoundedRule(size, _pendingPosition, null, modifierChain));
 
         _pendingPosition = RoundedPositionEnum.All;
-        _pendingBreakpoint = null;
+        _pendingCtorModifier = null;
 
         return this;
     }
@@ -186,25 +157,30 @@ public sealed class RoundedBuilder : CssBuilderBase
             else
                 first = false;
 
-            if (bp.Length > 0)
-            {
-                sb.Append(bp);
-                sb.Append(':');
-            }
-
-            sb.Append(_base);
+            using var classBuilder = new PooledStringBuilder();
+            classBuilder.Append(_base);
 
             if (rule.Position.Value.Length > 0)
             {
-                sb.Append('-');
-                sb.Append(rule.Position.Value);
+                classBuilder.Append('-');
+                classBuilder.Append(rule.Position.Value);
             }
 
             if (rule.SizeToken is { Length: > 0 })
             {
-                sb.Append('-');
-                sb.Append(rule.SizeToken);
+                classBuilder.Append('-');
+                classBuilder.Append(rule.SizeToken);
             }
+
+            string cls = classBuilder.ToString();
+
+            if (bp.Length > 0)
+                cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, bp);
+
+            if (rule.ModifierChain is { Length: > 0 })
+                cls = BreakpointUtil.ApplyTailwindModifiers(cls, rule.ModifierChain);
+
+            sb.Append(cls);
         }
 
         return sb.ToString();

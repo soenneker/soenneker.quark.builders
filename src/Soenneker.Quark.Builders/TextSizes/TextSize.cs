@@ -3,7 +3,8 @@ namespace Soenneker.Quark;
 /// <summary>
 /// Tailwind/shadcn-aligned text size utility.
 /// </summary>
-public static class TextSize
+[TailwindModifiers(typeof(TextSizeBuilder))]
+public static partial class TextSize
 {
     /// <summary>
     /// Fluent step for `Xs` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
@@ -37,6 +38,11 @@ public static class TextSize
     /// Fluent step for `Four Xl` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
     public static TextSizeBuilder FourXl => new("text-4xl");
+    public static TextSizeBuilder FiveXl => new("text-5xl");
+    public static TextSizeBuilder SixXl => new("text-6xl");
+    public static TextSizeBuilder SevenXl => new("text-7xl");
+    public static TextSizeBuilder EightXl => new("text-8xl");
+    public static TextSizeBuilder NineXl => new("text-9xl");
 
     /// <summary>
     /// Creates an arbitrary Tailwind text size token (e.g. "5xl", "[18px]").

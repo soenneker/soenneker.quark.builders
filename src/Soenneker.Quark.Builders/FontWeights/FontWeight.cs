@@ -3,7 +3,8 @@ namespace Soenneker.Quark;
 /// <summary>
 /// Static utility class for creating font weight builders with predefined values.
 /// </summary>
-public static class FontWeight
+[TailwindModifiers(typeof(FontWeightBuilder))]
+public static partial class FontWeight
 {
     /// <summary>
     /// Gets a font weight builder with extralight value (200).

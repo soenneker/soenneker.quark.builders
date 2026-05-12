@@ -22,10 +22,4 @@ public sealed class ItemsBuilder : ResponsiveUtilityBuilder<ItemsBuilder>
     public ItemsBuilder Stretch => ChainValue(ItemsEnum.StretchValue);
     public ItemsBuilder Token(string value) => ChainValue("items-" + value);
 
-    public ItemsBuilder OnBase => SetPendingBreakpoint(BreakpointType.Base);
-    public ItemsBuilder OnSm => SetPendingBreakpoint(BreakpointType.Sm);
-    public ItemsBuilder OnMd => SetPendingBreakpoint(BreakpointType.Md);
-    public ItemsBuilder OnLg => SetPendingBreakpoint(BreakpointType.Lg);
-    public ItemsBuilder OnXl => SetPendingBreakpoint(BreakpointType.Xl);
-    public ItemsBuilder On2xl => SetPendingBreakpoint(BreakpointType.Xxl);
 }

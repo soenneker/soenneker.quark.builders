@@ -23,12 +23,6 @@ public sealed class FlexWrapBuilder : ResponsiveUtilityBuilder<FlexWrapBuilder>
     public FlexWrapBuilder NoWrap => ChainValue(FlexWrapEnum.NoWrapValue);
     public FlexWrapBuilder Token(string value) => ChainValue("flex-" + value);
 
-    public FlexWrapBuilder OnBase => SetPendingBreakpoint(BreakpointType.Base);
-    public FlexWrapBuilder OnSm => SetPendingBreakpoint(BreakpointType.Sm);
-    public FlexWrapBuilder OnMd => SetPendingBreakpoint(BreakpointType.Md);
-    public FlexWrapBuilder OnLg => SetPendingBreakpoint(BreakpointType.Lg);
-    public FlexWrapBuilder OnXl => SetPendingBreakpoint(BreakpointType.Xl);
-    public FlexWrapBuilder On2xl => SetPendingBreakpoint(BreakpointType.Xxl);
 
     public override string ToClass()
     {
@@ -46,11 +40,11 @@ public sealed class FlexWrapBuilder : ResponsiveUtilityBuilder<FlexWrapBuilder>
             if (rule.Value.Length == 0)
                 continue;
 
-            string breakpoint = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
+            string modifierChain = GetModifierChain(rule);
 
-            if (emittedFlexBreakpoints.Add(breakpoint))
+            if (emittedFlexBreakpoints.Add(modifierChain))
             {
-                string flexClass = breakpoint.Length == 0 ? "flex" : BreakpointUtil.ApplyTailwindBreakpoint("flex", breakpoint);
+                string flexClass = modifierChain.Length == 0 ? "flex" : BreakpointUtil.ApplyTailwindModifiers("flex", modifierChain);
 
                 if (!first)
                     sb.Append(' ');
@@ -60,7 +54,7 @@ public sealed class FlexWrapBuilder : ResponsiveUtilityBuilder<FlexWrapBuilder>
                 sb.Append(flexClass);
             }
 
-            string cls = breakpoint.Length == 0 ? rule.Value : BreakpointUtil.ApplyTailwindBreakpoint(rule.Value, breakpoint);
+            string cls = modifierChain.Length == 0 ? rule.Value : BreakpointUtil.ApplyTailwindModifiers(rule.Value, modifierChain);
 
             if (!first)
                 sb.Append(' ');
@@ -71,5 +65,15 @@ public sealed class FlexWrapBuilder : ResponsiveUtilityBuilder<FlexWrapBuilder>
         }
 
         return sb.ToString();
+    }
+
+    private static string GetModifierChain(UtilityRule rule)
+    {
+        string breakpoint = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
+
+        if (breakpoint.Length == 0)
+            return rule.ModifierChain ?? string.Empty;
+
+        return rule.ModifierChain is { Length: > 0 } ? $"{breakpoint}:{rule.ModifierChain}" : breakpoint;
     }
 }

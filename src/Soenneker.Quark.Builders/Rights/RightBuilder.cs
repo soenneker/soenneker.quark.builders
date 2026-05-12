@@ -8,10 +8,13 @@ namespace Soenneker.Quark;
 /// Right offset builder. Tailwind: right-*.
 /// </summary>
 [TailwindPrefix("right-", Responsive = true)]
-public sealed class RightBuilder : CssBuilderBase
+public sealed class RightBuilder : CssBuilderBase<RightBuilder>
 {
     private readonly List<RightRule> _rules = new(4);
-    private BreakpointType? _pendingBreakpoint;
+
+    internal RightBuilder()
+    {
+    }
 
     internal RightBuilder(RightEnum value, BreakpointType? breakpoint = null)
     {
@@ -43,41 +46,22 @@ public sealed class RightBuilder : CssBuilderBase
     public RightBuilder Px => Chain(RightEnum.Px);
     public RightBuilder Token(string value) => Chain(value.StartsWith("right-") ? value : "right-" + value);
 
-    public RightBuilder OnBase => SetPendingBreakpoint(BreakpointType.Base);
-    public RightBuilder OnSm => SetPendingBreakpoint(BreakpointType.Sm);
-    public RightBuilder OnMd => SetPendingBreakpoint(BreakpointType.Md);
-    public RightBuilder OnLg => SetPendingBreakpoint(BreakpointType.Lg);
-    public RightBuilder OnXl => SetPendingBreakpoint(BreakpointType.Xl);
-    public RightBuilder On2xl => SetPendingBreakpoint(BreakpointType.Xxl);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private RightBuilder Chain(RightEnum value)
     {
-        _rules.Add(new RightRule(value.Value, ConsumePendingBreakpoint()));
+        _rules.Add(new RightRule(value.Value, null, ConsumePendingModifierChain()));
         return this;
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private RightBuilder Chain(string value)
     {
-        _rules.Add(new RightRule(value, ConsumePendingBreakpoint()));
+        _rules.Add(new RightRule(value, null, ConsumePendingModifierChain()));
         return this;
     }
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private RightBuilder SetPendingBreakpoint(BreakpointType breakpoint)
-    {
-        _pendingBreakpoint = breakpoint;
-        return this;
-    }
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private BreakpointType? ConsumePendingBreakpoint()
-    {
-        BreakpointType? breakpoint = _pendingBreakpoint;
-        _pendingBreakpoint = null;
-        return breakpoint;
-    }
 
     public override string ToClass()
     {
@@ -90,6 +74,7 @@ public sealed class RightBuilder : CssBuilderBase
             if (cls.Length == 0) continue;
             string breakpoint = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
             if (breakpoint.Length != 0) cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, breakpoint);
+            if (rule.ModifierChain is { Length: > 0 }) cls = BreakpointUtil.ApplyTailwindModifiers(cls, rule.ModifierChain);
             if (!first) sb.Append(' ');
             else first = false;
             sb.Append(cls);

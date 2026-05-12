@@ -3,4 +3,4 @@ namespace Soenneker.Quark;
 /// <summary>
 /// Represents a single aspect ratio rule with optional BreakpointType.
 /// </summary>
-internal record AspectRatioRule(string Ratio, BreakpointType? Breakpoint = null);
+internal record AspectRatioRule(string Ratio, BreakpointType? Breakpoint = null, string? ModifierChain = null);

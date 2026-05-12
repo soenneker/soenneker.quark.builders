@@ -5,10 +5,13 @@ using Soenneker.Utils.PooledStringBuilders;
 namespace Soenneker.Quark;
 
 [TailwindPrefix("space-", Responsive = true)]
-public sealed class SpaceBuilder : CssBuilderBase
+public sealed class SpaceBuilder : CssBuilderBase<SpaceBuilder>
 {
     private readonly List<SpaceRule> _rules = new(6);
-    private BreakpointType? _pendingBreakpoint;
+
+    internal SpaceBuilder()
+    {
+    }
 
     internal SpaceBuilder(SpaceEnum value, BreakpointType? breakpoint = null)
     {
@@ -41,59 +44,18 @@ public sealed class SpaceBuilder : CssBuilderBase
         return ChainClass(prefix + value);
     }
 
-    /// <summary>
-    /// Scopes the next utility to the default (unprefixed) breakpoint. In Tailwind’s mobile‑first model, unprefixed utilities apply from 0px unless a larger breakpoint overrides them.
-    /// </summary>
-    public SpaceBuilder OnBase => ChainBreakpoint(BreakpointType.Base);
-
-    /// <summary>
-    /// Applies the preceding utility from the `sm` breakpoint and up (`sm:` prefix). Tailwind default: `min-width: 40rem` (640px).
-    /// </summary>
-    public SpaceBuilder OnSm => ChainBreakpoint(BreakpointType.Sm);
-
-    /// <summary>
-    /// Applies from the `md` breakpoint and up (`md:`). Tailwind default: `min-width: 48rem` (768px).
-    /// </summary>
-    public SpaceBuilder OnMd => ChainBreakpoint(BreakpointType.Md);
-
-    /// <summary>
-    /// Applies from the `lg` breakpoint and up (`lg:`). Tailwind default: `min-width: 64rem` (1024px).
-    /// </summary>
-    public SpaceBuilder OnLg => ChainBreakpoint(BreakpointType.Lg);
-
-    /// <summary>
-    /// Applies from the `xl` breakpoint and up (`xl:`). Tailwind default: `min-width: 80rem` (1280px).
-    /// </summary>
-    public SpaceBuilder OnXl => ChainBreakpoint(BreakpointType.Xl);
-
-    /// <summary>
-    /// Applies from the `2xl` breakpoint and up (`2xl:`). Tailwind default: `min-width: 96rem` (1536px).
-    /// </summary>
-    public SpaceBuilder On2xl => ChainBreakpoint(BreakpointType.Xxl);
-
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private SpaceBuilder Chain(SpaceEnum value)
     {
-        BreakpointType? breakpoint = _pendingBreakpoint;
-        _pendingBreakpoint = null;
-        _rules.Add(new SpaceRule(value.Value, breakpoint));
+        _rules.Add(new SpaceRule(value.Value, null, ConsumePendingModifierChain()));
         return this;
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private SpaceBuilder ChainClass(string value)
     {
-        BreakpointType? breakpoint = _pendingBreakpoint;
-        _pendingBreakpoint = null;
         if (value.Length != 0)
-            _rules.Add(new SpaceRule(value, breakpoint));
-        return this;
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private SpaceBuilder ChainBreakpoint(BreakpointType breakpoint)
-    {
-        _pendingBreakpoint = breakpoint;
+            _rules.Add(new SpaceRule(value, null, ConsumePendingModifierChain()));
         return this;
     }
 
@@ -112,6 +74,9 @@ public sealed class SpaceBuilder : CssBuilderBase
             string bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
             if (bp.Length != 0)
                 cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, bp);
+
+            if (rule.ModifierChain is { Length: > 0 })
+                cls = BreakpointUtil.ApplyTailwindModifiers(cls, rule.ModifierChain);
 
             if (!first)
                 sb.Append(' ');

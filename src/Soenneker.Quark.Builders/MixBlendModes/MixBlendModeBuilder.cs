@@ -9,10 +9,13 @@ namespace Soenneker.Quark;
 /// Mix-blend-mode builder. Tailwind: mix-blend-normal, mix-blend-multiply, etc.
 /// </summary>
 [TailwindPrefix("mix-blend-", Responsive = true)]
-public sealed class MixBlendModeBuilder : CssBuilderBase
+public sealed class MixBlendModeBuilder : CssBuilderBase<MixBlendModeBuilder>
 {
     private readonly List<MixBlendModeRule> _rules = new(4);
-    private BreakpointType? _pendingBreakpoint;
+
+    internal MixBlendModeBuilder()
+    {
+    }
 
     internal MixBlendModeBuilder(string value, BreakpointType? breakpoint = null)
     {
@@ -103,54 +106,18 @@ public sealed class MixBlendModeBuilder : CssBuilderBase
     /// </summary>
     public MixBlendModeBuilder PlusLighter => Chain(MixBlendModeEnum.PlusLighter);
 
-    /// <summary>
-    /// Applies the preceding utility from the `sm` breakpoint and up (`sm:` prefix). Tailwind default: `min-width: 40rem` (640px).
-    /// </summary>
-    public MixBlendModeBuilder OnSm => SetPendingBreakpoint(BreakpointType.Sm);
-    /// <summary>
-    /// Applies from the `md` breakpoint and up (`md:`). Tailwind default: `min-width: 48rem` (768px).
-    /// </summary>
-    public MixBlendModeBuilder OnMd => SetPendingBreakpoint(BreakpointType.Md);
-    /// <summary>
-    /// Applies from the `lg` breakpoint and up (`lg:`). Tailwind default: `min-width: 64rem` (1024px).
-    /// </summary>
-    public MixBlendModeBuilder OnLg => SetPendingBreakpoint(BreakpointType.Lg);
-    /// <summary>
-    /// Applies from the `xl` breakpoint and up (`xl:`). Tailwind default: `min-width: 80rem` (1280px).
-    /// </summary>
-    public MixBlendModeBuilder OnXl => SetPendingBreakpoint(BreakpointType.Xl);
-    /// <summary>
-    /// Applies from the `2xl` breakpoint and up (`2xl:`). Tailwind default: `min-width: 96rem` (1536px).
-    /// </summary>
-    public MixBlendModeBuilder On2xl => SetPendingBreakpoint(BreakpointType.Xxl);
-
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private MixBlendModeBuilder Chain(string value)
     {
-        _rules.Add(new MixBlendModeRule(value, ConsumePendingBreakpoint()));
+        _rules.Add(new MixBlendModeRule(value, null, ConsumePendingModifierChain()));
         return this;
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private MixBlendModeBuilder Chain(MixBlendModeEnum value)
     {
-        _rules.Add(new MixBlendModeRule(value.Value, ConsumePendingBreakpoint()));
+        _rules.Add(new MixBlendModeRule(value.Value, null, ConsumePendingModifierChain()));
         return this;
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private MixBlendModeBuilder SetPendingBreakpoint(BreakpointType breakpoint)
-    {
-        _pendingBreakpoint = breakpoint;
-        return this;
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private BreakpointType? ConsumePendingBreakpoint()
-    {
-        BreakpointType? breakpoint = _pendingBreakpoint;
-        _pendingBreakpoint = null;
-        return breakpoint;
     }
 
     public override string ToClass()
@@ -164,6 +131,7 @@ public sealed class MixBlendModeBuilder : CssBuilderBase
             if (cls.Length == 0) continue;
             string b = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
             if (b.Length != 0) cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, b);
+            if (rule.ModifierChain is { Length: > 0 }) cls = BreakpointUtil.ApplyTailwindModifiers(cls, rule.ModifierChain);
             if (!first) sb.Append(' ');
             else first = false;
             sb.Append(cls);

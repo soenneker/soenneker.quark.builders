@@ -1,4 +1,3 @@
-
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Soenneker.Utils.PooledStringBuilders;
@@ -10,10 +9,13 @@ namespace Soenneker.Quark;
 /// Simplified float builder with fluent API for chaining float rules.
 /// </summary>
 [TailwindPrefix("float-", Responsive = true)]
-public sealed class FloatBuilder : CssBuilderBase
+public sealed class FloatBuilder : CssBuilderBase<FloatBuilder>
 {
     private readonly List<FloatRule> _rules = new(4);
-    private BreakpointType? _pendingBreakpoint;
+
+    internal FloatBuilder()
+    {
+    }
 
     internal FloatBuilder(string value, BreakpointType? breakpoint = null)
     {
@@ -31,78 +33,43 @@ public sealed class FloatBuilder : CssBuilderBase
             _rules.AddRange(rules);
     }
 
-	/// <summary>
-	/// Sets the float to none.
-	/// </summary>
+    /// <summary>
+    /// Sets the float to none.
+    /// </summary>
     public FloatBuilder None => ChainWithValue(FloatEnum.None);
-	/// <summary>
-	/// Sets the float to left.
-	/// </summary>
+
+    /// <summary>
+    /// Sets the float to left.
+    /// </summary>
     public FloatBuilder Left => ChainWithValue(FloatEnum.Left);
-	/// <summary>
-	/// Sets the float to right.
-	/// </summary>
+
+    /// <summary>
+    /// Sets the float to right.
+    /// </summary>
     public FloatBuilder Right => ChainWithValue(FloatEnum.Right);
-	/// <summary>
-	/// Sets the float to start (inline-start).
-	/// </summary>
+
+    /// <summary>
+    /// Sets the float to start (inline-start).
+    /// </summary>
     public FloatBuilder Start => ChainWithValue(FloatEnum.Start);
-	/// <summary>
-	/// Sets the float to end (inline-end).
-	/// </summary>
+
+    /// <summary>
+    /// Sets the float to end (inline-end).
+    /// </summary>
     public FloatBuilder End => ChainWithValue(FloatEnum.End);
-	/// <summary>
-	/// Applies the float on phone breakpoint.
-	/// </summary>
-    public FloatBuilder OnBase => SetPendingBreakpoint(BreakpointType.Base);
-	/// <summary>
-	/// Applies the float on small breakpoint (≥640px).
-	/// </summary>
-    public FloatBuilder OnSm => SetPendingBreakpoint(BreakpointType.Sm);
-	/// <summary>
-	/// Applies the float on tablet breakpoint.
-	/// </summary>
-    public FloatBuilder OnMd => SetPendingBreakpoint(BreakpointType.Md);
-	/// <summary>
-	/// Applies the float on laptop breakpoint.
-	/// </summary>
-    public FloatBuilder OnLg => SetPendingBreakpoint(BreakpointType.Lg);
-	/// <summary>
-	/// Applies the float on desktop breakpoint.
-	/// </summary>
-    public FloatBuilder OnXl => SetPendingBreakpoint(BreakpointType.Xl);
-	/// <summary>
-	/// Applies the float on the 2xl breakpoint.
-	/// </summary>
-    public FloatBuilder On2xl => SetPendingBreakpoint(BreakpointType.Xxl);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private FloatBuilder ChainWithValue(string value)
     {
-        _rules.Add(new FloatRule(value, ConsumePendingBreakpoint()));
+        _rules.Add(new FloatRule(value, null, ConsumePendingModifierChain()));
         return this;
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private FloatBuilder ChainWithValue(FloatEnum value)
     {
-        _rules.Add(new FloatRule(value.Value, ConsumePendingBreakpoint()));
+        _rules.Add(new FloatRule(value.Value, null, ConsumePendingModifierChain()));
         return this;
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private FloatBuilder SetPendingBreakpoint(BreakpointType breakpoint)
-    {
-        _pendingBreakpoint = breakpoint;
-        return this;
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private BreakpointType? ConsumePendingBreakpoint()
-    {
-        BreakpointType? breakpoint = _pendingBreakpoint;
-        _pendingBreakpoint = null;
-        return breakpoint;
     }
 
     /// <summary>
@@ -130,8 +97,13 @@ public sealed class FloatBuilder : CssBuilderBase
             if (bp.Length != 0)
                 cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, bp);
 
-            if (!first) sb.Append(' ');
-            else first = false;
+            if (rule.ModifierChain is { Length: > 0 })
+                cls = BreakpointUtil.ApplyTailwindModifiers(cls, rule.ModifierChain);
+
+            if (!first)
+                sb.Append(' ');
+            else
+                first = false;
 
             sb.Append(cls);
         }
@@ -144,5 +116,6 @@ public sealed class FloatBuilder : CssBuilderBase
     /// </summary>
     /// <returns>The CSS style string.</returns>
     public override string ToStyle() => string.Empty;
+
     public override string ToString() => ToClass();
 }

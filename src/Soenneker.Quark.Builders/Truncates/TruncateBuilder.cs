@@ -10,11 +10,15 @@ namespace Soenneker.Quark;
 /// Simplified truncate builder with fluent API for chaining truncate rules.
 /// </summary>
 [TailwindPrefix("truncate", Responsive = true)]
-public sealed class TruncateBuilder : CssBuilderBase
+public sealed class TruncateBuilder : CssBuilderBase<TruncateBuilder>
 {
     private readonly List<TruncateRule> _rules = new(4);
 
-    internal TruncateBuilder(BreakpointType? breakpoint = null)
+    internal TruncateBuilder()
+    {
+    }
+
+    internal TruncateBuilder(BreakpointType? breakpoint)
     {
         _rules.Add(new TruncateRule(breakpoint));
     }
@@ -25,43 +29,12 @@ public sealed class TruncateBuilder : CssBuilderBase
             _rules.AddRange(rules);
     }
 
-    /// <summary>
-    /// Applies the truncate on phone breakpoint.
-    /// </summary>
-    public TruncateBuilder OnBase => ChainWithBreakpoint(BreakpointType.Base);
-    /// <summary>
-    /// Applies the truncate on small breakpoint (≥640px).
-    /// </summary>
-    public TruncateBuilder OnSm => ChainWithBreakpoint(BreakpointType.Sm);
-    /// <summary>
-    /// Applies the truncate on tablet breakpoint.
-    /// </summary>
-    public TruncateBuilder OnMd => ChainWithBreakpoint(BreakpointType.Md);
-    /// <summary>
-    /// Applies the truncate on laptop breakpoint.
-    /// </summary>
-    public TruncateBuilder OnLg => ChainWithBreakpoint(BreakpointType.Lg);
-    /// <summary>
-    /// Applies the truncate on desktop breakpoint.
-    /// </summary>
-    public TruncateBuilder OnXl => ChainWithBreakpoint(BreakpointType.Xl);
-    /// <summary>
-    /// Applies the truncate on the 2xl breakpoint.
-    /// </summary>
-    public TruncateBuilder On2xl => ChainWithBreakpoint(BreakpointType.Xxl);
+    public TruncateBuilder Default => Chain();
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private TruncateBuilder ChainWithBreakpoint(BreakpointType breakpoint)
+    private TruncateBuilder Chain()
     {
-        if (_rules.Count == 0)
-        {
-            _rules.Add(new TruncateRule(breakpoint));
-            return this;
-        }
-
-        int lastIdx = _rules.Count - 1;
-        TruncateRule last = _rules[lastIdx];
-        _rules[lastIdx] = new TruncateRule(breakpoint);
+        _rules.Add(new TruncateRule(null, ConsumePendingModifierChain()));
         return this;
     }
 
@@ -85,6 +58,9 @@ public sealed class TruncateBuilder : CssBuilderBase
             string bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
             if (bp.Length != 0)
                 cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, bp);
+
+            if (rule.ModifierChain is { Length: > 0 })
+                cls = BreakpointUtil.ApplyTailwindModifiers(cls, rule.ModifierChain);
 
             if (!first) sb.Append(' ');
             else first = false;

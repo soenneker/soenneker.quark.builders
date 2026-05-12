@@ -24,10 +24,4 @@ public sealed class DecorationThicknessBuilder : ResponsiveUtilityBuilder<Decora
     public DecorationThicknessBuilder Is8 => ChainValue(DecorationThicknessEnum.Is8Value);
     public DecorationThicknessBuilder Token(string value) => ChainValue("decoration-" + value);
 
-    public DecorationThicknessBuilder OnBase => SetPendingBreakpoint(BreakpointType.Base);
-    public DecorationThicknessBuilder OnSm => SetPendingBreakpoint(BreakpointType.Sm);
-    public DecorationThicknessBuilder OnMd => SetPendingBreakpoint(BreakpointType.Md);
-    public DecorationThicknessBuilder OnLg => SetPendingBreakpoint(BreakpointType.Lg);
-    public DecorationThicknessBuilder OnXl => SetPendingBreakpoint(BreakpointType.Xl);
-    public DecorationThicknessBuilder On2xl => SetPendingBreakpoint(BreakpointType.Xxl);
 }

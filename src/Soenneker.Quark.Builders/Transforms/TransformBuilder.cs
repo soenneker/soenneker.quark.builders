@@ -36,10 +36,4 @@ public sealed class TransformBuilder : ResponsiveUtilityBuilder<TransformBuilder
     /// </summary>
     public TransformBuilder Token(string value) => ChainValue("transform-" + value);
 
-    public TransformBuilder OnBase => SetPendingBreakpoint(BreakpointType.Base);
-    public TransformBuilder OnSm => SetPendingBreakpoint(BreakpointType.Sm);
-    public TransformBuilder OnMd => SetPendingBreakpoint(BreakpointType.Md);
-    public TransformBuilder OnLg => SetPendingBreakpoint(BreakpointType.Lg);
-    public TransformBuilder OnXl => SetPendingBreakpoint(BreakpointType.Xl);
-    public TransformBuilder On2xl => SetPendingBreakpoint(BreakpointType.Xxl);
 }

@@ -21,10 +21,4 @@ public sealed class EaseBuilder : ResponsiveUtilityBuilder<EaseBuilder>
     public EaseBuilder InOut => ChainValue(EaseEnum.InOutValue);
     public EaseBuilder Token(string value) => ChainValue("ease-" + value);
 
-    public EaseBuilder OnBase => SetPendingBreakpoint(BreakpointType.Base);
-    public EaseBuilder OnSm => SetPendingBreakpoint(BreakpointType.Sm);
-    public EaseBuilder OnMd => SetPendingBreakpoint(BreakpointType.Md);
-    public EaseBuilder OnLg => SetPendingBreakpoint(BreakpointType.Lg);
-    public EaseBuilder OnXl => SetPendingBreakpoint(BreakpointType.Xl);
-    public EaseBuilder On2xl => SetPendingBreakpoint(BreakpointType.Xxl);
 }

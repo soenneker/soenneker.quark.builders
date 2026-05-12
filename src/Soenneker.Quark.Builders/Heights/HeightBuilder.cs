@@ -10,10 +10,13 @@ namespace Soenneker.Quark;
 /// Tailwind-first and shadcn-friendly (h-* and common tokens).
 /// </summary>
 [TailwindPrefix("h-", Responsive = true)]
-public sealed class HeightBuilder : CssBuilderBase
+public sealed class HeightBuilder : CssBuilderBase<HeightBuilder>
 {
     private readonly List<HeightRule> _rules = new(4);
-    private BreakpointType? _pendingBreakpoint;
+
+    internal HeightBuilder()
+    {
+    }
 
     internal HeightBuilder(string size, BreakpointType? breakpoint = null)
     {
@@ -110,30 +113,6 @@ public sealed class HeightBuilder : CssBuilderBase
     /// </summary>
     public HeightBuilder Auto => ChainWithSize("h-auto");
 
-    /// <summary>
-    /// Scopes the next utility to the default (unprefixed) breakpoint. In Tailwind’s mobile‑first model, unprefixed utilities apply from 0px unless a larger breakpoint overrides them.
-    /// </summary>
-    public HeightBuilder OnBase => SetPendingBreakpoint(BreakpointType.Base);
-    /// <summary>
-    /// Applies the preceding utility from the `sm` breakpoint and up (`sm:` prefix). Tailwind default: `min-width: 40rem` (640px).
-    /// </summary>
-    public HeightBuilder OnSm => SetPendingBreakpoint(BreakpointType.Sm);
-    /// <summary>
-    /// Applies from the `md` breakpoint and up (`md:`). Tailwind default: `min-width: 48rem` (768px).
-    /// </summary>
-    public HeightBuilder OnMd => SetPendingBreakpoint(BreakpointType.Md);
-    /// <summary>
-    /// Applies from the `lg` breakpoint and up (`lg:`). Tailwind default: `min-width: 64rem` (1024px).
-    /// </summary>
-    public HeightBuilder OnLg => SetPendingBreakpoint(BreakpointType.Lg);
-    /// <summary>
-    /// Applies from the `xl` breakpoint and up (`xl:`). Tailwind default: `min-width: 80rem` (1280px).
-    /// </summary>
-    public HeightBuilder OnXl => SetPendingBreakpoint(BreakpointType.Xl);
-    /// <summary>
-    /// Applies from the `2xl` breakpoint and up (`2xl:`). Tailwind default: `min-width: 96rem` (1536px).
-    /// </summary>
-    public HeightBuilder On2xl => SetPendingBreakpoint(BreakpointType.Xxl);
 
     /// <summary>
     /// Applies an arbitrary Tailwind height token (e.g. "72", "[18rem]", "full").
@@ -143,18 +122,11 @@ public sealed class HeightBuilder : CssBuilderBase
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private HeightBuilder ChainWithSize(string size)
     {
-        BreakpointType? bp = _pendingBreakpoint;
-        _pendingBreakpoint = null;
-        _rules.Add(new HeightRule(size, bp));
+        BreakpointType? bp = null;
+        _rules.Add(new HeightRule(size, bp, ConsumePendingModifierChain()));
         return this;
     }
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private HeightBuilder SetPendingBreakpoint(BreakpointType breakpoint)
-    {
-        _pendingBreakpoint = breakpoint;
-        return this;
-    }
 
     public override string ToClass()
     {
@@ -174,6 +146,9 @@ public sealed class HeightBuilder : CssBuilderBase
             string bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
             if (bp.Length != 0)
                 cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, bp);
+
+            if (rule.ModifierChain is { Length: > 0 })
+                cls = BreakpointUtil.ApplyTailwindModifiers(cls, rule.ModifierChain);
 
             if (!first) sb.Append(' ');
             else first = false;

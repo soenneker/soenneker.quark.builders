@@ -15,6 +15,7 @@ public sealed class DurationBuilder : ResponsiveUtilityBuilder<DurationBuilder>
     {
     }
 
+    public DurationBuilder Is0 => ChainValue(DurationEnum.Is0Value);
     public DurationBuilder Is75 => ChainValue(DurationEnum.Is75Value);
     public DurationBuilder Is100 => ChainValue(DurationEnum.Is100Value);
     public DurationBuilder Is150 => ChainValue(DurationEnum.Is150Value);
@@ -23,12 +24,14 @@ public sealed class DurationBuilder : ResponsiveUtilityBuilder<DurationBuilder>
     public DurationBuilder Is500 => ChainValue(DurationEnum.Is500Value);
     public DurationBuilder Is700 => ChainValue(DurationEnum.Is700Value);
     public DurationBuilder Is1000 => ChainValue(DurationEnum.Is1000Value);
-    public DurationBuilder Token(string value) => ChainValue("duration-" + value);
+    public DurationBuilder Token(string value) => ChainValue(NormalizeDurationClass(value));
 
-    public DurationBuilder OnBase => SetPendingBreakpoint(BreakpointType.Base);
-    public DurationBuilder OnSm => SetPendingBreakpoint(BreakpointType.Sm);
-    public DurationBuilder OnMd => SetPendingBreakpoint(BreakpointType.Md);
-    public DurationBuilder OnLg => SetPendingBreakpoint(BreakpointType.Lg);
-    public DurationBuilder OnXl => SetPendingBreakpoint(BreakpointType.Xl);
-    public DurationBuilder On2xl => SetPendingBreakpoint(BreakpointType.Xxl);
+
+    private static string NormalizeDurationClass(string value)
+    {
+        if (value.Length == 0)
+            return string.Empty;
+
+        return value.StartsWith("duration-") ? value : "duration-" + value;
+    }
 }

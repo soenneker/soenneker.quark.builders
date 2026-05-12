@@ -3,5 +3,5 @@ namespace Soenneker.Quark;
 /// <summary>
 /// Represents a single filter rule with optional BreakpointType.
 /// </summary>
-internal record FilterRule(string Filter, BreakpointType? Breakpoint = null);
+internal record FilterRule(string Filter, BreakpointType? Breakpoint = null, string? ModifierChain = null);
 

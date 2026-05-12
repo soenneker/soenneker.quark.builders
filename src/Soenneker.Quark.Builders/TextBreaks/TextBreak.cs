@@ -3,7 +3,8 @@ namespace Soenneker.Quark;
 /// <summary>
 /// Tailwind text break utility entry points.
 /// </summary>
-public static class TextBreak
+[TailwindModifiers(typeof(TextBreakBuilder))]
+public static partial class TextBreak
 {
     /// <summary>
     /// Uses normal line breaking.

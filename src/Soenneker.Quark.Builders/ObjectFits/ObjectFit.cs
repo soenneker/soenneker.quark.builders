@@ -3,7 +3,8 @@ namespace Soenneker.Quark;
 /// <summary>
 /// Simplified object-fit utility with fluent API and Tailwind/shadcn-aligned fluent API.
 /// </summary>
-public static class ObjectFit
+[TailwindModifiers(typeof(ObjectFitBuilder))]
+public static partial class ObjectFit
 {
     /// <summary>
     /// object-fit: contain.

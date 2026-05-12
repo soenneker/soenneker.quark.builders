@@ -10,10 +10,13 @@ namespace Soenneker.Quark;
 /// Responsive builder for shadcn-style button size utility groups.
 /// </summary>
 [TailwindPrefix("", Responsive = true)]
-public sealed class ButtonSizeBuilder : CssBuilderBase
+public sealed class ButtonSizeBuilder : CssBuilderBase<ButtonSizeBuilder>
 {
     private readonly List<ButtonSizeRule> _rules = new(4);
-    private BreakpointType? _pendingBreakpoint;
+
+    internal ButtonSizeBuilder()
+    {
+    }
 
     internal ButtonSizeBuilder(string size, BreakpointType? breakpoint = null)
     {
@@ -40,26 +43,10 @@ public sealed class ButtonSizeBuilder : CssBuilderBase
     /// </summary>
     public ButtonSizeBuilder Token(string value) => Chain(value);
 
-    public ButtonSizeBuilder OnBase => SetPendingBreakpoint(BreakpointType.Base);
-    public ButtonSizeBuilder OnSm => SetPendingBreakpoint(BreakpointType.Sm);
-    public ButtonSizeBuilder OnMd => SetPendingBreakpoint(BreakpointType.Md);
-    public ButtonSizeBuilder OnLg => SetPendingBreakpoint(BreakpointType.Lg);
-    public ButtonSizeBuilder OnXl => SetPendingBreakpoint(BreakpointType.Xl);
-    public ButtonSizeBuilder On2xl => SetPendingBreakpoint(BreakpointType.Xxl);
-
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private ButtonSizeBuilder Chain(string size)
     {
-        BreakpointType? bp = _pendingBreakpoint;
-        _pendingBreakpoint = null;
-        _rules.Add(new ButtonSizeRule(size, bp));
-        return this;
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private ButtonSizeBuilder SetPendingBreakpoint(BreakpointType breakpoint)
-    {
-        _pendingBreakpoint = breakpoint;
+        _rules.Add(new ButtonSizeRule(size, null, ConsumePendingModifierChain()));
         return this;
     }
 
@@ -83,6 +70,9 @@ public sealed class ButtonSizeBuilder : CssBuilderBase
 
             if (bp.Length != 0)
                 cls = ApplyBreakpointToClassGroup(cls, bp);
+
+            if (rule.ModifierChain is { Length: > 0 })
+                cls = BreakpointUtil.ApplyTailwindModifiers(cls, rule.ModifierChain);
 
             if (!first)
                 sb.Append(' ');

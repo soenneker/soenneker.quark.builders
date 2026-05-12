@@ -8,12 +8,15 @@ namespace Soenneker.Quark;
 /// Accent color builder for form controls. Tailwind: accent-auto, accent-primary, accent-*.
 /// </summary>
 [TailwindPrefix("accent-", Responsive = true)]
-public sealed class AccentColorBuilder : CssBuilderBase
+public sealed class AccentColorBuilder : CssBuilderBase<AccentColorBuilder>
 {
     private const string Prefix = "accent-";
 
     private readonly List<AccentColorRule> _rules = new(4);
-    private BreakpointType? _pendingBreakpoint;
+
+    internal AccentColorBuilder()
+    {
+    }
 
     internal AccentColorBuilder(AccentColorEnum value, BreakpointType? breakpoint = null)
     {
@@ -48,31 +51,7 @@ public sealed class AccentColorBuilder : CssBuilderBase
     /// `currentColor` — uses the element’s computed `color` (common for icons and rings).
     /// </summary>
     public AccentColorBuilder Current => Chain(AccentColorEnum.Current);
-    /// <summary>
-    /// Scopes the next utility to the default (unprefixed) breakpoint.
-    /// </summary>
-    public AccentColorBuilder OnBase => ChainBp(BreakpointType.Base);
 
-    /// <summary>
-    /// Applies the preceding utility from the `sm` breakpoint and up (`sm:` prefix). Tailwind default: `min-width: 40rem` (640px).
-    /// </summary>
-    public AccentColorBuilder OnSm => ChainBp(BreakpointType.Sm);
-    /// <summary>
-    /// Applies from the `md` breakpoint and up (`md:`). Tailwind default: `min-width: 48rem` (768px).
-    /// </summary>
-    public AccentColorBuilder OnMd => ChainBp(BreakpointType.Md);
-    /// <summary>
-    /// Applies from the `lg` breakpoint and up (`lg:`). Tailwind default: `min-width: 64rem` (1024px).
-    /// </summary>
-    public AccentColorBuilder OnLg => ChainBp(BreakpointType.Lg);
-    /// <summary>
-    /// Applies from the `xl` breakpoint and up (`xl:`). Tailwind default: `min-width: 80rem` (1280px).
-    /// </summary>
-    public AccentColorBuilder OnXl => ChainBp(BreakpointType.Xl);
-    /// <summary>
-    /// Applies from the `2xl` breakpoint and up (`2xl:`). Tailwind default: `min-width: 96rem` (1536px).
-    /// </summary>
-    public AccentColorBuilder On2xl => ChainBp(BreakpointType.Xxl);
 
     public AccentColorBuilder Token(string token) => ChainClass(ColorUtility.CreateClass(Prefix, token));
 
@@ -81,9 +60,8 @@ public sealed class AccentColorBuilder : CssBuilderBase
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private AccentColorBuilder Chain(AccentColorEnum value)
     {
-        BreakpointType? breakpoint = _pendingBreakpoint;
-        _pendingBreakpoint = null;
-        _rules.Add(new AccentColorRule(value.Value, breakpoint));
+        BreakpointType? breakpoint = null;
+        _rules.Add(new AccentColorRule(value.Value, breakpoint, ConsumePendingModifierChain()));
         return this;
     }
 
@@ -93,16 +71,8 @@ public sealed class AccentColorBuilder : CssBuilderBase
         if (value.Length == 0)
             return this;
 
-        BreakpointType? breakpoint = _pendingBreakpoint;
-        _pendingBreakpoint = null;
-        _rules.Add(new AccentColorRule(value, breakpoint));
-        return this;
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private AccentColorBuilder ChainBp(BreakpointType bp)
-    {
-        _pendingBreakpoint = bp;
+        BreakpointType? breakpoint = null;
+        _rules.Add(new AccentColorRule(value, breakpoint, ConsumePendingModifierChain()));
         return this;
     }
 
@@ -117,6 +87,7 @@ public sealed class AccentColorBuilder : CssBuilderBase
             if (cls.Length == 0) continue;
             string b = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
             if (b.Length != 0) cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, b);
+            if (rule.ModifierChain is { Length: > 0 }) cls = BreakpointUtil.ApplyTailwindModifiers(cls, rule.ModifierChain);
             if (!first) sb.Append(' ');
             else first = false;
             sb.Append(cls);

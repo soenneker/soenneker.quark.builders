@@ -3,7 +3,8 @@ namespace Soenneker.Quark;
 /// <summary>
 /// Border color utility with fluent API aligned with shadcn/Tailwind semantic tokens.
 /// </summary>
-public static class BorderColor
+[TailwindModifiers(typeof(BorderColorBuilder))]
+public static partial class BorderColor
 {
     public static BorderColorBuilder Primary => new(BorderColorEnum.Primary);
     public static BorderColorBuilder Secondary => new(BorderColorEnum.Secondary);

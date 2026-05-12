@@ -3,7 +3,8 @@ namespace Soenneker.Quark;
 /// <summary>
 /// Tailwind/shadcn-aligned rounded utility.
 /// </summary>
-public static class Rounded
+[TailwindModifiers(typeof(RoundedBuilder))]
+public static partial class Rounded
 {
     /// <summary>
     /// Default theme radius: `rounded` with no suffix — in Tailwind’s default config typically `0.25rem` (maps to shadcn `--radius` usage when you align tokens).
@@ -83,28 +84,6 @@ public static class Rounded
     /// <summary>
     /// Scopes the next utility to the default (unprefixed) breakpoint. In Tailwind’s mobile‑first model, unprefixed utilities apply from 0px unless a larger breakpoint overrides them.
     /// </summary>
-    public static RoundedBuilder OnBase => new RoundedBuilder().OnBase;
-    /// <summary>
-    /// Applies the preceding utility from the `sm` breakpoint and up (`sm:` prefix). Tailwind default: `min-width: 40rem` (640px).
-    /// </summary>
-    public static RoundedBuilder OnSm => new RoundedBuilder().OnSm;
-    /// <summary>
-    /// Applies from the `md` breakpoint and up (`md:`). Tailwind default: `min-width: 48rem` (768px).
-    /// </summary>
-    public static RoundedBuilder OnMd => new RoundedBuilder().OnMd;
-    /// <summary>
-    /// Applies from the `lg` breakpoint and up (`lg:`). Tailwind default: `min-width: 64rem` (1024px).
-    /// </summary>
-    public static RoundedBuilder OnLg => new RoundedBuilder().OnLg;
-    /// <summary>
-    /// Applies from the `xl` breakpoint and up (`xl:`). Tailwind default: `min-width: 80rem` (1280px).
-    /// </summary>
-    public static RoundedBuilder OnXl => new RoundedBuilder().OnXl;
-    /// <summary>
-    /// Applies from the `2xl` breakpoint and up (`2xl:`). Tailwind default: `min-width: 96rem` (1536px).
-    /// </summary>
-    public static RoundedBuilder On2xl => new RoundedBuilder().On2xl;
-
     /// <summary>
     /// Custom <c>rounded-*</c> suffix: theme scale key, arbitrary length (for example <c>[2vw]</c>), or CSS variable reference aligned with shadcn’s <c>--radius</c> pattern.
     /// </summary>

@@ -7,9 +7,13 @@ namespace Soenneker.Quark;
 /// <summary>
 /// Scale builder with fluent API for chaining scale rules.
 /// </summary>
-public sealed class ScaleBuilder : CssBuilderBase
+public sealed class ScaleBuilder : CssBuilderBase<ScaleBuilder>
 {
     private readonly List<ScaleRule> _rules = new(4);
+
+    internal ScaleBuilder()
+    {
+    }
 
     internal ScaleBuilder(ScaleEnum scale)
     {
@@ -35,7 +39,7 @@ public sealed class ScaleBuilder : CssBuilderBase
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private ScaleBuilder ChainWithScale(ScaleEnum scale)
     {
-        _rules.Add(new ScaleRule(scale));
+        _rules.Add(new ScaleRule(scale, ConsumePendingModifierChain()));
         return this;
     }
 
@@ -57,6 +61,9 @@ public sealed class ScaleBuilder : CssBuilderBase
             string cls = rule.Scale.Value;
             if (cls.Length == 0)
                 continue;
+
+            if (rule.ModifierChain is { Length: > 0 })
+                cls = BreakpointUtil.ApplyTailwindModifiers(cls, rule.ModifierChain);
 
             if (!first) sb.Append(' ');
             else first = false;

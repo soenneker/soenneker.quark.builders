@@ -1,6 +1,6 @@
 namespace Soenneker.Quark;
 
-internal readonly record struct UserSelectRule(string Value, BreakpointType? Breakpoint);
+internal readonly record struct UserSelectRule(string Value, BreakpointType? Breakpoint, string? ModifierChain = null);
 
 
 

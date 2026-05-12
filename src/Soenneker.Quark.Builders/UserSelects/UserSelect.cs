@@ -3,7 +3,8 @@ namespace Soenneker.Quark;
 /// <summary>
 /// Static utility class for creating user select builders with predefined values.
 /// </summary>
-public static class UserSelect
+[TailwindModifiers(typeof(UserSelectBuilder))]
+public static partial class UserSelect
 {
     /// <summary>
     /// Gets a user select builder with none value (text cannot be selected).

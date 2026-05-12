@@ -9,10 +9,13 @@ namespace Soenneker.Quark;
 /// Tailwind text break utility builder.
 /// </summary>
 [TailwindPrefix("break-", Responsive = true)]
-public sealed class TextBreakBuilder : CssBuilderBase
+public sealed class TextBreakBuilder : CssBuilderBase<TextBreakBuilder>
 {
     private readonly List<TextBreakRule> _rules = new(4);
-    private BreakpointType? _pendingBreakpoint;
+
+    internal TextBreakBuilder()
+    {
+    }
 
     internal TextBreakBuilder(TextBreakEnum value, BreakpointType? breakpoint = null)
     {
@@ -42,44 +45,12 @@ public sealed class TextBreakBuilder : CssBuilderBase
     /// </summary>
     public TextBreakBuilder Keep => Chain(TextBreakEnum.Keep);
 
-    /// <summary>
-    /// Applies the text break on phone breakpoint.
-    /// </summary>
-    public TextBreakBuilder OnBase => ChainBp(BreakpointType.Base);
-    /// <summary>
-    /// Applies the text break on small breakpoint (≥640px).
-    /// </summary>
-    public TextBreakBuilder OnSm => ChainBp(BreakpointType.Sm);
-    /// <summary>
-    /// Applies the text break on tablet breakpoint.
-    /// </summary>
-    public TextBreakBuilder OnMd => ChainBp(BreakpointType.Md);
-    /// <summary>
-    /// Applies the text break on laptop breakpoint.
-    /// </summary>
-    public TextBreakBuilder OnLg => ChainBp(BreakpointType.Lg);
-    /// <summary>
-    /// Applies the text break on desktop breakpoint.
-    /// </summary>
-    public TextBreakBuilder OnXl => ChainBp(BreakpointType.Xl);
-    /// <summary>
-    /// Applies the text break on the 2xl breakpoint.
-    /// </summary>
-    public TextBreakBuilder On2xl => ChainBp(BreakpointType.Xxl);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private TextBreakBuilder Chain(TextBreakEnum value)
     {
-        BreakpointType? bp = _pendingBreakpoint;
-        _pendingBreakpoint = null;
-        _rules.Add(new TextBreakRule(value.Value, bp));
-        return this;
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private TextBreakBuilder ChainBp(BreakpointType breakpoint)
-    {
-        _pendingBreakpoint = breakpoint;
+        BreakpointType? bp = null;
+        _rules.Add(new TextBreakRule(value.Value, bp, ConsumePendingModifierChain()));
         return this;
     }
 
@@ -105,6 +76,9 @@ public sealed class TextBreakBuilder : CssBuilderBase
             string bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
             if (bp.Length != 0)
                 baseClass = BreakpointUtil.ApplyTailwindBreakpoint(baseClass, bp);
+
+            if (rule.ModifierChain is { Length: > 0 })
+                baseClass = BreakpointUtil.ApplyTailwindModifiers(baseClass, rule.ModifierChain);
 
             if (!first) sb.Append(' ');
             else first = false;

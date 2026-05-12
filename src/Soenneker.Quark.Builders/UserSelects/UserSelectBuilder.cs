@@ -9,10 +9,13 @@ namespace Soenneker.Quark;
 /// Simplified user select builder with fluent API for chaining user select rules.
 /// </summary>
 [TailwindPrefix("select-", Responsive = true)]
-public sealed class UserSelectBuilder : CssBuilderBase
+public sealed class UserSelectBuilder : CssBuilderBase<UserSelectBuilder>
 {
     private readonly List<UserSelectRule> _rules = new(4);
-    private BreakpointType? _pendingBreakpoint;
+
+    internal UserSelectBuilder()
+    {
+    }
 
     internal UserSelectBuilder(UserSelectEnum value, BreakpointType? breakpoint = null)
     {
@@ -40,57 +43,20 @@ public sealed class UserSelectBuilder : CssBuilderBase
     /// </summary>
     public UserSelectBuilder All => Chain(UserSelectEnum.All);
 
-    /// <summary>
-    /// Applies the user select on phone breakpoint.
-    /// </summary>
-    public UserSelectBuilder OnBase => SetPendingBreakpoint(BreakpointType.Base);
 
-    /// <summary>
-    /// Applies the user select on small breakpoint (≥640px).
-    /// </summary>
-    public UserSelectBuilder OnSm => SetPendingBreakpoint(BreakpointType.Sm);
 
-    /// <summary>
-    /// Applies the user select on tablet breakpoint.
-    /// </summary>
-    public UserSelectBuilder OnMd => SetPendingBreakpoint(BreakpointType.Md);
 
-    /// <summary>
-    /// Applies the user select on laptop breakpoint.
-    /// </summary>
-    public UserSelectBuilder OnLg => SetPendingBreakpoint(BreakpointType.Lg);
 
-    /// <summary>
-    /// Applies the user select on desktop breakpoint.
-    /// </summary>
-    public UserSelectBuilder OnXl => SetPendingBreakpoint(BreakpointType.Xl);
 
-    /// <summary>
-    /// Applies the user select on the 2xl breakpoint.
-    /// </summary>
-    public UserSelectBuilder On2xl => SetPendingBreakpoint(BreakpointType.Xxl);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private UserSelectBuilder Chain(UserSelectEnum value)
     {
-        _rules.Add(new UserSelectRule(value.Value, ConsumePendingBreakpoint()));
+        _rules.Add(new UserSelectRule(value.Value, null, ConsumePendingModifierChain()));
         return this;
     }
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private UserSelectBuilder SetPendingBreakpoint(BreakpointType bp)
-    {
-        _pendingBreakpoint = bp;
-        return this;
-    }
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private BreakpointType? ConsumePendingBreakpoint()
-    {
-        BreakpointType? breakpoint = _pendingBreakpoint;
-        _pendingBreakpoint = null;
-        return breakpoint;
-    }
 
     /// <summary>
     /// Gets the CSS class string for the current configuration.
@@ -112,6 +78,9 @@ public sealed class UserSelectBuilder : CssBuilderBase
             string bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
             if (bp.Length != 0)
                 cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, bp);
+
+            if (rule.ModifierChain is { Length: > 0 })
+                cls = BreakpointUtil.ApplyTailwindModifiers(cls, rule.ModifierChain);
 
             if (!first) sb.Append(' ');
             else first = false;

@@ -1,6 +1,7 @@
 namespace Soenneker.Quark;
 
-public static class Fill
+[TailwindModifiers(typeof(FillBuilder))]
+public static partial class Fill
 {
     /// <summary>
     /// Tailwind token segment (spacing scale step, arbitrary value like `[17rem]`, or theme key). Builds the matching utility class for this builder.

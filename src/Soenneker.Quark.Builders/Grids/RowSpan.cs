@@ -3,7 +3,8 @@ namespace Soenneker.Quark;
 /// <summary>
 /// Grid row span utility with fluent responsive chaining.
 /// </summary>
-public static class RowSpan
+[TailwindModifiers(typeof(RowSpanBuilder))]
+public static partial class RowSpan
 {
     /// <summary>
     /// Spacing/sizing scale step `1` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 1` for integer spacing utilities unless overridden).

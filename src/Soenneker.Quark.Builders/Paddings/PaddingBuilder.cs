@@ -9,11 +9,14 @@ namespace Soenneker.Quark;
 /// High-performance padding builder with fluent API for chaining padding rules.
 /// </summary>
 [TailwindPrefix("p-", Responsive = true)]
-public sealed class PaddingBuilder : CssBuilderBase
+public sealed class PaddingBuilder : CssBuilderBase<PaddingBuilder>
 {
     private readonly List<PaddingRule> _rules = new(4);
-    private BreakpointType? _pendingBreakpoint;
     private ElementSideEnum? _pendingSide;
+
+    internal PaddingBuilder()
+    {
+    }
 
     internal PaddingBuilder(string size, BreakpointType? breakpoint = null)
     {
@@ -111,31 +114,6 @@ public sealed class PaddingBuilder : CssBuilderBase
     /// <param name="value">Suffix/token after the utility prefix (see Tailwind docs for this family).</param>
     public PaddingBuilder Token(string value) => ChainWithSize(NormalizePaddingClass(value));
 
-	/// <summary>
-	/// Applies the padding on phone breakpoint.
-	/// </summary>
-    public PaddingBuilder OnBase => SetPendingBreakpoint(BreakpointType.Base);
-	/// <summary>
-	/// Applies the padding on small breakpoint (≥640px).
-	/// </summary>
-    public PaddingBuilder OnSm => SetPendingBreakpoint(BreakpointType.Sm);
-	/// <summary>
-	/// Applies the padding on tablet breakpoint.
-	/// </summary>
-    public PaddingBuilder OnMd => SetPendingBreakpoint(BreakpointType.Md);
-	/// <summary>
-	/// Applies the padding on laptop breakpoint.
-	/// </summary>
-    public PaddingBuilder OnLg => SetPendingBreakpoint(BreakpointType.Lg);
-	/// <summary>
-	/// Applies the padding on desktop breakpoint.
-	/// </summary>
-    public PaddingBuilder OnXl => SetPendingBreakpoint(BreakpointType.Xl);
-	/// <summary>
-	/// Applies the padding on the 2xl breakpoint.
-	/// </summary>
-    public PaddingBuilder On2xl => SetPendingBreakpoint(BreakpointType.Xxl);
-
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private PaddingBuilder AddRule(ElementSideEnum side)
     {
@@ -147,17 +125,18 @@ public sealed class PaddingBuilder : CssBuilderBase
 
         string size = _rules.Count > 0 ? _rules[^1].Size : PaddingScaleEnum.Is0Value;
         BreakpointType? existingBp = _rules.Count > 0 ? _rules[^1].Breakpoint : null;
-        BreakpointType? bp = _pendingBreakpoint ?? existingBp;
-        _pendingBreakpoint = null;
+        string? modifierChain = ConsumePendingModifierChain();
+        if (modifierChain is not { Length: > 0 } && _rules.Count > 0)
+            modifierChain = _rules[^1].ModifierChain;
 
         if (_rules.Count > 0 && ReferenceEquals(_rules[^1].Side, ElementSideEnum.All))
         {
             // Replace last "All" with specific side using same size/bp
-            _rules[^1] = new PaddingRule(size, side, bp);
+            _rules[^1] = new PaddingRule(size, side, existingBp, modifierChain);
         }
         else
         {
-            _rules.Add(new PaddingRule(size, side, bp));
+            _rules.Add(new PaddingRule(size, side, existingBp, modifierChain));
         }
 
         return this;
@@ -166,29 +145,18 @@ public sealed class PaddingBuilder : CssBuilderBase
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private PaddingBuilder ChainWithSize(string size)
     {
-        BreakpointType? bp = _pendingBreakpoint;
         ElementSideEnum side = _pendingSide ?? ElementSideEnum.All;
-        _pendingBreakpoint = null;
         _pendingSide = null;
-        _rules.Add(new PaddingRule(size, side, bp));
+        _rules.Add(new PaddingRule(size, side, null, ConsumePendingModifierChain()));
         return this;
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private PaddingBuilder ChainWithSize(PaddingScaleEnum scale)
     {
-        BreakpointType? bp = _pendingBreakpoint;
         ElementSideEnum side = _pendingSide ?? ElementSideEnum.All;
-        _pendingBreakpoint = null;
         _pendingSide = null;
-        _rules.Add(new PaddingRule(scale.Value, side, bp));
-        return this;
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private PaddingBuilder SetPendingBreakpoint(BreakpointType breakpoint)
-    {
-        _pendingBreakpoint = breakpoint;
+        _rules.Add(new PaddingRule(scale.Value, side, null, ConsumePendingModifierChain()));
         return this;
     }
 
@@ -212,6 +180,9 @@ public sealed class PaddingBuilder : CssBuilderBase
             string bpTok = BreakpointUtil.GetBreakpointToken(rule.Breakpoint); // "", "sm", "md", ...
             if (bpTok.Length != 0)
                 cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, bpTok);
+
+            if (rule.ModifierChain is { Length: > 0 })
+                cls = BreakpointUtil.ApplyTailwindModifiers(cls, rule.ModifierChain);
 
             if (!first) sb.Append(' ');
             else first = false;

@@ -9,10 +9,13 @@ namespace Soenneker.Quark;
 /// High-performance text-overflow builder with fluent API for chaining rules.
 /// </summary>
 [TailwindPrefix("text-", Responsive = true)]
-public sealed class TextOverflowBuilder : CssBuilderBase
+public sealed class TextOverflowBuilder : CssBuilderBase<TextOverflowBuilder>
 {
     private readonly List<TextOverflowRule> _rules = new(4);
-    private BreakpointType? _pendingBreakpoint;
+
+    internal TextOverflowBuilder()
+    {
+    }
 
     internal TextOverflowBuilder(TextOverflowEnum textOverflow, BreakpointType? breakpoint = null)
     {
@@ -36,45 +39,12 @@ public sealed class TextOverflowBuilder : CssBuilderBase
     public TextOverflowBuilder Ellipsis => Chain(TextOverflowEnum.Ellipsis);
 
     // ----- BreakpointType chaining -----
-    /// <summary>
-    /// Applies the text overflow at base (mobile-first default).
-    /// </summary>
-    public TextOverflowBuilder OnBase => ChainBp(BreakpointType.Base);
-    /// <summary>
-    /// Applies the text overflow at sm breakpoint (≥640px).
-    /// </summary>
-    public TextOverflowBuilder OnSm => ChainBp(BreakpointType.Sm);
-    /// <summary>
-    /// Applies the text overflow at md breakpoint (≥768px).
-    /// </summary>
-    public TextOverflowBuilder OnMd => ChainBp(BreakpointType.Md);
-    /// <summary>
-    /// Applies the text overflow at lg breakpoint (≥1024px).
-    /// </summary>
-    public TextOverflowBuilder OnLg => ChainBp(BreakpointType.Lg);
-    /// <summary>
-    /// Applies the text overflow at xl breakpoint (≥1280px).
-    /// </summary>
-    public TextOverflowBuilder OnXl => ChainBp(BreakpointType.Xl);
-    /// <summary>
-    /// Applies the text overflow at 2xl breakpoint (≥1536px).
-    /// </summary>
-    public TextOverflowBuilder On2xl => ChainBp(BreakpointType.Xxl);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private TextOverflowBuilder Chain(TextOverflowEnum value)
     {
-        BreakpointType? breakpoint = _pendingBreakpoint;
-        _pendingBreakpoint = null;
-        _rules.Add(new TextOverflowRule(value.Value, breakpoint));
-        return this;
-    }
-
-    /// <summary>Apply a BreakpointType to the most recent rule (or seed with Clip if empty).</summary>
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private TextOverflowBuilder ChainBp(BreakpointType bp)
-    {
-        _pendingBreakpoint = bp;
+        BreakpointType? breakpoint = null;
+        _rules.Add(new TextOverflowRule(value.Value, breakpoint, ConsumePendingModifierChain()));
         return this;
     }
 
@@ -99,6 +69,9 @@ public sealed class TextOverflowBuilder : CssBuilderBase
             string bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
             if (bp.Length != 0)
                 baseClass = BreakpointUtil.ApplyTailwindBreakpoint(baseClass, bp);
+
+            if (rule.ModifierChain is { Length: > 0 })
+                baseClass = BreakpointUtil.ApplyTailwindModifiers(baseClass, rule.ModifierChain);
 
             if (!first) sb.Append(' ');
             else first = false;

@@ -3,7 +3,8 @@ namespace Soenneker.Quark;
 /// <summary>
 /// Tailwind/shadcn-aligned padding utility.
 /// </summary>
-public static class Padding
+[TailwindModifiers(typeof(PaddingBuilder))]
+public static partial class Padding
 {
     /// <summary>
     /// Applies padding on the horizontal axis (left and right).

@@ -3,7 +3,8 @@ namespace Soenneker.Quark;
 /// <summary>
 /// Static utility for scroll padding. Tailwind: scroll-p-*.
 /// </summary>
-public static class ScrollPadding
+[TailwindModifiers(typeof(ScrollPaddingBuilder))]
+public static partial class ScrollPadding
 {
     /// <summary>
     /// Spacing/sizing scale step `0` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 0` for integer spacing utilities unless overridden).

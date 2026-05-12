@@ -3,7 +3,8 @@ namespace Soenneker.Quark;
 /// <summary>
 /// Static utility class for creating shadow builders with predefined values.
 /// </summary>
-public static class Shadow
+[TailwindModifiers(typeof(ShadowBuilder))]
+public static partial class Shadow
 {
     /// <summary>
     /// No shadow.

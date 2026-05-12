@@ -4,7 +4,8 @@ namespace Soenneker.Quark;
 /// <summary>
 /// Simplified filter utility with fluent API and Tailwind/shadcn-aligned fluent API.
 /// </summary>
-public static class Filter
+[TailwindModifiers(typeof(FilterBuilder))]
+public static partial class Filter
 {
     /// <summary>
     /// No filter (none).

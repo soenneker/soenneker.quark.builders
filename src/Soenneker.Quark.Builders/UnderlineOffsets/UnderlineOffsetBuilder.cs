@@ -23,10 +23,4 @@ public sealed class UnderlineOffsetBuilder : ResponsiveUtilityBuilder<UnderlineO
     public UnderlineOffsetBuilder Is8 => ChainValue(UnderlineOffsetEnum.Is8Value);
     public UnderlineOffsetBuilder Token(string value) => ChainValue("underline-offset-" + value);
 
-    public UnderlineOffsetBuilder OnBase => SetPendingBreakpoint(BreakpointType.Base);
-    public UnderlineOffsetBuilder OnSm => SetPendingBreakpoint(BreakpointType.Sm);
-    public UnderlineOffsetBuilder OnMd => SetPendingBreakpoint(BreakpointType.Md);
-    public UnderlineOffsetBuilder OnLg => SetPendingBreakpoint(BreakpointType.Lg);
-    public UnderlineOffsetBuilder OnXl => SetPendingBreakpoint(BreakpointType.Xl);
-    public UnderlineOffsetBuilder On2xl => SetPendingBreakpoint(BreakpointType.Xxl);
 }

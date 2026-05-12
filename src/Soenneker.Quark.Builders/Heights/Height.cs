@@ -3,7 +3,8 @@ namespace Soenneker.Quark;
 /// <summary>
 /// Height utility with fluent API and Tailwind-first mappings.
 /// </summary>
-public static class Height
+[TailwindModifiers(typeof(HeightBuilder))]
+public static partial class Height
 {
     /// <summary>
     /// Spacing/sizing scale step `25` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 25` for integer spacing utilities unless overridden).

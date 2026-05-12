@@ -1,6 +1,7 @@
 namespace Soenneker.Quark;
 
-public static class Stroke
+[TailwindModifiers(typeof(StrokeBuilder))]
+public static partial class Stroke
 {
     /// <summary>
     /// Tailwind token segment (spacing scale step, arbitrary value like `[17rem]`, or theme key). Builds the matching utility class for this builder.

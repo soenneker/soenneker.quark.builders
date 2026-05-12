@@ -1,6 +1,7 @@
 namespace Soenneker.Quark;
 
-public static class AutoCols
+[TailwindModifiers(typeof(AutoColsBuilder))]
+public static partial class AutoCols
 {
     public static AutoColsBuilder Auto => new(AutoColsEnum.Auto);
     public static AutoColsBuilder Min => new(AutoColsEnum.Min);

@@ -9,10 +9,13 @@ namespace Soenneker.Quark;
 /// Stroke width builder for SVG/CSS. Tailwind: stroke-0, stroke-1, stroke-2.
 /// </summary>
 [TailwindPrefix("stroke-", Responsive = true)]
-public sealed class StrokeWidthBuilder : CssBuilderBase
+public sealed class StrokeWidthBuilder : CssBuilderBase<StrokeWidthBuilder>
 {
     private readonly List<StrokeWidthRule> _rules = new(4);
-    private BreakpointType? _pendingBreakpoint;
+
+    internal StrokeWidthBuilder()
+    {
+    }
 
     internal StrokeWidthBuilder(StrokeWidthEnum value, BreakpointType? breakpoint = null)
     {
@@ -38,44 +41,10 @@ public sealed class StrokeWidthBuilder : CssBuilderBase
     /// </summary>
     public StrokeWidthBuilder Is2 => Chain(StrokeWidthEnum.Is2);
 
-    /// <summary>
-    /// Scopes the next utility to the default (unprefixed) breakpoint.
-    /// </summary>
-    public StrokeWidthBuilder OnBase => ChainBp(BreakpointType.Base);
-    /// <summary>
-    /// Applies the preceding utility from the `sm` breakpoint and up (`sm:` prefix). Tailwind default: `min-width: 40rem` (640px).
-    /// </summary>
-    public StrokeWidthBuilder OnSm => ChainBp(BreakpointType.Sm);
-    /// <summary>
-    /// Applies from the `md` breakpoint and up (`md:`). Tailwind default: `min-width: 48rem` (768px).
-    /// </summary>
-    public StrokeWidthBuilder OnMd => ChainBp(BreakpointType.Md);
-    /// <summary>
-    /// Applies from the `lg` breakpoint and up (`lg:`). Tailwind default: `min-width: 64rem` (1024px).
-    /// </summary>
-    public StrokeWidthBuilder OnLg => ChainBp(BreakpointType.Lg);
-    /// <summary>
-    /// Applies from the `xl` breakpoint and up (`xl:`). Tailwind default: `min-width: 80rem` (1280px).
-    /// </summary>
-    public StrokeWidthBuilder OnXl => ChainBp(BreakpointType.Xl);
-    /// <summary>
-    /// Applies from the `2xl` breakpoint and up (`2xl:`). Tailwind default: `min-width: 96rem` (1536px).
-    /// </summary>
-    public StrokeWidthBuilder On2xl => ChainBp(BreakpointType.Xxl);
-
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private StrokeWidthBuilder Chain(StrokeWidthEnum value)
     {
-        BreakpointType? breakpoint = _pendingBreakpoint;
-        _pendingBreakpoint = null;
-        _rules.Add(new StrokeWidthRule(value, breakpoint));
-        return this;
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private StrokeWidthBuilder ChainBp(BreakpointType bp)
-    {
-        _pendingBreakpoint = bp;
+        _rules.Add(new StrokeWidthRule(value, null, ConsumePendingModifierChain()));
         return this;
     }
 
@@ -90,6 +59,7 @@ public sealed class StrokeWidthBuilder : CssBuilderBase
             if (cls.Length == 0) continue;
             string b = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
             if (b.Length != 0) cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, b);
+            if (rule.ModifierChain is { Length: > 0 }) cls = BreakpointUtil.ApplyTailwindModifiers(cls, rule.ModifierChain);
             if (!first) sb.Append(' ');
             else first = false;
             sb.Append(cls);

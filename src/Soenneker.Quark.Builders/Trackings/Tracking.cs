@@ -1,6 +1,7 @@
 namespace Soenneker.Quark;
 
-public static class Tracking
+[TailwindModifiers(typeof(TrackingBuilder))]
+public static partial class Tracking
 {
     public static TrackingBuilder Tighter => new(TrackingEnum.Tighter);
     public static TrackingBuilder Tight => new(TrackingEnum.Tight);

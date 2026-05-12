@@ -8,10 +8,13 @@ namespace Soenneker.Quark;
 /// Simplified pointer events builder with fluent API for chaining pointer events rules.
 /// </summary>
 [TailwindPrefix("pointer-events-", Responsive = true)]
-public sealed class PointerEventsBuilder : CssBuilderBase
+public sealed class PointerEventsBuilder : CssBuilderBase<PointerEventsBuilder>
 {
     private readonly List<PointerEventsRule> _rules = new(4);
-    private BreakpointType? _pendingBreakpoint;
+
+    internal PointerEventsBuilder()
+    {
+    }
 
     internal PointerEventsBuilder(PointerEventsEnum value, BreakpointType? breakpoint = null)
     {
@@ -34,57 +37,20 @@ public sealed class PointerEventsBuilder : CssBuilderBase
     /// </summary>
     public PointerEventsBuilder Auto => Chain(PointerEventsEnum.Auto);
 
-    /// <summary>
-    /// Applies the pointer events on phone breakpoint.
-    /// </summary>
-    public PointerEventsBuilder OnBase => SetPendingBreakpoint(BreakpointType.Base);
 
-    /// <summary>
-    /// Applies the pointer events on small breakpoint (≥640px).
-    /// </summary>
-    public PointerEventsBuilder OnSm => SetPendingBreakpoint(BreakpointType.Sm);
 
-    /// <summary>
-    /// Applies the pointer events on tablet breakpoint.
-    /// </summary>
-    public PointerEventsBuilder OnMd => SetPendingBreakpoint(BreakpointType.Md);
 
-    /// <summary>
-    /// Applies the pointer events on laptop breakpoint.
-    /// </summary>
-    public PointerEventsBuilder OnLg => SetPendingBreakpoint(BreakpointType.Lg);
 
-    /// <summary>
-    /// Applies the pointer events on desktop breakpoint.
-    /// </summary>
-    public PointerEventsBuilder OnXl => SetPendingBreakpoint(BreakpointType.Xl);
 
-    /// <summary>
-    /// Applies the pointer events on the 2xl breakpoint.
-    /// </summary>
-    public PointerEventsBuilder On2xl => SetPendingBreakpoint(BreakpointType.Xxl);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private PointerEventsBuilder Chain(PointerEventsEnum value)
     {
-        _rules.Add(new PointerEventsRule(value, ConsumePendingBreakpoint()));
+        _rules.Add(new PointerEventsRule(value, null, ConsumePendingModifierChain()));
         return this;
     }
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private PointerEventsBuilder SetPendingBreakpoint(BreakpointType breakpoint)
-    {
-        _pendingBreakpoint = breakpoint;
-        return this;
-    }
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private BreakpointType? ConsumePendingBreakpoint()
-    {
-        BreakpointType? breakpoint = _pendingBreakpoint;
-        _pendingBreakpoint = null;
-        return breakpoint;
-    }
 
     /// <summary>
     /// Gets the CSS class string for the current configuration.
@@ -109,6 +75,9 @@ public sealed class PointerEventsBuilder : CssBuilderBase
             string bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
             if (bp.Length != 0)
                 baseClass = BreakpointUtil.ApplyTailwindBreakpoint(baseClass, bp);
+
+            if (rule.ModifierChain is { Length: > 0 })
+                baseClass = BreakpointUtil.ApplyTailwindModifiers(baseClass, rule.ModifierChain);
 
             if (!first) sb.Append(' ');
             else first = false;

@@ -3,7 +3,8 @@ namespace Soenneker.Quark;
 /// <summary>
 /// Static utility class for creating font style builders with predefined values.
 /// </summary>
-public static class FontStyle
+[TailwindModifiers(typeof(FontStyleBuilder))]
+public static partial class FontStyle
 {
     /// <summary>
     /// Gets a font style builder with italic value (text is italic).

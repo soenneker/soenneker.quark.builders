@@ -9,10 +9,13 @@ namespace Soenneker.Quark;
 /// High-performance text transform builder with fluent API for chaining text transform rules.
 /// </summary>
 [TailwindPrefix("uppercase", Responsive = true)]
-public sealed class TextTransformBuilder : CssBuilderBase
+public sealed class TextTransformBuilder : CssBuilderBase<TextTransformBuilder>
 {
     private readonly List<TextTransformRule> _rules = new(4);
-    private BreakpointType? _pendingBreakpoint;
+
+    internal TextTransformBuilder()
+    {
+    }
 
     internal TextTransformBuilder(TextTransformEnum value, BreakpointType? breakpoint = null)
     {
@@ -37,52 +40,15 @@ public sealed class TextTransformBuilder : CssBuilderBase
     /// Sets the text transform to capitalize.
     /// </summary>
     public TextTransformBuilder Capitalize => Chain(TextTransformEnum.Capitalize);
-    /// <summary>
-    /// Applies the text transform on phone breakpoint.
-    /// </summary>
-    public TextTransformBuilder OnBase => SetPendingBreakpoint(BreakpointType.Base);
-    /// <summary>
-    /// Applies the text transform on small breakpoint (≥640px).
-    /// </summary>
-    public TextTransformBuilder OnSm => SetPendingBreakpoint(BreakpointType.Sm);
-    /// <summary>
-    /// Applies the text transform on tablet breakpoint.
-    /// </summary>
-    public TextTransformBuilder OnMd => SetPendingBreakpoint(BreakpointType.Md);
-    /// <summary>
-    /// Applies the text transform on laptop breakpoint.
-    /// </summary>
-    public TextTransformBuilder OnLg => SetPendingBreakpoint(BreakpointType.Lg);
-    /// <summary>
-    /// Applies the text transform on desktop breakpoint.
-    /// </summary>
-    public TextTransformBuilder OnXl => SetPendingBreakpoint(BreakpointType.Xl);
-    /// <summary>
-    /// Applies the text transform on the 2xl breakpoint.
-    /// </summary>
-    public TextTransformBuilder On2xl => SetPendingBreakpoint(BreakpointType.Xxl);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private TextTransformBuilder Chain(TextTransformEnum value)
     {
-        _rules.Add(new TextTransformRule(value.Value, ConsumePendingBreakpoint()));
+        _rules.Add(new TextTransformRule(value.Value, null, ConsumePendingModifierChain()));
         return this;
     }
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private TextTransformBuilder SetPendingBreakpoint(BreakpointType breakpoint)
-    {
-        _pendingBreakpoint = breakpoint;
-        return this;
-    }
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private BreakpointType? ConsumePendingBreakpoint()
-    {
-        BreakpointType? breakpoint = _pendingBreakpoint;
-        _pendingBreakpoint = null;
-        return breakpoint;
-    }
 
     /// <summary>
     /// Gets the CSS class string for the current configuration.
@@ -104,6 +70,9 @@ public sealed class TextTransformBuilder : CssBuilderBase
             string bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
             if (bp.Length != 0)
                 cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, bp);
+
+            if (rule.ModifierChain is { Length: > 0 })
+                cls = BreakpointUtil.ApplyTailwindModifiers(cls, rule.ModifierChain);
 
             if (!first) sb.Append(' ');
             else first = false;

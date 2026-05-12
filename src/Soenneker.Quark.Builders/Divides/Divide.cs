@@ -1,6 +1,7 @@
 namespace Soenneker.Quark;
 
-public static class Divide
+[TailwindModifiers(typeof(DivideBuilder))]
+public static partial class Divide
 {
     /// <summary>
     /// Fluent step for `X` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.

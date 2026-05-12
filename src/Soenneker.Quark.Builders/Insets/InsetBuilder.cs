@@ -9,10 +9,13 @@ namespace Soenneker.Quark;
 /// Inset (top/right/bottom/left) builder with fluent API. Tailwind: inset-*, top-*, right-*, bottom-*, left-*, start-*, end-*.
 /// </summary>
 [TailwindPrefix("inset-", Responsive = true)]
-public sealed class InsetBuilder : CssBuilderBase
+public sealed class InsetBuilder : CssBuilderBase<InsetBuilder>
 {
     private readonly List<InsetRule> _rules = new(4);
-    private BreakpointType? _pendingBreakpoint;
+
+    internal InsetBuilder()
+    {
+    }
 
     internal InsetBuilder(InsetScaleEnum size, BreakpointType? breakpoint = null)
     {
@@ -95,60 +98,26 @@ public sealed class InsetBuilder : CssBuilderBase
     /// </summary>
     public InsetBuilder Auto => ChainWithSize(InsetScaleEnum.Auto);
 
-    /// <summary>
-    /// Applies the preceding utility from the `sm` breakpoint and up (`sm:` prefix). Tailwind default: `min-width: 40rem` (640px).
-    /// </summary>
-    public InsetBuilder OnSm => SetPendingBreakpoint(BreakpointType.Sm);
-    /// <summary>
-    /// Applies from the `md` breakpoint and up (`md:`). Tailwind default: `min-width: 48rem` (768px).
-    /// </summary>
-    public InsetBuilder OnMd => SetPendingBreakpoint(BreakpointType.Md);
-    /// <summary>
-    /// Applies from the `lg` breakpoint and up (`lg:`). Tailwind default: `min-width: 64rem` (1024px).
-    /// </summary>
-    public InsetBuilder OnLg => SetPendingBreakpoint(BreakpointType.Lg);
-    /// <summary>
-    /// Applies from the `xl` breakpoint and up (`xl:`). Tailwind default: `min-width: 80rem` (1280px).
-    /// </summary>
-    public InsetBuilder OnXl => SetPendingBreakpoint(BreakpointType.Xl);
-    /// <summary>
-    /// Applies from the `2xl` breakpoint and up (`2xl:`). Tailwind default: `min-width: 96rem` (1536px).
-    /// </summary>
-    public InsetBuilder On2xl => SetPendingBreakpoint(BreakpointType.Xxl);
-
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private InsetBuilder AddRule(ElementSideEnum side)
     {
-        BreakpointType? pending = ConsumePendingBreakpoint();
         InsetScaleEnum size = _rules.Count > 0 ? _rules[^1].Size : InsetScaleEnum.Is0;
-        BreakpointType? bp = pending ?? (_rules.Count > 0 ? _rules[^1].Breakpoint : null);
+        BreakpointType? bp = _rules.Count > 0 ? _rules[^1].Breakpoint : null;
+        string? modifierChain = ConsumePendingModifierChain();
+        if (modifierChain is not { Length: > 0 } && _rules.Count > 0)
+            modifierChain = _rules[^1].ModifierChain;
         if (_rules.Count > 0 && ReferenceEquals(_rules[^1].Side, ElementSideEnum.All))
-            _rules[^1] = new InsetRule(size, side, bp);
+            _rules[^1] = new InsetRule(size, side, bp, modifierChain);
         else
-            _rules.Add(new InsetRule(size, side, bp));
+            _rules.Add(new InsetRule(size, side, bp, modifierChain));
         return this;
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private InsetBuilder ChainWithSize(InsetScaleEnum scale)
     {
-        _rules.Add(new InsetRule(scale, ElementSideEnum.All, ConsumePendingBreakpoint()));
+        _rules.Add(new InsetRule(scale, ElementSideEnum.All, null, ConsumePendingModifierChain()));
         return this;
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private InsetBuilder SetPendingBreakpoint(BreakpointType breakpoint)
-    {
-        _pendingBreakpoint = breakpoint;
-        return this;
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private BreakpointType? ConsumePendingBreakpoint()
-    {
-        BreakpointType? breakpoint = _pendingBreakpoint;
-        _pendingBreakpoint = null;
-        return breakpoint;
     }
 
     public override string ToClass()
@@ -163,6 +132,7 @@ public sealed class InsetBuilder : CssBuilderBase
             if (cls.Length == 0) continue;
             string bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
             if (bp.Length != 0) cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, bp);
+            if (rule.ModifierChain is { Length: > 0 }) cls = BreakpointUtil.ApplyTailwindModifiers(cls, rule.ModifierChain);
             if (!first) sb.Append(' ');
             else first = false;
             sb.Append(cls);

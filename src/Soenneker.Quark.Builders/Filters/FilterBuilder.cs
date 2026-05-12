@@ -11,10 +11,13 @@ namespace Soenneker.Quark;
 /// Simplified filter builder with fluent API for chaining filter rules.
 /// </summary>
 [TailwindPrefix("filter", Responsive = true)]
-public sealed class FilterBuilder : CssBuilderBase
+public sealed class FilterBuilder : CssBuilderBase<FilterBuilder>
 {
     private readonly List<FilterRule> _rules = new(4);
-    private BreakpointType? _pendingBreakpoint;
+
+    internal FilterBuilder()
+    {
+    }
 
     internal FilterBuilder(string filter, BreakpointType? breakpoint = null)
     {
@@ -82,53 +85,17 @@ public sealed class FilterBuilder : CssBuilderBase
     /// </summary>
     public FilterBuilder Token(string token) => ChainWithFilter(token);
 
-    /// <summary>
-    /// Applies the filter on phone breakpoint.
-    /// </summary>
-    public FilterBuilder OnBase => SetPendingBreakpoint(BreakpointType.Base);
-    /// <summary>
-    /// Applies the filter on small breakpoint (≥640px).
-    /// </summary>
-    public FilterBuilder OnSm => SetPendingBreakpoint(BreakpointType.Sm);
-    /// <summary>
-    /// Applies the filter on tablet breakpoint.
-    /// </summary>
-    public FilterBuilder OnMd => SetPendingBreakpoint(BreakpointType.Md);
-    /// <summary>
-    /// Applies the filter on laptop breakpoint.
-    /// </summary>
-    public FilterBuilder OnLg => SetPendingBreakpoint(BreakpointType.Lg);
-    /// <summary>
-    /// Applies the filter on desktop breakpoint.
-    /// </summary>
-    public FilterBuilder OnXl => SetPendingBreakpoint(BreakpointType.Xl);
-    /// <summary>
-    /// Applies the filter on the 2xl breakpoint.
-    /// </summary>
-    public FilterBuilder On2xl => SetPendingBreakpoint(BreakpointType.Xxl);
-
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private FilterBuilder ChainWithFilter(string filter)
     {
-        BreakpointType? bp = _pendingBreakpoint;
-        _pendingBreakpoint = null;
-        _rules.Add(new FilterRule(filter, bp));
+        _rules.Add(new FilterRule(filter, null, ConsumePendingModifierChain()));
         return this;
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private FilterBuilder ChainWithFilter(FilterEnum filter)
     {
-        BreakpointType? bp = _pendingBreakpoint;
-        _pendingBreakpoint = null;
-        _rules.Add(new FilterRule(filter.Value, bp));
-        return this;
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private FilterBuilder SetPendingBreakpoint(BreakpointType breakpoint)
-    {
-        _pendingBreakpoint = breakpoint;
+        _rules.Add(new FilterRule(filter.Value, null, ConsumePendingModifierChain()));
         return this;
     }
 
@@ -154,6 +121,9 @@ public sealed class FilterBuilder : CssBuilderBase
             string bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
             if (bp.Length != 0)
                 cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, bp);
+
+            if (rule.ModifierChain is { Length: > 0 })
+                cls = BreakpointUtil.ApplyTailwindModifiers(cls, rule.ModifierChain);
 
             if (!first) sb.Append(' ');
             else first = false;

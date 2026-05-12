@@ -10,7 +10,6 @@ public sealed class BackgroundColorBuilder : CssBuilderBase<BackgroundColorBuild
     private const string Prefix = "bg-";
 
     private readonly List<BackgroundColorRule> _rules = new(4);
-    private BreakpointType? _pendingBreakpoint;
 
     internal BackgroundColorBuilder()
     {
@@ -47,12 +46,6 @@ public sealed class BackgroundColorBuilder : CssBuilderBase<BackgroundColorBuild
     public BackgroundColorBuilder Black => ChainValue(BackgroundColorEnum.Black);
     public BackgroundColorBuilder Transparent => ChainValue(BackgroundColorEnum.Transparent);
 
-    public BackgroundColorBuilder OnBase => SetPendingBreakpoint(BreakpointType.Base);
-    public BackgroundColorBuilder OnSm => SetPendingBreakpoint(BreakpointType.Sm);
-    public BackgroundColorBuilder OnMd => SetPendingBreakpoint(BreakpointType.Md);
-    public BackgroundColorBuilder OnLg => SetPendingBreakpoint(BreakpointType.Lg);
-    public BackgroundColorBuilder OnXl => SetPendingBreakpoint(BreakpointType.Xl);
-    public BackgroundColorBuilder On2xl => SetPendingBreakpoint(BreakpointType.Xxl);
     public BackgroundColorBuilder Token(string token) => ChainClass(ColorUtility.CreateClass(Prefix, token));
 
     public BackgroundColorBuilder Utility(string utility) => ChainClass(ColorUtility.CreateUtilityClass(Prefix, utility));
@@ -60,8 +53,7 @@ public sealed class BackgroundColorBuilder : CssBuilderBase<BackgroundColorBuild
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private BackgroundColorBuilder ChainValue(BackgroundColorEnum value)
     {
-        BreakpointType? bp = _pendingBreakpoint;
-        _pendingBreakpoint = null;
+        BreakpointType? bp = null;
         _rules.Add(new BackgroundColorRule(value.Value, bp, ConsumePendingModifierChain()));
         return this;
     }
@@ -69,19 +61,12 @@ public sealed class BackgroundColorBuilder : CssBuilderBase<BackgroundColorBuild
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private BackgroundColorBuilder ChainClass(string value)
     {
-        BreakpointType? bp = _pendingBreakpoint;
-        _pendingBreakpoint = null;
+        BreakpointType? bp = null;
         if (value.Length != 0)
             _rules.Add(new BackgroundColorRule(value, bp, ConsumePendingModifierChain()));
         return this;
     }
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private BackgroundColorBuilder SetPendingBreakpoint(BreakpointType bp)
-    {
-        _pendingBreakpoint = bp;
-        return this;
-    }
 
     public override string ToClass()
     {

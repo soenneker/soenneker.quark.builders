@@ -3,7 +3,8 @@ namespace Soenneker.Quark;
 /// <summary>
 /// Static utility class for creating text transform builders with predefined values.
 /// </summary>
-public static class TextTransform
+[TailwindModifiers(typeof(TextTransformBuilder))]
+public static partial class TextTransform
 {
     /// <summary>
     /// Gets a text transform builder with lowercase value (text is lowercase).

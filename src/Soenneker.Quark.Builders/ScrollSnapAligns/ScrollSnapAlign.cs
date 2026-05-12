@@ -3,7 +3,8 @@ namespace Soenneker.Quark;
 /// <summary>
 /// Static utility for scroll snap align. Tailwind: snap-start, snap-center, snap-end, snap-align-none.
 /// </summary>
-public static class ScrollSnapAlign
+[TailwindModifiers(typeof(ScrollSnapAlignBuilder))]
+public static partial class ScrollSnapAlign
 {
     /// <summary>
     /// Fluent step for `Start` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.

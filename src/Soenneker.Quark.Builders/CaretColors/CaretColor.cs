@@ -3,7 +3,8 @@ namespace Soenneker.Quark;
 /// <summary>
 /// Static utility for caret color. Tailwind: caret-*.
 /// </summary>
-public static class CaretColor
+[TailwindModifiers(typeof(CaretColorBuilder))]
+public static partial class CaretColor
 {
     /// <summary>
     /// Fluent step for `Primary` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.

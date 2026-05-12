@@ -28,10 +28,4 @@ public sealed class GridColsBuilder : ResponsiveUtilityBuilder<GridColsBuilder>
     public GridColsBuilder Count(int value) => ChainValue("grid-cols-" + value);
     public GridColsBuilder Token(string value) => ChainValue("grid-cols-" + value);
 
-    public GridColsBuilder OnBase => SetPendingBreakpoint(BreakpointType.Base);
-    public GridColsBuilder OnSm => SetPendingBreakpoint(BreakpointType.Sm);
-    public GridColsBuilder OnMd => SetPendingBreakpoint(BreakpointType.Md);
-    public GridColsBuilder OnLg => SetPendingBreakpoint(BreakpointType.Lg);
-    public GridColsBuilder OnXl => SetPendingBreakpoint(BreakpointType.Xl);
-    public GridColsBuilder On2xl => SetPendingBreakpoint(BreakpointType.Xxl);
 }

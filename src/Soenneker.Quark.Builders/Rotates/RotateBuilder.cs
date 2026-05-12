@@ -26,10 +26,4 @@ public sealed class RotateBuilder : ResponsiveUtilityBuilder<RotateBuilder>
     public RotateBuilder Is180 => ChainValue(RotateEnum.Is180Value);
     public RotateBuilder Token(string value) => ChainValue("rotate-" + value);
 
-    public RotateBuilder OnBase => SetPendingBreakpoint(BreakpointType.Base);
-    public RotateBuilder OnSm => SetPendingBreakpoint(BreakpointType.Sm);
-    public RotateBuilder OnMd => SetPendingBreakpoint(BreakpointType.Md);
-    public RotateBuilder OnLg => SetPendingBreakpoint(BreakpointType.Lg);
-    public RotateBuilder OnXl => SetPendingBreakpoint(BreakpointType.Xl);
-    public RotateBuilder On2xl => SetPendingBreakpoint(BreakpointType.Xxl);
 }

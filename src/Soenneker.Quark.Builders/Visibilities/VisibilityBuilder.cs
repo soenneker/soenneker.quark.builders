@@ -10,10 +10,13 @@ namespace Soenneker.Quark;
 /// Simplified visibility builder with fluent API for chaining visibility rules.
 /// </summary>
 [TailwindPrefix("visible", Responsive = true)]
-public sealed class VisibilityBuilder : CssBuilderBase
+public sealed class VisibilityBuilder : CssBuilderBase<VisibilityBuilder>
 {
     private readonly List<VisibilityRule> _rules = new(4);
-    private BreakpointType? _pendingBreakpoint;
+
+    internal VisibilityBuilder()
+    {
+    }
 
     internal VisibilityBuilder(VisibilityEnum value, BreakpointType? breakpoint = null)
     {
@@ -34,52 +37,15 @@ public sealed class VisibilityBuilder : CssBuilderBase
 	/// Sets the visibility to invisible.
 	/// </summary>
     public VisibilityBuilder Invisible => Chain(VisibilityEnum.Invisible);
-	/// <summary>
-	/// Applies the visibility on phone breakpoint.
-	/// </summary>
-    public VisibilityBuilder OnBase => SetPendingBreakpoint(BreakpointType.Base);
-	/// <summary>
-	/// Applies the visibility on small breakpoint (≥640px).
-	/// </summary>
-    public VisibilityBuilder OnSm => SetPendingBreakpoint(BreakpointType.Sm);
-	/// <summary>
-	/// Applies the visibility on tablet breakpoint.
-	/// </summary>
-    public VisibilityBuilder OnMd => SetPendingBreakpoint(BreakpointType.Md);
-	/// <summary>
-	/// Applies the visibility on laptop breakpoint.
-	/// </summary>
-    public VisibilityBuilder OnLg => SetPendingBreakpoint(BreakpointType.Lg);
-	/// <summary>
-	/// Applies the visibility on desktop breakpoint.
-	/// </summary>
-    public VisibilityBuilder OnXl => SetPendingBreakpoint(BreakpointType.Xl);
-	/// <summary>
-	/// Applies the visibility on the 2xl breakpoint.
-	/// </summary>
-    public VisibilityBuilder On2xl => SetPendingBreakpoint(BreakpointType.Xxl);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private VisibilityBuilder Chain(VisibilityEnum value)
     {
-        _rules.Add(new VisibilityRule(value, ConsumePendingBreakpoint()));
+        _rules.Add(new VisibilityRule(value, null, ConsumePendingModifierChain()));
         return this;
     }
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private VisibilityBuilder SetPendingBreakpoint(BreakpointType breakpoint)
-    {
-        _pendingBreakpoint = breakpoint;
-        return this;
-    }
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private BreakpointType? ConsumePendingBreakpoint()
-    {
-        BreakpointType? breakpoint = _pendingBreakpoint;
-        _pendingBreakpoint = null;
-        return breakpoint;
-    }
 
 	/// <summary>
 	/// Gets the CSS class string for the current configuration.
@@ -107,6 +73,9 @@ public sealed class VisibilityBuilder : CssBuilderBase
             string bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
             if (bp.Length != 0)
                 cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, bp);
+
+            if (rule.ModifierChain is { Length: > 0 })
+                cls = BreakpointUtil.ApplyTailwindModifiers(cls, rule.ModifierChain);
 
             if (!first) sb.Append(' ');
             else first = false;

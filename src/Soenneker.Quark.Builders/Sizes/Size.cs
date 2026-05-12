@@ -77,6 +77,11 @@ public static class Size
     /// Spacing/sizing scale step `32`.
     /// </summary>
     public static SizeBuilder Is32 => new("size-32");
+    public static SizeBuilder IsPx => new("size-px");
+    public static SizeBuilder IsFull => new("size-full");
+    public static SizeBuilder IsMin => new("size-min");
+    public static SizeBuilder IsMax => new("size-max");
+    public static SizeBuilder IsFit => new("size-fit");
 
     /// <summary>
     /// Create from an arbitrary Tailwind size token (e.g. "5", "full", "[18px]").

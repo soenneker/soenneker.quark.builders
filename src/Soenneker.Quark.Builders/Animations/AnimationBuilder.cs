@@ -9,10 +9,13 @@ namespace Soenneker.Quark;
 /// Simplified animation builder with fluent API for chaining animation rules.
 /// </summary>
 [TailwindPrefix("animate-", Responsive = true)]
-public sealed class AnimationBuilder : CssBuilderBase
+public sealed class AnimationBuilder : CssBuilderBase<AnimationBuilder>
 {
     private readonly List<AnimationRule> _rules = new(4);
-    private BreakpointType? _pendingBreakpoint;
+
+    internal AnimationBuilder()
+    {
+    }
 
     internal AnimationBuilder(AnimationEnum animation, BreakpointType? breakpoint = null)
     {
@@ -60,35 +63,11 @@ public sealed class AnimationBuilder : CssBuilderBase
     /// </summary>
     public AnimationBuilder Token(string token) => ChainWithAnimation(token);
 
-    /// <summary>
-    /// Applies the animation on phone breakpoint.
-    /// </summary>
-    public AnimationBuilder OnBase => SetPendingBreakpoint(BreakpointType.Base);
 
-    /// <summary>
-    /// Applies the animation on small breakpoint (≥640px).
-    /// </summary>
-    public AnimationBuilder OnSm => SetPendingBreakpoint(BreakpointType.Sm);
 
-    /// <summary>
-    /// Applies the animation on tablet breakpoint.
-    /// </summary>
-    public AnimationBuilder OnMd => SetPendingBreakpoint(BreakpointType.Md);
 
-    /// <summary>
-    /// Applies the animation on laptop breakpoint.
-    /// </summary>
-    public AnimationBuilder OnLg => SetPendingBreakpoint(BreakpointType.Lg);
 
-    /// <summary>
-    /// Applies the animation on desktop breakpoint.
-    /// </summary>
-    public AnimationBuilder OnXl => SetPendingBreakpoint(BreakpointType.Xl);
 
-    /// <summary>
-    /// Applies the animation on the 2xl breakpoint.
-    /// </summary>
-    public AnimationBuilder On2xl => SetPendingBreakpoint(BreakpointType.Xxl);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private AnimationBuilder ChainWithAnimation(AnimationEnum animation)
@@ -99,18 +78,11 @@ public sealed class AnimationBuilder : CssBuilderBase
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private AnimationBuilder ChainWithAnimation(string animation)
     {
-        BreakpointType? bp = _pendingBreakpoint;
-        _pendingBreakpoint = null;
-        _rules.Add(new AnimationRule(animation, bp));
+        BreakpointType? bp = null;
+        _rules.Add(new AnimationRule(animation, bp, ConsumePendingModifierChain()));
         return this;
     }
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private AnimationBuilder SetPendingBreakpoint(BreakpointType breakpoint)
-    {
-        _pendingBreakpoint = breakpoint;
-        return this;
-    }
 
     /// <summary>
     /// Gets the CSS class string for the current configuration.
@@ -134,6 +106,9 @@ public sealed class AnimationBuilder : CssBuilderBase
             string bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
             if (bp.Length != 0)
                 cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, bp);
+
+            if (rule.ModifierChain is { Length: > 0 })
+                cls = BreakpointUtil.ApplyTailwindModifiers(cls, rule.ModifierChain);
 
             if (!first)
                 sb.Append(' ');

@@ -4,10 +4,11 @@ namespace Soenneker.Quark;
 /// <summary>
 /// Simplified truncate utility with fluent API and Tailwind/shadcn-aligned fluent API.
 /// </summary>
-public static class Truncate
+[TailwindModifiers(typeof(TruncateBuilder))]
+public static partial class Truncate
 {
     /// <summary>
     /// Tailwind truncate utility.
     /// </summary>
-    public static TruncateBuilder Default => new();
+    public static TruncateBuilder Default => new TruncateBuilder().Default;
 }

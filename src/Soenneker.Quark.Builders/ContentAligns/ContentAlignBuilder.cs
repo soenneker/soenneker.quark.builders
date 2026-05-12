@@ -26,10 +26,4 @@ public sealed class ContentAlignBuilder : ResponsiveUtilityBuilder<ContentAlignB
     public ContentAlignBuilder Baseline => ChainValue(ContentEnum.BaselineValue);
     public ContentAlignBuilder Token(string value) => ChainValue("content-" + value);
 
-    public ContentAlignBuilder OnBase => SetPendingBreakpoint(BreakpointType.Base);
-    public ContentAlignBuilder OnSm => SetPendingBreakpoint(BreakpointType.Sm);
-    public ContentAlignBuilder OnMd => SetPendingBreakpoint(BreakpointType.Md);
-    public ContentAlignBuilder OnLg => SetPendingBreakpoint(BreakpointType.Lg);
-    public ContentAlignBuilder OnXl => SetPendingBreakpoint(BreakpointType.Xl);
-    public ContentAlignBuilder On2xl => SetPendingBreakpoint(BreakpointType.Xxl);
 }

@@ -22,10 +22,4 @@ public sealed class JustifyItemsAlignBuilder : ResponsiveUtilityBuilder<JustifyI
     public JustifyItemsAlignBuilder Stretch => ChainValue(JustifyItemsAlignEnum.StretchValue);
     public JustifyItemsAlignBuilder Token(string value) => ChainValue("justify-items-" + value);
 
-    public JustifyItemsAlignBuilder OnBase => SetPendingBreakpoint(BreakpointType.Base);
-    public JustifyItemsAlignBuilder OnSm => SetPendingBreakpoint(BreakpointType.Sm);
-    public JustifyItemsAlignBuilder OnMd => SetPendingBreakpoint(BreakpointType.Md);
-    public JustifyItemsAlignBuilder OnLg => SetPendingBreakpoint(BreakpointType.Lg);
-    public JustifyItemsAlignBuilder OnXl => SetPendingBreakpoint(BreakpointType.Xl);
-    public JustifyItemsAlignBuilder On2xl => SetPendingBreakpoint(BreakpointType.Xxl);
 }

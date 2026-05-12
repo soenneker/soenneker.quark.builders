@@ -1,6 +1,7 @@
 namespace Soenneker.Quark;
 
-public static class AutoRows
+[TailwindModifiers(typeof(AutoRowsBuilder))]
+public static partial class AutoRows
 {
     public static AutoRowsBuilder Auto => new(AutoRowsEnum.Auto);
     public static AutoRowsBuilder Min => new(AutoRowsEnum.Min);

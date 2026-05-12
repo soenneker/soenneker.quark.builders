@@ -9,10 +9,13 @@ namespace Soenneker.Quark;
 /// Tailwind whitespace utility builder.
 /// </summary>
 [TailwindPrefix("whitespace-", Responsive = true)]
-public sealed class WhitespaceBuilder : CssBuilderBase
+public sealed class WhitespaceBuilder : CssBuilderBase<WhitespaceBuilder>
 {
     private readonly List<WhitespaceRule> _rules = new(4);
-    private BreakpointType? _pendingBreakpoint;
+
+    internal WhitespaceBuilder()
+    {
+    }
 
     internal WhitespaceBuilder(string value, BreakpointType? breakpoint = null)
     {
@@ -60,55 +63,23 @@ public sealed class WhitespaceBuilder : CssBuilderBase
     /// </summary>
     public WhitespaceBuilder BreakSpaces => Chain(WhitespaceEnum.BreakSpaces);
 
-    /// <summary>
-    /// Scopes the next utility to the default (unprefixed) breakpoint. In Tailwind’s mobile‑first model, unprefixed utilities apply from 0px unless a larger breakpoint overrides them.
-    /// </summary>
-    public WhitespaceBuilder OnBase => SetPendingBreakpoint(BreakpointType.Base);
-    /// <summary>
-    /// Applies the preceding utility from the `sm` breakpoint and up (`sm:` prefix). Tailwind default: `min-width: 40rem` (640px).
-    /// </summary>
-    public WhitespaceBuilder OnSm => SetPendingBreakpoint(BreakpointType.Sm);
-    /// <summary>
-    /// Applies from the `md` breakpoint and up (`md:`). Tailwind default: `min-width: 48rem` (768px).
-    /// </summary>
-    public WhitespaceBuilder OnMd => SetPendingBreakpoint(BreakpointType.Md);
-    /// <summary>
-    /// Applies from the `lg` breakpoint and up (`lg:`). Tailwind default: `min-width: 64rem` (1024px).
-    /// </summary>
-    public WhitespaceBuilder OnLg => SetPendingBreakpoint(BreakpointType.Lg);
-    /// <summary>
-    /// Applies from the `xl` breakpoint and up (`xl:`). Tailwind default: `min-width: 80rem` (1280px).
-    /// </summary>
-    public WhitespaceBuilder OnXl => SetPendingBreakpoint(BreakpointType.Xl);
-    /// <summary>
-    /// Applies from the `2xl` breakpoint and up (`2xl:`). Tailwind default: `min-width: 96rem` (1536px).
-    /// </summary>
-    public WhitespaceBuilder On2xl => SetPendingBreakpoint(BreakpointType.Xxl);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private WhitespaceBuilder Chain(string value)
     {
-        BreakpointType? bp = _pendingBreakpoint;
-        _pendingBreakpoint = null;
-        _rules.Add(new WhitespaceRule(value, bp));
+        BreakpointType? bp = null;
+        _rules.Add(new WhitespaceRule(value, bp, ConsumePendingModifierChain()));
         return this;
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private WhitespaceBuilder Chain(WhitespaceEnum value)
     {
-        BreakpointType? bp = _pendingBreakpoint;
-        _pendingBreakpoint = null;
-        _rules.Add(new WhitespaceRule(value.Value, bp));
+        BreakpointType? bp = null;
+        _rules.Add(new WhitespaceRule(value.Value, bp, ConsumePendingModifierChain()));
         return this;
     }
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private WhitespaceBuilder SetPendingBreakpoint(BreakpointType breakpoint)
-    {
-        _pendingBreakpoint = breakpoint;
-        return this;
-    }
 
     public override string ToClass()
     {
@@ -129,6 +100,9 @@ public sealed class WhitespaceBuilder : CssBuilderBase
             string bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
             if (bp.Length != 0)
                 cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, bp);
+
+            if (rule.ModifierChain is { Length: > 0 })
+                cls = BreakpointUtil.ApplyTailwindModifiers(cls, rule.ModifierChain);
 
             if (!first)
                 sb.Append(' ');

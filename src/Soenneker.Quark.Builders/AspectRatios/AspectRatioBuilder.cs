@@ -9,10 +9,13 @@ namespace Soenneker.Quark;
 /// Simplified aspect ratio builder with fluent API for chaining aspect ratio rules.
 /// </summary>
 [TailwindPrefix("aspect-", Responsive = true)]
-public sealed class AspectRatioBuilder : CssBuilderBase
+public sealed class AspectRatioBuilder : CssBuilderBase<AspectRatioBuilder>
 {
     private readonly List<AspectRatioRule> _rules = new(4);
-    private BreakpointType? _pendingBreakpoint;
+
+    internal AspectRatioBuilder()
+    {
+    }
 
     internal AspectRatioBuilder(string ratio, BreakpointType? breakpoint = null)
     {
@@ -47,59 +50,22 @@ public sealed class AspectRatioBuilder : CssBuilderBase
     /// </summary>
     public AspectRatioBuilder R21X9 => ChainWithRatio(AspectRatioEnum.R21X9);
 
-    /// <summary>
-    /// Applies the aspect ratio at base (mobile-first default).
-    /// </summary>
-    public AspectRatioBuilder OnBase => SetPendingBreakpoint(BreakpointType.Base);
-    /// <summary>
-    /// Applies the aspect ratio at sm breakpoint (≥640px).
-    /// </summary>
-    public AspectRatioBuilder OnSm => SetPendingBreakpoint(BreakpointType.Sm);
-    /// <summary>
-    /// Applies the aspect ratio at md breakpoint (≥768px).
-    /// </summary>
-    public AspectRatioBuilder OnMd => SetPendingBreakpoint(BreakpointType.Md);
-    /// <summary>
-    /// Applies the aspect ratio at lg breakpoint (≥1024px).
-    /// </summary>
-    public AspectRatioBuilder OnLg => SetPendingBreakpoint(BreakpointType.Lg);
-    /// <summary>
-    /// Applies the aspect ratio at xl breakpoint (≥1280px).
-    /// </summary>
-    public AspectRatioBuilder OnXl => SetPendingBreakpoint(BreakpointType.Xl);
-    /// <summary>
-    /// Applies the aspect ratio at 2xl breakpoint (≥1536px).
-    /// </summary>
-    public AspectRatioBuilder On2xl => SetPendingBreakpoint(BreakpointType.Xxl);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private AspectRatioBuilder ChainWithRatio(string ratio)
     {
-        _rules.Add(new AspectRatioRule(ratio, ConsumePendingBreakpoint()));
+        _rules.Add(new AspectRatioRule(ratio, null, ConsumePendingModifierChain()));
         return this;
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private AspectRatioBuilder ChainWithRatio(AspectRatioEnum ratio)
     {
-        _rules.Add(new AspectRatioRule(ratio.Value, ConsumePendingBreakpoint()));
+        _rules.Add(new AspectRatioRule(ratio.Value, null, ConsumePendingModifierChain()));
         return this;
     }
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private AspectRatioBuilder SetPendingBreakpoint(BreakpointType breakpoint)
-    {
-        _pendingBreakpoint = breakpoint;
-        return this;
-    }
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private BreakpointType? ConsumePendingBreakpoint()
-    {
-        BreakpointType? breakpoint = _pendingBreakpoint;
-        _pendingBreakpoint = null;
-        return breakpoint;
-    }
 
     /// <summary>
     /// Gets the CSS class string for the current configuration.
@@ -123,6 +89,9 @@ public sealed class AspectRatioBuilder : CssBuilderBase
             string bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
             if (bp.Length != 0)
                 cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, bp);
+
+            if (rule.ModifierChain is { Length: > 0 })
+                cls = BreakpointUtil.ApplyTailwindModifiers(cls, rule.ModifierChain);
 
             if (!first) sb.Append(' ');
             else first = false;

@@ -3,7 +3,8 @@ namespace Soenneker.Quark;
 /// <summary>
 /// Static utility for accent color. Tailwind: accent-*.
 /// </summary>
-public static class AccentColor
+[TailwindModifiers(typeof(AccentColorBuilder))]
+public static partial class AccentColor
 {
     /// <summary>
     /// `auto` — browser-default sizing/behavior for the underlying utility.

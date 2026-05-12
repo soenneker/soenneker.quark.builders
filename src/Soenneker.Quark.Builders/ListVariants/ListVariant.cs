@@ -3,7 +3,8 @@ namespace Soenneker.Quark;
 /// <summary>
 /// Tailwind-aligned list layout variants.
 /// </summary>
-public static class ListVariant
+[TailwindModifiers(typeof(ListVariantBuilder))]
+public static partial class ListVariant
 {
     /// <summary>
     /// Removes default list styling.

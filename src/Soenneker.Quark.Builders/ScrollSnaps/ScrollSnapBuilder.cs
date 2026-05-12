@@ -8,10 +8,13 @@ namespace Soenneker.Quark;
 /// Scroll snap type builder. Tailwind: snap-none, snap-x, snap-y, snap-both, snap-mandatory, snap-proximity.
 /// </summary>
 [TailwindPrefix("snap-", Responsive = true)]
-public sealed class ScrollSnapBuilder : CssBuilderBase
+public sealed class ScrollSnapBuilder : CssBuilderBase<ScrollSnapBuilder>
 {
     private readonly List<ScrollSnapRule> _rules = new(4);
-    private BreakpointType? _pendingBreakpoint;
+
+    internal ScrollSnapBuilder()
+    {
+    }
 
     internal ScrollSnapBuilder(ScrollSnapEnum value, BreakpointType? breakpoint = null)
     {
@@ -31,32 +34,11 @@ public sealed class ScrollSnapBuilder : CssBuilderBase
     public ScrollSnapBuilder Mandatory => Chain(ScrollSnapEnum.Mandatory);
     public ScrollSnapBuilder Proximity => Chain(ScrollSnapEnum.Proximity);
 
-    public ScrollSnapBuilder OnSm => SetPendingBreakpoint(BreakpointType.Sm);
-    public ScrollSnapBuilder OnMd => SetPendingBreakpoint(BreakpointType.Md);
-    public ScrollSnapBuilder OnLg => SetPendingBreakpoint(BreakpointType.Lg);
-    public ScrollSnapBuilder OnXl => SetPendingBreakpoint(BreakpointType.Xl);
-    public ScrollSnapBuilder On2xl => SetPendingBreakpoint(BreakpointType.Xxl);
-
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private ScrollSnapBuilder Chain(ScrollSnapEnum value)
     {
-        _rules.Add(new ScrollSnapRule(value, ConsumePendingBreakpoint()));
+        _rules.Add(new ScrollSnapRule(value, null, ConsumePendingModifierChain()));
         return this;
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private ScrollSnapBuilder SetPendingBreakpoint(BreakpointType breakpoint)
-    {
-        _pendingBreakpoint = breakpoint;
-        return this;
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private BreakpointType? ConsumePendingBreakpoint()
-    {
-        BreakpointType? breakpoint = _pendingBreakpoint;
-        _pendingBreakpoint = null;
-        return breakpoint;
     }
 
     public override string ToClass()
@@ -72,13 +54,19 @@ public sealed class ScrollSnapBuilder : CssBuilderBase
             string cls = rule.Value.Value;
             if (cls.Length == 0)
                 continue;
+
             string b = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
             if (b.Length != 0)
                 cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, b);
+
+            if (rule.ModifierChain is { Length: > 0 })
+                cls = BreakpointUtil.ApplyTailwindModifiers(cls, rule.ModifierChain);
+
             if (!first)
                 sb.Append(' ');
             else
                 first = false;
+
             sb.Append(cls);
         }
 

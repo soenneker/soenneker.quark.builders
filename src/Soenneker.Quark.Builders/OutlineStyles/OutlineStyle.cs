@@ -3,7 +3,8 @@ namespace Soenneker.Quark;
 /// <summary>
 /// Static utility for outline style. Tailwind: outline-none, outline, outline-dashed, outline-dotted, outline-double.
 /// </summary>
-public static class OutlineStyle
+[TailwindModifiers(typeof(OutlineStyleBuilder))]
+public static partial class OutlineStyle
 {
     /// <summary>
     /// Disables the effect (`none` token) or sets size to zero, depending on the utility.

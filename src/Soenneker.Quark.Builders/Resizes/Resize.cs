@@ -4,7 +4,8 @@ namespace Soenneker.Quark;
 /// <summary>
 /// Simplified resize utility with fluent API and Tailwind/shadcn-aligned fluent API.
 /// </summary>
-public static class Resize
+[TailwindModifiers(typeof(ResizeBuilder))]
+public static partial class Resize
 {
     /// <summary>
     /// No resize (none).

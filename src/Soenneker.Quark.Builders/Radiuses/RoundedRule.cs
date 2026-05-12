@@ -14,4 +14,7 @@ namespace Soenneker.Quark;
 /// <param name="Breakpoint">
 /// Optional responsive breakpoint.
 /// </param>
-internal readonly record struct RoundedRule(string? SizeToken, RoundedPositionEnum Position, BreakpointType? Breakpoint = null);
+/// <param name="ModifierChain">
+/// Optional Tailwind modifier chain.
+/// </param>
+internal readonly record struct RoundedRule(string? SizeToken, RoundedPositionEnum Position, BreakpointType? Breakpoint = null, string? ModifierChain = null);

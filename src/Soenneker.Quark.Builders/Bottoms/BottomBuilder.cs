@@ -8,10 +8,13 @@ namespace Soenneker.Quark;
 /// Bottom offset builder. Tailwind: bottom-*.
 /// </summary>
 [TailwindPrefix("bottom-", Responsive = true)]
-public sealed class BottomBuilder : CssBuilderBase
+public sealed class BottomBuilder : CssBuilderBase<BottomBuilder>
 {
     private readonly List<BottomRule> _rules = new(4);
-    private BreakpointType? _pendingBreakpoint;
+
+    internal BottomBuilder()
+    {
+    }
 
     internal BottomBuilder(BottomEnum value, BreakpointType? breakpoint = null)
     {
@@ -43,41 +46,22 @@ public sealed class BottomBuilder : CssBuilderBase
     public BottomBuilder Px => Chain(BottomEnum.Px);
     public BottomBuilder Token(string value) => Chain(value.StartsWith("bottom-") ? value : "bottom-" + value);
 
-    public BottomBuilder OnBase => SetPendingBreakpoint(BreakpointType.Base);
-    public BottomBuilder OnSm => SetPendingBreakpoint(BreakpointType.Sm);
-    public BottomBuilder OnMd => SetPendingBreakpoint(BreakpointType.Md);
-    public BottomBuilder OnLg => SetPendingBreakpoint(BreakpointType.Lg);
-    public BottomBuilder OnXl => SetPendingBreakpoint(BreakpointType.Xl);
-    public BottomBuilder On2xl => SetPendingBreakpoint(BreakpointType.Xxl);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private BottomBuilder Chain(BottomEnum value)
     {
-        _rules.Add(new BottomRule(value.Value, ConsumePendingBreakpoint()));
+        _rules.Add(new BottomRule(value.Value, null, ConsumePendingModifierChain()));
         return this;
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private BottomBuilder Chain(string value)
     {
-        _rules.Add(new BottomRule(value, ConsumePendingBreakpoint()));
+        _rules.Add(new BottomRule(value, null, ConsumePendingModifierChain()));
         return this;
     }
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private BottomBuilder SetPendingBreakpoint(BreakpointType breakpoint)
-    {
-        _pendingBreakpoint = breakpoint;
-        return this;
-    }
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private BreakpointType? ConsumePendingBreakpoint()
-    {
-        BreakpointType? breakpoint = _pendingBreakpoint;
-        _pendingBreakpoint = null;
-        return breakpoint;
-    }
 
     public override string ToClass()
     {
@@ -90,6 +74,7 @@ public sealed class BottomBuilder : CssBuilderBase
             if (cls.Length == 0) continue;
             string breakpoint = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
             if (breakpoint.Length != 0) cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, breakpoint);
+            if (rule.ModifierChain is { Length: > 0 }) cls = BreakpointUtil.ApplyTailwindModifiers(cls, rule.ModifierChain);
             if (!first) sb.Append(' ');
             else first = false;
             sb.Append(cls);

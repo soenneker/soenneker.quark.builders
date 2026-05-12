@@ -3,7 +3,8 @@ namespace Soenneker.Quark;
 /// <summary>
 /// Simplified animation utility with fluent API and Tailwind/shadcn-aligned fluent API.
 /// </summary>
-public static class Animation
+[TailwindModifiers(typeof(AnimationBuilder))]
+public static partial class Animation
 {
     /// <summary>
     /// No animation (none).

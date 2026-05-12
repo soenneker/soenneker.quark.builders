@@ -3,7 +3,8 @@ namespace Soenneker.Quark;
 /// <summary>
 /// Static utility for scroll margin. Tailwind: scroll-m-*.
 /// </summary>
-public static class ScrollMargin
+[TailwindModifiers(typeof(ScrollMarginBuilder))]
+public static partial class ScrollMargin
 {
     /// <summary>
     /// Spacing/sizing scale step `0` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 0` for integer spacing utilities unless overridden).

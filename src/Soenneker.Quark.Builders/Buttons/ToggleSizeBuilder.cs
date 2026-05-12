@@ -10,10 +10,13 @@ namespace Soenneker.Quark;
 /// Responsive builder for shadcn-style toggle size utility groups.
 /// </summary>
 [TailwindPrefix("", Responsive = true)]
-public sealed class ToggleSizeBuilder : CssBuilderBase
+public sealed class ToggleSizeBuilder : CssBuilderBase<ToggleSizeBuilder>
 {
     private readonly List<ToggleSizeRule> _rules = new(4);
-    private BreakpointType? _pendingBreakpoint;
+
+    internal ToggleSizeBuilder()
+    {
+    }
 
     internal ToggleSizeBuilder(string size, BreakpointType? breakpoint = null)
     {
@@ -32,26 +35,10 @@ public sealed class ToggleSizeBuilder : CssBuilderBase
 
     public ToggleSizeBuilder Token(string value) => Chain(value);
 
-    public ToggleSizeBuilder OnBase => SetPendingBreakpoint(BreakpointType.Base);
-    public ToggleSizeBuilder OnSm => SetPendingBreakpoint(BreakpointType.Sm);
-    public ToggleSizeBuilder OnMd => SetPendingBreakpoint(BreakpointType.Md);
-    public ToggleSizeBuilder OnLg => SetPendingBreakpoint(BreakpointType.Lg);
-    public ToggleSizeBuilder OnXl => SetPendingBreakpoint(BreakpointType.Xl);
-    public ToggleSizeBuilder On2xl => SetPendingBreakpoint(BreakpointType.Xxl);
-
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private ToggleSizeBuilder Chain(string size)
     {
-        BreakpointType? bp = _pendingBreakpoint;
-        _pendingBreakpoint = null;
-        _rules.Add(new ToggleSizeRule(size, bp));
-        return this;
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private ToggleSizeBuilder SetPendingBreakpoint(BreakpointType breakpoint)
-    {
-        _pendingBreakpoint = breakpoint;
+        _rules.Add(new ToggleSizeRule(size, null, ConsumePendingModifierChain()));
         return this;
     }
 
@@ -75,6 +62,9 @@ public sealed class ToggleSizeBuilder : CssBuilderBase
 
             if (bp.Length != 0)
                 cls = ApplyBreakpointToClassGroup(cls, bp);
+
+            if (rule.ModifierChain is { Length: > 0 })
+                cls = BreakpointUtil.ApplyTailwindModifiers(cls, rule.ModifierChain);
 
             if (!first)
                 sb.Append(' ');

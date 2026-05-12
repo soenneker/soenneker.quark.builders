@@ -12,10 +12,13 @@ namespace Soenneker.Quark;
 /// Simplified border builder with fluent API for chaining border rules.
 /// </summary>
 [TailwindPrefix("border-", Responsive = true)]
-public sealed class BorderBuilder : CssBuilderBase
+public sealed class BorderBuilder : CssBuilderBase<BorderBuilder>
 {
     private readonly List<BorderRule> _rules = new(4);
-    private BreakpointType? _pendingBreakpoint;
+
+    internal BorderBuilder()
+    {
+    }
 
     internal BorderBuilder(string size, BreakpointType? breakpoint = null, bool allowEmpty = false)
     {
@@ -101,45 +104,22 @@ public sealed class BorderBuilder : CssBuilderBase
     /// <param name="value">Suffix/token after the utility prefix (see Tailwind docs for this family).</param>
     public BorderBuilder Token(string value) => ChainWithSize(NormalizeBorderClass(value));
 
-	/// <summary>
-	/// Applies the border on phone breakpoint.
-	/// </summary>
-    public BorderBuilder OnBase => SetPendingBreakpoint(BreakpointType.Base);
-	/// <summary>
-	/// Applies the border on small breakpoint (≥640px).
-	/// </summary>
-    public BorderBuilder OnSm => SetPendingBreakpoint(BreakpointType.Sm);
-	/// <summary>
-	/// Applies the border on tablet breakpoint.
-	/// </summary>
-    public BorderBuilder OnMd => SetPendingBreakpoint(BreakpointType.Md);
-	/// <summary>
-	/// Applies the border on laptop breakpoint.
-	/// </summary>
-    public BorderBuilder OnLg => SetPendingBreakpoint(BreakpointType.Lg);
-	/// <summary>
-	/// Applies the border on desktop breakpoint.
-	/// </summary>
-    public BorderBuilder OnXl => SetPendingBreakpoint(BreakpointType.Xl);
-	/// <summary>
-	/// Applies the border on the 2xl breakpoint.
-	/// </summary>
-    public BorderBuilder On2xl => SetPendingBreakpoint(BreakpointType.Xxl);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private BorderBuilder AddRule(ElementSideEnum side)
     {
-        BreakpointType? pending = ConsumePendingBreakpoint();
+        BreakpointType? pending = null;
         string size = _rules.Count > 0 ? _rules[^1].Size : BorderScaleEnum.Is0Value;
         BreakpointType? bp = pending ?? (_rules.Count > 0 ? _rules[^1].Breakpoint : null);
+        string? modifierChain = ConsumePendingModifierChain() ?? (_rules.Count > 0 ? _rules[^1].ModifierChain : null);
 
         if (_rules.Count > 0 && ReferenceEquals(_rules[^1].Side, ElementSideEnum.All))
         {
-            _rules[^1] = new BorderRule(size, side, bp);
+            _rules[^1] = new BorderRule(size, side, bp, modifierChain);
         }
         else
         {
-            _rules.Add(new BorderRule(size, side, bp));
+            _rules.Add(new BorderRule(size, side, bp, modifierChain));
         }
 
         return this;
@@ -148,7 +128,7 @@ public sealed class BorderBuilder : CssBuilderBase
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private BorderBuilder ChainWithSize(BorderScaleEnum scale)
     {
-        _rules.Add(new BorderRule(scale.Value, ElementSideEnum.All, ConsumePendingBreakpoint()));
+        _rules.Add(new BorderRule(scale.Value, ElementSideEnum.All, null, ConsumePendingModifierChain()));
         return this;
     }
 
@@ -162,24 +142,11 @@ public sealed class BorderBuilder : CssBuilderBase
     private BorderBuilder ChainWithSize(string value, bool allowEmpty)
     {
         if (allowEmpty || value.Length != 0)
-            _rules.Add(new BorderRule(value, ElementSideEnum.All, ConsumePendingBreakpoint()));
+            _rules.Add(new BorderRule(value, ElementSideEnum.All, null, ConsumePendingModifierChain()));
         return this;
     }
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private BorderBuilder SetPendingBreakpoint(BreakpointType breakpoint)
-    {
-        _pendingBreakpoint = breakpoint;
-        return this;
-    }
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private BreakpointType? ConsumePendingBreakpoint()
-    {
-        BreakpointType? breakpoint = _pendingBreakpoint;
-        _pendingBreakpoint = null;
-        return breakpoint;
-    }
 
     /// <summary>Gets the CSS class string for the current configuration.</summary>
     public override string ToClass()
@@ -201,6 +168,9 @@ public sealed class BorderBuilder : CssBuilderBase
             string bpTok = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
             if (bpTok.Length != 0)
                 cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, bpTok);
+
+            if (rule.ModifierChain is { Length: > 0 })
+                cls = BreakpointUtil.ApplyTailwindModifiers(cls, rule.ModifierChain);
 
             if (!first)
                 sb.Append(' ');

@@ -3,7 +3,8 @@ namespace Soenneker.Quark;
 /// <summary>
 /// Tailwind/shadcn-aligned border width utility.
 /// </summary>
-public static class Border
+[TailwindModifiers(typeof(BorderBuilder))]
+public static partial class Border
 {
     /// <summary>
     /// Tailwind default border width utility with no numeric suffix.

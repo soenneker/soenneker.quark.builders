@@ -9,10 +9,13 @@ namespace Soenneker.Quark;
 /// Simplified vertical alignment builder with fluent API for chaining vertical alignment rules.
 /// </summary>
 [TailwindPrefix("align-", Responsive = true)]
-public sealed class VerticalAlignBuilder : CssBuilderBase
+public sealed class VerticalAlignBuilder : CssBuilderBase<VerticalAlignBuilder>
 {
     private readonly List<VerticalAlignRule> _rules = new(6);
-    private BreakpointType? _pendingBreakpoint;
+
+    internal VerticalAlignBuilder()
+    {
+    }
 
     internal VerticalAlignBuilder(VerticalAlignEnum value, BreakpointType? breakpoint = null)
     {
@@ -55,56 +58,11 @@ public sealed class VerticalAlignBuilder : CssBuilderBase
     /// </summary>
     public VerticalAlignBuilder TextBottom => Chain(VerticalAlignEnum.TextBottom);
 
-    /// <summary>
-    /// Applies the vertical alignment on phone breakpoint.
-    /// </summary>
-    public VerticalAlignBuilder OnBase => SetPendingBreakpoint(BreakpointType.Base);
-
-    /// <summary>
-    /// Applies the vertical alignment on small breakpoint (≥640px).
-    /// </summary>
-    public VerticalAlignBuilder OnSm => SetPendingBreakpoint(BreakpointType.Sm);
-
-    /// <summary>
-    /// Applies the vertical alignment on tablet breakpoint.
-    /// </summary>
-    public VerticalAlignBuilder OnMd => SetPendingBreakpoint(BreakpointType.Md);
-
-    /// <summary>
-    /// Applies the vertical alignment on laptop breakpoint.
-    /// </summary>
-    public VerticalAlignBuilder OnLg => SetPendingBreakpoint(BreakpointType.Lg);
-
-    /// <summary>
-    /// Applies the vertical alignment on desktop breakpoint.
-    /// </summary>
-    public VerticalAlignBuilder OnXl => SetPendingBreakpoint(BreakpointType.Xl);
-
-    /// <summary>
-    /// Applies the vertical alignment on the 2xl breakpoint.
-    /// </summary>
-    public VerticalAlignBuilder On2xl => SetPendingBreakpoint(BreakpointType.Xxl);
-
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private VerticalAlignBuilder Chain(VerticalAlignEnum value)
     {
-        _rules.Add(new VerticalAlignRule(value.Value, ConsumePendingBreakpoint()));
+        _rules.Add(new VerticalAlignRule(value.Value, null, ConsumePendingModifierChain()));
         return this;
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private VerticalAlignBuilder SetPendingBreakpoint(BreakpointType breakpoint)
-    {
-        _pendingBreakpoint = breakpoint;
-        return this;
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private BreakpointType? ConsumePendingBreakpoint()
-    {
-        BreakpointType? breakpoint = _pendingBreakpoint;
-        _pendingBreakpoint = null;
-        return breakpoint;
     }
 
     /// <summary>
@@ -127,6 +85,9 @@ public sealed class VerticalAlignBuilder : CssBuilderBase
             string bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
             if (bp.Length != 0)
                 cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, bp);
+
+            if (rule.ModifierChain is { Length: > 0 })
+                cls = BreakpointUtil.ApplyTailwindModifiers(cls, rule.ModifierChain);
 
             if (!first) sb.Append(' ');
             else first = false;

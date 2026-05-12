@@ -10,9 +10,13 @@ namespace Soenneker.Quark;
 /// Builder for Tailwind-aligned list layout variants.
 /// </summary>
 [TailwindPrefix("list-", Responsive = true)]
-public sealed class ListVariantBuilder : CssBuilderBase
+public sealed class ListVariantBuilder : CssBuilderBase<ListVariantBuilder>
 {
     private readonly List<ListVariantRule> _rules = new(4);
+
+    internal ListVariantBuilder()
+    {
+    }
 
     internal ListVariantBuilder(ListVariantType type, BreakpointType? breakpoint = null)
     {
@@ -38,50 +42,10 @@ public sealed class ListVariantBuilder : CssBuilderBase
     /// </summary>
     public ListVariantBuilder InlineItem => Chain(ListVariantType.InlineItem);
 
-    /// <summary>
-    /// Applies the list variant on phone breakpoint.
-    /// </summary>
-    public ListVariantBuilder OnBase => ChainWithBreakpoint(BreakpointType.Base);
-    /// <summary>
-    /// Applies the list variant on small breakpoint (≥640px).
-    /// </summary>
-    public ListVariantBuilder OnSm => ChainWithBreakpoint(BreakpointType.Sm);
-    /// <summary>
-    /// Applies the list variant on tablet breakpoint.
-    /// </summary>
-    public ListVariantBuilder OnMd => ChainWithBreakpoint(BreakpointType.Md);
-    /// <summary>
-    /// Applies the list variant on laptop breakpoint.
-    /// </summary>
-    public ListVariantBuilder OnLg => ChainWithBreakpoint(BreakpointType.Lg);
-    /// <summary>
-    /// Applies the list variant on desktop breakpoint.
-    /// </summary>
-    public ListVariantBuilder OnXl => ChainWithBreakpoint(BreakpointType.Xl);
-    /// <summary>
-    /// Applies the list variant on the 2xl breakpoint.
-    /// </summary>
-    public ListVariantBuilder On2xl => ChainWithBreakpoint(BreakpointType.Xxl);
-
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private ListVariantBuilder Chain(ListVariantType type)
     {
-        _rules.Add(new ListVariantRule(type, null));
-        return this;
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private ListVariantBuilder ChainWithBreakpoint(BreakpointType breakpoint)
-    {
-        if (_rules.Count == 0)
-        {
-            _rules.Add(new ListVariantRule(ListVariantType.None, breakpoint));
-            return this;
-        }
-
-        int lastIdx = _rules.Count - 1;
-        ListVariantRule last = _rules[lastIdx];
-        _rules[lastIdx] = new ListVariantRule(last.Type, breakpoint);
+        _rules.Add(new ListVariantRule(type, null, ConsumePendingModifierChain()));
         return this;
     }
 
@@ -115,6 +79,9 @@ public sealed class ListVariantBuilder : CssBuilderBase
             string bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
             if (bp.Length != 0)
                 cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, bp);
+
+            if (rule.ModifierChain is { Length: > 0 })
+                cls = BreakpointUtil.ApplyTailwindModifiers(cls, rule.ModifierChain);
 
             if (!first) sb.Append(' ');
             else first = false;

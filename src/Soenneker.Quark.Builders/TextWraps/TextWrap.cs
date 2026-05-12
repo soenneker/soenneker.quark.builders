@@ -3,7 +3,8 @@ namespace Soenneker.Quark;
 /// <summary>
 /// Static utility class for creating text wrap builders with predefined values.
 /// </summary>
-public static class TextWrap
+[TailwindModifiers(typeof(TextWrapBuilder))]
+public static partial class TextWrap
 {
     /// <summary>
     /// Gets a text wrap builder with wrap value (text wraps to multiple lines).

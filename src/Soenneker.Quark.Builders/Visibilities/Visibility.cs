@@ -3,7 +3,8 @@ namespace Soenneker.Quark;
 /// <summary>
 /// Static utility class for creating visibility builders with predefined values.
 /// </summary>
-public static class Visibility
+[TailwindModifiers(typeof(VisibilityBuilder))]
+public static partial class Visibility
 {
     /// <summary>
     /// Gets a visibility builder with visible value (element is visible).

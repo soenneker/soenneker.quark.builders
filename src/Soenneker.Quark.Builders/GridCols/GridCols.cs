@@ -1,33 +1,8 @@
 namespace Soenneker.Quark;
 
-public static class GridCols
+[TailwindModifiers(typeof(GridColsBuilder))]
+public static partial class GridCols
 {
-    public static GridColsBuilder OnHover => new GridColsBuilder().OnHover;
-    public static GridColsBuilder OnFocus => new GridColsBuilder().OnFocus;
-    public static GridColsBuilder OnFocusVisible => new GridColsBuilder().OnFocusVisible;
-    public static GridColsBuilder OnActive => new GridColsBuilder().OnActive;
-    public static GridColsBuilder OnDisabled => new GridColsBuilder().OnDisabled;
-    public static GridColsBuilder OnDark => new GridColsBuilder().OnDark;
-    public static GridColsBuilder OnVisited => new GridColsBuilder().OnVisited;
-    public static GridColsBuilder OnChecked => new GridColsBuilder().OnChecked;
-    public static GridColsBuilder OnOpen => new GridColsBuilder().OnOpen;
-    public static GridColsBuilder OnFirst => new GridColsBuilder().OnFirst;
-    public static GridColsBuilder OnLast => new GridColsBuilder().OnLast;
-    public static GridColsBuilder OnOdd => new GridColsBuilder().OnOdd;
-    public static GridColsBuilder OnEven => new GridColsBuilder().OnEven;
-    public static GridColsBuilder OnBefore => new GridColsBuilder().OnBefore;
-    public static GridColsBuilder OnAfter => new GridColsBuilder().OnAfter;
-    public static GridColsBuilder OnPlaceholder => new GridColsBuilder().OnPlaceholder;
-    public static GridColsBuilder OnSelection => new GridColsBuilder().OnSelection;
-    public static GridColsBuilder OnMarker => new GridColsBuilder().OnMarker;
-    public static GridColsBuilder OnFirstLetter => new GridColsBuilder().OnFirstLetter;
-    public static GridColsBuilder OnFirstLine => new GridColsBuilder().OnFirstLine;
-    public static GridColsBuilder OnFile => new GridColsBuilder().OnFile;
-    public static GridColsBuilder OnBackdrop => new GridColsBuilder().OnBackdrop;
-    public static GridColsBuilder OnGroupHover => new GridColsBuilder().OnGroupHover;
-    public static GridColsBuilder OnGroupFocus => new GridColsBuilder().OnGroupFocus;
-    public static GridColsBuilder OnPeerHover => new GridColsBuilder().OnPeerHover;
-    public static GridColsBuilder OnPeerFocus => new GridColsBuilder().OnPeerFocus;
     public static GridColsBuilder Is1 => new("grid-cols-1");
     public static GridColsBuilder Is2 => new("grid-cols-2");
     public static GridColsBuilder Is3 => new("grid-cols-3");

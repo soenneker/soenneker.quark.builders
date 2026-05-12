@@ -22,10 +22,4 @@ public sealed class DecorationStyleBuilder : ResponsiveUtilityBuilder<Decoration
     public DecorationStyleBuilder Wavy => ChainValue(DecorationStyleEnum.WavyValue);
     public DecorationStyleBuilder Token(string value) => ChainValue("decoration-" + value);
 
-    public DecorationStyleBuilder OnBase => SetPendingBreakpoint(BreakpointType.Base);
-    public DecorationStyleBuilder OnSm => SetPendingBreakpoint(BreakpointType.Sm);
-    public DecorationStyleBuilder OnMd => SetPendingBreakpoint(BreakpointType.Md);
-    public DecorationStyleBuilder OnLg => SetPendingBreakpoint(BreakpointType.Lg);
-    public DecorationStyleBuilder OnXl => SetPendingBreakpoint(BreakpointType.Xl);
-    public DecorationStyleBuilder On2xl => SetPendingBreakpoint(BreakpointType.Xxl);
 }

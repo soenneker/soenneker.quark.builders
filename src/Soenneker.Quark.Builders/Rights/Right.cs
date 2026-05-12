@@ -3,7 +3,8 @@ namespace Soenneker.Quark;
 /// <summary>
 /// Static utility for right (right offset). Tailwind: right-*.
 /// </summary>
-public static class Right
+[TailwindModifiers(typeof(RightBuilder))]
+public static partial class Right
 {
     public static RightBuilder Is0 => new(RightEnum.Is0);
     public static RightBuilder Is1 => new(RightEnum.Is1);

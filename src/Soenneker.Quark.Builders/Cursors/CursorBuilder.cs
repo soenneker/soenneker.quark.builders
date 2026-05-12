@@ -9,11 +9,14 @@ namespace Soenneker.Quark;
 /// Tailwind/shadcn-aligned cursor builder.
 /// </summary>
 [TailwindPrefix("cursor-", Responsive = true)]
-public sealed class CursorBuilder : CssBuilderBase
+public sealed class CursorBuilder : CssBuilderBase<CursorBuilder>
 {
     private const string Prefix = "cursor-";
     private readonly List<CursorRule> _rules = new(4);
-    private BreakpointType? _pendingBreakpoint;
+
+    internal CursorBuilder()
+    {
+    }
 
     internal CursorBuilder(CursorEnum cursor, BreakpointType? breakpoint = null)
     {
@@ -73,30 +76,6 @@ public sealed class CursorBuilder : CssBuilderBase
     /// </summary>
     public CursorBuilder Token(string token) => Chain(Prefix + token);
 
-    /// <summary>
-    /// Applies the cursor on phone breakpoint.
-    /// </summary>
-    public CursorBuilder OnBase => SetPendingBreakpoint(BreakpointType.Base);
-    /// <summary>
-    /// Applies the cursor on small breakpoint (≥640px).
-    /// </summary>
-    public CursorBuilder OnSm => SetPendingBreakpoint(BreakpointType.Sm);
-    /// <summary>
-    /// Applies the cursor on tablet breakpoint.
-    /// </summary>
-    public CursorBuilder OnMd => SetPendingBreakpoint(BreakpointType.Md);
-    /// <summary>
-    /// Applies the cursor on laptop breakpoint.
-    /// </summary>
-    public CursorBuilder OnLg => SetPendingBreakpoint(BreakpointType.Lg);
-    /// <summary>
-    /// Applies the cursor on desktop breakpoint.
-    /// </summary>
-    public CursorBuilder OnXl => SetPendingBreakpoint(BreakpointType.Xl);
-    /// <summary>
-    /// Applies the cursor on the 2xl breakpoint.
-    /// </summary>
-    public CursorBuilder On2xl => SetPendingBreakpoint(BreakpointType.Xxl);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private CursorBuilder Chain(CursorEnum cursor)
@@ -107,24 +86,11 @@ public sealed class CursorBuilder : CssBuilderBase
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private CursorBuilder Chain(string cursor)
     {
-        _rules.Add(new CursorRule(cursor, ConsumePendingBreakpoint()));
+        _rules.Add(new CursorRule(cursor, null, ConsumePendingModifierChain()));
         return this;
     }
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private CursorBuilder SetPendingBreakpoint(BreakpointType breakpoint)
-    {
-        _pendingBreakpoint = breakpoint;
-        return this;
-    }
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private BreakpointType? ConsumePendingBreakpoint()
-    {
-        BreakpointType? breakpoint = _pendingBreakpoint;
-        _pendingBreakpoint = null;
-        return breakpoint;
-    }
 
     /// <summary>
     /// Gets the CSS class string for the current configuration.
@@ -148,6 +114,9 @@ public sealed class CursorBuilder : CssBuilderBase
             string bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
             if (bp.Length != 0)
                 cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, bp);
+
+            if (rule.ModifierChain is { Length: > 0 })
+                cls = BreakpointUtil.ApplyTailwindModifiers(cls, rule.ModifierChain);
 
             if (!first) sb.Append(' ');
             else first = false;

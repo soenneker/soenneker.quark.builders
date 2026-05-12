@@ -9,10 +9,13 @@ namespace Soenneker.Quark;
 /// Simplified object-fit builder with fluent API for chaining object-fit rules.
 /// </summary>
 [TailwindPrefix("object-", Responsive = true)]
-public sealed class ObjectFitBuilder : CssBuilderBase
+public sealed class ObjectFitBuilder : CssBuilderBase<ObjectFitBuilder>
 {
     private readonly List<ObjectFitRule> _rules = new(4);
-    private BreakpointType? _pendingBreakpoint;
+
+    internal ObjectFitBuilder()
+    {
+    }
 
     internal ObjectFitBuilder(string fit, BreakpointType? breakpoint = null)
     {
@@ -55,60 +58,28 @@ public sealed class ObjectFitBuilder : CssBuilderBase
     /// </summary>
     public ObjectFitBuilder None => ChainWithFit(ObjectFitEnum.None);
 
-    /// <summary>
-    /// Applies on the base breakpoint.
-    /// </summary>
-    public ObjectFitBuilder OnBase => SetPendingBreakpoint(BreakpointType.Base);
 
-    /// <summary>
-    /// Apply on small screens (≥640px).
-    /// </summary>
-    public ObjectFitBuilder OnSm => SetPendingBreakpoint(BreakpointType.Sm);
 
-    /// <summary>
-    /// Applies on the md breakpoint.
-    /// </summary>
-    public ObjectFitBuilder OnMd => SetPendingBreakpoint(BreakpointType.Md);
 
-    /// <summary>
-    /// Applies on the lg breakpoint.
-    /// </summary>
-    public ObjectFitBuilder OnLg => SetPendingBreakpoint(BreakpointType.Lg);
 
-    /// <summary>
-    /// Applies on the xl breakpoint.
-    /// </summary>
-    public ObjectFitBuilder OnXl => SetPendingBreakpoint(BreakpointType.Xl);
 
-    /// <summary>
-    /// Applies on the 2xl breakpoint.
-    /// </summary>
-    public ObjectFitBuilder On2xl => SetPendingBreakpoint(BreakpointType.Xxl);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private ObjectFitBuilder ChainWithFit(string fit)
     {
-        BreakpointType? bp = _pendingBreakpoint;
-        _pendingBreakpoint = null;
-        _rules.Add(new ObjectFitRule(fit, bp));
+        BreakpointType? bp = null;
+        _rules.Add(new ObjectFitRule(fit, bp, ConsumePendingModifierChain()));
         return this;
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private ObjectFitBuilder ChainWithFit(ObjectFitEnum fit)
     {
-        BreakpointType? bp = _pendingBreakpoint;
-        _pendingBreakpoint = null;
-        _rules.Add(new ObjectFitRule(fit.Value, bp));
+        BreakpointType? bp = null;
+        _rules.Add(new ObjectFitRule(fit.Value, bp, ConsumePendingModifierChain()));
         return this;
     }
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private ObjectFitBuilder SetPendingBreakpoint(BreakpointType breakpoint)
-    {
-        _pendingBreakpoint = breakpoint;
-        return this;
-    }
 
     /// <summary>
     /// Gets the CSS class string for the current configuration.
@@ -131,6 +102,9 @@ public sealed class ObjectFitBuilder : CssBuilderBase
             string bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
             if (bp.Length != 0)
                 cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, bp);
+
+            if (rule.ModifierChain is { Length: > 0 })
+                cls = BreakpointUtil.ApplyTailwindModifiers(cls, rule.ModifierChain);
 
             if (!first) sb.Append(' ');
             else first = false;

@@ -21,10 +21,4 @@ public sealed class DecorationLineBuilder : ResponsiveUtilityBuilder<DecorationL
     public DecorationLineBuilder Overline => ChainValue(DecorationLineEnum.OverlineValue);
     public DecorationLineBuilder Token(string value) => ChainValue(value);
 
-    public DecorationLineBuilder OnBase => SetPendingBreakpoint(BreakpointType.Base);
-    public DecorationLineBuilder OnSm => SetPendingBreakpoint(BreakpointType.Sm);
-    public DecorationLineBuilder OnMd => SetPendingBreakpoint(BreakpointType.Md);
-    public DecorationLineBuilder OnLg => SetPendingBreakpoint(BreakpointType.Lg);
-    public DecorationLineBuilder OnXl => SetPendingBreakpoint(BreakpointType.Xl);
-    public DecorationLineBuilder On2xl => SetPendingBreakpoint(BreakpointType.Xxl);
 }

@@ -11,10 +11,13 @@ namespace Soenneker.Quark;
 /// Produces ring color utility classes.
 /// </summary>
 [TailwindPrefix("ring-", Responsive = true)]
-public sealed class RingColorBuilder : CssBuilderBase
+public sealed class RingColorBuilder : CssBuilderBase<RingColorBuilder>
 {
     private readonly List<RingColorRule> _rules = new(4);
-    private BreakpointType? _pendingBreakpoint;
+
+    internal RingColorBuilder()
+    {
+    }
 
     internal RingColorBuilder(RingColorEnum value, BreakpointType? breakpoint = null)
     {
@@ -134,58 +137,26 @@ public sealed class RingColorBuilder : CssBuilderBase
 
     public RingColorBuilder Utility(string utility) => ChainClass(ColorUtility.CreateUtilityClass("ring-", utility));
 
-    /// <summary>
-    /// Scopes the next utility to the default (unprefixed) breakpoint. In Tailwind’s mobile‑first model, unprefixed utilities apply from 0px unless a larger breakpoint overrides them.
-    /// </summary>
-    public RingColorBuilder OnBase => SetPendingBreakpoint(BreakpointType.Base);
-    /// <summary>
-    /// Applies the preceding utility from the `sm` breakpoint and up (`sm:` prefix). Tailwind default: `min-width: 40rem` (640px).
-    /// </summary>
-    public RingColorBuilder OnSm => SetPendingBreakpoint(BreakpointType.Sm);
-    /// <summary>
-    /// Applies from the `md` breakpoint and up (`md:`). Tailwind default: `min-width: 48rem` (768px).
-    /// </summary>
-    public RingColorBuilder OnMd => SetPendingBreakpoint(BreakpointType.Md);
-    /// <summary>
-    /// Applies from the `lg` breakpoint and up (`lg:`). Tailwind default: `min-width: 64rem` (1024px).
-    /// </summary>
-    public RingColorBuilder OnLg => SetPendingBreakpoint(BreakpointType.Lg);
-    /// <summary>
-    /// Applies from the `xl` breakpoint and up (`xl:`). Tailwind default: `min-width: 80rem` (1280px).
-    /// </summary>
-    public RingColorBuilder OnXl => SetPendingBreakpoint(BreakpointType.Xl);
-    /// <summary>
-    /// Applies from the `2xl` breakpoint and up (`2xl:`). Tailwind default: `min-width: 96rem` (1536px).
-    /// </summary>
-    public RingColorBuilder On2xl => SetPendingBreakpoint(BreakpointType.Xxl);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private RingColorBuilder ChainValue(RingColorEnum value)
     {
-        BreakpointType? breakpoint = _pendingBreakpoint;
-        _pendingBreakpoint = null;
-        _rules.Add(new RingColorRule(value.Value, breakpoint));
+        BreakpointType? breakpoint = null;
+        _rules.Add(new RingColorRule(value.Value, breakpoint, ConsumePendingModifierChain()));
         return this;
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private RingColorBuilder ChainClass(string value)
     {
-        BreakpointType? breakpoint = _pendingBreakpoint;
-        _pendingBreakpoint = null;
+        BreakpointType? breakpoint = null;
 
         if (value.HasContent())
-            _rules.Add(new RingColorRule(value, breakpoint));
+            _rules.Add(new RingColorRule(value, breakpoint, ConsumePendingModifierChain()));
 
         return this;
     }
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private RingColorBuilder SetPendingBreakpoint(BreakpointType breakpoint)
-    {
-        _pendingBreakpoint = breakpoint;
-        return this;
-    }
 
     public override string ToClass()
     {
@@ -205,6 +176,9 @@ public sealed class RingColorBuilder : CssBuilderBase
             string breakpoint = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
             if (breakpoint.Length != 0)
                 cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, breakpoint);
+
+            if (rule.ModifierChain is { Length: > 0 })
+                cls = BreakpointUtil.ApplyTailwindModifiers(cls, rule.ModifierChain);
 
             if (!first)
                 sb.Append(' ');

@@ -6,10 +6,13 @@ using Soenneker.Utils.PooledStringBuilders;
 namespace Soenneker.Quark;
 
 [TailwindPrefix("row-span", Responsive = true)]
-public sealed class RowSpanBuilder : CssBuilderBase
+public sealed class RowSpanBuilder : CssBuilderBase<RowSpanBuilder>
 {
     private readonly List<GridRule> _rules = new(8);
-    private BreakpointType? _pendingBreakpoint;
+
+    internal RowSpanBuilder()
+    {
+    }
 
     internal RowSpanBuilder(RowSpanEnum value, BreakpointType? breakpoint = null)
     {
@@ -59,35 +62,10 @@ public sealed class RowSpanBuilder : CssBuilderBase
 
     public RowSpanBuilder Span(int value) => ChainClass($"row-span-{value}");
 
-    /// <summary>
-    /// Scopes the next utility to the default (unprefixed) breakpoint. In Tailwind’s mobile‑first model, unprefixed utilities apply from 0px unless a larger breakpoint overrides them.
-    /// </summary>
-    public RowSpanBuilder OnBase => SetPendingBreakpoint(BreakpointType.Base);
-    /// <summary>
-    /// Applies the preceding utility from the `sm` breakpoint and up (`sm:` prefix). Tailwind default: `min-width: 40rem` (640px).
-    /// </summary>
-    public RowSpanBuilder OnSm => SetPendingBreakpoint(BreakpointType.Sm);
-    /// <summary>
-    /// Applies from the `md` breakpoint and up (`md:`). Tailwind default: `min-width: 48rem` (768px).
-    /// </summary>
-    public RowSpanBuilder OnMd => SetPendingBreakpoint(BreakpointType.Md);
-    /// <summary>
-    /// Applies from the `lg` breakpoint and up (`lg:`). Tailwind default: `min-width: 64rem` (1024px).
-    /// </summary>
-    public RowSpanBuilder OnLg => SetPendingBreakpoint(BreakpointType.Lg);
-    /// <summary>
-    /// Applies from the `xl` breakpoint and up (`xl:`). Tailwind default: `min-width: 80rem` (1280px).
-    /// </summary>
-    public RowSpanBuilder OnXl => SetPendingBreakpoint(BreakpointType.Xl);
-    /// <summary>
-    /// Applies from the `2xl` breakpoint and up (`2xl:`). Tailwind default: `min-width: 96rem` (1536px).
-    /// </summary>
-    public RowSpanBuilder On2xl => SetPendingBreakpoint(BreakpointType.Xxl);
-
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private RowSpanBuilder Chain(RowSpanEnum value)
     {
-        _rules.Add(new GridRule(value.Value, ConsumePendingBreakpoint()));
+        _rules.Add(new GridRule(value.Value, null, ConsumePendingModifierChain()));
         return this;
     }
 
@@ -95,23 +73,8 @@ public sealed class RowSpanBuilder : CssBuilderBase
     private RowSpanBuilder ChainClass(string value)
     {
         if (value.Length != 0)
-            _rules.Add(new GridRule(value, ConsumePendingBreakpoint()));
+            _rules.Add(new GridRule(value, null, ConsumePendingModifierChain()));
         return this;
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private RowSpanBuilder SetPendingBreakpoint(BreakpointType breakpoint)
-    {
-        _pendingBreakpoint = breakpoint;
-        return this;
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private BreakpointType? ConsumePendingBreakpoint()
-    {
-        BreakpointType? breakpoint = _pendingBreakpoint;
-        _pendingBreakpoint = null;
-        return breakpoint;
     }
 
     public override string ToClass()
@@ -130,6 +93,9 @@ public sealed class RowSpanBuilder : CssBuilderBase
             string bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
             if (bp.Length != 0)
                 cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, bp);
+
+            if (rule.ModifierChain is { Length: > 0 })
+                cls = BreakpointUtil.ApplyTailwindModifiers(cls, rule.ModifierChain);
 
             if (!first)
                 sb.Append(' ');

@@ -3,7 +3,8 @@ namespace Soenneker.Quark;
 /// <summary>
 /// Simplified text overflow utility with fluent API and Tailwind/shadcn-aligned fluent API.
 /// </summary>
-public static class TextOverflow
+[TailwindModifiers(typeof(TextOverflowBuilder))]
+public static partial class TextOverflow
 {
     /// <summary>
     /// Clips the overflowing text at the content area boundary.

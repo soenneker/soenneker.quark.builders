@@ -9,10 +9,13 @@ namespace Soenneker.Quark;
 /// Outline style builder. Tailwind: outline-none, outline, outline-dashed, outline-dotted, outline-double.
 /// </summary>
 [TailwindPrefix("outline-", Responsive = true)]
-public sealed class OutlineStyleBuilder : CssBuilderBase
+public sealed class OutlineStyleBuilder : CssBuilderBase<OutlineStyleBuilder>
 {
     private readonly List<OutlineStyleRule> _rules = new(4);
-    private BreakpointType? _pendingBreakpoint;
+
+    internal OutlineStyleBuilder()
+    {
+    }
 
     internal OutlineStyleBuilder(OutlineStyleEnum value, BreakpointType? breakpoint = null)
     {
@@ -50,47 +53,11 @@ public sealed class OutlineStyleBuilder : CssBuilderBase
     /// </summary>
     public OutlineStyleBuilder Double => Chain(OutlineStyleEnum.Double);
 
-    /// <summary>
-    /// Applies the preceding utility from the `sm` breakpoint and up (`sm:` prefix). Tailwind default: `min-width: 40rem` (640px).
-    /// </summary>
-    public OutlineStyleBuilder OnSm => SetPendingBreakpoint(BreakpointType.Sm);
-    /// <summary>
-    /// Applies from the `md` breakpoint and up (`md:`). Tailwind default: `min-width: 48rem` (768px).
-    /// </summary>
-    public OutlineStyleBuilder OnMd => SetPendingBreakpoint(BreakpointType.Md);
-    /// <summary>
-    /// Applies from the `lg` breakpoint and up (`lg:`). Tailwind default: `min-width: 64rem` (1024px).
-    /// </summary>
-    public OutlineStyleBuilder OnLg => SetPendingBreakpoint(BreakpointType.Lg);
-    /// <summary>
-    /// Applies from the `xl` breakpoint and up (`xl:`). Tailwind default: `min-width: 80rem` (1280px).
-    /// </summary>
-    public OutlineStyleBuilder OnXl => SetPendingBreakpoint(BreakpointType.Xl);
-    /// <summary>
-    /// Applies from the `2xl` breakpoint and up (`2xl:`). Tailwind default: `min-width: 96rem` (1536px).
-    /// </summary>
-    public OutlineStyleBuilder On2xl => SetPendingBreakpoint(BreakpointType.Xxl);
-
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private OutlineStyleBuilder Chain(OutlineStyleEnum value)
     {
-        _rules.Add(new OutlineStyleRule(value, ConsumePendingBreakpoint()));
+        _rules.Add(new OutlineStyleRule(value, null, ConsumePendingModifierChain()));
         return this;
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private OutlineStyleBuilder SetPendingBreakpoint(BreakpointType breakpoint)
-    {
-        _pendingBreakpoint = breakpoint;
-        return this;
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private BreakpointType? ConsumePendingBreakpoint()
-    {
-        BreakpointType? breakpoint = _pendingBreakpoint;
-        _pendingBreakpoint = null;
-        return breakpoint;
     }
 
     public override string ToClass()
@@ -104,6 +71,7 @@ public sealed class OutlineStyleBuilder : CssBuilderBase
             if (cls.Length == 0) continue;
             string b = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
             if (b.Length != 0) cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, b);
+            if (rule.ModifierChain is { Length: > 0 }) cls = BreakpointUtil.ApplyTailwindModifiers(cls, rule.ModifierChain);
             if (!first) sb.Append(' ');
             else first = false;
             sb.Append(cls);

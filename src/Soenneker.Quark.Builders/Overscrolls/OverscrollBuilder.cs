@@ -9,10 +9,13 @@ namespace Soenneker.Quark;
 /// Tailwind overscroll-behavior builder supporting both axis-specific and global utilities.
 /// </summary>
 [TailwindPrefix("overscroll-", Responsive = true)]
-public sealed class OverscrollBuilder : CssBuilderBase
+public sealed class OverscrollBuilder : CssBuilderBase<OverscrollBuilder>
 {
     private readonly List<OverscrollRule> _rules = new(4);
-    private BreakpointType? _pendingBreakpoint;
+
+    internal OverscrollBuilder()
+    {
+    }
 
     internal OverscrollBuilder(OverscrollEnum value, BreakpointType? breakpoint = null)
     {
@@ -74,31 +77,6 @@ public sealed class OverscrollBuilder : CssBuilderBase
     /// </summary>
     public OverscrollBuilder Token(string token) => Chain(token);
 
-    /// <summary>
-    /// Scopes the next utility to the default (unprefixed) breakpoint. In Tailwind’s mobile-first model, unprefixed utilities apply from 0px unless a larger breakpoint overrides them.
-    /// </summary>
-    public OverscrollBuilder OnBase => SetPendingBreakpoint(BreakpointType.Base);
-    /// <summary>
-    /// Applies the preceding utility from the `sm` breakpoint and up (`sm:` prefix). Tailwind default: `min-width: 40rem` (640px).
-    /// </summary>
-    public OverscrollBuilder OnSm => SetPendingBreakpoint(BreakpointType.Sm);
-    /// <summary>
-    /// Applies from the `md` breakpoint and up (`md:`). Tailwind default: `min-width: 48rem` (768px).
-    /// </summary>
-    public OverscrollBuilder OnMd => SetPendingBreakpoint(BreakpointType.Md);
-    /// <summary>
-    /// Applies from the `lg` breakpoint and up (`lg:`). Tailwind default: `min-width: 64rem` (1024px).
-    /// </summary>
-    public OverscrollBuilder OnLg => SetPendingBreakpoint(BreakpointType.Lg);
-    /// <summary>
-    /// Applies from the `xl` breakpoint and up (`xl:`). Tailwind default: `min-width: 80rem` (1280px).
-    /// </summary>
-    public OverscrollBuilder OnXl => SetPendingBreakpoint(BreakpointType.Xl);
-    /// <summary>
-    /// Applies from the `2xl` breakpoint and up (`2xl:`). Tailwind default: `min-width: 96rem` (1536px).
-    /// </summary>
-    public OverscrollBuilder On2xl => SetPendingBreakpoint(BreakpointType.Xxl);
-
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private OverscrollBuilder Chain(OverscrollEnum value)
     {
@@ -108,16 +86,7 @@ public sealed class OverscrollBuilder : CssBuilderBase
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private OverscrollBuilder Chain(string value)
     {
-        BreakpointType? bp = _pendingBreakpoint;
-        _pendingBreakpoint = null;
-        _rules.Add(new OverscrollRule(value, bp));
-        return this;
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private OverscrollBuilder SetPendingBreakpoint(BreakpointType breakpoint)
-    {
-        _pendingBreakpoint = breakpoint;
+        _rules.Add(new OverscrollRule(value, null, ConsumePendingModifierChain()));
         return this;
     }
 
@@ -139,6 +108,9 @@ public sealed class OverscrollBuilder : CssBuilderBase
             string bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
             if (bp.Length != 0)
                 cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, bp);
+
+            if (rule.ModifierChain is { Length: > 0 })
+                cls = BreakpointUtil.ApplyTailwindModifiers(cls, rule.ModifierChain);
 
             if (!first)
                 sb.Append(' ');

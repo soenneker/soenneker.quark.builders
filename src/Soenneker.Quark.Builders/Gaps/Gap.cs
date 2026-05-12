@@ -3,7 +3,8 @@ namespace Soenneker.Quark;
 /// <summary>
 /// Simplified gap utility with fluent API and Tailwind/shadcn-aligned fluent API.
 /// </summary>
-public static class Gap
+[TailwindModifiers(typeof(GapBuilder))]
+public static partial class Gap
 {
     /// <summary>
     /// No gap (0).

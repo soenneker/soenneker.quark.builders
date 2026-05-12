@@ -10,9 +10,13 @@ namespace Soenneker.Quark;
 /// Simplified scroll behavior builder with fluent API for chaining scroll behavior rules.
 /// </summary>
 [TailwindPrefix("scroll-", Responsive = true)]
-public sealed class ScrollBehaviorBuilder : CssBuilderBase
+public sealed class ScrollBehaviorBuilder : CssBuilderBase<ScrollBehaviorBuilder>
 {
     private readonly List<ScrollBehaviorRule> _rules = new(4);
+
+    internal ScrollBehaviorBuilder()
+    {
+    }
 
     internal ScrollBehaviorBuilder(string behavior, BreakpointType? breakpoint = null)
     {
@@ -39,57 +43,17 @@ public sealed class ScrollBehaviorBuilder : CssBuilderBase
     /// </summary>
     public ScrollBehaviorBuilder Smooth => ChainWithBehavior(ScrollBehaviorEnum.Smooth);
 
-    /// <summary>
-    /// Applies the scroll behavior on phone breakpoint.
-    /// </summary>
-    public ScrollBehaviorBuilder OnBase => ChainWithBreakpoint(BreakpointType.Base);
-    /// <summary>
-    /// Applies the scroll behavior on small breakpoint (≥640px).
-    /// </summary>
-    public ScrollBehaviorBuilder OnSm => ChainWithBreakpoint(BreakpointType.Sm);
-    /// <summary>
-    /// Applies the scroll behavior on tablet breakpoint.
-    /// </summary>
-    public ScrollBehaviorBuilder OnMd => ChainWithBreakpoint(BreakpointType.Md);
-    /// <summary>
-    /// Applies the scroll behavior on laptop breakpoint.
-    /// </summary>
-    public ScrollBehaviorBuilder OnLg => ChainWithBreakpoint(BreakpointType.Lg);
-    /// <summary>
-    /// Applies the scroll behavior on desktop breakpoint.
-    /// </summary>
-    public ScrollBehaviorBuilder OnXl => ChainWithBreakpoint(BreakpointType.Xl);
-    /// <summary>
-    /// Applies the scroll behavior on the 2xl breakpoint.
-    /// </summary>
-    public ScrollBehaviorBuilder On2xl => ChainWithBreakpoint(BreakpointType.Xxl);
-
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private ScrollBehaviorBuilder ChainWithBehavior(string behavior)
     {
-        _rules.Add(new ScrollBehaviorRule(behavior, null));
+        _rules.Add(new ScrollBehaviorRule(behavior, null, ConsumePendingModifierChain()));
         return this;
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private ScrollBehaviorBuilder ChainWithBehavior(ScrollBehaviorEnum behavior)
     {
-        _rules.Add(new ScrollBehaviorRule(behavior.Value, null));
-        return this;
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private ScrollBehaviorBuilder ChainWithBreakpoint(BreakpointType breakpoint)
-    {
-        if (_rules.Count == 0)
-        {
-            _rules.Add(new ScrollBehaviorRule("auto", breakpoint));
-            return this;
-        }
-
-        int lastIdx = _rules.Count - 1;
-        ScrollBehaviorRule last = _rules[lastIdx];
-        _rules[lastIdx] = new ScrollBehaviorRule(last.Behavior, breakpoint);
+        _rules.Add(new ScrollBehaviorRule(behavior.Value, null, ConsumePendingModifierChain()));
         return this;
     }
 
@@ -115,6 +79,9 @@ public sealed class ScrollBehaviorBuilder : CssBuilderBase
             string bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
             if (bp.Length != 0)
                 cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, bp);
+
+            if (rule.ModifierChain is { Length: > 0 })
+                cls = BreakpointUtil.ApplyTailwindModifiers(cls, rule.ModifierChain);
 
             if (!first) sb.Append(' ');
             else first = false;

@@ -3,7 +3,8 @@ namespace Soenneker.Quark;
 /// <summary>
 /// Static utility for contain. Tailwind: contain-*.
 /// </summary>
-public static class Contain
+[TailwindModifiers(typeof(ContainBuilder))]
+public static partial class Contain
 {
     /// <summary>
     /// Disables the effect (`none` token) or sets size to zero, depending on the utility.

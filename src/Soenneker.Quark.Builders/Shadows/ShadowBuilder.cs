@@ -9,10 +9,13 @@ namespace Soenneker.Quark;
 /// High-performance shadow builder with fluent API for chaining shadow rules.
 /// </summary>
 [TailwindPrefix("shadow-", Responsive = true)]
-public sealed class ShadowBuilder : CssBuilderBase
+public sealed class ShadowBuilder : CssBuilderBase<ShadowBuilder>
 {
     private readonly List<ShadowRule> _rules = new(4);
-    private BreakpointType? _pendingBreakpoint;
+
+    internal ShadowBuilder()
+    {
+    }
 
     internal ShadowBuilder(ShadowKeyword value, BreakpointType? breakpoint = null)
     {
@@ -70,49 +73,10 @@ public sealed class ShadowBuilder : CssBuilderBase
     /// </summary>
     public ShadowBuilder Inner => Chain(ShadowKeyword.Inner);
 
-    /// <summary>
-    /// Applies the shadow on phone breakpoint.
-    /// </summary>
-    public ShadowBuilder OnBase => SetPendingBreakpoint(BreakpointType.Base);
-
-    /// <summary>
-    /// Applies the shadow on small breakpoint (≥640px).
-    /// </summary>
-    public ShadowBuilder OnSm => SetPendingBreakpoint(BreakpointType.Sm);
-
-    /// <summary>
-    /// Applies the shadow on tablet breakpoint.
-    /// </summary>
-    public ShadowBuilder OnMd => SetPendingBreakpoint(BreakpointType.Md);
-
-    /// <summary>
-    /// Applies the shadow on laptop breakpoint.
-    /// </summary>
-    public ShadowBuilder OnLg => SetPendingBreakpoint(BreakpointType.Lg);
-
-    /// <summary>
-    /// Applies the shadow on desktop breakpoint.
-    /// </summary>
-    public ShadowBuilder OnXl => SetPendingBreakpoint(BreakpointType.Xl);
-
-    /// <summary>
-    /// Applies the shadow on the 2xl breakpoint.
-    /// </summary>
-    public ShadowBuilder On2xl => SetPendingBreakpoint(BreakpointType.Xxl);
-
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private ShadowBuilder Chain(ShadowKeyword value)
     {
-        BreakpointType? bp = _pendingBreakpoint;
-        _pendingBreakpoint = null;
-        _rules.Add(new ShadowRule(value.Value, bp));
-        return this;
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private ShadowBuilder SetPendingBreakpoint(BreakpointType bp)
-    {
-        _pendingBreakpoint = bp;
+        _rules.Add(new ShadowRule(value.Value, null, ConsumePendingModifierChain()));
         return this;
     }
 
@@ -139,6 +103,9 @@ public sealed class ShadowBuilder : CssBuilderBase
             string bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
             if (bp.Length != 0)
                 cssClass = BreakpointUtil.ApplyTailwindBreakpoint(cssClass, bp);
+
+            if (rule.ModifierChain is { Length: > 0 })
+                cssClass = BreakpointUtil.ApplyTailwindModifiers(cssClass, rule.ModifierChain);
 
             if (!first)
                 sb.Append(' ');

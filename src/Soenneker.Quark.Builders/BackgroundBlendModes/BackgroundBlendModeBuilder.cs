@@ -9,10 +9,13 @@ namespace Soenneker.Quark;
 /// Background-blend-mode builder. Tailwind: bg-blend-normal, bg-blend-multiply, etc.
 /// </summary>
 [TailwindPrefix("bg-blend-", Responsive = true)]
-public sealed class BackgroundBlendModeBuilder : CssBuilderBase
+public sealed class BackgroundBlendModeBuilder : CssBuilderBase<BackgroundBlendModeBuilder>
 {
     private readonly List<BackgroundBlendModeRule> _rules = new(4);
-    private BreakpointType? _pendingBreakpoint;
+
+    internal BackgroundBlendModeBuilder()
+    {
+    }
 
     internal BackgroundBlendModeBuilder(string value, BreakpointType? breakpoint = null)
     {
@@ -90,48 +93,15 @@ public sealed class BackgroundBlendModeBuilder : CssBuilderBase
     /// </summary>
     public BackgroundBlendModeBuilder Luminosity => Chain("bg-blend-luminosity");
 
-    /// <summary>
-    /// Applies the preceding utility from the `sm` breakpoint and up (`sm:` prefix). Tailwind default: `min-width: 40rem` (640px).
-    /// </summary>
-    public BackgroundBlendModeBuilder OnSm => SetPendingBreakpoint(BreakpointType.Sm);
-    /// <summary>
-    /// Applies from the `md` breakpoint and up (`md:`). Tailwind default: `min-width: 48rem` (768px).
-    /// </summary>
-    public BackgroundBlendModeBuilder OnMd => SetPendingBreakpoint(BreakpointType.Md);
-    /// <summary>
-    /// Applies from the `lg` breakpoint and up (`lg:`). Tailwind default: `min-width: 64rem` (1024px).
-    /// </summary>
-    public BackgroundBlendModeBuilder OnLg => SetPendingBreakpoint(BreakpointType.Lg);
-    /// <summary>
-    /// Applies from the `xl` breakpoint and up (`xl:`). Tailwind default: `min-width: 80rem` (1280px).
-    /// </summary>
-    public BackgroundBlendModeBuilder OnXl => SetPendingBreakpoint(BreakpointType.Xl);
-    /// <summary>
-    /// Applies from the `2xl` breakpoint and up (`2xl:`). Tailwind default: `min-width: 96rem` (1536px).
-    /// </summary>
-    public BackgroundBlendModeBuilder On2xl => SetPendingBreakpoint(BreakpointType.Xxl);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private BackgroundBlendModeBuilder Chain(string value)
     {
-        _rules.Add(new BackgroundBlendModeRule(value, ConsumePendingBreakpoint()));
+        _rules.Add(new BackgroundBlendModeRule(value, null, ConsumePendingModifierChain()));
         return this;
     }
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private BackgroundBlendModeBuilder SetPendingBreakpoint(BreakpointType breakpoint)
-    {
-        _pendingBreakpoint = breakpoint;
-        return this;
-    }
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private BreakpointType? ConsumePendingBreakpoint()
-    {
-        BreakpointType? breakpoint = _pendingBreakpoint;
-        _pendingBreakpoint = null;
-        return breakpoint;
-    }
 
     public override string ToClass()
     {
@@ -143,6 +113,7 @@ public sealed class BackgroundBlendModeBuilder : CssBuilderBase
             string cls = rule.Value;
             string b = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
             if (b.Length != 0) cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, b);
+            if (rule.ModifierChain is { Length: > 0 }) cls = BreakpointUtil.ApplyTailwindModifiers(cls, rule.ModifierChain);
             if (!first) sb.Append(' ');
             else first = false;
             sb.Append(cls);

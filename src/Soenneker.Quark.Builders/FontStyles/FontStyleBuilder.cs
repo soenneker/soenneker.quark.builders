@@ -10,10 +10,13 @@ namespace Soenneker.Quark;
 /// High-performance font style builder with fluent API for chaining font style rules.
 /// </summary>
 [TailwindPrefix("italic", Responsive = true)]
-public sealed class FontStyleBuilder : CssBuilderBase
+public sealed class FontStyleBuilder : CssBuilderBase<FontStyleBuilder>
 {
     private readonly List<FontStyleRule> _rules = new(4);
-    private BreakpointType? _pendingBreakpoint;
+
+    internal FontStyleBuilder()
+    {
+    }
 
     internal FontStyleBuilder(FontStyleEnum value, BreakpointType? breakpoint = null)
     {
@@ -34,52 +37,15 @@ public sealed class FontStyleBuilder : CssBuilderBase
     /// Sets the font style to normal.
     /// </summary>
     public FontStyleBuilder Normal => Chain(FontStyleEnum.Normal);
-    /// <summary>
-    /// Applies the font style on phone breakpoint.
-    /// </summary>
-    public FontStyleBuilder OnBase => SetPendingBreakpoint(BreakpointType.Base);
-    /// <summary>
-    /// Applies the font style on small breakpoint (≥640px).
-    /// </summary>
-    public FontStyleBuilder OnSm => SetPendingBreakpoint(BreakpointType.Sm);
-    /// <summary>
-    /// Applies the font style on tablet breakpoint.
-    /// </summary>
-    public FontStyleBuilder OnMd => SetPendingBreakpoint(BreakpointType.Md);
-    /// <summary>
-    /// Applies the font style on laptop breakpoint.
-    /// </summary>
-    public FontStyleBuilder OnLg => SetPendingBreakpoint(BreakpointType.Lg);
-    /// <summary>
-    /// Applies the font style on desktop breakpoint.
-    /// </summary>
-    public FontStyleBuilder OnXl => SetPendingBreakpoint(BreakpointType.Xl);
-    /// <summary>
-    /// Applies the font style on the 2xl breakpoint.
-    /// </summary>
-    public FontStyleBuilder On2xl => SetPendingBreakpoint(BreakpointType.Xxl);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private FontStyleBuilder Chain(FontStyleEnum value)
     {
-        _rules.Add(new FontStyleRule(value, ConsumePendingBreakpoint()));
+        _rules.Add(new FontStyleRule(value, null, ConsumePendingModifierChain()));
         return this;
     }
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private FontStyleBuilder SetPendingBreakpoint(BreakpointType breakpoint)
-    {
-        _pendingBreakpoint = breakpoint;
-        return this;
-    }
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private BreakpointType? ConsumePendingBreakpoint()
-    {
-        BreakpointType? breakpoint = _pendingBreakpoint;
-        _pendingBreakpoint = null;
-        return breakpoint;
-    }
 
     /// <summary>
     /// Gets the CSS class string for the current configuration.
@@ -107,6 +73,9 @@ public sealed class FontStyleBuilder : CssBuilderBase
             string bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
             if (bp.Length != 0)
                 cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, bp);
+
+            if (rule.ModifierChain is { Length: > 0 })
+                cls = BreakpointUtil.ApplyTailwindModifiers(cls, rule.ModifierChain);
 
             if (!first) sb.Append(' ');
             else first = false;

@@ -5,11 +5,14 @@ using Soenneker.Utils.PooledStringBuilders;
 namespace Soenneker.Quark;
 
 [TailwindPrefix("tracking-", Responsive = true)]
-public sealed class TrackingBuilder : CssBuilderBase
+public sealed class TrackingBuilder : CssBuilderBase<TrackingBuilder>
 {
     private const string Prefix = "tracking-";
     private readonly List<TrackingRule> _rules = new(4);
-    private BreakpointType? _pendingBreakpoint;
+
+    internal TrackingBuilder()
+    {
+    }
 
     internal TrackingBuilder(TrackingEnum value, BreakpointType? breakpoint = null)
     {
@@ -29,41 +32,22 @@ public sealed class TrackingBuilder : CssBuilderBase
     public TrackingBuilder Widest => Chain(TrackingEnum.Widest);
     public TrackingBuilder Token(string value) => Chain(Prefix + value);
 
-    public TrackingBuilder OnBase => SetPendingBreakpoint(BreakpointType.Base);
-    public TrackingBuilder OnSm => SetPendingBreakpoint(BreakpointType.Sm);
-    public TrackingBuilder OnMd => SetPendingBreakpoint(BreakpointType.Md);
-    public TrackingBuilder OnLg => SetPendingBreakpoint(BreakpointType.Lg);
-    public TrackingBuilder OnXl => SetPendingBreakpoint(BreakpointType.Xl);
-    public TrackingBuilder On2xl => SetPendingBreakpoint(BreakpointType.Xxl);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private TrackingBuilder Chain(TrackingEnum value)
     {
-        _rules.Add(new TrackingRule(value.Value, ConsumePendingBreakpoint()));
+        _rules.Add(new TrackingRule(value.Value, null, ConsumePendingModifierChain()));
         return this;
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private TrackingBuilder Chain(string value)
     {
-        _rules.Add(new TrackingRule(value, ConsumePendingBreakpoint()));
+        _rules.Add(new TrackingRule(value, null, ConsumePendingModifierChain()));
         return this;
     }
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private TrackingBuilder SetPendingBreakpoint(BreakpointType breakpoint)
-    {
-        _pendingBreakpoint = breakpoint;
-        return this;
-    }
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private BreakpointType? ConsumePendingBreakpoint()
-    {
-        BreakpointType? breakpoint = _pendingBreakpoint;
-        _pendingBreakpoint = null;
-        return breakpoint;
-    }
 
     public override string ToClass()
     {
@@ -85,6 +69,9 @@ public sealed class TrackingBuilder : CssBuilderBase
 
             if (bp.Length != 0)
                 cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, bp);
+
+            if (rule.ModifierChain is { Length: > 0 })
+                cls = BreakpointUtil.ApplyTailwindModifiers(cls, rule.ModifierChain);
 
             if (!first)
                 sb.Append(' ');

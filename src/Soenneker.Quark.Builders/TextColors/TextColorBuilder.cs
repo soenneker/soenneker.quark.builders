@@ -10,7 +10,6 @@ public sealed class TextColorBuilder : CssBuilderBase<TextColorBuilder>
     private const string Prefix = "text-";
 
     private readonly List<TextColorRule> _rules = new(4);
-    private BreakpointType? _pendingBreakpoint;
 
     internal TextColorBuilder()
     {
@@ -48,12 +47,6 @@ public sealed class TextColorBuilder : CssBuilderBase<TextColorBuilder>
     public TextColorBuilder White => ChainValue(TextColorEnum.White);
     public TextColorBuilder Black => ChainValue(TextColorEnum.Black);
 
-    public TextColorBuilder OnBase => SetPendingBreakpoint(BreakpointType.Base);
-    public TextColorBuilder OnSm => SetPendingBreakpoint(BreakpointType.Sm);
-    public TextColorBuilder OnMd => SetPendingBreakpoint(BreakpointType.Md);
-    public TextColorBuilder OnLg => SetPendingBreakpoint(BreakpointType.Lg);
-    public TextColorBuilder OnXl => SetPendingBreakpoint(BreakpointType.Xl);
-    public TextColorBuilder On2xl => SetPendingBreakpoint(BreakpointType.Xxl);
     public TextColorBuilder Token(string token) => ChainClass(ColorUtility.CreateClass(Prefix, token));
 
     public TextColorBuilder Utility(string utility) => ChainClass(ColorUtility.CreateUtilityClass(Prefix, utility));
@@ -61,8 +54,7 @@ public sealed class TextColorBuilder : CssBuilderBase<TextColorBuilder>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private TextColorBuilder ChainValue(TextColorEnum value)
     {
-        BreakpointType? bp = _pendingBreakpoint;
-        _pendingBreakpoint = null;
+        BreakpointType? bp = null;
         _rules.Add(new TextColorRule(value.Value, bp, ConsumePendingModifierChain()));
         return this;
     }
@@ -70,19 +62,12 @@ public sealed class TextColorBuilder : CssBuilderBase<TextColorBuilder>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private TextColorBuilder ChainClass(string value)
     {
-        BreakpointType? bp = _pendingBreakpoint;
-        _pendingBreakpoint = null;
+        BreakpointType? bp = null;
         if (value.Length != 0)
             _rules.Add(new TextColorRule(value, bp, ConsumePendingModifierChain()));
         return this;
     }
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private TextColorBuilder SetPendingBreakpoint(BreakpointType bp)
-    {
-        _pendingBreakpoint = bp;
-        return this;
-    }
 
     public override string ToClass()
     {

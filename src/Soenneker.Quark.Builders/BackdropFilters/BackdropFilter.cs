@@ -4,7 +4,8 @@ namespace Soenneker.Quark;
 /// <summary>
 /// Simplified backdrop filter utility with fluent API and Tailwind/shadcn-aligned fluent API.
 /// </summary>
-public static class BackdropFilter
+[TailwindModifiers(typeof(BackdropFilterBuilder))]
+public static partial class BackdropFilter
 {
     /// <summary>
     /// No backdrop filter (none).

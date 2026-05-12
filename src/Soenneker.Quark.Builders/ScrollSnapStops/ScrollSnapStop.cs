@@ -3,7 +3,8 @@ namespace Soenneker.Quark;
 /// <summary>
 /// Static utility for scroll snap stop. Tailwind: snap-stop-normal, snap-stop-always.
 /// </summary>
-public static class ScrollSnapStop
+[TailwindModifiers(typeof(ScrollSnapStopBuilder))]
+public static partial class ScrollSnapStop
 {
     /// <summary>
     /// Fluent step for `Normal` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.

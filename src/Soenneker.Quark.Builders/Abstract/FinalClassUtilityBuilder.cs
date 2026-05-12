@@ -4,10 +4,14 @@ using Soenneker.Utils.PooledStringBuilders;
 
 namespace Soenneker.Quark;
 
-public abstract class FinalClassUtilityBuilder<TBuilder> : CssBuilderBase where TBuilder : FinalClassUtilityBuilder<TBuilder>
+public abstract class FinalClassUtilityBuilder<TBuilder> : CssBuilderBase<TBuilder> where TBuilder : FinalClassUtilityBuilder<TBuilder>
 {
     private readonly List<UtilityRule> _rules = new(4);
     private BreakpointType? _pendingBreakpoint;
+
+    protected FinalClassUtilityBuilder()
+    {
+    }
 
     protected FinalClassUtilityBuilder(string value, BreakpointType? breakpoint = null)
     {
@@ -19,7 +23,7 @@ public abstract class FinalClassUtilityBuilder<TBuilder> : CssBuilderBase where 
     protected TBuilder ChainClass(string value)
     {
         if (value.Length != 0)
-            _rules.Add(new UtilityRule(value, ConsumePendingBreakpoint()));
+            _rules.Add(new UtilityRule(value, ConsumePendingBreakpoint(), ConsumePendingModifierChain()));
         return (TBuilder)this;
     }
 
@@ -56,6 +60,9 @@ public abstract class FinalClassUtilityBuilder<TBuilder> : CssBuilderBase where 
             string breakpoint = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
             if (breakpoint.Length != 0)
                 cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, breakpoint);
+
+            if (rule.ModifierChain is { Length: > 0 })
+                cls = BreakpointUtil.ApplyTailwindModifiers(cls, rule.ModifierChain);
 
             if (!first)
                 sb.Append(' ');

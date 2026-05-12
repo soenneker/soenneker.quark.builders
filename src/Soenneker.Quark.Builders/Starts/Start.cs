@@ -3,7 +3,8 @@ namespace Soenneker.Quark;
 /// <summary>
 /// Static utility for start (inset-inline-start). Tailwind: start-*.
 /// </summary>
-public static class Start
+[TailwindModifiers(typeof(StartBuilder))]
+public static partial class Start
 {
     /// <summary>
     /// Spacing/sizing scale step `0` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 0` for integer spacing utilities unless overridden).

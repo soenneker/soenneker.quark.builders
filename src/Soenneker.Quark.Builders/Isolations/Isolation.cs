@@ -3,7 +3,8 @@ namespace Soenneker.Quark;
 /// <summary>
 /// Static utility for isolation. Tailwind: isolation-auto, isolation-isolate.
 /// </summary>
-public static class Isolation
+[TailwindModifiers(typeof(IsolationBuilder))]
+public static partial class Isolation
 {
     /// <summary>
     /// `auto` — browser-default sizing/behavior for the underlying utility.

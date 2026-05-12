@@ -3,7 +3,8 @@ namespace Soenneker.Quark;
 /// <summary>
 /// Static utility class for creating pointer events builders with predefined values.
 /// </summary>
-public static class PointerEvents
+[TailwindModifiers(typeof(PointerEventsBuilder))]
+public static partial class PointerEvents
 {
     /// <summary>
     /// Gets a pointer events builder with none value (element does not respond to pointer events).

@@ -24,13 +24,6 @@ public sealed class FlexDirectionBuilder : ResponsiveUtilityBuilder<FlexDirectio
     public FlexDirectionBuilder ColReverse => ChainValue(FlexDirectionEnum.ColReverseValue);
     public FlexDirectionBuilder Token(string value) => ChainValue("flex-" + value);
 
-    public FlexDirectionBuilder OnBase => SetPendingBreakpoint(BreakpointType.Base);
-    public FlexDirectionBuilder OnSm => SetPendingBreakpoint(BreakpointType.Sm);
-    public FlexDirectionBuilder OnMd => SetPendingBreakpoint(BreakpointType.Md);
-    public FlexDirectionBuilder OnLg => SetPendingBreakpoint(BreakpointType.Lg);
-    public FlexDirectionBuilder OnXl => SetPendingBreakpoint(BreakpointType.Xl);
-    public FlexDirectionBuilder On2xl => SetPendingBreakpoint(BreakpointType.Xxl);
-
     public override string ToClass()
     {
         if (Rules.Count == 0)
@@ -47,11 +40,11 @@ public sealed class FlexDirectionBuilder : ResponsiveUtilityBuilder<FlexDirectio
             if (rule.Value.Length == 0)
                 continue;
 
-            string breakpoint = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
+            string modifierChain = GetModifierChain(rule);
 
-            if (emittedFlexBreakpoints.Add(breakpoint))
+            if (emittedFlexBreakpoints.Add(modifierChain))
             {
-                string flexClass = breakpoint.Length == 0 ? "flex" : BreakpointUtil.ApplyTailwindBreakpoint("flex", breakpoint);
+                string flexClass = modifierChain.Length == 0 ? "flex" : BreakpointUtil.ApplyTailwindModifiers("flex", modifierChain);
 
                 if (!first)
                     sb.Append(' ');
@@ -61,7 +54,7 @@ public sealed class FlexDirectionBuilder : ResponsiveUtilityBuilder<FlexDirectio
                 sb.Append(flexClass);
             }
 
-            string cls = breakpoint.Length == 0 ? rule.Value : BreakpointUtil.ApplyTailwindBreakpoint(rule.Value, breakpoint);
+            string cls = modifierChain.Length == 0 ? rule.Value : BreakpointUtil.ApplyTailwindModifiers(rule.Value, modifierChain);
 
             if (!first)
                 sb.Append(' ');
@@ -72,5 +65,15 @@ public sealed class FlexDirectionBuilder : ResponsiveUtilityBuilder<FlexDirectio
         }
 
         return sb.ToString();
+    }
+
+    private static string GetModifierChain(UtilityRule rule)
+    {
+        string breakpoint = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
+
+        if (breakpoint.Length == 0)
+            return rule.ModifierChain ?? string.Empty;
+
+        return rule.ModifierChain is { Length: > 0 } ? $"{breakpoint}:{rule.ModifierChain}" : breakpoint;
     }
 }

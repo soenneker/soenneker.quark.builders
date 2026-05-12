@@ -3,7 +3,8 @@ namespace Soenneker.Quark;
 /// <summary>
 /// Static utility for left (left offset). Tailwind: left-*.
 /// </summary>
-public static class Left
+[TailwindModifiers(typeof(LeftBuilder))]
+public static partial class Left
 {
     public static LeftBuilder Is0 => new(LeftEnum.Is0);
     public static LeftBuilder Is1 => new(LeftEnum.Is1);

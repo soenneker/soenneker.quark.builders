@@ -3,7 +3,8 @@ namespace Soenneker.Quark;
 /// <summary>
 /// Static utility for bottom (bottom offset). Tailwind: bottom-*.
 /// </summary>
-public static class Bottom
+[TailwindModifiers(typeof(BottomBuilder))]
+public static partial class Bottom
 {
     public static BottomBuilder Is0 => new(BottomEnum.Is0);
     public static BottomBuilder Is1 => new(BottomEnum.Is1);

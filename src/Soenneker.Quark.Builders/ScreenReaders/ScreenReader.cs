@@ -4,7 +4,8 @@ namespace Soenneker.Quark;
 /// <summary>
 /// Simplified screen reader utility with fluent API and Tailwind/shadcn-aligned fluent API.
 /// </summary>
-public static class ScreenReader
+[TailwindModifiers(typeof(ScreenReaderBuilder))]
+public static partial class ScreenReader
 {
     /// <summary>
     /// Screen reader only (sr-only).

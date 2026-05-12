@@ -3,7 +3,8 @@ namespace Soenneker.Quark;
 /// <summary>
 /// Static utility for background-blend-mode. Tailwind: bg-blend-*.
 /// </summary>
-public static class BackgroundBlendMode
+[TailwindModifiers(typeof(BackgroundBlendModeBuilder))]
+public static partial class BackgroundBlendMode
 {
     /// <summary>
     /// Fluent step for `Normal` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.

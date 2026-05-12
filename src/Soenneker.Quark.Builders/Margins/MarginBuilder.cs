@@ -9,10 +9,13 @@ namespace Soenneker.Quark;
 /// Simplified margin builder with fluent API for chaining margin rules.
 /// </summary>
 [TailwindPrefix("m-", Responsive = true)]
-public sealed class MarginBuilder : CssBuilderBase
+public sealed class MarginBuilder : CssBuilderBase<MarginBuilder>
 {
     private readonly List<MarginRule> _rules = new(4);
-    private BreakpointType? _pendingBreakpoint;
+
+    internal MarginBuilder()
+    {
+    }
 
     internal MarginBuilder(string size, BreakpointType? breakpoint = null)
     {
@@ -101,45 +104,22 @@ public sealed class MarginBuilder : CssBuilderBase
 	/// </summary>
     public MarginBuilder Token(string value) => ChainWithSize(NormalizeMarginClass(value));
 
-	/// <summary>
-	/// Applies the margin on phone breakpoint.
-	/// </summary>
-    public MarginBuilder OnBase => SetPendingBreakpoint(BreakpointType.Base);
-	/// <summary>
-	/// Applies the margin on small breakpoint (≥640px).
-	/// </summary>
-    public MarginBuilder OnSm => SetPendingBreakpoint(BreakpointType.Sm);
-	/// <summary>
-	/// Applies the margin on tablet breakpoint.
-	/// </summary>
-    public MarginBuilder OnMd => SetPendingBreakpoint(BreakpointType.Md);
-	/// <summary>
-	/// Applies the margin on laptop breakpoint.
-	/// </summary>
-    public MarginBuilder OnLg => SetPendingBreakpoint(BreakpointType.Lg);
-	/// <summary>
-	/// Applies the margin on desktop breakpoint.
-	/// </summary>
-    public MarginBuilder OnXl => SetPendingBreakpoint(BreakpointType.Xl);
-	/// <summary>
-	/// Applies the margin on the 2xl breakpoint.
-	/// </summary>
-    public MarginBuilder On2xl => SetPendingBreakpoint(BreakpointType.Xxl);
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private MarginBuilder AddRule(ElementSideEnum side)
     {
         string size = _rules.Count > 0 ? _rules[^1].Size : MarginScaleEnum.Is0Value;
         BreakpointType? existingBp = _rules.Count > 0 ? _rules[^1].Breakpoint : null;
-        BreakpointType? bp = _pendingBreakpoint ?? existingBp;
-        _pendingBreakpoint = null;
+        string? modifierChain = ConsumePendingModifierChain();
+        if (modifierChain is not { Length: > 0 } && _rules.Count > 0)
+            modifierChain = _rules[^1].ModifierChain;
 
         if (_rules.Count > 0 && ReferenceEquals(_rules[^1].Side, ElementSideEnum.All))
         {
-            _rules[^1] = new MarginRule(size, side, bp);
+            _rules[^1] = new MarginRule(size, side, existingBp, modifierChain);
         }
         else
         {
-            _rules.Add(new MarginRule(size, side, bp));
+            _rules.Add(new MarginRule(size, side, existingBp, modifierChain));
         }
 
         return this;
@@ -148,25 +128,14 @@ public sealed class MarginBuilder : CssBuilderBase
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private MarginBuilder ChainWithSize(string size)
     {
-        BreakpointType? bp = _pendingBreakpoint;
-        _pendingBreakpoint = null;
-        _rules.Add(new MarginRule(size, ElementSideEnum.All, bp));
+        _rules.Add(new MarginRule(size, ElementSideEnum.All, null, ConsumePendingModifierChain()));
         return this;
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private MarginBuilder ChainWithSize(MarginScaleEnum scale)
     {
-        BreakpointType? bp = _pendingBreakpoint;
-        _pendingBreakpoint = null;
-        _rules.Add(new MarginRule(scale.Value, ElementSideEnum.All, bp));
-        return this;
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private MarginBuilder SetPendingBreakpoint(BreakpointType breakpoint)
-    {
-        _pendingBreakpoint = breakpoint;
+        _rules.Add(new MarginRule(scale.Value, ElementSideEnum.All, null, ConsumePendingModifierChain()));
         return this;
     }
 
@@ -190,6 +159,9 @@ public sealed class MarginBuilder : CssBuilderBase
             string bpTok = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
             if (bpTok.Length != 0)
                 cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, bpTok);
+
+            if (rule.ModifierChain is { Length: > 0 })
+                cls = BreakpointUtil.ApplyTailwindModifiers(cls, rule.ModifierChain);
 
             if (!first)
                 sb.Append(' ');

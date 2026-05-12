@@ -1,6 +1,7 @@
 namespace Soenneker.Quark;
 
-public static class Space
+[TailwindModifiers(typeof(SpaceBuilder))]
+public static partial class Space
 {
     /// <summary>
     /// Fluent step for `XReverse` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.

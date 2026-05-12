@@ -9,11 +9,14 @@ namespace Soenneker.Quark;
 /// Tailwind/shadcn-aligned object-position builder.
 /// </summary>
 [TailwindPrefix("object-", Responsive = true)]
-public sealed class ObjectPositionBuilder : CssBuilderBase
+public sealed class ObjectPositionBuilder : CssBuilderBase<ObjectPositionBuilder>
 {
     private const string Prefix = "object-";
     private readonly List<ObjectPositionRule> _rules = new(4);
-    private BreakpointType? _pendingBreakpoint;
+
+    internal ObjectPositionBuilder()
+    {
+    }
 
     internal ObjectPositionBuilder(string position, BreakpointType? breakpoint = null)
     {
@@ -73,31 +76,6 @@ public sealed class ObjectPositionBuilder : CssBuilderBase
     /// </summary>
     public ObjectPositionBuilder Token(string token) => Chain(Prefix + token);
 
-    /// <summary>
-    /// Applies the object position on phone breakpoint.
-    /// </summary>
-    public ObjectPositionBuilder OnBase => SetPendingBreakpoint(BreakpointType.Base);
-    /// <summary>
-    /// Applies the object position on small breakpoint (≥640px).
-    /// </summary>
-    public ObjectPositionBuilder OnSm => SetPendingBreakpoint(BreakpointType.Sm);
-    /// <summary>
-    /// Applies the object position on tablet breakpoint.
-    /// </summary>
-    public ObjectPositionBuilder OnMd => SetPendingBreakpoint(BreakpointType.Md);
-    /// <summary>
-    /// Applies the object position on laptop breakpoint.
-    /// </summary>
-    public ObjectPositionBuilder OnLg => SetPendingBreakpoint(BreakpointType.Lg);
-    /// <summary>
-    /// Applies the object position on desktop breakpoint.
-    /// </summary>
-    public ObjectPositionBuilder OnXl => SetPendingBreakpoint(BreakpointType.Xl);
-    /// <summary>
-    /// Applies the object position on the 2xl breakpoint.
-    /// </summary>
-    public ObjectPositionBuilder On2xl => SetPendingBreakpoint(BreakpointType.Xxl);
-
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private ObjectPositionBuilder Chain(ObjectPositionEnum position)
     {
@@ -107,23 +85,8 @@ public sealed class ObjectPositionBuilder : CssBuilderBase
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private ObjectPositionBuilder Chain(string position)
     {
-        _rules.Add(new ObjectPositionRule(position, ConsumePendingBreakpoint()));
+        _rules.Add(new ObjectPositionRule(position, null, ConsumePendingModifierChain()));
         return this;
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private ObjectPositionBuilder SetPendingBreakpoint(BreakpointType breakpoint)
-    {
-        _pendingBreakpoint = breakpoint;
-        return this;
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private BreakpointType? ConsumePendingBreakpoint()
-    {
-        BreakpointType? breakpoint = _pendingBreakpoint;
-        _pendingBreakpoint = null;
-        return breakpoint;
     }
 
     /// <summary>
@@ -148,6 +111,9 @@ public sealed class ObjectPositionBuilder : CssBuilderBase
             string bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
             if (bp.Length != 0)
                 cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, bp);
+
+            if (rule.ModifierChain is { Length: > 0 })
+                cls = BreakpointUtil.ApplyTailwindModifiers(cls, rule.ModifierChain);
 
             if (!first) sb.Append(' ');
             else first = false;

@@ -5,12 +5,15 @@ using Soenneker.Utils.PooledStringBuilders;
 namespace Soenneker.Quark;
 
 [TailwindPrefix("border-", Responsive = true)]
-public sealed class BorderColorBuilder : CssBuilderBase
+public sealed class BorderColorBuilder : CssBuilderBase<BorderColorBuilder>
 {
     private const string Prefix = "border-";
 
     private readonly List<BorderColorRule> _rules = new(4);
-    private BreakpointType? _pendingBreakpoint;
+
+    internal BorderColorBuilder()
+    {
+    }
 
     internal BorderColorBuilder(BorderColorEnum value, BreakpointType? breakpoint = null)
     {
@@ -45,12 +48,6 @@ public sealed class BorderColorBuilder : CssBuilderBase
     public BorderColorBuilder Black => ChainValue(BorderColorEnum.Black);
     public BorderColorBuilder Transparent => ChainValue(BorderColorEnum.Transparent);
 
-    public BorderColorBuilder OnBase => SetPendingBreakpoint(BreakpointType.Base);
-    public BorderColorBuilder OnSm => SetPendingBreakpoint(BreakpointType.Sm);
-    public BorderColorBuilder OnMd => SetPendingBreakpoint(BreakpointType.Md);
-    public BorderColorBuilder OnLg => SetPendingBreakpoint(BreakpointType.Lg);
-    public BorderColorBuilder OnXl => SetPendingBreakpoint(BreakpointType.Xl);
-    public BorderColorBuilder On2xl => SetPendingBreakpoint(BreakpointType.Xxl);
 
     public BorderColorBuilder Token(string token) => ChainClass(ColorUtility.CreateClass(Prefix, token));
 
@@ -59,28 +56,20 @@ public sealed class BorderColorBuilder : CssBuilderBase
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private BorderColorBuilder ChainValue(BorderColorEnum value)
     {
-        BreakpointType? bp = _pendingBreakpoint;
-        _pendingBreakpoint = null;
-        _rules.Add(new BorderColorRule(value.Value, bp));
+        BreakpointType? bp = null;
+        _rules.Add(new BorderColorRule(value.Value, bp, ConsumePendingModifierChain()));
         return this;
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private BorderColorBuilder ChainClass(string value)
     {
-        BreakpointType? bp = _pendingBreakpoint;
-        _pendingBreakpoint = null;
+        BreakpointType? bp = null;
         if (value.Length != 0)
-            _rules.Add(new BorderColorRule(value, bp));
+            _rules.Add(new BorderColorRule(value, bp, ConsumePendingModifierChain()));
         return this;
     }
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private BorderColorBuilder SetPendingBreakpoint(BreakpointType bp)
-    {
-        _pendingBreakpoint = bp;
-        return this;
-    }
 
     public override string ToClass()
     {
@@ -100,6 +89,9 @@ public sealed class BorderColorBuilder : CssBuilderBase
             string bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
             if (bp.Length != 0)
                 cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, bp);
+
+            if (rule.ModifierChain is { Length: > 0 })
+                cls = BreakpointUtil.ApplyTailwindModifiers(cls, rule.ModifierChain);
 
             if (!first) sb.Append(' ');
             else first = false;

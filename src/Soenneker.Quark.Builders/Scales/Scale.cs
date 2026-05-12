@@ -3,7 +3,8 @@ namespace Soenneker.Quark;
 /// <summary>
 /// Scale utility with fluent API and Tailwind/shadcn-aligned fluent API.
 /// </summary>
-public static class Scale
+[TailwindModifiers(typeof(ScaleBuilder))]
+public static partial class Scale
 {
     public static ScaleBuilder Scale50 => new(ScaleEnum.Scale50);
     public static ScaleBuilder Scale75 => new(ScaleEnum.Scale75);

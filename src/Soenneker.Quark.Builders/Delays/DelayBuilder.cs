@@ -25,10 +25,4 @@ public sealed class DelayBuilder : ResponsiveUtilityBuilder<DelayBuilder>
     public DelayBuilder Is1000 => ChainValue(DelayEnum.Is1000Value);
     public DelayBuilder Token(string value) => ChainValue("delay-" + value);
 
-    public DelayBuilder OnBase => SetPendingBreakpoint(BreakpointType.Base);
-    public DelayBuilder OnSm => SetPendingBreakpoint(BreakpointType.Sm);
-    public DelayBuilder OnMd => SetPendingBreakpoint(BreakpointType.Md);
-    public DelayBuilder OnLg => SetPendingBreakpoint(BreakpointType.Lg);
-    public DelayBuilder OnXl => SetPendingBreakpoint(BreakpointType.Xl);
-    public DelayBuilder On2xl => SetPendingBreakpoint(BreakpointType.Xxl);
 }

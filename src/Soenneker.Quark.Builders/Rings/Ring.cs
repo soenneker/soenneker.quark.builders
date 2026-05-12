@@ -3,7 +3,8 @@ namespace Soenneker.Quark;
 /// <summary>
 /// Tailwind ring utility.
 /// </summary>
-public static class Ring
+[TailwindModifiers(typeof(RingBuilder))]
+public static partial class Ring
 {
     /// <summary>
     /// Default theme radius: `rounded` with no suffix — in Tailwind’s default config typically `0.25rem` (maps to shadcn `--radius` usage when you align tokens).

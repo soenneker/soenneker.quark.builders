@@ -10,9 +10,13 @@ namespace Soenneker.Quark;
 /// Simplified resize builder with fluent API for chaining resize rules.
 /// </summary>
 [TailwindPrefix("resize-", Responsive = true)]
-public sealed class ResizeBuilder : CssBuilderBase
+public sealed class ResizeBuilder : CssBuilderBase<ResizeBuilder>
 {
     private readonly List<ResizeRule> _rules = new(4);
+
+    internal ResizeBuilder()
+    {
+    }
 
     internal ResizeBuilder(string resize, BreakpointType? breakpoint = null)
     {
@@ -47,42 +51,18 @@ public sealed class ResizeBuilder : CssBuilderBase
     /// </summary>
     public ResizeBuilder Vertical => ChainWithResize(ResizeEnum.Vertical);
 
-    /// <summary>
-    /// Applies the resize on phone breakpoint.
-    /// </summary>
-    public ResizeBuilder OnBase => ChainWithBreakpoint(BreakpointType.Base);
-    /// <summary>
-    /// Applies the resize on small breakpoint (≥640px).
-    /// </summary>
-    public ResizeBuilder OnSm => ChainWithBreakpoint(BreakpointType.Sm);
-    /// <summary>
-    /// Applies the resize on tablet breakpoint.
-    /// </summary>
-    public ResizeBuilder OnMd => ChainWithBreakpoint(BreakpointType.Md);
-    /// <summary>
-    /// Applies the resize on laptop breakpoint.
-    /// </summary>
-    public ResizeBuilder OnLg => ChainWithBreakpoint(BreakpointType.Lg);
-    /// <summary>
-    /// Applies the resize on desktop breakpoint.
-    /// </summary>
-    public ResizeBuilder OnXl => ChainWithBreakpoint(BreakpointType.Xl);
-    /// <summary>
-    /// Applies the resize on the 2xl breakpoint.
-    /// </summary>
-    public ResizeBuilder On2xl => ChainWithBreakpoint(BreakpointType.Xxl);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private ResizeBuilder ChainWithResize(string resize)
     {
-        _rules.Add(new ResizeRule(resize, null));
+        _rules.Add(new ResizeRule(resize, null, ConsumePendingModifierChain()));
         return this;
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private ResizeBuilder ChainWithResize(ResizeEnum resize)
     {
-        _rules.Add(new ResizeRule(resize.Value, null));
+        _rules.Add(new ResizeRule(resize.Value, null, ConsumePendingModifierChain()));
         return this;
     }
 
@@ -97,7 +77,7 @@ public sealed class ResizeBuilder : CssBuilderBase
 
         int lastIdx = _rules.Count - 1;
         ResizeRule last = _rules[lastIdx];
-        _rules[lastIdx] = new ResizeRule(last.Resize, breakpoint);
+        _rules[lastIdx] = new ResizeRule(last.Resize, breakpoint, last.ModifierChain);
         return this;
     }
 
@@ -123,6 +103,9 @@ public sealed class ResizeBuilder : CssBuilderBase
             string bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
             if (bp.Length != 0)
                 cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, bp);
+
+            if (rule.ModifierChain is { Length: > 0 })
+                cls = BreakpointUtil.ApplyTailwindModifiers(cls, rule.ModifierChain);
 
             if (!first) sb.Append(' ');
             else first = false;

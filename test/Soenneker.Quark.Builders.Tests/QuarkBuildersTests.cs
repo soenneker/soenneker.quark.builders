@@ -215,6 +215,13 @@ public sealed class QuarkBuildersTests : HostedUnitTest
     }
 
     [Test]
+    public void DurationBuilder_supports_zero_and_normalized_tokens()
+    {
+        Duration.Is0.OnHover.Token("duration-[375ms]").OnMd.Token("200").ToClass()
+            .Should().Be("duration-0 hover:duration-[375ms] md:duration-200");
+    }
+
+    [Test]
     public void TransformBuilder_builds_transform_utilities()
     {
         string result = Transform.Gpu.OnMd.None.ToClass();
@@ -431,6 +438,201 @@ public sealed class QuarkBuildersTests : HostedUnitTest
     {
         MinWidth.Is32.ToClass().Should().Be("min-w-32");
         ZIndex.Z0.OnMd.Z50.ToClass().Should().Be("z-0 md:z-50");
+    }
+
+    [Test]
+    public void Common_tailwind_display_and_opacity_values_are_expressible()
+    {
+        Display.FlowRoot.OnMd.Contents.OnLg.TableHeaderGroup.ToClass().Should().Be("flow-root md:contents lg:table-header-group");
+        Display.Token("list-item").OnHover.TableRowGroup.ToClass().Should().Be("list-item hover:table-row-group");
+
+        Opacity.Is5.OnDisabled.Is50.OnMd.Is95.Token("[.37]").ToClass().Should().Be("opacity-5 disabled:opacity-50 md:opacity-95 opacity-[.37]");
+    }
+
+    [Test]
+    public void Common_text_size_and_size_values_are_expressible()
+    {
+        TextSize.FiveXl.OnMd.NineXl.ToClass().Should().Be("text-5xl md:text-9xl");
+        Size.IsFull.IsFit.IsPx.ToClass().Should().Be("size-full size-fit size-px");
+    }
+
+    [Test]
+    public void Min_and_max_height_builders_cover_viewport_and_radix_tokens()
+    {
+        MinHeight.IsSvh.OnMd.IsDvh.Token("(--cell-size)").ToClass().Should().Be("min-h-svh md:min-h-dvh min-h-(--cell-size)");
+        MaxHeight.Token("(--radix-select-content-available-height)").OnLg.IsScreen.ToClass().Should()
+            .Be("max-h-(--radix-select-content-available-height) lg:max-h-screen");
+    }
+
+    [Test]
+    public void Height_constraint_builders_support_static_variant_entrypoints()
+    {
+        MinHeight.OnHover.IsSvh.OnFocus.IsDvh.ToClass().Should().Be("hover:min-h-svh focus:min-h-dvh");
+        MaxHeight.OnDark.OnHover.Token("(--radix-select-content-available-height)").ToClass()
+            .Should().Be("dark:hover:max-h-(--radix-select-content-available-height)");
+    }
+
+    [Test]
+    public void Bottom_supports_generated_static_variant_entrypoints()
+    {
+        Bottom.OnHover.Is4.OnDisabled.Token("bottom-[2px]").ToClass().Should().Be("hover:bottom-4 disabled:bottom-[2px]");
+    }
+
+    [Test]
+    public void Border_supports_generated_static_variant_entrypoints()
+    {
+        Border.OnHover.Is2.OnDisabled.Token("[3px]").ToClass().Should().Be("hover:border-2 disabled:border-[3px]");
+    }
+
+    [Test]
+    public void Generated_static_variant_entrypoints_cover_tailwind_modifier_families()
+    {
+        BackgroundColor.OnMaxMd.Primary.OnContainerSm.Secondary.OnFocusWithin.Accent.ToClass()
+            .Should().Be("max-md:bg-primary @sm:bg-secondary focus-within:bg-accent");
+
+        BackgroundColor.OnPeerPlaceholderShown.Muted.OnAriaSelected.Foreground.ToClass()
+            .Should().Be("peer-placeholder-shown:bg-muted aria-selected:bg-foreground");
+
+        Variant.Of(Display.Block).OnContainerMd.OnMotionReduce.OnGroupFocusVisible.ToClass()
+            .Should().Be("@md:motion-reduce:group-focus-visible:block");
+    }
+
+    [Test]
+    public void Common_color_builders_support_generated_static_variant_entrypoints()
+    {
+        AccentColor.OnHover.Primary.OnMaxMd.Current.ToClass()
+            .Should().Be("hover:accent-primary max-md:accent-current");
+
+        BorderColor.OnFocus.Border.OnAriaSelected.Primary.ToClass()
+            .Should().Be("focus:border-border aria-selected:border-primary");
+
+        CaretColor.OnFocusVisible.Primary.OnPeerInvalid.Transparent.ToClass()
+            .Should().Be("focus-visible:caret-primary peer-invalid:caret-transparent");
+
+        RingColor.OnGroupFocusVisible.Foreground.OnContainerMd.Token("primary/40").ToClass()
+            .Should().Be("group-focus-visible:ring-foreground @md:ring-primary/40");
+    }
+
+    [Test]
+    public void Common_layout_and_interaction_builders_support_generated_static_variant_entrypoints()
+    {
+        Animation.OnMotionSafe.Spin.OnMotionReduce.None.ToClass()
+            .Should().Be("motion-safe:animate-spin motion-reduce:animate-none");
+
+        Cursor.OnDisabled.NotAllowed.OnGroupHover.Pointer.ToClass()
+            .Should().Be("disabled:cursor-not-allowed group-hover:cursor-pointer");
+
+        ObjectFit.OnContainerMd.Cover.OnPortrait.Contain.ToClass()
+            .Should().Be("@md:object-cover portrait:object-contain");
+
+        Position.OnMaxMd.Absolute.OnPrint.Static.ToClass()
+            .Should().Be("max-md:absolute print:static");
+    }
+
+    [Test]
+    public void Common_display_environment_builders_support_generated_static_variant_entrypoints()
+    {
+        AspectRatio.OnContainerSm.R16X9.OnMaxLg.R1X1.ToClass()
+            .Should().Be("@sm:aspect-video max-lg:aspect-square");
+
+        BackgroundBlendMode.OnHover.Multiply.OnDark.Screen.ToClass()
+            .Should().Be("hover:bg-blend-multiply dark:bg-blend-screen");
+
+        Contain.OnForcedColors.Paint.OnPrint.None.ToClass()
+            .Should().Be("forced-colors:contain-paint print:contain-none");
+
+        Float.OnRtl.Right.OnLtr.Left.ToClass()
+            .Should().Be("rtl:float-right ltr:float-left");
+    }
+
+    [Test]
+    public void Common_typography_builders_support_generated_static_variant_entrypoints()
+    {
+        FontStyle.OnFirstLetter.Italic.OnHover.Normal.ToClass()
+            .Should().Be("first-letter:italic hover:not-italic");
+
+        FontWeight.OnGroupHover.Bold.OnPeerDisabled.Token("[450]").ToClass()
+            .Should().Be("group-hover:font-bold peer-disabled:font-[450]");
+
+        Leading.OnContainerMd.Is6.OnMaxSm.Tight.ToClass()
+            .Should().Be("@md:leading-6 max-sm:leading-tight");
+
+        Tracking.OnFocusVisible.Wide.OnDisabled.Tighter.ToClass()
+            .Should().Be("focus-visible:tracking-wide disabled:tracking-tighter");
+
+        TextTransform.OnHover.Uppercase.OnAriaExpanded.Capitalize.ToClass()
+            .Should().Be("hover:uppercase aria-expanded:capitalize");
+    }
+
+    [Test]
+    public void Common_text_behavior_builders_support_generated_static_variant_entrypoints()
+    {
+        TextBreak.OnMaxMd.Words.OnContainerLg.Keep.ToClass()
+            .Should().Be("max-md:break-words @lg:break-keep");
+
+        TextOverflow.OnHover.Ellipsis.OnFocus.Clip.ToClass()
+            .Should().Be("hover:text-ellipsis focus:text-clip");
+
+        TextWrap.OnContainerSm.Balance.OnMaxLg.Pretty.ToClass()
+            .Should().Be("@sm:text-balance max-lg:text-pretty");
+
+        UserSelect.OnDisabled.None.OnEnabled.All.ToClass()
+            .Should().Be("disabled:select-none enabled:select-all");
+
+        Visibility.OnGroupHover.Visible.OnPeerDisabled.Invisible.ToClass()
+            .Should().Be("group-hover:visible peer-disabled:invisible");
+
+        Whitespace.OnPlaceholderShown.Nowrap.OnPrint.PreWrap.ToClass()
+            .Should().Be("placeholder-shown:whitespace-nowrap print:whitespace-pre-wrap");
+    }
+
+    [Test]
+    public void Width_and_height_builders_support_generated_static_variant_entrypoints()
+    {
+        Width.OnHover.IsFull.OnContainerMd.Token("[18rem]").ToClass()
+            .Should().Be("hover:w-full @md:w-[18rem]");
+
+        Height.OnMaxSm.IsScreen.OnMotionReduce.Auto.ToClass()
+            .Should().Be("max-sm:h-screen motion-reduce:h-auto");
+    }
+
+    [Test]
+    public void Common_interaction_layout_builders_support_generated_static_variant_entrypoints()
+    {
+        Isolation.OnContainerMd.Isolate.OnMaxSm.Auto.ToClass()
+            .Should().Be("@md:isolation-isolate max-sm:isolation-auto");
+
+        PointerEvents.OnDisabled.None.OnEnabled.Auto.ToClass()
+            .Should().Be("disabled:pointer-events-none enabled:pointer-events-auto");
+
+        Resize.OnHover.Both.OnMd.OnFocus.Vertical.ToClass()
+            .Should().Be("hover:resize md:focus:resize-y");
+
+        Scale.OnGroupHover.Scale105.OnPeerDisabled.Scale95.ToClass()
+            .Should().Be("group-hover:scale-105 peer-disabled:scale-95");
+
+        Shrink.OnMaxLg.Is0.OnContainerSm.Is1.ToClass()
+            .Should().Be("max-lg:shrink-0 @sm:shrink");
+
+        ZIndex.OnOpen.Z50.OnBackdrop.N1.ToClass()
+            .Should().Be("open:z-50 backdrop:z-n1");
+    }
+
+    [Test]
+    public void Final_class_utility_builders_support_generated_static_variant_entrypoints()
+    {
+        AutoCols.OnHover.Min.OnMd.Fr.ToClass().Should().Be("hover:auto-cols-min md:auto-cols-fr");
+        Fill.OnDisabled.Current.ToClass().Should().Be("disabled:fill-current");
+        Stroke.OnHover.None.ToClass().Should().Be("hover:stroke-none");
+    }
+
+    [Test]
+    public void Position_offset_builders_support_generated_static_variant_entrypoints()
+    {
+        Top.OnHover.Is4.ToClass().Should().Be("hover:top-4");
+        Left.OnDisabled.Token("[2px]").ToClass().Should().Be("disabled:left-[2px]");
+        Start.OnFocus.Is2.ToClass().Should().Be("focus:start-2");
+        End.OnDark.Is5.ToClass().Should().Be("dark:end-5");
     }
 
     [Test]

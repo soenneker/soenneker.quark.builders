@@ -9,10 +9,13 @@ namespace Soenneker.Quark;
 /// Tailwind/shadcn line clamp builder for multiline truncation utilities.
 /// </summary>
 [TailwindPrefix("line-clamp-", Responsive = true)]
-public sealed class LineClampBuilder : CssBuilderBase
+public sealed class LineClampBuilder : CssBuilderBase<LineClampBuilder>
 {
     private readonly List<LineClampRule> _rules = new(4);
-    private BreakpointType? _pendingBreakpoint;
+
+    internal LineClampBuilder()
+    {
+    }
 
     internal LineClampBuilder(string value, BreakpointType? breakpoint = null)
     {
@@ -39,40 +42,18 @@ public sealed class LineClampBuilder : CssBuilderBase
     public LineClampBuilder Is6 => Chain(LineClampEnum.Is6);
     public LineClampBuilder Token(string value) => Chain(NormalizeLineClampClass(value));
 
-    public LineClampBuilder OnBase => SetPendingBreakpoint(BreakpointType.Base);
-    public LineClampBuilder OnSm => SetPendingBreakpoint(BreakpointType.Sm);
-    public LineClampBuilder OnMd => SetPendingBreakpoint(BreakpointType.Md);
-    public LineClampBuilder OnLg => SetPendingBreakpoint(BreakpointType.Lg);
-    public LineClampBuilder OnXl => SetPendingBreakpoint(BreakpointType.Xl);
-    public LineClampBuilder On2xl => SetPendingBreakpoint(BreakpointType.Xxl);
-
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private LineClampBuilder Chain(string value)
     {
-        _rules.Add(new LineClampRule(value, ConsumePendingBreakpoint()));
+        _rules.Add(new LineClampRule(value, null, ConsumePendingModifierChain()));
         return this;
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private LineClampBuilder Chain(LineClampEnum value)
     {
-        _rules.Add(new LineClampRule(value.Value, ConsumePendingBreakpoint()));
+        _rules.Add(new LineClampRule(value.Value, null, ConsumePendingModifierChain()));
         return this;
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private LineClampBuilder SetPendingBreakpoint(BreakpointType breakpoint)
-    {
-        _pendingBreakpoint = breakpoint;
-        return this;
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private BreakpointType? ConsumePendingBreakpoint()
-    {
-        BreakpointType? breakpoint = _pendingBreakpoint;
-        _pendingBreakpoint = null;
-        return breakpoint;
     }
 
     public override string ToClass()
@@ -89,9 +70,14 @@ public sealed class LineClampBuilder : CssBuilderBase
             if (cls.Length == 0)
                 continue;
 
-            string breakpoint = BreakpointUtil.GetBreakpointToken(_rules[i].Breakpoint);
+            LineClampRule rule = _rules[i];
+
+            string breakpoint = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
             if (breakpoint.Length != 0)
                 cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, breakpoint);
+
+            if (rule.ModifierChain is { Length: > 0 })
+                cls = BreakpointUtil.ApplyTailwindModifiers(cls, rule.ModifierChain);
 
             if (!first)
                 sb.Append(' ');

@@ -3,7 +3,8 @@ namespace Soenneker.Quark;
 /// <summary>
 /// Static utility for stroke line join. Tailwind: stroke-join-*.
 /// </summary>
-public static class StrokeLineJoin
+[TailwindModifiers(typeof(StrokeLineJoinBuilder))]
+public static partial class StrokeLineJoin
 {
     /// <summary>
     /// `auto` — browser-default sizing/behavior for the underlying utility.

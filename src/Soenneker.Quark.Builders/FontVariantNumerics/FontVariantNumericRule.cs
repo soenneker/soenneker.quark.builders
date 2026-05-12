@@ -1,3 +1,3 @@
 namespace Soenneker.Quark;
 
-internal readonly record struct FontVariantNumericRule(string Value, BreakpointType? Breakpoint);
+internal readonly record struct FontVariantNumericRule(string Value, BreakpointType? Breakpoint, string? ModifierChain = null);

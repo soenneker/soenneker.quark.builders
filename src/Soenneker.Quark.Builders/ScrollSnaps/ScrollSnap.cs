@@ -3,7 +3,8 @@ namespace Soenneker.Quark;
 /// <summary>
 /// Static utility for scroll snap. Tailwind: snap-*.
 /// </summary>
-public static class ScrollSnap
+[TailwindModifiers(typeof(ScrollSnapBuilder))]
+public static partial class ScrollSnap
 {
     /// <summary>
     /// Disables the effect (`none` token) or sets size to zero, depending on the utility.

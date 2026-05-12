@@ -3,7 +3,8 @@ namespace Soenneker.Quark;
 /// <summary>
 /// Static utility class for creating vertical align builders with predefined values.
 /// </summary>
-public static class VerticalAlign
+[TailwindModifiers(typeof(VerticalAlignBuilder))]
+public static partial class VerticalAlign
 {
     /// <summary>
     /// Gets a vertical align builder with baseline alignment.

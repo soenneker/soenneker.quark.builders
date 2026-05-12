@@ -9,10 +9,13 @@ namespace Soenneker.Quark;
 /// Tailwind font variant numeric utility builder.
 /// </summary>
 [TailwindPrefix("normal-nums", Responsive = true)]
-public sealed class FontVariantNumericBuilder : CssBuilderBase
+public sealed class FontVariantNumericBuilder : CssBuilderBase<FontVariantNumericBuilder>
 {
     private readonly List<FontVariantNumericRule> _rules = new(6);
-    private BreakpointType? _pendingBreakpoint;
+
+    internal FontVariantNumericBuilder()
+    {
+    }
 
     internal FontVariantNumericBuilder(string value, BreakpointType? breakpoint = null)
     {
@@ -66,57 +69,19 @@ public sealed class FontVariantNumericBuilder : CssBuilderBase
     /// Fluent step for `Stacked Fractions` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
     public FontVariantNumericBuilder StackedFractions => Chain(FontVariantNumericEnum.StackedFractions);
-
-    /// <summary>
-    /// Scopes the next utility to the default (unprefixed) breakpoint. In Tailwind’s mobile‑first model, unprefixed utilities apply from 0px unless a larger breakpoint overrides them.
-    /// </summary>
-    public FontVariantNumericBuilder OnBase => SetPendingBreakpoint(BreakpointType.Base);
-    /// <summary>
-    /// Applies the preceding utility from the `sm` breakpoint and up (`sm:` prefix). Tailwind default: `min-width: 40rem` (640px).
-    /// </summary>
-    public FontVariantNumericBuilder OnSm => SetPendingBreakpoint(BreakpointType.Sm);
-    /// <summary>
-    /// Applies from the `md` breakpoint and up (`md:`). Tailwind default: `min-width: 48rem` (768px).
-    /// </summary>
-    public FontVariantNumericBuilder OnMd => SetPendingBreakpoint(BreakpointType.Md);
-    /// <summary>
-    /// Applies from the `lg` breakpoint and up (`lg:`). Tailwind default: `min-width: 64rem` (1024px).
-    /// </summary>
-    public FontVariantNumericBuilder OnLg => SetPendingBreakpoint(BreakpointType.Lg);
-    /// <summary>
-    /// Applies from the `xl` breakpoint and up (`xl:`). Tailwind default: `min-width: 80rem` (1280px).
-    /// </summary>
-    public FontVariantNumericBuilder OnXl => SetPendingBreakpoint(BreakpointType.Xl);
-    /// <summary>
-    /// Applies from the `2xl` breakpoint and up (`2xl:`). Tailwind default: `min-width: 96rem` (1536px).
-    /// </summary>
-    public FontVariantNumericBuilder On2xl => SetPendingBreakpoint(BreakpointType.Xxl);
-
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private FontVariantNumericBuilder Chain(string value)
     {
-        BreakpointType? bp = _pendingBreakpoint;
-        _pendingBreakpoint = null;
-        _rules.Add(new FontVariantNumericRule(value, bp));
+        _rules.Add(new FontVariantNumericRule(value, null, ConsumePendingModifierChain()));
         return this;
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private FontVariantNumericBuilder Chain(FontVariantNumericEnum value)
     {
-        BreakpointType? bp = _pendingBreakpoint;
-        _pendingBreakpoint = null;
-        _rules.Add(new FontVariantNumericRule(value.Value, bp));
+        _rules.Add(new FontVariantNumericRule(value.Value, null, ConsumePendingModifierChain()));
         return this;
     }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private FontVariantNumericBuilder SetPendingBreakpoint(BreakpointType breakpoint)
-    {
-        _pendingBreakpoint = breakpoint;
-        return this;
-    }
-
     public override string ToClass()
     {
         if (_rules.Count == 0)
@@ -137,6 +102,9 @@ public sealed class FontVariantNumericBuilder : CssBuilderBase
             if (bp.Length != 0)
                 cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, bp);
 
+            if (rule.ModifierChain is { Length: > 0 })
+                cls = BreakpointUtil.ApplyTailwindModifiers(cls, rule.ModifierChain);
+
             if (!first)
                 sb.Append(' ');
             else
@@ -150,3 +118,4 @@ public sealed class FontVariantNumericBuilder : CssBuilderBase
 
     public override string ToStyle() => string.Empty;
 }
+

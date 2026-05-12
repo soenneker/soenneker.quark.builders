@@ -12,7 +12,6 @@ namespace Soenneker.Quark;
 public sealed class DisplayBuilder : CssBuilderBase<DisplayBuilder>
 {
     private readonly List<DisplayRule> _rules = new(4);
-    private BreakpointType? _pendingBreakpoint;
 
     internal DisplayBuilder()
     {
@@ -21,6 +20,11 @@ public sealed class DisplayBuilder : CssBuilderBase<DisplayBuilder>
     internal DisplayBuilder(DisplayEnum display, BreakpointType? breakpoint = null)
     {
         _rules.Add(new DisplayRule(display.Value, breakpoint));
+    }
+
+    internal DisplayBuilder(string display, BreakpointType? breakpoint = null)
+    {
+        _rules.Add(new DisplayRule(display, breakpoint));
     }
 
     internal DisplayBuilder(List<DisplayRule> rules)
@@ -46,6 +50,10 @@ public sealed class DisplayBuilder : CssBuilderBase<DisplayBuilder>
     /// </summary>
     public DisplayBuilder Block => ChainWithDisplay(DisplayEnum.Block);
     /// <summary>
+    /// Sets the display to flow-root.
+    /// </summary>
+    public DisplayBuilder FlowRoot => ChainWithDisplay("flow-root");
+    /// <summary>
     /// Sets the display to flex.
     /// </summary>
     public DisplayBuilder Flex => ChainWithDisplay(DisplayEnum.Flex);
@@ -66,6 +74,30 @@ public sealed class DisplayBuilder : CssBuilderBase<DisplayBuilder>
     /// </summary>
     public DisplayBuilder Table => ChainWithDisplay(DisplayEnum.Table);
     /// <summary>
+    /// Sets the display to table-caption.
+    /// </summary>
+    public DisplayBuilder TableCaption => ChainWithDisplay("table-caption");
+    /// <summary>
+    /// Sets the display to table-column.
+    /// </summary>
+    public DisplayBuilder TableColumn => ChainWithDisplay("table-column");
+    /// <summary>
+    /// Sets the display to table-column-group.
+    /// </summary>
+    public DisplayBuilder TableColumnGroup => ChainWithDisplay("table-column-group");
+    /// <summary>
+    /// Sets the display to table-footer-group.
+    /// </summary>
+    public DisplayBuilder TableFooterGroup => ChainWithDisplay("table-footer-group");
+    /// <summary>
+    /// Sets the display to table-header-group.
+    /// </summary>
+    public DisplayBuilder TableHeaderGroup => ChainWithDisplay("table-header-group");
+    /// <summary>
+    /// Sets the display to table-row-group.
+    /// </summary>
+    public DisplayBuilder TableRowGroup => ChainWithDisplay("table-row-group");
+    /// <summary>
     /// Sets the display to table-cell.
     /// </summary>
     public DisplayBuilder TableCell => ChainWithDisplay(DisplayEnum.TableCell);
@@ -74,50 +106,31 @@ public sealed class DisplayBuilder : CssBuilderBase<DisplayBuilder>
     /// </summary>
     public DisplayBuilder TableRow => ChainWithDisplay(DisplayEnum.TableRow);
     /// <summary>
-    /// Applies the display on phone breakpoint.
+    /// Sets the display to contents.
     /// </summary>
-    public DisplayBuilder OnBase => SetPendingBreakpoint(BreakpointType.Base);
+    public DisplayBuilder Contents => ChainWithDisplay("contents");
     /// <summary>
-    /// Applies the display on small breakpoint (≥640px).
+    /// Sets the display to list-item.
     /// </summary>
-    public DisplayBuilder OnSm => SetPendingBreakpoint(BreakpointType.Sm);
+    public DisplayBuilder ListItem => ChainWithDisplay("list-item");
     /// <summary>
-    /// Applies the display on tablet breakpoint.
+    /// Applies an exact Tailwind display utility.
     /// </summary>
-    public DisplayBuilder OnMd => SetPendingBreakpoint(BreakpointType.Md);
-    /// <summary>
-    /// Applies the display on laptop breakpoint.
-    /// </summary>
-    public DisplayBuilder OnLg => SetPendingBreakpoint(BreakpointType.Lg);
-    /// <summary>
-    /// Applies the display on desktop breakpoint.
-    /// </summary>
-    public DisplayBuilder OnXl => SetPendingBreakpoint(BreakpointType.Xl);
-    /// <summary>
-    /// Applies the display on the 2xl breakpoint.
-    /// </summary>
-    public DisplayBuilder On2xl => SetPendingBreakpoint(BreakpointType.Xxl);
+    public DisplayBuilder Token(string value) => ChainWithDisplay(value);
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private DisplayBuilder ChainWithDisplay(DisplayEnum display)
     {
-        _rules.Add(new DisplayRule(display.Value, ConsumePendingBreakpoint(), ConsumePendingModifierChain()));
-        return this;
+        return ChainWithDisplay(display.Value);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private DisplayBuilder SetPendingBreakpoint(BreakpointType breakpoint)
+    private DisplayBuilder ChainWithDisplay(string display)
     {
-        _pendingBreakpoint = breakpoint;
+        _rules.Add(new DisplayRule(display, null, ConsumePendingModifierChain()));
         return this;
     }
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private BreakpointType? ConsumePendingBreakpoint()
-    {
-        BreakpointType? breakpoint = _pendingBreakpoint;
-        _pendingBreakpoint = null;
-        return breakpoint;
-    }
+
 
     /// <summary>
     /// Gets the CSS class string for the current configuration.

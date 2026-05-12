@@ -22,10 +22,4 @@ public sealed class GridRowsBuilder : ResponsiveUtilityBuilder<GridRowsBuilder>
     public GridRowsBuilder Count(int value) => ChainValue("grid-rows-" + value);
     public GridRowsBuilder Token(string value) => ChainValue("grid-rows-" + value);
 
-    public GridRowsBuilder OnBase => SetPendingBreakpoint(BreakpointType.Base);
-    public GridRowsBuilder OnSm => SetPendingBreakpoint(BreakpointType.Sm);
-    public GridRowsBuilder OnMd => SetPendingBreakpoint(BreakpointType.Md);
-    public GridRowsBuilder OnLg => SetPendingBreakpoint(BreakpointType.Lg);
-    public GridRowsBuilder OnXl => SetPendingBreakpoint(BreakpointType.Xl);
-    public GridRowsBuilder On2xl => SetPendingBreakpoint(BreakpointType.Xxl);
 }

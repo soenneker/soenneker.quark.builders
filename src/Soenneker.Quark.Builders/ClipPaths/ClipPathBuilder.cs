@@ -9,9 +9,13 @@ namespace Soenneker.Quark;
 /// Simplified clip path builder with fluent API for chaining clip path rules.
 /// </summary>
 [TailwindPrefix("clip-", Responsive = true)]
-public sealed class ClipPathBuilder : CssBuilderBase
+public sealed class ClipPathBuilder : CssBuilderBase<ClipPathBuilder>
 {
     private readonly List<ClipPathRule> _rules = new(4);
+
+    internal ClipPathBuilder()
+    {
+    }
 
     internal ClipPathBuilder(string path, BreakpointType? breakpoint = null)
     {
@@ -50,57 +54,17 @@ public sealed class ClipPathBuilder : CssBuilderBase
     /// </summary>
     public ClipPathBuilder Polygon => ChainWithPath(ClipPathEnum.Polygon);
 
-    /// <summary>
-    /// Applies the clip path on phone breakpoint.
-    /// </summary>
-    public ClipPathBuilder OnBase => ChainWithBreakpoint(BreakpointType.Base);
-    /// <summary>
-    /// Applies the clip path on small breakpoint (≥640px).
-    /// </summary>
-    public ClipPathBuilder OnSm => ChainWithBreakpoint(BreakpointType.Sm);
-    /// <summary>
-    /// Applies the clip path on tablet breakpoint.
-    /// </summary>
-    public ClipPathBuilder OnMd => ChainWithBreakpoint(BreakpointType.Md);
-    /// <summary>
-    /// Applies the clip path on laptop breakpoint.
-    /// </summary>
-    public ClipPathBuilder OnLg => ChainWithBreakpoint(BreakpointType.Lg);
-    /// <summary>
-    /// Applies the clip path on desktop breakpoint.
-    /// </summary>
-    public ClipPathBuilder OnXl => ChainWithBreakpoint(BreakpointType.Xl);
-    /// <summary>
-    /// Applies the clip path on the 2xl breakpoint.
-    /// </summary>
-    public ClipPathBuilder On2xl => ChainWithBreakpoint(BreakpointType.Xxl);
-
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private ClipPathBuilder ChainWithPath(string path)
     {
-        _rules.Add(new ClipPathRule(path, null));
+        _rules.Add(new ClipPathRule(path, null, ConsumePendingModifierChain()));
         return this;
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private ClipPathBuilder ChainWithPath(ClipPathEnum path)
     {
-        _rules.Add(new ClipPathRule(path.Value, null));
-        return this;
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private ClipPathBuilder ChainWithBreakpoint(BreakpointType breakpoint)
-    {
-        if (_rules.Count == 0)
-        {
-            _rules.Add(new ClipPathRule("none", breakpoint));
-            return this;
-        }
-
-        int lastIdx = _rules.Count - 1;
-        ClipPathRule last = _rules[lastIdx];
-        _rules[lastIdx] = new ClipPathRule(last.Path, breakpoint);
+        _rules.Add(new ClipPathRule(path.Value, null, ConsumePendingModifierChain()));
         return this;
     }
 
@@ -126,6 +90,9 @@ public sealed class ClipPathBuilder : CssBuilderBase
             string bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
             if (bp.Length != 0)
                 cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, bp);
+
+            if (rule.ModifierChain is { Length: > 0 })
+                cls = BreakpointUtil.ApplyTailwindModifiers(cls, rule.ModifierChain);
 
             if (!first) sb.Append(' ');
             else first = false;

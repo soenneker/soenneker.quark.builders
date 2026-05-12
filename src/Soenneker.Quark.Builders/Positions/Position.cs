@@ -3,7 +3,8 @@ namespace Soenneker.Quark;
 /// <summary>
 /// Simplified position utility with fluent API and Tailwind/shadcn-aligned fluent API.
 /// </summary>
-public static class Position
+[TailwindModifiers(typeof(PositionBuilder))]
+public static partial class Position
 {
     /// <summary>
     /// Static positioning.

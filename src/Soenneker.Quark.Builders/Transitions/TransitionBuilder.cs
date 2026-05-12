@@ -9,10 +9,13 @@ namespace Soenneker.Quark;
 /// Simplified transition builder with fluent API for chaining transition rules.
 /// </summary>
 [TailwindPrefix("transition-", Responsive = true)]
-public sealed class TransitionBuilder : CssBuilderBase
+public sealed class TransitionBuilder : CssBuilderBase<TransitionBuilder>
 {
     private readonly List<TransitionRule> _rules = new(4);
-    private BreakpointType? _pendingBreakpoint;
+
+    internal TransitionBuilder()
+    {
+    }
 
     internal TransitionBuilder(TransitionEnum transition, BreakpointType? breakpoint = null)
     {
@@ -60,31 +63,6 @@ public sealed class TransitionBuilder : CssBuilderBase
     /// </summary>
     public TransitionBuilder Token(string token) => ChainWithTransition(token);
 
-    /// <summary>
-    /// Applies the transition on phone breakpoint.
-    /// </summary>
-    public TransitionBuilder OnBase => SetPendingBreakpoint(BreakpointType.Base);
-    /// <summary>
-    /// Applies the transition on small breakpoint (≥640px).
-    /// </summary>
-    public TransitionBuilder OnSm => SetPendingBreakpoint(BreakpointType.Sm);
-    /// <summary>
-    /// Applies the transition on tablet breakpoint.
-    /// </summary>
-    public TransitionBuilder OnMd => SetPendingBreakpoint(BreakpointType.Md);
-    /// <summary>
-    /// Applies the transition on laptop breakpoint.
-    /// </summary>
-    public TransitionBuilder OnLg => SetPendingBreakpoint(BreakpointType.Lg);
-    /// <summary>
-    /// Applies the transition on desktop breakpoint.
-    /// </summary>
-    public TransitionBuilder OnXl => SetPendingBreakpoint(BreakpointType.Xl);
-    /// <summary>
-    /// Applies the transition on the 2xl breakpoint.
-    /// </summary>
-    public TransitionBuilder On2xl => SetPendingBreakpoint(BreakpointType.Xxl);
-
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private TransitionBuilder ChainWithTransition(TransitionEnum transition)
     {
@@ -94,16 +72,7 @@ public sealed class TransitionBuilder : CssBuilderBase
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private TransitionBuilder ChainWithTransition(string transition)
     {
-        BreakpointType? bp = _pendingBreakpoint;
-        _pendingBreakpoint = null;
-        _rules.Add(new TransitionRule(transition, bp));
-        return this;
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private TransitionBuilder SetPendingBreakpoint(BreakpointType breakpoint)
-    {
-        _pendingBreakpoint = breakpoint;
+        _rules.Add(new TransitionRule(transition, null, ConsumePendingModifierChain()));
         return this;
     }
 
@@ -129,6 +98,9 @@ public sealed class TransitionBuilder : CssBuilderBase
             string bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
             if (bp.Length != 0)
                 cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, bp);
+
+            if (rule.ModifierChain is { Length: > 0 })
+                cls = BreakpointUtil.ApplyTailwindModifiers(cls, rule.ModifierChain);
 
             if (!first) sb.Append(' ');
             else first = false;

@@ -121,17 +121,20 @@ public static class BreakpointUtil
         string utility = segments[^1];
         segments.RemoveAt(segments.Count - 1);
 
+        var prefixedSegments = new List<string>(segments.Count + modifiers.Count + 1);
+
         for (var i = 0; i < modifiers.Count; i++)
         {
             string modifier = modifiers[i];
 
             if (!string.IsNullOrEmpty(modifier))
-                segments.Add(modifier);
+                prefixedSegments.Add(modifier);
         }
 
-        segments.Add(utility);
+        prefixedSegments.AddRange(segments);
+        prefixedSegments.Add(utility);
 
-        return string.Join(":", segments);
+        return string.Join(":", prefixedSegments);
     }
 
     private static string AppendTailwindModifierChain(string token, string modifierChain)
@@ -149,7 +152,7 @@ public static class BreakpointUtil
 
         return segments.Count == 0
             ? $"{modifierChain}:{utility}"
-            : $"{string.Join(":", segments)}:{modifierChain}:{utility}";
+            : $"{modifierChain}:{string.Join(":", segments)}:{utility}";
     }
 
     private static List<string> SplitTailwindSegments(string token)

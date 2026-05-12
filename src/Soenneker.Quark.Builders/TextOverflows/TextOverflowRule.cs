@@ -3,5 +3,5 @@ namespace Soenneker.Quark;
 /// <summary>
 /// Represents a single text overflow rule with optional BreakpointType.
 /// </summary>
-internal record TextOverflowRule(string Value, BreakpointType? Breakpoint = null);
+internal record TextOverflowRule(string Value, BreakpointType? Breakpoint = null, string? ModifierChain = null);
 

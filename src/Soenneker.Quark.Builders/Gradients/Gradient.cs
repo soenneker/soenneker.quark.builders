@@ -1,6 +1,7 @@
 namespace Soenneker.Quark;
 
-public static class Gradient
+[TailwindModifiers(typeof(GradientBuilder))]
+public static partial class Gradient
 {
     public static GradientBuilder To(string value) => new($"bg-gradient-to-{value}");
     public static GradientBuilder From(string value) => new($"from-{value}");

@@ -1,6 +1,6 @@
 namespace Soenneker.Quark;
 
-internal readonly record struct OpacityRule(OpacityEnum Value, BreakpointType? Breakpoint);
+internal readonly record struct OpacityRule(string Value, BreakpointType? Breakpoint, string? ModifierChain = null);
 
 
 

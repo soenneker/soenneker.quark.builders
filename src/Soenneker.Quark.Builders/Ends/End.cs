@@ -3,7 +3,8 @@ namespace Soenneker.Quark;
 /// <summary>
 /// Static utility for end (inset-inline-end). Tailwind: end-*.
 /// </summary>
-public static class End
+[TailwindModifiers(typeof(EndBuilder))]
+public static partial class End
 {
     /// <summary>
     /// Spacing/sizing scale step `0` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 0` for integer spacing utilities unless overridden).

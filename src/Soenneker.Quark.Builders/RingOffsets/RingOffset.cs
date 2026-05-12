@@ -1,6 +1,7 @@
 namespace Soenneker.Quark;
 
-public static class RingOffset
+[TailwindModifiers(typeof(RingOffsetBuilder))]
+public static partial class RingOffset
 {
     public static RingOffsetBuilder Primary => new RingOffsetBuilder(string.Empty).Primary;
     public static RingOffsetBuilder Secondary => new RingOffsetBuilder(string.Empty).Secondary;

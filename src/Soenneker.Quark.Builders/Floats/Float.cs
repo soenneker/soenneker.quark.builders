@@ -3,7 +3,8 @@ namespace Soenneker.Quark;
 /// <summary>
 /// Static utility class for creating float builders with predefined values.
 /// </summary>
-public static class Float
+[TailwindModifiers(typeof(FloatBuilder))]
+public static partial class Float
 {
     /// <summary>
     /// Gets a float builder with none value (no floating).

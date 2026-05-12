@@ -22,10 +22,4 @@ public sealed class OutlineOffsetBuilder : ResponsiveUtilityBuilder<OutlineOffse
     public OutlineOffsetBuilder Is8 => ChainValue(OutlineOffsetEnum.Is8Value);
     public OutlineOffsetBuilder Token(string value) => ChainValue("outline-offset-" + value);
 
-    public OutlineOffsetBuilder OnBase => SetPendingBreakpoint(BreakpointType.Base);
-    public OutlineOffsetBuilder OnSm => SetPendingBreakpoint(BreakpointType.Sm);
-    public OutlineOffsetBuilder OnMd => SetPendingBreakpoint(BreakpointType.Md);
-    public OutlineOffsetBuilder OnLg => SetPendingBreakpoint(BreakpointType.Lg);
-    public OutlineOffsetBuilder OnXl => SetPendingBreakpoint(BreakpointType.Xl);
-    public OutlineOffsetBuilder On2xl => SetPendingBreakpoint(BreakpointType.Xxl);
 }

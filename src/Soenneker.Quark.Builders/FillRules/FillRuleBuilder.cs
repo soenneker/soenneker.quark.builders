@@ -9,11 +9,12 @@ namespace Soenneker.Quark;
 /// SVG fill-rule builder. Tailwind: fill-rule-evenodd, fill-rule-nonzero.
 /// </summary>
 [TailwindPrefix("fill-rule-", Responsive = true)]
-public sealed class FillRuleBuilder : CssBuilderBase
+public sealed class FillRuleBuilder : CssBuilderBase<FillRuleBuilder>
 {
     private readonly List<FillRuleRule> _rules = new(4);
-    private BreakpointType? _pendingBreakpoint;
-    private const string _prefix = "fill-rule-";
+    internal FillRuleBuilder()
+    {
+    }
 
     internal FillRuleBuilder(FillRuleEnum value, BreakpointType? breakpoint = null)
     {
@@ -35,47 +36,11 @@ public sealed class FillRuleBuilder : CssBuilderBase
     /// </summary>
     public FillRuleBuilder Nonzero => Chain(FillRuleEnum.Nonzero);
 
-    /// <summary>
-    /// Applies the preceding utility from the `sm` breakpoint and up (`sm:` prefix). Tailwind default: `min-width: 40rem` (640px).
-    /// </summary>
-    public FillRuleBuilder OnSm => SetPendingBreakpoint(BreakpointType.Sm);
-    /// <summary>
-    /// Applies from the `md` breakpoint and up (`md:`). Tailwind default: `min-width: 48rem` (768px).
-    /// </summary>
-    public FillRuleBuilder OnMd => SetPendingBreakpoint(BreakpointType.Md);
-    /// <summary>
-    /// Applies from the `lg` breakpoint and up (`lg:`). Tailwind default: `min-width: 64rem` (1024px).
-    /// </summary>
-    public FillRuleBuilder OnLg => SetPendingBreakpoint(BreakpointType.Lg);
-    /// <summary>
-    /// Applies from the `xl` breakpoint and up (`xl:`). Tailwind default: `min-width: 80rem` (1280px).
-    /// </summary>
-    public FillRuleBuilder OnXl => SetPendingBreakpoint(BreakpointType.Xl);
-    /// <summary>
-    /// Applies from the `2xl` breakpoint and up (`2xl:`). Tailwind default: `min-width: 96rem` (1536px).
-    /// </summary>
-    public FillRuleBuilder On2xl => SetPendingBreakpoint(BreakpointType.Xxl);
-
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private FillRuleBuilder Chain(FillRuleEnum value)
     {
-        _rules.Add(new FillRuleRule(value.Value, ConsumePendingBreakpoint()));
+        _rules.Add(new FillRuleRule(value.Value, null, ConsumePendingModifierChain()));
         return this;
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private FillRuleBuilder SetPendingBreakpoint(BreakpointType breakpoint)
-    {
-        _pendingBreakpoint = breakpoint;
-        return this;
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private BreakpointType? ConsumePendingBreakpoint()
-    {
-        BreakpointType? breakpoint = _pendingBreakpoint;
-        _pendingBreakpoint = null;
-        return breakpoint;
     }
 
     public override string ToClass()
@@ -89,6 +54,7 @@ public sealed class FillRuleBuilder : CssBuilderBase
             if (cls.Length == 0) continue;
             string b = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
             if (b.Length != 0) cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, b);
+            if (rule.ModifierChain is { Length: > 0 }) cls = BreakpointUtil.ApplyTailwindModifiers(cls, rule.ModifierChain);
             if (!first) sb.Append(' ');
             else first = false;
             sb.Append(cls);

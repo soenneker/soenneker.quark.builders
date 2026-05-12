@@ -30,11 +30,4 @@ public sealed class FlexBuilder : ResponsiveUtilityBuilder<FlexBuilder>
     public FlexBuilder Col => ChainValue(FlexEnum.ColValue);
     public FlexBuilder ColReverse => ChainValue(FlexEnum.ColReverseValue);
     public FlexBuilder Token(string value) => ChainValue($"flex-{value}");
-
-    public FlexBuilder OnBase => SetPendingBreakpoint(BreakpointType.Base);
-    public FlexBuilder OnSm => SetPendingBreakpoint(BreakpointType.Sm);
-    public FlexBuilder OnMd => SetPendingBreakpoint(BreakpointType.Md);
-    public FlexBuilder OnLg => SetPendingBreakpoint(BreakpointType.Lg);
-    public FlexBuilder OnXl => SetPendingBreakpoint(BreakpointType.Xl);
-    public FlexBuilder On2xl => SetPendingBreakpoint(BreakpointType.Xxl);
 }

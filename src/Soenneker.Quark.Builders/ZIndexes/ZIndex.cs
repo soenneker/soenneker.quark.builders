@@ -4,7 +4,8 @@ namespace Soenneker.Quark;
 /// <summary>
 /// Static utility class for creating Z-index builders with predefined values.
 /// </summary>
-public static class ZIndex
+[TailwindModifiers(typeof(ZIndexBuilder))]
+public static partial class ZIndex
 {
     /// <summary>
     /// Gets a Z-index builder with value -1.

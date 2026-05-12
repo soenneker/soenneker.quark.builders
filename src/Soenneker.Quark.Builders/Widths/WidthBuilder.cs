@@ -10,10 +10,13 @@ namespace Soenneker.Quark;
 /// Tailwind-first and shadcn-friendly (w-*, including fractions and common tokens).
 /// </summary>
 [TailwindPrefix("w-", Responsive = true)]
-public sealed class WidthBuilder : CssBuilderBase
+public sealed class WidthBuilder : CssBuilderBase<WidthBuilder>
 {
     private readonly List<WidthRule> _rules = new(4);
-    private BreakpointType? _pendingBreakpoint;
+
+    internal WidthBuilder()
+    {
+    }
 
     internal WidthBuilder(string size, BreakpointType? breakpoint = null)
     {
@@ -172,30 +175,6 @@ public sealed class WidthBuilder : CssBuilderBase
     /// </summary>
     public WidthBuilder Auto => ChainWithSize("w-auto");
 
-    /// <summary>
-    /// Scopes the next utility to the default (unprefixed) breakpoint. In Tailwind’s mobile‑first model, unprefixed utilities apply from 0px unless a larger breakpoint overrides them.
-    /// </summary>
-    public WidthBuilder OnBase => SetPendingBreakpoint(BreakpointType.Base);
-    /// <summary>
-    /// Applies the preceding utility from the `sm` breakpoint and up (`sm:` prefix). Tailwind default: `min-width: 40rem` (640px).
-    /// </summary>
-    public WidthBuilder OnSm => SetPendingBreakpoint(BreakpointType.Sm);
-    /// <summary>
-    /// Applies from the `md` breakpoint and up (`md:`). Tailwind default: `min-width: 48rem` (768px).
-    /// </summary>
-    public WidthBuilder OnMd => SetPendingBreakpoint(BreakpointType.Md);
-    /// <summary>
-    /// Applies from the `lg` breakpoint and up (`lg:`). Tailwind default: `min-width: 64rem` (1024px).
-    /// </summary>
-    public WidthBuilder OnLg => SetPendingBreakpoint(BreakpointType.Lg);
-    /// <summary>
-    /// Applies from the `xl` breakpoint and up (`xl:`). Tailwind default: `min-width: 80rem` (1280px).
-    /// </summary>
-    public WidthBuilder OnXl => SetPendingBreakpoint(BreakpointType.Xl);
-    /// <summary>
-    /// Applies from the `2xl` breakpoint and up (`2xl:`). Tailwind default: `min-width: 96rem` (1536px).
-    /// </summary>
-    public WidthBuilder On2xl => SetPendingBreakpoint(BreakpointType.Xxl);
 
     /// <summary>
     /// Applies an arbitrary Tailwind width token (e.g. "72", "[18rem]", "full").
@@ -205,18 +184,11 @@ public sealed class WidthBuilder : CssBuilderBase
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private WidthBuilder ChainWithSize(string size)
     {
-        BreakpointType? bp = _pendingBreakpoint;
-        _pendingBreakpoint = null;
-        _rules.Add(new WidthRule(size, bp));
+        BreakpointType? bp = null;
+        _rules.Add(new WidthRule(size, bp, ConsumePendingModifierChain()));
         return this;
     }
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private WidthBuilder SetPendingBreakpoint(BreakpointType breakpoint)
-    {
-        _pendingBreakpoint = breakpoint;
-        return this;
-    }
 
     public override string ToClass()
     {
@@ -236,6 +208,9 @@ public sealed class WidthBuilder : CssBuilderBase
             string bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
             if (bp.Length != 0)
                 cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, bp);
+
+            if (rule.ModifierChain is { Length: > 0 })
+                cls = BreakpointUtil.ApplyTailwindModifiers(cls, rule.ModifierChain);
 
             if (!first) sb.Append(' ');
             else first = false;

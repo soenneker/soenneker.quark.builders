@@ -3,7 +3,8 @@ namespace Soenneker.Quark;
 /// <summary>
 /// Tailwind whitespace utility entry points.
 /// </summary>
-public static class Whitespace
+[TailwindModifiers(typeof(WhitespaceBuilder))]
+public static partial class Whitespace
 {
     /// <summary>
     /// Fluent step for `Normal` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
