@@ -372,15 +372,16 @@ public sealed class QuarkBuildersTests : HostedUnitTest
         Padding.OnX.Is2.ToClass().Should().Be("px-2");
         Padding.OnY.Is3.ToClass().Should().Be("py-3");
         Padding.OnX.Token("1.5").ToClass().Should().Be("px-1.5");
-        Padding.Is2.OnX.ToClass().Should().Be("px-2");
-        Padding.Is3.OnY.ToClass().Should().Be("py-3");
-        Padding.Token("1.5").OnX.Is4.OnY.ToClass().Should().Be("px-1.5 py-4");
+        Padding.Is2.OnX.ToClass().Should().Be("p-2");
+        Padding.Is3.OnY.ToClass().Should().Be("p-3");
+        Padding.Token("1.5").OnX.Is4.OnY.ToClass().Should().Be("p-1.5 px-4");
+        Padding.OnX.Is2.OnY.ToClass().Should().Be("px-2");
     }
 
     [Test]
     public void PaddingBuilder_builds_responsive_axis_specific_tailwind_classes()
     {
-        string result = Padding.OnX.Is4.OnMd.Is6.OnX.OnLg.Token("8").OnY.ToClass();
+        string result = Padding.OnX.Is4.OnMd.OnX.Is6.OnLg.OnY.Token("8").ToClass();
 
         result.Should().Be("px-4 md:px-6 lg:py-8");
     }
@@ -390,10 +391,11 @@ public sealed class QuarkBuildersTests : HostedUnitTest
     {
         string border = Border.Default.ToClass();
         string is1Border = Border.Is1.ToClass();
-        string bottomIs1Border = Border.Is1.FromBottom.ToClass();
-        string topBorder = Border.Default.FromTop.ToClass();
+        string bottomIs1Border = Border.FromBottom.Is1.ToClass();
+        string topBorder = Border.FromTop.Default.ToClass();
         string responsiveBorder = Border.Default.OnMd.Is2.ToClass();
         string transparentBorder = BorderColor.Transparent.ToClass();
+        string trailingBottomBorder = Border.Is1.FromBottom.ToClass();
 
         border.Should().Be("border");
         is1Border.Should().Be("border");
@@ -401,6 +403,7 @@ public sealed class QuarkBuildersTests : HostedUnitTest
         topBorder.Should().Be("border-t");
         responsiveBorder.Should().Be("border md:border-2");
         transparentBorder.Should().Be("border-transparent");
+        trailingBottomBorder.Should().Be("border");
     }
 
     [Test]
