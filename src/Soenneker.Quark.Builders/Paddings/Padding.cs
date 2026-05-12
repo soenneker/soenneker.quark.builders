@@ -17,6 +17,36 @@ public static partial class Padding
     public static PaddingBuilder OnY => new(ElementSideEnum.Vertical);
 
     /// <summary>
+    /// Applies padding from the top side.
+    /// </summary>
+    public static PaddingBuilder FromTop => new(ElementSideEnum.Top);
+
+    /// <summary>
+    /// Applies padding from the right side.
+    /// </summary>
+    public static PaddingBuilder FromRight => new(ElementSideEnum.Right);
+
+    /// <summary>
+    /// Applies padding from the bottom side.
+    /// </summary>
+    public static PaddingBuilder FromBottom => new(ElementSideEnum.Bottom);
+
+    /// <summary>
+    /// Applies padding from the left side.
+    /// </summary>
+    public static PaddingBuilder FromLeft => new(ElementSideEnum.Left);
+
+    /// <summary>
+    /// Applies padding from the inline start.
+    /// </summary>
+    public static PaddingBuilder FromStart => new(ElementSideEnum.InlineStart);
+
+    /// <summary>
+    /// Applies padding from the inline end.
+    /// </summary>
+    public static PaddingBuilder FromEnd => new(ElementSideEnum.InlineEnd);
+
+    /// <summary>
     /// Spacing/sizing scale step `0` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 0` for integer spacing utilities unless overridden).
     /// </summary>
     public static PaddingBuilder Is0 => new(PaddingScaleEnum.Is0Value);

@@ -12,6 +12,7 @@ namespace Soenneker.Quark;
 public sealed class ScrollPaddingBuilder : CssBuilderBase<ScrollPaddingBuilder>
 {
     private readonly List<ScrollPaddingRule> _rules = new(4);
+    private ElementSideEnum? _pendingSide;
 
     internal ScrollPaddingBuilder()
     {
@@ -20,6 +21,11 @@ public sealed class ScrollPaddingBuilder : CssBuilderBase<ScrollPaddingBuilder>
     internal ScrollPaddingBuilder(string size, BreakpointType? breakpoint = null)
     {
         _rules.Add(new ScrollPaddingRule(size, ElementSideEnum.All, breakpoint));
+    }
+
+    internal ScrollPaddingBuilder(ElementSideEnum side)
+    {
+        _pendingSide = side;
     }
 
     internal ScrollPaddingBuilder(List<ScrollPaddingRule> rules)
@@ -97,29 +103,25 @@ public sealed class ScrollPaddingBuilder : CssBuilderBase<ScrollPaddingBuilder>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private ScrollPaddingBuilder AddRule(ElementSideEnum side)
     {
-        string size = _rules.Count > 0 ? _rules[^1].Size : ScrollPaddingScaleEnum.Is0Value;
-        BreakpointType? bp = _rules.Count > 0 ? _rules[^1].Breakpoint : null;
-        string? modifierChain = ConsumePendingModifierChain();
-        if (modifierChain is not { Length: > 0 } && _rules.Count > 0)
-            modifierChain = _rules[^1].ModifierChain;
-        if (_rules.Count > 0 && ReferenceEquals(_rules[^1].Side, ElementSideEnum.All))
-            _rules[^1] = new ScrollPaddingRule(size, side, bp, modifierChain);
-        else
-            _rules.Add(new ScrollPaddingRule(size, side, bp, modifierChain));
+        _pendingSide = side;
         return this;
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private ScrollPaddingBuilder ChainWithSize(string size)
     {
-        _rules.Add(new ScrollPaddingRule(size, ElementSideEnum.All, null, ConsumePendingModifierChain()));
+        ElementSideEnum side = _pendingSide ?? ElementSideEnum.All;
+        _pendingSide = null;
+        _rules.Add(new ScrollPaddingRule(size, side, null, ConsumePendingModifierChain()));
         return this;
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private ScrollPaddingBuilder ChainWithSize(ScrollPaddingScaleEnum scale)
     {
-        _rules.Add(new ScrollPaddingRule(scale.Value, ElementSideEnum.All, null, ConsumePendingModifierChain()));
+        ElementSideEnum side = _pendingSide ?? ElementSideEnum.All;
+        _pendingSide = null;
+        _rules.Add(new ScrollPaddingRule(scale.Value, side, null, ConsumePendingModifierChain()));
         return this;
     }
 
@@ -131,11 +133,8 @@ public sealed class ScrollPaddingBuilder : CssBuilderBase<ScrollPaddingBuilder>
         for (var i = 0; i < _rules.Count; i++)
         {
             ScrollPaddingRule rule = _rules[i];
-            string baseClass = ApplySide(rule.Size, rule.Side);
+            string baseClass = BuildClass(rule);
             if (baseClass.Length == 0) continue;
-            string bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
-            if (bp.Length != 0) baseClass = BreakpointUtil.ApplyTailwindBreakpoint(baseClass, bp);
-            if (rule.ModifierChain is { Length: > 0 }) baseClass = BreakpointUtil.ApplyTailwindModifiers(baseClass, rule.ModifierChain);
             if (!first) sb.Append(' ');
             else first = false;
             sb.Append(baseClass);
@@ -146,6 +145,22 @@ public sealed class ScrollPaddingBuilder : CssBuilderBase<ScrollPaddingBuilder>
     public override string ToStyle() => string.Empty;
 
     public override string ToString() => ToClass();
+
+    private static string BuildClass(ScrollPaddingRule rule)
+    {
+        string cls = ApplySide(rule.Size, rule.Side);
+        if (cls.Length == 0)
+            return string.Empty;
+
+        string bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
+        if (bp.Length != 0)
+            cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, bp);
+
+        if (rule.ModifierChain is { Length: > 0 })
+            cls = BreakpointUtil.ApplyTailwindModifiers(cls, rule.ModifierChain);
+
+        return cls;
+    }
 
     private static string ApplySide(string sizeClass, ElementSideEnum side)
     {

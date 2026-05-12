@@ -7,6 +7,46 @@ namespace Soenneker.Quark;
 public static partial class Border
 {
     /// <summary>
+    /// Applies border width on the horizontal axis (left and right).
+    /// </summary>
+    public static BorderBuilder OnX => new(ElementSideEnum.Horizontal);
+
+    /// <summary>
+    /// Applies border width on the vertical axis (top and bottom).
+    /// </summary>
+    public static BorderBuilder OnY => new(ElementSideEnum.Vertical);
+
+    /// <summary>
+    /// Applies border width from the top side.
+    /// </summary>
+    public static BorderBuilder FromTop => new(ElementSideEnum.Top);
+
+    /// <summary>
+    /// Applies border width from the right side.
+    /// </summary>
+    public static BorderBuilder FromRight => new(ElementSideEnum.Right);
+
+    /// <summary>
+    /// Applies border width from the bottom side.
+    /// </summary>
+    public static BorderBuilder FromBottom => new(ElementSideEnum.Bottom);
+
+    /// <summary>
+    /// Applies border width from the left side.
+    /// </summary>
+    public static BorderBuilder FromLeft => new(ElementSideEnum.Left);
+
+    /// <summary>
+    /// Applies border width from the inline start.
+    /// </summary>
+    public static BorderBuilder FromStart => new(ElementSideEnum.InlineStart);
+
+    /// <summary>
+    /// Applies border width from the inline end.
+    /// </summary>
+    public static BorderBuilder FromEnd => new(ElementSideEnum.InlineEnd);
+
+    /// <summary>
     /// Tailwind default border width utility with no numeric suffix.
     /// </summary>
     public static BorderBuilder Default => new(BorderScaleEnum.Is1Value, allowEmpty: true);

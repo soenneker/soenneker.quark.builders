@@ -12,6 +12,7 @@ namespace Soenneker.Quark;
 public sealed class InsetBuilder : CssBuilderBase<InsetBuilder>
 {
     private readonly List<InsetRule> _rules = new(4);
+    private ElementSideEnum? _pendingSide;
 
     internal InsetBuilder()
     {
@@ -20,6 +21,11 @@ public sealed class InsetBuilder : CssBuilderBase<InsetBuilder>
     internal InsetBuilder(InsetScaleEnum size, BreakpointType? breakpoint = null)
     {
         _rules.Add(new InsetRule(size, ElementSideEnum.All, breakpoint));
+    }
+
+    internal InsetBuilder(ElementSideEnum side)
+    {
+        _pendingSide = side;
     }
 
     internal InsetBuilder(List<InsetRule> rules)
@@ -101,22 +107,16 @@ public sealed class InsetBuilder : CssBuilderBase<InsetBuilder>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private InsetBuilder AddRule(ElementSideEnum side)
     {
-        InsetScaleEnum size = _rules.Count > 0 ? _rules[^1].Size : InsetScaleEnum.Is0;
-        BreakpointType? bp = _rules.Count > 0 ? _rules[^1].Breakpoint : null;
-        string? modifierChain = ConsumePendingModifierChain();
-        if (modifierChain is not { Length: > 0 } && _rules.Count > 0)
-            modifierChain = _rules[^1].ModifierChain;
-        if (_rules.Count > 0 && ReferenceEquals(_rules[^1].Side, ElementSideEnum.All))
-            _rules[^1] = new InsetRule(size, side, bp, modifierChain);
-        else
-            _rules.Add(new InsetRule(size, side, bp, modifierChain));
+        _pendingSide = side;
         return this;
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private InsetBuilder ChainWithSize(InsetScaleEnum scale)
     {
-        _rules.Add(new InsetRule(scale, ElementSideEnum.All, null, ConsumePendingModifierChain()));
+        ElementSideEnum side = _pendingSide ?? ElementSideEnum.All;
+        _pendingSide = null;
+        _rules.Add(new InsetRule(scale, side, null, ConsumePendingModifierChain()));
         return this;
     }
 
@@ -128,16 +128,29 @@ public sealed class InsetBuilder : CssBuilderBase<InsetBuilder>
         for (var i = 0; i < _rules.Count; i++)
         {
             InsetRule rule = _rules[i];
-            string cls = ApplySide(rule.Size.Value, rule.Side);
+            string cls = BuildClass(rule);
             if (cls.Length == 0) continue;
-            string bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
-            if (bp.Length != 0) cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, bp);
-            if (rule.ModifierChain is { Length: > 0 }) cls = BreakpointUtil.ApplyTailwindModifiers(cls, rule.ModifierChain);
             if (!first) sb.Append(' ');
             else first = false;
             sb.Append(cls);
         }
         return sb.ToString();
+    }
+
+    private static string BuildClass(InsetRule rule)
+    {
+        string cls = ApplySide(rule.Size.Value, rule.Side);
+        if (cls.Length == 0)
+            return string.Empty;
+
+        string bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
+        if (bp.Length != 0)
+            cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, bp);
+
+        if (rule.ModifierChain is { Length: > 0 })
+            cls = BreakpointUtil.ApplyTailwindModifiers(cls, rule.ModifierChain);
+
+        return cls;
     }
 
     public override string ToStyle() => string.Empty;

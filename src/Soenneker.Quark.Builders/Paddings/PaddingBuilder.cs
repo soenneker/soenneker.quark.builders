@@ -117,28 +117,7 @@ public sealed class PaddingBuilder : CssBuilderBase<PaddingBuilder>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private PaddingBuilder AddRule(ElementSideEnum side)
     {
-        if (_rules.Count == 0)
-        {
-            _pendingSide = side;
-            return this;
-        }
-
-        string size = _rules.Count > 0 ? _rules[^1].Size : PaddingScaleEnum.Is0Value;
-        BreakpointType? existingBp = _rules.Count > 0 ? _rules[^1].Breakpoint : null;
-        string? modifierChain = ConsumePendingModifierChain();
-        if (modifierChain is not { Length: > 0 } && _rules.Count > 0)
-            modifierChain = _rules[^1].ModifierChain;
-
-        if (_rules.Count > 0 && ReferenceEquals(_rules[^1].Side, ElementSideEnum.All))
-        {
-            // Replace last "All" with specific side using same size/bp
-            _rules[^1] = new PaddingRule(size, side, existingBp, modifierChain);
-        }
-        else
-        {
-            _rules.Add(new PaddingRule(size, side, existingBp, modifierChain));
-        }
-
+        _pendingSide = side;
         return this;
     }
 
@@ -172,17 +151,9 @@ public sealed class PaddingBuilder : CssBuilderBase<PaddingBuilder>
         for (var i = 0; i < _rules.Count; i++)
         {
             PaddingRule rule = _rules[i];
-
-            string cls = ApplySide(rule.Size, rule.Side);
+            string cls = BuildClass(rule);
             if (cls.Length == 0)
                 continue;
-
-            string bpTok = BreakpointUtil.GetBreakpointToken(rule.Breakpoint); // "", "sm", "md", ...
-            if (bpTok.Length != 0)
-                cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, bpTok);
-
-            if (rule.ModifierChain is { Length: > 0 })
-                cls = BreakpointUtil.ApplyTailwindModifiers(cls, rule.ModifierChain);
 
             if (!first) sb.Append(' ');
             else first = false;
@@ -191,6 +162,22 @@ public sealed class PaddingBuilder : CssBuilderBase<PaddingBuilder>
         }
 
         return sb.ToString();
+    }
+
+    private static string BuildClass(PaddingRule rule)
+    {
+        string cls = ApplySide(rule.Size, rule.Side);
+        if (cls.Length == 0)
+            return string.Empty;
+
+        string bpTok = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
+        if (bpTok.Length != 0)
+            cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, bpTok);
+
+        if (rule.ModifierChain is { Length: > 0 })
+            cls = BreakpointUtil.ApplyTailwindModifiers(cls, rule.ModifierChain);
+
+        return cls;
     }
 
     /// <summary>Gets the CSS style string for the current configuration.</summary>

@@ -15,6 +15,7 @@ namespace Soenneker.Quark;
 public sealed class BorderBuilder : CssBuilderBase<BorderBuilder>
 {
     private readonly List<BorderRule> _rules = new(4);
+    private ElementSideEnum? _pendingSide;
 
     internal BorderBuilder()
     {
@@ -24,6 +25,11 @@ public sealed class BorderBuilder : CssBuilderBase<BorderBuilder>
     {
         if (allowEmpty || size.HasContent())
             _rules.Add(new BorderRule(size, ElementSideEnum.All, breakpoint));
+    }
+
+    internal BorderBuilder(ElementSideEnum side)
+    {
+        _pendingSide = side;
     }
 
     internal BorderBuilder(List<BorderRule> rules)
@@ -108,27 +114,16 @@ public sealed class BorderBuilder : CssBuilderBase<BorderBuilder>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private BorderBuilder AddRule(ElementSideEnum side)
     {
-        BreakpointType? pending = null;
-        string size = _rules.Count > 0 ? _rules[^1].Size : BorderScaleEnum.Is0Value;
-        BreakpointType? bp = pending ?? (_rules.Count > 0 ? _rules[^1].Breakpoint : null);
-        string? modifierChain = ConsumePendingModifierChain() ?? (_rules.Count > 0 ? _rules[^1].ModifierChain : null);
-
-        if (_rules.Count > 0 && ReferenceEquals(_rules[^1].Side, ElementSideEnum.All))
-        {
-            _rules[^1] = new BorderRule(size, side, bp, modifierChain);
-        }
-        else
-        {
-            _rules.Add(new BorderRule(size, side, bp, modifierChain));
-        }
-
+        _pendingSide = side;
         return this;
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private BorderBuilder ChainWithSize(BorderScaleEnum scale)
     {
-        _rules.Add(new BorderRule(scale.Value, ElementSideEnum.All, null, ConsumePendingModifierChain()));
+        ElementSideEnum side = _pendingSide ?? ElementSideEnum.All;
+        _pendingSide = null;
+        _rules.Add(new BorderRule(scale.Value, side, null, ConsumePendingModifierChain()));
         return this;
     }
 
@@ -141,8 +136,11 @@ public sealed class BorderBuilder : CssBuilderBase<BorderBuilder>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private BorderBuilder ChainWithSize(string value, bool allowEmpty)
     {
+        ElementSideEnum side = _pendingSide ?? ElementSideEnum.All;
+        _pendingSide = null;
+
         if (allowEmpty || value.Length != 0)
-            _rules.Add(new BorderRule(value, ElementSideEnum.All, null, ConsumePendingModifierChain()));
+            _rules.Add(new BorderRule(value, side, null, ConsumePendingModifierChain()));
         return this;
     }
 
@@ -160,17 +158,9 @@ public sealed class BorderBuilder : CssBuilderBase<BorderBuilder>
         for (var i = 0; i < _rules.Count; i++)
         {
             BorderRule rule = _rules[i];
-
-            string cls = ApplySide(rule.Size, rule.Side);
+            string cls = BuildClass(rule);
             if (cls.Length == 0)
                 continue;
-
-            string bpTok = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
-            if (bpTok.Length != 0)
-                cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, bpTok);
-
-            if (rule.ModifierChain is { Length: > 0 })
-                cls = BreakpointUtil.ApplyTailwindModifiers(cls, rule.ModifierChain);
 
             if (!first)
                 sb.Append(' ');
@@ -181,6 +171,22 @@ public sealed class BorderBuilder : CssBuilderBase<BorderBuilder>
         }
 
         return sb.ToString();
+    }
+
+    private static string BuildClass(BorderRule rule)
+    {
+        string cls = ApplySide(rule.Size, rule.Side);
+        if (cls.Length == 0)
+            return string.Empty;
+
+        string bpTok = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
+        if (bpTok.Length != 0)
+            cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, bpTok);
+
+        if (rule.ModifierChain is { Length: > 0 })
+            cls = BreakpointUtil.ApplyTailwindModifiers(cls, rule.ModifierChain);
+
+        return cls;
     }
 
     /// <summary>Gets the CSS style string for the current configuration.</summary>

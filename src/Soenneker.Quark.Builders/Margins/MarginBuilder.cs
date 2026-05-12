@@ -12,6 +12,7 @@ namespace Soenneker.Quark;
 public sealed class MarginBuilder : CssBuilderBase<MarginBuilder>
 {
     private readonly List<MarginRule> _rules = new(4);
+    private ElementSideEnum? _pendingSide;
 
     internal MarginBuilder()
     {
@@ -20,6 +21,11 @@ public sealed class MarginBuilder : CssBuilderBase<MarginBuilder>
     internal MarginBuilder(string size, BreakpointType? breakpoint = null)
     {
         _rules.Add(new MarginRule(size, ElementSideEnum.All, breakpoint));
+    }
+
+    internal MarginBuilder(ElementSideEnum side)
+    {
+        _pendingSide = side;
     }
 
     internal MarginBuilder(List<MarginRule> rules)
@@ -107,35 +113,25 @@ public sealed class MarginBuilder : CssBuilderBase<MarginBuilder>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private MarginBuilder AddRule(ElementSideEnum side)
     {
-        string size = _rules.Count > 0 ? _rules[^1].Size : MarginScaleEnum.Is0Value;
-        BreakpointType? existingBp = _rules.Count > 0 ? _rules[^1].Breakpoint : null;
-        string? modifierChain = ConsumePendingModifierChain();
-        if (modifierChain is not { Length: > 0 } && _rules.Count > 0)
-            modifierChain = _rules[^1].ModifierChain;
-
-        if (_rules.Count > 0 && ReferenceEquals(_rules[^1].Side, ElementSideEnum.All))
-        {
-            _rules[^1] = new MarginRule(size, side, existingBp, modifierChain);
-        }
-        else
-        {
-            _rules.Add(new MarginRule(size, side, existingBp, modifierChain));
-        }
-
+        _pendingSide = side;
         return this;
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private MarginBuilder ChainWithSize(string size)
     {
-        _rules.Add(new MarginRule(size, ElementSideEnum.All, null, ConsumePendingModifierChain()));
+        ElementSideEnum side = _pendingSide ?? ElementSideEnum.All;
+        _pendingSide = null;
+        _rules.Add(new MarginRule(size, side, null, ConsumePendingModifierChain()));
         return this;
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private MarginBuilder ChainWithSize(MarginScaleEnum scale)
     {
-        _rules.Add(new MarginRule(scale.Value, ElementSideEnum.All, null, ConsumePendingModifierChain()));
+        ElementSideEnum side = _pendingSide ?? ElementSideEnum.All;
+        _pendingSide = null;
+        _rules.Add(new MarginRule(scale.Value, side, null, ConsumePendingModifierChain()));
         return this;
     }
 
@@ -151,17 +147,9 @@ public sealed class MarginBuilder : CssBuilderBase<MarginBuilder>
         for (var i = 0; i < _rules.Count; i++)
         {
             MarginRule rule = _rules[i];
-
-            string cls = ApplySide(rule.Size, rule.Side);
+            string cls = BuildClass(rule);
             if (cls.Length == 0)
                 continue;
-
-            string bpTok = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
-            if (bpTok.Length != 0)
-                cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, bpTok);
-
-            if (rule.ModifierChain is { Length: > 0 })
-                cls = BreakpointUtil.ApplyTailwindModifiers(cls, rule.ModifierChain);
 
             if (!first)
                 sb.Append(' ');
@@ -172,6 +160,22 @@ public sealed class MarginBuilder : CssBuilderBase<MarginBuilder>
         }
 
         return sb.ToString();
+    }
+
+    private static string BuildClass(MarginRule rule)
+    {
+        string cls = ApplySide(rule.Size, rule.Side);
+        if (cls.Length == 0)
+            return string.Empty;
+
+        string bpTok = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
+        if (bpTok.Length != 0)
+            cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, bpTok);
+
+        if (rule.ModifierChain is { Length: > 0 })
+            cls = BreakpointUtil.ApplyTailwindModifiers(cls, rule.ModifierChain);
+
+        return cls;
     }
 
     /// <summary>Gets the CSS style string for the current configuration.</summary>

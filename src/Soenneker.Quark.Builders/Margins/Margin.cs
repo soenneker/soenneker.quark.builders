@@ -7,6 +7,46 @@ namespace Soenneker.Quark;
 public static partial class Margin
 {
     /// <summary>
+    /// Applies margin on the horizontal axis (left and right).
+    /// </summary>
+    public static MarginBuilder OnX => new(ElementSideEnum.Horizontal);
+
+    /// <summary>
+    /// Applies margin on the vertical axis (top and bottom).
+    /// </summary>
+    public static MarginBuilder OnY => new(ElementSideEnum.Vertical);
+
+    /// <summary>
+    /// Applies margin from the top side.
+    /// </summary>
+    public static MarginBuilder FromTop => new(ElementSideEnum.Top);
+
+    /// <summary>
+    /// Applies margin from the right side.
+    /// </summary>
+    public static MarginBuilder FromRight => new(ElementSideEnum.Right);
+
+    /// <summary>
+    /// Applies margin from the bottom side.
+    /// </summary>
+    public static MarginBuilder FromBottom => new(ElementSideEnum.Bottom);
+
+    /// <summary>
+    /// Applies margin from the left side.
+    /// </summary>
+    public static MarginBuilder FromLeft => new(ElementSideEnum.Left);
+
+    /// <summary>
+    /// Applies margin from the inline start.
+    /// </summary>
+    public static MarginBuilder FromStart => new(ElementSideEnum.InlineStart);
+
+    /// <summary>
+    /// Applies margin from the inline end.
+    /// </summary>
+    public static MarginBuilder FromEnd => new(ElementSideEnum.InlineEnd);
+
+    /// <summary>
     /// Spacing/sizing scale step `0` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 0` for integer spacing utilities unless overridden).
     /// </summary>
     public static MarginBuilder Is0 => new(MarginScaleEnum.Is0Value);

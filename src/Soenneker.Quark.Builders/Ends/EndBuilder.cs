@@ -44,8 +44,6 @@ public sealed class EndBuilder : CssBuilderBase<EndBuilder>
         return this;
     }
 
-
-
     public override string ToClass()
     {
         if (_rules.Count == 0) return string.Empty;
