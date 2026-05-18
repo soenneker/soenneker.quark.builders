@@ -372,6 +372,7 @@ public sealed class QuarkBuildersTests : HostedUnitTest
         Padding.OnX.Is2.ToClass().Should().Be("px-2");
         Padding.OnY.Is3.ToClass().Should().Be("py-3");
         Padding.OnY.Is14.ToClass().Should().Be("py-14");
+        Padding.OnY.Is20.ToClass().Should().Be("py-20");
         Padding.OnX.Is1_5.ToClass().Should().Be("px-1.5");
         Padding.OnX.Token("1.5").ToClass().Should().Be("px-1.5");
         Padding.Is2.OnX.ToClass().Should().Be("px-2");

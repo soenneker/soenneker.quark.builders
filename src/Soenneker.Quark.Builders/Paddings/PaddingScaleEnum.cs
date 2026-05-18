@@ -23,5 +23,6 @@ public sealed partial class PaddingScaleEnum
     public static readonly PaddingScaleEnum Is12 = new("p-12");
     public static readonly PaddingScaleEnum Is14 = new("p-14");
     public static readonly PaddingScaleEnum Is16 = new("p-16");
+    public static readonly PaddingScaleEnum Is20 = new("p-20");
     public static readonly PaddingScaleEnum IsPx = new("p-px");
 }
