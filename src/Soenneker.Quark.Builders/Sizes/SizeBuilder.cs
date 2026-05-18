@@ -32,6 +32,7 @@ public sealed class SizeBuilder : CssBuilderBase
     /// Spacing/sizing scale step `1` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 1` for integer spacing utilities unless overridden).
     /// </summary>
     public SizeBuilder Is1 => ChainWithValue("size-1");
+    public SizeBuilder Is1_5 => ChainWithValue("size-1.5");
     /// <summary>
     /// Spacing/sizing scale step `2` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 2` for integer spacing utilities unless overridden).
     /// </summary>

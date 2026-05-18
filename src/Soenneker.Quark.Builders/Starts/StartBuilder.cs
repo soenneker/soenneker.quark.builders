@@ -29,6 +29,7 @@ public sealed class StartBuilder : CssBuilderBase<StartBuilder>
 
     public StartBuilder Is0 => Chain(StartEnum.Is0);
     public StartBuilder Is1 => Chain(StartEnum.Is1);
+    public StartBuilder Is1_5 => Chain(StartEnum.Is1_5);
     public StartBuilder Is2 => Chain(StartEnum.Is2);
     public StartBuilder Is3 => Chain(StartEnum.Is3);
     public StartBuilder Is4 => Chain(StartEnum.Is4);

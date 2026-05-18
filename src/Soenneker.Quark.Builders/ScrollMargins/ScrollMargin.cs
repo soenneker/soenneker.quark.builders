@@ -55,6 +55,10 @@ public static partial class ScrollMargin
     /// </summary>
     public static ScrollMarginBuilder Is1 => new(ScrollMarginScaleEnum.Is1Value);
     /// <summary>
+    /// Spacing/sizing scale step `1.5` — uses Tailwind’s default spacing scale.
+    /// </summary>
+    public static ScrollMarginBuilder Is1_5 => new(ScrollMarginScaleEnum.Is1_5Value);
+    /// <summary>
     /// Spacing/sizing scale step `2` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 2` for integer spacing utilities unless overridden).
     /// </summary>
     public static ScrollMarginBuilder Is2 => new(ScrollMarginScaleEnum.Is2Value);

@@ -55,6 +55,10 @@ public static partial class ScrollPadding
     /// </summary>
     public static ScrollPaddingBuilder Is1 => new(ScrollPaddingScaleEnum.Is1Value);
     /// <summary>
+    /// Spacing/sizing scale step `1.5` — uses Tailwind’s default spacing scale.
+    /// </summary>
+    public static ScrollPaddingBuilder Is1_5 => new(ScrollPaddingScaleEnum.Is1_5Value);
+    /// <summary>
     /// Spacing/sizing scale step `2` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 2` for integer spacing utilities unless overridden).
     /// </summary>
     public static ScrollPaddingBuilder Is2 => new(ScrollPaddingScaleEnum.Is2Value);

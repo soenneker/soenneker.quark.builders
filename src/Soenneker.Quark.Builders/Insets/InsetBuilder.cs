@@ -80,6 +80,10 @@ public sealed class InsetBuilder : CssBuilderBase<InsetBuilder>
     /// </summary>
     public InsetBuilder Is1 => ChainWithSize(InsetScaleEnum.Is1);
     /// <summary>
+    /// Spacing/sizing scale step `1.5` — uses Tailwind’s default spacing scale.
+    /// </summary>
+    public InsetBuilder Is1_5 => ChainWithSize(InsetScaleEnum.Is1_5);
+    /// <summary>
     /// Spacing/sizing scale step `2` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 2` for integer spacing utilities unless overridden).
     /// </summary>
     public InsetBuilder Is2 => ChainWithSize(InsetScaleEnum.Is2);
@@ -186,6 +190,7 @@ public sealed class InsetBuilder : CssBuilderBase<InsetBuilder>
     {
         if (ReferenceEquals(size, InsetScaleEnum.Is0)) return "0";
         if (ReferenceEquals(size, InsetScaleEnum.Is1)) return "0.25rem";
+        if (ReferenceEquals(size, InsetScaleEnum.Is1_5)) return "0.375rem";
         if (ReferenceEquals(size, InsetScaleEnum.Is2)) return "0.5rem";
         if (ReferenceEquals(size, InsetScaleEnum.Is3)) return "1rem";
         if (ReferenceEquals(size, InsetScaleEnum.Is4)) return "1.5rem";

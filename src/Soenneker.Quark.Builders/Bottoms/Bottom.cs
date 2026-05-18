@@ -8,6 +8,7 @@ public static partial class Bottom
 {
     public static BottomBuilder Is0 => new(BottomEnum.Is0);
     public static BottomBuilder Is1 => new(BottomEnum.Is1);
+    public static BottomBuilder Is1_5 => new(BottomEnum.Is1_5);
     public static BottomBuilder Is2 => new(BottomEnum.Is2);
     public static BottomBuilder Is3 => new(BottomEnum.Is3);
     public static BottomBuilder Is4 => new(BottomEnum.Is4);

@@ -34,6 +34,7 @@ public sealed class BottomBuilder : CssBuilderBase<BottomBuilder>
 
     public BottomBuilder Is0 => Chain(BottomEnum.Is0);
     public BottomBuilder Is1 => Chain(BottomEnum.Is1);
+    public BottomBuilder Is1_5 => Chain(BottomEnum.Is1_5);
     public BottomBuilder Is2 => Chain(BottomEnum.Is2);
     public BottomBuilder Is3 => Chain(BottomEnum.Is3);
     public BottomBuilder Is4 => Chain(BottomEnum.Is4);

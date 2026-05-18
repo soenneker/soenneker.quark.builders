@@ -34,6 +34,7 @@ public sealed class RightBuilder : CssBuilderBase<RightBuilder>
 
     public RightBuilder Is0 => Chain(RightEnum.Is0);
     public RightBuilder Is1 => Chain(RightEnum.Is1);
+    public RightBuilder Is1_5 => Chain(RightEnum.Is1_5);
     public RightBuilder Is2 => Chain(RightEnum.Is2);
     public RightBuilder Is3 => Chain(RightEnum.Is3);
     public RightBuilder Is4 => Chain(RightEnum.Is4);

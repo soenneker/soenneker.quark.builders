@@ -15,6 +15,10 @@ public static partial class Start
     /// </summary>
     public static StartBuilder Is1 => new(StartEnum.Is1);
     /// <summary>
+    /// Spacing/sizing scale step `1.5` — uses Tailwind’s default spacing scale.
+    /// </summary>
+    public static StartBuilder Is1_5 => new(StartEnum.Is1_5);
+    /// <summary>
     /// Spacing/sizing scale step `2` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 2` for integer spacing utilities unless overridden).
     /// </summary>
     public static StartBuilder Is2 => new(StartEnum.Is2);

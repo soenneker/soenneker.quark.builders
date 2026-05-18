@@ -8,6 +8,7 @@ public static partial class Top
 {
     public static TopBuilder Is0 => new(TopEnum.Is0);
     public static TopBuilder Is1 => new(TopEnum.Is1);
+    public static TopBuilder Is1_5 => new(TopEnum.Is1_5);
     public static TopBuilder Is1of2 => new(TopEnum.Is1of2);
     public static TopBuilder Is1of3 => new(TopEnum.Is1of3);
     public static TopBuilder Is2 => new(TopEnum.Is2);

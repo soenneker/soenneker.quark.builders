@@ -80,6 +80,10 @@ public sealed class ScrollPaddingBuilder : CssBuilderBase<ScrollPaddingBuilder>
     /// </summary>
     public ScrollPaddingBuilder Is1 => ChainWithSize(ScrollPaddingScaleEnum.Is1);
     /// <summary>
+    /// Spacing/sizing scale step `1.5` — uses Tailwind’s default spacing scale.
+    /// </summary>
+    public ScrollPaddingBuilder Is1_5 => ChainWithSize(ScrollPaddingScaleEnum.Is1_5);
+    /// <summary>
     /// Spacing/sizing scale step `2` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 2` for integer spacing utilities unless overridden).
     /// </summary>
     public ScrollPaddingBuilder Is2 => ChainWithSize(ScrollPaddingScaleEnum.Is2);

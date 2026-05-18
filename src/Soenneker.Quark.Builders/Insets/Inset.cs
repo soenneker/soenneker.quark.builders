@@ -55,6 +55,10 @@ public static partial class Inset
     /// </summary>
     public static InsetBuilder Is1 => new(InsetScaleEnum.Is1);
     /// <summary>
+    /// Spacing/sizing scale step `1.5` — uses Tailwind’s default spacing scale.
+    /// </summary>
+    public static InsetBuilder Is1_5 => new(InsetScaleEnum.Is1_5);
+    /// <summary>
     /// Spacing/sizing scale step `2` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 2` for integer spacing utilities unless overridden).
     /// </summary>
     public static InsetBuilder Is2 => new(InsetScaleEnum.Is2);

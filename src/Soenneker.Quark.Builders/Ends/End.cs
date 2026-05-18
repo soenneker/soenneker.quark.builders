@@ -15,6 +15,10 @@ public static partial class End
     /// </summary>
     public static EndBuilder Is1 => new(EndEnum.Is1);
     /// <summary>
+    /// Spacing/sizing scale step `1.5` — uses Tailwind’s default spacing scale.
+    /// </summary>
+    public static EndBuilder Is1_5 => new(EndEnum.Is1_5);
+    /// <summary>
     /// Spacing/sizing scale step `2` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 2` for integer spacing utilities unless overridden).
     /// </summary>
     public static EndBuilder Is2 => new(EndEnum.Is2);

@@ -42,6 +42,11 @@ public static partial class Space
         public static SpaceBuilder Is1 => new(SpaceEnum.X1);
 
         /// <summary>
+        /// Spacing/sizing scale step `1.5` — uses Tailwind’s default spacing scale.
+        /// </summary>
+        public static SpaceBuilder Is1_5 => new(SpaceEnum.X1_5);
+
+        /// <summary>
         /// Spacing/sizing scale step `2` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 2` for integer spacing utilities unless overridden).
         /// </summary>
         public static SpaceBuilder Is2 => new(SpaceEnum.X2);
@@ -94,6 +99,11 @@ public static partial class Space
         /// Spacing/sizing scale step `1` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 1` for integer spacing utilities unless overridden).
         /// </summary>
         public static SpaceBuilder Is1 => new(SpaceEnum.Y1);
+
+        /// <summary>
+        /// Spacing/sizing scale step `1.5` — uses Tailwind’s default spacing scale.
+        /// </summary>
+        public static SpaceBuilder Is1_5 => new(SpaceEnum.Y1_5);
 
         /// <summary>
         /// Spacing/sizing scale step `2` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 2` for integer spacing utilities unless overridden).

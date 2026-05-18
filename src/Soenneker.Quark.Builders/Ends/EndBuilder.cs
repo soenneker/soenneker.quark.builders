@@ -29,6 +29,7 @@ public sealed class EndBuilder : CssBuilderBase<EndBuilder>
 
     public EndBuilder Is0 => Chain(EndEnum.Is0);
     public EndBuilder Is1 => Chain(EndEnum.Is1);
+    public EndBuilder Is1_5 => Chain(EndEnum.Is1_5);
     public EndBuilder Is2 => Chain(EndEnum.Is2);
     public EndBuilder Is3 => Chain(EndEnum.Is3);
     public EndBuilder Is4 => Chain(EndEnum.Is4);

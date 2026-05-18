@@ -8,6 +8,7 @@ public static partial class Right
 {
     public static RightBuilder Is0 => new(RightEnum.Is0);
     public static RightBuilder Is1 => new(RightEnum.Is1);
+    public static RightBuilder Is1_5 => new(RightEnum.Is1_5);
     public static RightBuilder Is2 => new(RightEnum.Is2);
     public static RightBuilder Is3 => new(RightEnum.Is3);
     public static RightBuilder Is4 => new(RightEnum.Is4);

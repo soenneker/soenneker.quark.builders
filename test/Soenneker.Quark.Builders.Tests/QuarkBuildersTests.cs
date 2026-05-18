@@ -433,6 +433,8 @@ public sealed class QuarkBuildersTests : HostedUnitTest
         Space.Token("y-3").ToClass().Should().Be("space-y-3");
         Space.Token("space-y-3").ToClass().Should().Be("space-y-3");
         Space.Y.Token("2").ToClass().Should().Be("space-y-2");
+        Space.X.Is1_5.ToClass().Should().Be("space-x-1.5");
+        Space.Y.Is1_5.ToClass().Should().Be("space-y-1.5");
         Space.X.Is2.Token("4").ToClass().Should().Be("space-x-2 space-x-4");
         Space.Y.Is2.Token("4").ToClass().Should().Be("space-y-2 space-y-4");
     }
@@ -450,7 +452,17 @@ public sealed class QuarkBuildersTests : HostedUnitTest
     {
         Gap.Is1_5.ToClass().Should().Be("gap-1.5");
         Margin.OnX.Negative1.FromTop.Is1_5.ToClass().Should().Be("-mx-1 mt-1.5");
-        Size.Is3_5.Is4_5.Is6_5.ToClass().Should().Be("size-3.5 size-4.5 size-6.5");
+        Padding.Is1_5.ToClass().Should().Be("p-1.5");
+        Inset.Is1_5.FromTop.Is1_5.OnX.Is1_5.ToClass().Should().Be("inset-1.5 top-1.5 inset-x-1.5");
+        Top.Is1_5.ToClass().Should().Be("top-1.5");
+        Right.Is1_5.ToClass().Should().Be("right-1.5");
+        Bottom.Is1_5.ToClass().Should().Be("bottom-1.5");
+        Left.Is1_5.ToClass().Should().Be("left-1.5");
+        Start.Is1_5.ToClass().Should().Be("start-1.5");
+        End.Is1_5.ToClass().Should().Be("end-1.5");
+        ScrollMargin.Is1_5.FromTop.Is1_5.ToClass().Should().Be("scroll-m-1.5 scroll-mt-1.5");
+        ScrollPadding.Is1_5.FromTop.Is1_5.ToClass().Should().Be("scroll-p-1.5 scroll-pt-1.5");
+        Size.Is1_5.Is3_5.Is4_5.Is6_5.ToClass().Should().Be("size-1.5 size-3.5 size-4.5 size-6.5");
         Height.Is0_5.Is5_5.Is72.ToClass().Should().Be("h-0.5 h-5.5 h-72");
         Width.Is0_5.Is64.Is72.ToClass().Should().Be("w-0.5 w-64 w-72");
         Leading.Is4_5.Is6_5.ToClass().Should().Be("leading-4.5 leading-6.5");

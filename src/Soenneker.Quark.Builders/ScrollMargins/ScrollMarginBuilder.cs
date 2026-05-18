@@ -80,6 +80,10 @@ public sealed class ScrollMarginBuilder : CssBuilderBase<ScrollMarginBuilder>
     /// </summary>
     public ScrollMarginBuilder Is1 => ChainWithSize(ScrollMarginScaleEnum.Is1);
     /// <summary>
+    /// Spacing/sizing scale step `1.5` — uses Tailwind’s default spacing scale.
+    /// </summary>
+    public ScrollMarginBuilder Is1_5 => ChainWithSize(ScrollMarginScaleEnum.Is1_5);
+    /// <summary>
     /// Spacing/sizing scale step `2` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 2` for integer spacing utilities unless overridden).
     /// </summary>
     public ScrollMarginBuilder Is2 => ChainWithSize(ScrollMarginScaleEnum.Is2);
