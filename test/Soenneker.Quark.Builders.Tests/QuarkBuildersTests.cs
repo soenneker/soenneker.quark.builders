@@ -13,7 +13,7 @@ public sealed class QuarkBuildersTests : HostedUnitTest
     [Test]
     public void ButtonSizeBuilder_builds_responsive_size_classes()
     {
-        string result = ButtonSizes.Default.OnMd.IconSm.ToClass();
+        string result = ButtonSize.Default.OnMd.IconSm.ToClass();
 
         result.Should().Be("h-8 gap-1.5 rounded-lg px-2.5 has-data-[icon=inline-end]:pr-2 has-data-[icon=inline-start]:pl-2 md:size-7 md:rounded-[min(var(--radius-md),12px)] md:in-data-[slot=button-group]:rounded-lg");
     }
@@ -21,7 +21,7 @@ public sealed class QuarkBuildersTests : HostedUnitTest
     [Test]
     public void ButtonSizeBuilder_builds_multiple_responsive_size_classes()
     {
-        string result = ButtonSizes.Xs.OnLg.Sm.On2xl.Lg.ToClass();
+        string result = ButtonSize.Xs.OnLg.Sm.On2xl.Lg.ToClass();
 
         result.Should().Contain("h-6");
         result.Should().Contain("text-xs");
@@ -55,14 +55,14 @@ public sealed class QuarkBuildersTests : HostedUnitTest
     [Test]
     public void ButtonSizeBuilder_css_value_to_string_uses_enum_class_values()
     {
-        CssValue<ButtonSizeBuilder> defaultSize = ButtonSizes.Default;
-        CssValue<ButtonSizeBuilder> xs = ButtonSizes.Xs;
-        CssValue<ButtonSizeBuilder> sm = ButtonSizes.Sm;
-        CssValue<ButtonSizeBuilder> lg = ButtonSizes.Lg;
-        CssValue<ButtonSizeBuilder> icon = ButtonSizes.Icon;
-        CssValue<ButtonSizeBuilder> iconXs = ButtonSizes.IconXs;
-        CssValue<ButtonSizeBuilder> iconSm = ButtonSizes.IconSm;
-        CssValue<ButtonSizeBuilder> iconLg = ButtonSizes.IconLg;
+        CssValue<ButtonSizeBuilder> defaultSize = ButtonSize.Default;
+        CssValue<ButtonSizeBuilder> xs = ButtonSize.Xs;
+        CssValue<ButtonSizeBuilder> sm = ButtonSize.Sm;
+        CssValue<ButtonSizeBuilder> lg = ButtonSize.Lg;
+        CssValue<ButtonSizeBuilder> icon = ButtonSize.Icon;
+        CssValue<ButtonSizeBuilder> iconXs = ButtonSize.IconXs;
+        CssValue<ButtonSizeBuilder> iconSm = ButtonSize.IconSm;
+        CssValue<ButtonSizeBuilder> iconLg = ButtonSize.IconLg;
 
         defaultSize.ToString().Should().Be(ButtonSizeEnum.Default.Class);
         xs.ToString().Should().Be(ButtonSizeEnum.Xs.Class);

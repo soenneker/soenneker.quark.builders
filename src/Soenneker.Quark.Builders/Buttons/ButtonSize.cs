@@ -4,7 +4,7 @@ namespace Soenneker.Quark;
 /// Entry points for responsive shadcn-style button sizing.
 /// </summary>
 [TailwindModifiers(typeof(ButtonSizeBuilder))]
-public static partial class ButtonSizes
+public static partial class ButtonSize
 {
     public static ButtonSizeBuilder Default => new(ButtonSizeEnum.Default);
     public static ButtonSizeBuilder Xs => new(ButtonSizeEnum.Xs);
