@@ -15,7 +15,20 @@ public sealed class QuarkBuildersTests : HostedUnitTest
     {
         string result = ButtonSizes.Default.OnMd.IconSm.ToClass();
 
-        result.Should().Be("h-8 gap-1.5 px-2.5 has-data-[icon=inline-end]:pr-2 has-data-[icon=inline-start]:pl-2 md:size-7 md:rounded-[min(var(--radius-md),12px)] md:in-data-[slot=button-group]:rounded-lg");
+        result.Should().Be("h-8 gap-1.5 rounded-lg px-2.5 has-data-[icon=inline-end]:pr-2 has-data-[icon=inline-start]:pl-2 md:size-7 md:rounded-[min(var(--radius-md),12px)] md:in-data-[slot=button-group]:rounded-lg");
+    }
+
+    [Test]
+    public void ButtonSizeBuilder_builds_multiple_responsive_size_classes()
+    {
+        string result = ButtonSizes.Xs.OnLg.Sm.On2xl.Lg.ToClass();
+
+        result.Should().Contain("h-6");
+        result.Should().Contain("text-xs");
+        result.Should().Contain("lg:h-7");
+        result.Should().Contain("lg:text-[0.8rem]");
+        result.Should().Contain("2xl:h-9");
+        result.Should().Contain("2xl:px-2.5");
     }
 
     [Test]
