@@ -371,6 +371,7 @@ public sealed class QuarkBuildersTests : HostedUnitTest
     {
         Padding.OnX.Is2.ToClass().Should().Be("px-2");
         Padding.OnY.Is3.ToClass().Should().Be("py-3");
+        Padding.OnY.Is14.ToClass().Should().Be("py-14");
         Padding.OnX.Is1_5.ToClass().Should().Be("px-1.5");
         Padding.OnX.Token("1.5").ToClass().Should().Be("px-1.5");
         Padding.Is2.OnX.ToClass().Should().Be("px-2");
@@ -379,6 +380,24 @@ public sealed class QuarkBuildersTests : HostedUnitTest
         Padding.Token("1.5").OnX.Is4.OnY.ToClass().Should().Be("px-1.5 py-4");
         Padding.OnX.Is2.OnY.ToClass().Should().Be("px-2");
         Padding.OnX.Is2.OnY.Is1.ToClass().Should().Be("px-2 py-1");
+    }
+
+    [Test]
+    public void SpaceBuilder_token_accepts_axis_or_full_utility_tokens()
+    {
+        Space.Token("y-3").ToClass().Should().Be("space-y-3");
+        Space.Token("space-y-3").ToClass().Should().Be("space-y-3");
+        Space.Y.Token("2").ToClass().Should().Be("space-y-2");
+        Space.X.Is2.Token("4").ToClass().Should().Be("space-x-2 space-x-4");
+        Space.Y.Is2.Token("4").ToClass().Should().Be("space-y-2 space-y-4");
+    }
+
+    [Test]
+    public void BackdropFilterBuilder_token_accepts_suffix_or_full_utility_tokens()
+    {
+        BackdropFilter.Token("blur-xl").ToClass().Should().Be("backdrop-blur-xl");
+        BackdropFilter.Token("backdrop-blur-xl").ToClass().Should().Be("backdrop-blur-xl");
+        BackdropFilter.Blur.Token("brightness-95").ToClass().Should().Be("backdrop-blur backdrop-brightness-95");
     }
 
     [Test]

@@ -77,9 +77,9 @@ public sealed class BackdropFilterBuilder : CssBuilderBase<BackdropFilterBuilder
     public BackdropFilterBuilder Sepia => ChainWithFilter(BackdropFilterEnum.Sepia);
 
     /// <summary>
-    /// Applies an exact Tailwind backdrop-filter utility token, e.g. "backdrop-blur".
+    /// Applies an exact Tailwind backdrop-filter utility token, e.g. "blur-xl" or "backdrop-blur-xl".
     /// </summary>
-    public BackdropFilterBuilder Token(string token) => ChainWithFilter(token);
+    public BackdropFilterBuilder Token(string token) => ChainWithFilter(BackdropFilter.NormalizeToken(token));
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private BackdropFilterBuilder ChainWithFilter(BackdropFilterEnum filter)

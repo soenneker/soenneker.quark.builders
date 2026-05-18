@@ -86,6 +86,7 @@ public static partial class Padding
     public static PaddingBuilder Is9 => new(PaddingScaleEnum.Is9Value);
     public static PaddingBuilder Is10 => new(PaddingScaleEnum.Is10Value);
     public static PaddingBuilder Is12 => new(PaddingScaleEnum.Is12Value);
+    public static PaddingBuilder Is14 => new(PaddingScaleEnum.Is14Value);
     /// <summary>
     /// Spacing/sizing scale step `16` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 16` for integer spacing utilities unless overridden).
     /// </summary>

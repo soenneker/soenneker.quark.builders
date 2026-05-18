@@ -40,8 +40,8 @@ public sealed class SpaceBuilder : CssBuilderBase<SpaceBuilder>
     /// <param name="value">Suffix/token after the utility prefix (see Tailwind docs for this family).</param>
     public SpaceBuilder Token(string value)
     {
-        string prefix = _rules.Count > 0 && _rules[^1].Value.StartsWith("space-y", System.StringComparison.Ordinal) ? "space-y-" : "space-x-";
-        return ChainClass(prefix + value);
+        bool preferY = _rules.Count > 0 && _rules[^1].Value.StartsWith("space-y", System.StringComparison.Ordinal);
+        return ChainClass(Space.NormalizeToken(value, preferY));
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]

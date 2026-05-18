@@ -56,4 +56,17 @@ public static partial class BackdropFilter
     /// Backdrop sepia filter (sepia).
     /// </summary>
     public static BackdropFilterBuilder Sepia => new(BackdropFilterEnum.Sepia);
+
+    /// <summary>
+    /// Applies an exact Tailwind backdrop-filter utility token, e.g. "blur-xl" or "backdrop-blur-xl".
+    /// </summary>
+    public static BackdropFilterBuilder Token(string token) => new(NormalizeToken(token));
+
+    internal static string NormalizeToken(string token)
+    {
+        if (token.Length == 0)
+            return string.Empty;
+
+        return token.StartsWith("backdrop-") ? token : "backdrop-" + token;
+    }
 }

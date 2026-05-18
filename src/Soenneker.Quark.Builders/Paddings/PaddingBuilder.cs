@@ -111,6 +111,7 @@ public sealed class PaddingBuilder : CssBuilderBase<PaddingBuilder>
     public PaddingBuilder Is9 => ChainWithSize(PaddingScaleEnum.Is9);
     public PaddingBuilder Is10 => ChainWithSize(PaddingScaleEnum.Is10);
     public PaddingBuilder Is12 => ChainWithSize(PaddingScaleEnum.Is12);
+    public PaddingBuilder Is14 => ChainWithSize(PaddingScaleEnum.Is14);
     /// <summary>
     /// Spacing/sizing scale step `16` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 16` for integer spacing utilities unless overridden).
     /// </summary>
