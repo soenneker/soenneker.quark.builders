@@ -8,7 +8,7 @@ namespace Soenneker.Quark;
 /// Caret color builder for text inputs. Tailwind: caret-primary, caret-transparent, caret-*.
 /// </summary>
 [TailwindPrefix("caret-", Responsive = true)]
-public sealed class CaretColorBuilder : CssBuilderBase<CaretColorBuilder>
+public sealed class CaretColorBuilder : ColorBuilderBase<CaretColorBuilder>
 {
     private const string Prefix = "caret-";
 
@@ -49,7 +49,7 @@ public sealed class CaretColorBuilder : CssBuilderBase<CaretColorBuilder>
     public CaretColorBuilder Current => Chain(CaretColorEnum.Current);
 
 
-    public CaretColorBuilder Token(string token) => ChainClass(ColorUtility.CreateClass(Prefix, token));
+    public override CaretColorBuilder Token(string token) => ChainClass(ColorUtility.CreateClass(Prefix, token));
 
     public CaretColorBuilder Utility(string utility) => ChainClass(ColorUtility.CreateUtilityClass(Prefix, utility));
 

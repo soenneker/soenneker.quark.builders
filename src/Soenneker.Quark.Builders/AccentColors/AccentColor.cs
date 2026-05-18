@@ -3,7 +3,7 @@ namespace Soenneker.Quark;
 /// <summary>
 /// Static utility for accent color. Tailwind: accent-*.
 /// </summary>
-[TailwindModifiers(typeof(AccentColorBuilder))]
+[TailwindModifiers(typeof(AccentColorBuilder), IncludeColorPalettes = true)]
 public static partial class AccentColor
 {
     /// <summary>
@@ -26,7 +26,7 @@ public static partial class AccentColor
     /// <summary>
     /// Creates an accent color builder from a Tailwind color token suffix such as <c>blue-500</c> or <c>[var(--brand)]</c>.
     /// </summary>
-    public static AccentColorBuilder Token(string token) => new(token);
+    public static AccentColorBuilder Token(string token) => new(ColorUtility.CreateClass("accent-", token));
 
     /// <summary>
     /// Passes through a fully-prefixed Tailwind utility such as <c>accent-blue-500</c>.

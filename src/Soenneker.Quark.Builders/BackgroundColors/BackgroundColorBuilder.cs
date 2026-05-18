@@ -5,7 +5,7 @@ using Soenneker.Utils.PooledStringBuilders;
 namespace Soenneker.Quark;
 
 [TailwindPrefix("bg-", Responsive = true)]
-public sealed class BackgroundColorBuilder : CssBuilderBase<BackgroundColorBuilder>
+public sealed class BackgroundColorBuilder : ColorBuilderBase<BackgroundColorBuilder>
 {
     private const string Prefix = "bg-";
 
@@ -47,7 +47,7 @@ public sealed class BackgroundColorBuilder : CssBuilderBase<BackgroundColorBuild
     public BackgroundColorBuilder Black => ChainValue(BackgroundColorEnum.Black);
     public BackgroundColorBuilder Transparent => ChainValue(BackgroundColorEnum.Transparent);
 
-    public BackgroundColorBuilder Token(string token) => ChainClass(ColorUtility.CreateClass(Prefix, token));
+    public override BackgroundColorBuilder Token(string token) => ChainClass(ColorUtility.CreateClass(Prefix, token));
 
     public BackgroundColorBuilder Utility(string utility) => ChainClass(ColorUtility.CreateUtilityClass(Prefix, utility));
 

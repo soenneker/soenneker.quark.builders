@@ -3,7 +3,7 @@ namespace Soenneker.Quark;
 /// <summary>
 /// Text color utility with fluent API aligned with shadcn/Tailwind semantic tokens.
 /// </summary>
-[TailwindModifiers(typeof(TextColorBuilder))]
+[TailwindModifiers(typeof(TextColorBuilder), IncludeColorPalettes = true)]
 public static partial class TextColor
 {
     public static TextColorBuilder Primary => new(TextColorEnum.Primary);
@@ -24,7 +24,7 @@ public static partial class TextColor
     /// <summary>
     /// Creates a text color builder from a Tailwind color token suffix such as <c>primary/80</c>, <c>zinc-700</c>, or <c>[var(--brand)]</c>.
     /// </summary>
-    public static TextColorBuilder Token(string token) => new(token);
+    public static TextColorBuilder Token(string token) => new(ColorUtility.CreateClass("text-", token));
 
     /// <summary>
     /// Passes through a fully-prefixed Tailwind utility such as <c>text-primary/80</c>.

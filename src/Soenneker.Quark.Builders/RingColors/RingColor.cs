@@ -3,7 +3,7 @@ namespace Soenneker.Quark;
 /// <summary>
 /// Ring color utility with fluent API aligned with shadcn/Tailwind semantic tokens.
 /// </summary>
-[TailwindModifiers(typeof(RingColorBuilder))]
+[TailwindModifiers(typeof(RingColorBuilder), IncludeColorPalettes = true)]
 public static partial class RingColor
 {
     /// <summary>

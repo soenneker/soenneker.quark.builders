@@ -5,7 +5,7 @@ using Soenneker.Utils.PooledStringBuilders;
 namespace Soenneker.Quark;
 
 [TailwindPrefix("text-", Responsive = true)]
-public sealed class TextColorBuilder : CssBuilderBase<TextColorBuilder>
+public sealed class TextColorBuilder : ColorBuilderBase<TextColorBuilder>
 {
     private const string Prefix = "text-";
 
@@ -47,7 +47,7 @@ public sealed class TextColorBuilder : CssBuilderBase<TextColorBuilder>
     public TextColorBuilder White => ChainValue(TextColorEnum.White);
     public TextColorBuilder Black => ChainValue(TextColorEnum.Black);
 
-    public TextColorBuilder Token(string token) => ChainClass(ColorUtility.CreateClass(Prefix, token));
+    public override TextColorBuilder Token(string token) => ChainClass(ColorUtility.CreateClass(Prefix, token));
 
     public TextColorBuilder Utility(string utility) => ChainClass(ColorUtility.CreateUtilityClass(Prefix, utility));
 

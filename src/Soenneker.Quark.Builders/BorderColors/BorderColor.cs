@@ -3,7 +3,7 @@ namespace Soenneker.Quark;
 /// <summary>
 /// Border color utility with fluent API aligned with shadcn/Tailwind semantic tokens.
 /// </summary>
-[TailwindModifiers(typeof(BorderColorBuilder))]
+[TailwindModifiers(typeof(BorderColorBuilder), IncludeColorPalettes = true)]
 public static partial class BorderColor
 {
     public static BorderColorBuilder Primary => new(BorderColorEnum.Primary);
@@ -25,7 +25,7 @@ public static partial class BorderColor
     /// <summary>
     /// Creates a border color builder from a Tailwind color token suffix such as <c>primary/30</c>, <c>zinc-300</c>, or <c>[var(--brand)]</c>.
     /// </summary>
-    public static BorderColorBuilder Token(string token) => new(token);
+    public static BorderColorBuilder Token(string token) => new(ColorUtility.CreateClass("border-", token));
 
     /// <summary>
     /// Passes through a fully-prefixed Tailwind utility such as <c>border-primary/30</c>.

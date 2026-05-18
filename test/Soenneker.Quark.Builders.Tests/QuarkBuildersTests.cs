@@ -77,6 +77,50 @@ public sealed class QuarkBuildersTests : HostedUnitTest
     }
 
     [Test]
+    public void Color_builders_support_static_palette_token_entrypoints()
+    {
+        BackgroundColor.Token("neutral-100").ToClass().Should().Be("bg-neutral-100");
+        TextColor.Token("neutral-900").ToClass().Should().Be("text-neutral-900");
+        AccentColor.Token("blue-500").ToClass().Should().Be("accent-blue-500");
+        BorderColor.Token("zinc-300").ToClass().Should().Be("border-zinc-300");
+        CaretColor.Token("rose-500").ToClass().Should().Be("caret-rose-500");
+    }
+
+    [Test]
+    public void Color_builders_support_palette_family_shade_entrypoints()
+    {
+        BorderColor.Neutral.Is800.ToClass().Should().Be("border-neutral-800");
+        TextColor.Slate.Is50.ToClass().Should().Be("text-slate-50");
+        BackgroundColor.Neutral.Is100.ToClass().Should().Be("bg-neutral-100");
+        RingColor.Blue.Is500.ToClass().Should().Be("ring-blue-500");
+        AccentColor.Emerald.Is600.ToClass().Should().Be("accent-emerald-600");
+        CaretColor.Rose.Is950.ToClass().Should().Be("caret-rose-950");
+    }
+
+    [Test]
+    public void Color_palette_builders_support_all_tailwind_shades()
+    {
+        TextColor.Slate.Is50.ToClass().Should().Be("text-slate-50");
+        TextColor.Slate.Is100.ToClass().Should().Be("text-slate-100");
+        TextColor.Slate.Is200.ToClass().Should().Be("text-slate-200");
+        TextColor.Slate.Is300.ToClass().Should().Be("text-slate-300");
+        TextColor.Slate.Is400.ToClass().Should().Be("text-slate-400");
+        TextColor.Slate.Is500.ToClass().Should().Be("text-slate-500");
+        TextColor.Slate.Is600.ToClass().Should().Be("text-slate-600");
+        TextColor.Slate.Is700.ToClass().Should().Be("text-slate-700");
+        TextColor.Slate.Is800.ToClass().Should().Be("text-slate-800");
+        TextColor.Slate.Is900.ToClass().Should().Be("text-slate-900");
+        TextColor.Slate.Is950.ToClass().Should().Be("text-slate-950");
+    }
+
+    [Test]
+    public void Color_palette_builders_support_pending_variants()
+    {
+        BorderColor.OnHover.Neutral.Is800.ToClass().Should().Be("hover:border-neutral-800");
+        TextColor.OnDark.OnFocus.Slate.Is50.ToClass().Should().Be("dark:focus:text-slate-50");
+    }
+
+    [Test]
     public void BackgroundColorBuilder_supports_foreground_token()
     {
         string result = BackgroundColor.Foreground.OnDark.Primary.ToClass();

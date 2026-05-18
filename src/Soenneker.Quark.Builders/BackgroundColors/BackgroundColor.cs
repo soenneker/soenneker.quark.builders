@@ -3,7 +3,7 @@ namespace Soenneker.Quark;
 /// <summary>
 /// Background color utility with fluent API aligned with shadcn/Tailwind semantic tokens.
 /// </summary>
-[TailwindModifiers(typeof(BackgroundColorBuilder))]
+[TailwindModifiers(typeof(BackgroundColorBuilder), IncludeColorPalettes = true)]
 public static partial class BackgroundColor
 {
     public static BackgroundColorBuilder Primary => new(BackgroundColorEnum.Primary);
@@ -23,7 +23,7 @@ public static partial class BackgroundColor
     /// <summary>
     /// Creates a background color builder from a Tailwind color token suffix such as <c>primary/20</c>, <c>zinc-900</c>, or <c>[var(--brand)]</c>.
     /// </summary>
-    public static BackgroundColorBuilder Token(string token) => new(token);
+    public static BackgroundColorBuilder Token(string token) => new(ColorUtility.CreateClass("bg-", token));
 
     /// <summary>
     /// Passes through a fully-prefixed Tailwind utility such as <c>bg-primary/20</c>.

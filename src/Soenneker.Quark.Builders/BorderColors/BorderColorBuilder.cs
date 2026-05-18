@@ -5,7 +5,7 @@ using Soenneker.Utils.PooledStringBuilders;
 namespace Soenneker.Quark;
 
 [TailwindPrefix("border-", Responsive = true)]
-public sealed class BorderColorBuilder : CssBuilderBase<BorderColorBuilder>
+public sealed class BorderColorBuilder : ColorBuilderBase<BorderColorBuilder>
 {
     private const string Prefix = "border-";
 
@@ -50,7 +50,7 @@ public sealed class BorderColorBuilder : CssBuilderBase<BorderColorBuilder>
     public BorderColorBuilder Transparent => ChainValue(BorderColorEnum.Transparent);
 
 
-    public BorderColorBuilder Token(string token) => ChainClass(ColorUtility.CreateClass(Prefix, token));
+    public override BorderColorBuilder Token(string token) => ChainClass(ColorUtility.CreateClass(Prefix, token));
 
     public BorderColorBuilder Utility(string utility) => ChainClass(ColorUtility.CreateUtilityClass(Prefix, utility));
 

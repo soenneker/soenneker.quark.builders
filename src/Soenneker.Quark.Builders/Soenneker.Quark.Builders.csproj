@@ -45,9 +45,9 @@
     <ItemGroup>
         <PackageReference Include="Soenneker.Extensions.String" Version="4.0.675" />
         <PackageReference Include="Soenneker.Quark.Enums.Breakpoints" Version="4.0.44" />
+        <PackageReference Include="Soenneker.Quark.Enums.ColorPalettes" Version="4.0.2" />
         <PackageReference Include="Soenneker.Quark.Enums.DisplayTypes" Version="4.0.54" />
         <PackageReference Include="Soenneker.Quark.Enums.FontStyles" Version="4.0.45" />
-        <PackageReference Include="Soenneker.Quark.Enums.FontWeights" Version="4.0.47" />
         <PackageReference Include="Soenneker.Quark.Enums.HtmlElementTypes" Version="4.0.34" />
         <PackageReference Include="Soenneker.Quark.Enums.ObjectFits" Version="4.0.47" />
         <PackageReference Include="Soenneker.Quark.Enums.Overflows" Version="4.0.48" />
@@ -60,9 +60,9 @@
         <PackageReference Include="Soenneker.Quark.Enums.TextTransforms" Version="4.0.48" />
         <PackageReference Include="Soenneker.Quark.Enums.UserSelects" Version="4.0.47" />
         <PackageReference Include="Soenneker.Quark.Enums.Visibilities" Version="4.0.48" />
-        <PackageReference Include="Soenneker.Quark.Gen.Tailwind.Modifiers" Version="4.0.3">
-          <PrivateAssets>all</PrivateAssets>
-          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-        </PackageReference>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\..\..\soenneker.quark.gen.tailwind.modifiers\src\Soenneker.Quark.Gen.Tailwind.Modifiers\Soenneker.Quark.Gen.Tailwind.Modifiers.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" PrivateAssets="all" />
     </ItemGroup>
 </Project>

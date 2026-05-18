@@ -3,7 +3,7 @@ namespace Soenneker.Quark;
 /// <summary>
 /// Static utility for caret color. Tailwind: caret-*.
 /// </summary>
-[TailwindModifiers(typeof(CaretColorBuilder))]
+[TailwindModifiers(typeof(CaretColorBuilder), IncludeColorPalettes = true)]
 public static partial class CaretColor
 {
     /// <summary>
@@ -22,7 +22,7 @@ public static partial class CaretColor
     /// <summary>
     /// Creates a caret color builder from a Tailwind color token suffix such as <c>blue-500</c> or <c>[var(--brand)]</c>.
     /// </summary>
-    public static CaretColorBuilder Token(string token) => new(token);
+    public static CaretColorBuilder Token(string token) => new(ColorUtility.CreateClass("caret-", token));
 
     /// <summary>
     /// Passes through a fully-prefixed Tailwind utility such as <c>caret-blue-500</c>.

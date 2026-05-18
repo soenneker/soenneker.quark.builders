@@ -11,7 +11,7 @@ namespace Soenneker.Quark;
 /// Produces ring color utility classes.
 /// </summary>
 [TailwindPrefix("ring-", Responsive = true)]
-public sealed class RingColorBuilder : CssBuilderBase<RingColorBuilder>
+public sealed class RingColorBuilder : ColorBuilderBase<RingColorBuilder>
 {
     private readonly List<RingColorRule> _rules = new(4);
 
@@ -134,7 +134,7 @@ public sealed class RingColorBuilder : CssBuilderBase<RingColorBuilder>
     /// </summary>
     public RingColorBuilder Black => ChainValue(RingColorEnum.Black);
 
-    public RingColorBuilder Token(string token) => ChainClass(ColorUtility.CreateClass("ring-", token));
+    public override RingColorBuilder Token(string token) => ChainClass(ColorUtility.CreateClass("ring-", token));
 
     public RingColorBuilder Utility(string utility) => ChainClass(ColorUtility.CreateUtilityClass("ring-", utility));
 

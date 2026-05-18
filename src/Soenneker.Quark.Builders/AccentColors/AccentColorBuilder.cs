@@ -8,7 +8,7 @@ namespace Soenneker.Quark;
 /// Accent color builder for form controls. Tailwind: accent-auto, accent-primary, accent-*.
 /// </summary>
 [TailwindPrefix("accent-", Responsive = true)]
-public sealed class AccentColorBuilder : CssBuilderBase<AccentColorBuilder>
+public sealed class AccentColorBuilder : ColorBuilderBase<AccentColorBuilder>
 {
     private const string Prefix = "accent-";
 
@@ -53,7 +53,7 @@ public sealed class AccentColorBuilder : CssBuilderBase<AccentColorBuilder>
     public AccentColorBuilder Current => Chain(AccentColorEnum.Current);
 
 
-    public AccentColorBuilder Token(string token) => ChainClass(ColorUtility.CreateClass(Prefix, token));
+    public override AccentColorBuilder Token(string token) => ChainClass(ColorUtility.CreateClass(Prefix, token));
 
     public AccentColorBuilder Utility(string utility) => ChainClass(ColorUtility.CreateUtilityClass(Prefix, utility));
 
