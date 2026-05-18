@@ -32,6 +32,27 @@ public sealed class QuarkBuildersTests : HostedUnitTest
     }
 
     [Test]
+    public void ButtonSizeEnum_exposes_token_and_class_values()
+    {
+        ButtonSizeEnum.Default.Value.Should().Be("default");
+        ButtonSizeEnum.Default.Class.Should().Contain("h-8");
+        ButtonSizeEnum.Xs.Value.Should().Be("xs");
+        ButtonSizeEnum.Xs.Class.Should().Contain("text-xs");
+        ButtonSizeEnum.Sm.Value.Should().Be("sm");
+        ButtonSizeEnum.Sm.Class.Should().Contain("text-[0.8rem]");
+        ButtonSizeEnum.Lg.Value.Should().Be("lg");
+        ButtonSizeEnum.Lg.Class.Should().Contain("h-9");
+        ButtonSizeEnum.Icon.Value.Should().Be("icon");
+        ButtonSizeEnum.Icon.Class.Should().Be("size-8 rounded-lg");
+        ButtonSizeEnum.IconXs.Value.Should().Be("icon-xs");
+        ButtonSizeEnum.IconXs.Class.Should().Contain("size-6");
+        ButtonSizeEnum.IconSm.Value.Should().Be("icon-sm");
+        ButtonSizeEnum.IconSm.Class.Should().Contain("size-7");
+        ButtonSizeEnum.IconLg.Value.Should().Be("icon-lg");
+        ButtonSizeEnum.IconLg.Class.Should().Be("size-9 rounded-lg");
+    }
+
+    [Test]
     public void ButtonVariant_exposes_token_and_class_values()
     {
         ButtonVariant.Default.Value.Should().Be("default");

@@ -19,7 +19,7 @@ public sealed class ButtonSizeBuilder : CssBuilderBase<ButtonSizeBuilder>
 
     internal ButtonSizeBuilder(ButtonSizeEnum size, BreakpointType? breakpoint = null)
     {
-        _rules.Add(new ButtonSizeRule(size.Value, breakpoint));
+        _rules.Add(new ButtonSizeRule(size.Class, breakpoint));
     }
 
     internal ButtonSizeBuilder(string size, BreakpointType? breakpoint = null)
@@ -50,7 +50,7 @@ public sealed class ButtonSizeBuilder : CssBuilderBase<ButtonSizeBuilder>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private ButtonSizeBuilder Chain(ButtonSizeEnum size)
     {
-        _rules.Add(new ButtonSizeRule(size.Value, null, ConsumePendingModifierChain()));
+        _rules.Add(new ButtonSizeRule(size.Class, null, ConsumePendingModifierChain()));
         return this;
     }
 
