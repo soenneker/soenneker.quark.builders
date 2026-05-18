@@ -32,6 +32,23 @@ public sealed class QuarkBuildersTests : HostedUnitTest
     }
 
     [Test]
+    public void ButtonVariant_exposes_token_and_class_values()
+    {
+        ButtonVariant.Default.Value.Should().Be("default");
+        ButtonVariant.Default.Class.Should().Be("border-transparent bg-primary text-primary-foreground [a]:hover:bg-primary/80");
+        ButtonVariant.Destructive.Value.Should().Be("destructive");
+        ButtonVariant.Destructive.Class.Should().Contain("bg-destructive/10");
+        ButtonVariant.Outline.Value.Should().Be("outline");
+        ButtonVariant.Outline.Class.Should().Contain("border-border");
+        ButtonVariant.Secondary.Value.Should().Be("secondary");
+        ButtonVariant.Secondary.Class.Should().Contain("bg-secondary");
+        ButtonVariant.Ghost.Value.Should().Be("ghost");
+        ButtonVariant.Ghost.Class.Should().Contain("hover:bg-muted");
+        ButtonVariant.Link.Value.Should().Be("link");
+        ButtonVariant.Link.Class.Should().Contain("hover:underline");
+    }
+
+    [Test]
     public void ToggleSizeBuilder_builds_responsive_size_classes()
     {
         string result = ToggleSizes.Default.OnLg.Sm.ToClass();

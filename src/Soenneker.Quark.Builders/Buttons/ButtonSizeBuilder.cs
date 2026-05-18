@@ -17,6 +17,11 @@ public sealed class ButtonSizeBuilder : CssBuilderBase<ButtonSizeBuilder>
     {
     }
 
+    internal ButtonSizeBuilder(ButtonSizeEnum size, BreakpointType? breakpoint = null)
+    {
+        _rules.Add(new ButtonSizeRule(size.Value, breakpoint));
+    }
+
     internal ButtonSizeBuilder(string size, BreakpointType? breakpoint = null)
     {
         _rules.Add(new ButtonSizeRule(size, breakpoint));
@@ -28,19 +33,26 @@ public sealed class ButtonSizeBuilder : CssBuilderBase<ButtonSizeBuilder>
             _rules.AddRange(rules);
     }
 
-    public ButtonSizeBuilder Default => Chain("h-8 gap-1.5 px-2.5 has-data-[icon=inline-end]:pr-2 has-data-[icon=inline-start]:pl-2");
-    public ButtonSizeBuilder Xs => Chain("h-6 gap-1 rounded-[min(var(--radius-md),10px)] px-2 text-xs in-data-[slot=button-group]:rounded-lg has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5 [&_svg:not([class*='size-'])]:size-3");
-    public ButtonSizeBuilder Sm => Chain("h-7 gap-1 rounded-[min(var(--radius-md),12px)] px-2.5 text-[0.8rem] in-data-[slot=button-group]:rounded-lg has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5 [&_svg:not([class*='size-'])]:size-3.5");
-    public ButtonSizeBuilder Lg => Chain("h-9 gap-1.5 px-2.5 has-data-[icon=inline-end]:pr-2 has-data-[icon=inline-start]:pl-2");
-    public ButtonSizeBuilder Icon => Chain("size-8");
-    public ButtonSizeBuilder IconXs => Chain("size-6 rounded-[min(var(--radius-md),10px)] in-data-[slot=button-group]:rounded-lg [&_svg:not([class*='size-'])]:size-3");
-    public ButtonSizeBuilder IconSm => Chain("size-7 rounded-[min(var(--radius-md),12px)] in-data-[slot=button-group]:rounded-lg");
-    public ButtonSizeBuilder IconLg => Chain("size-9");
+    public ButtonSizeBuilder Default => Chain(ButtonSizeEnum.Default);
+    public ButtonSizeBuilder Xs => Chain(ButtonSizeEnum.Xs);
+    public ButtonSizeBuilder Sm => Chain(ButtonSizeEnum.Sm);
+    public ButtonSizeBuilder Lg => Chain(ButtonSizeEnum.Lg);
+    public ButtonSizeBuilder Icon => Chain(ButtonSizeEnum.Icon);
+    public ButtonSizeBuilder IconXs => Chain(ButtonSizeEnum.IconXs);
+    public ButtonSizeBuilder IconSm => Chain(ButtonSizeEnum.IconSm);
+    public ButtonSizeBuilder IconLg => Chain(ButtonSizeEnum.IconLg);
 
     /// <summary>
     /// Adds an arbitrary button size token understood by the shared button style helper.
     /// </summary>
     public ButtonSizeBuilder Token(string value) => Chain(value);
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private ButtonSizeBuilder Chain(ButtonSizeEnum size)
+    {
+        _rules.Add(new ButtonSizeRule(size.Value, null, ConsumePendingModifierChain()));
+        return this;
+    }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private ButtonSizeBuilder Chain(string size)
