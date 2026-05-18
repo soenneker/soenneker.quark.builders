@@ -6,15 +6,6 @@ public sealed class VariantBuilder : ICssBuilder
 {
     private readonly ICssBuilder _builder;
     private readonly List<string> _modifiers = new(4);
-    private static readonly HashSet<string> _responsiveModifiers = new(System.StringComparer.Ordinal)
-    {
-        "sm",
-        "md",
-        "lg",
-        "xl",
-        "2xl"
-    };
-
     internal VariantBuilder(ICssBuilder builder)
     {
         _builder = builder;
@@ -229,7 +220,7 @@ public sealed class VariantBuilder : ICssBuilder
 
         for (var i = _modifiers.Count - 1; i >= 0; i--)
         {
-            if (_responsiveModifiers.Contains(_modifiers[i]))
+            if (IsResponsiveModifier(_modifiers[i]))
                 _modifiers.RemoveAt(i);
         }
 
@@ -244,4 +235,9 @@ public sealed class VariantBuilder : ICssBuilder
     public string ToStyle() => string.Empty;
 
     public override string ToString() => ToClass();
+
+    private static bool IsResponsiveModifier(string modifier)
+    {
+        return modifier is "sm" or "md" or "lg" or "xl" or "2xl";
+    }
 }

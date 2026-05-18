@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
@@ -61,7 +60,7 @@ public sealed class ToggleSizeBuilder : CssBuilderBase<ToggleSizeBuilder>
             string bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
 
             if (bp.Length != 0)
-                cls = ApplyBreakpointToClassGroup(cls, bp);
+                cls = BreakpointUtil.ApplyTailwindModifiers(cls, bp);
 
             if (rule.ModifierChain is { Length: > 0 })
                 cls = BreakpointUtil.ApplyTailwindModifiers(cls, rule.ModifierChain);
@@ -78,29 +77,5 @@ public sealed class ToggleSizeBuilder : CssBuilderBase<ToggleSizeBuilder>
     }
 
     public override string ToStyle() => string.Empty;
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static string ApplyBreakpointToClassGroup(string classGroup, string breakpoint)
-    {
-        string[] tokens = classGroup.Split(' ', StringSplitOptions.RemoveEmptyEntries);
-
-        if (tokens.Length == 0)
-            return string.Empty;
-
-        if (tokens.Length == 1)
-            return BreakpointUtil.ApplyTailwindBreakpoint(tokens[0], breakpoint);
-
-        using var sb = new PooledStringBuilder();
-
-        for (var i = 0; i < tokens.Length; i++)
-        {
-            if (i > 0)
-                sb.Append(' ');
-
-            sb.Append(BreakpointUtil.ApplyTailwindBreakpoint(tokens[i], breakpoint));
-        }
-
-        return sb.ToString();
-    }
 
 }

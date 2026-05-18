@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Soenneker.Extensions.String;
+using Soenneker.Utils.PooledStringBuilders;
 
 namespace Soenneker.Quark;
 
@@ -59,8 +60,14 @@ public readonly struct CssValue<TBuilder> : IEquatable<CssValue<TBuilder>> where
     /// <summary>
     /// Implicitly converts an integer to a CssValue. For HeightBuilder and WidthBuilder, converts to pixel values.
     /// </summary>
-    public static implicit operator CssValue<TBuilder>(int value) =>
-        _isHeight || _isWidth ? new CssValue<TBuilder>($"{value}px", $"{value}px") : new CssValue<TBuilder>(value.ToString());
+    public static implicit operator CssValue<TBuilder>(int value)
+    {
+        if (!_isHeight && !_isWidth)
+            return new CssValue<TBuilder>(value.ToString());
+
+        string pixelValue = $"{value}px";
+        return new CssValue<TBuilder>(pixelValue, pixelValue);
+    }
 
     /// <summary>
     /// Implicitly converts a CssValue to a string.
@@ -126,59 +133,7 @@ public readonly struct CssValue<TBuilder> : IEquatable<CssValue<TBuilder>> where
         if (values is not { Length: > 0 })
             return this;
 
-        object?[] merged = new object?[values.Length + 1];
-        merged[0] = this;
-
-        for (var i = 0; i < values.Length; i++)
-        {
-            merged[i + 1] = values[i];
-        }
-
-        return Combine(merged);
-    }
-
-    private static bool IsKnownThemeOrSizeToken(string value)
-    {
-        if (value.IsNullOrEmpty())
-            return false;
-
-        return value.Equals("xs", StringComparison.OrdinalIgnoreCase) ||
-               value.Equals("sm", StringComparison.OrdinalIgnoreCase) ||
-               value.Equals("md", StringComparison.OrdinalIgnoreCase) ||
-               value.Equals("lg", StringComparison.OrdinalIgnoreCase) ||
-               value.Equals("xl", StringComparison.OrdinalIgnoreCase) ||
-               value.Equals("xxl", StringComparison.OrdinalIgnoreCase) ||
-               value.Equals("primary", StringComparison.OrdinalIgnoreCase) ||
-               value.Equals("primary-foreground", StringComparison.OrdinalIgnoreCase) ||
-               value.Equals("secondary", StringComparison.OrdinalIgnoreCase) ||
-               value.Equals("secondary-foreground", StringComparison.OrdinalIgnoreCase) ||
-               value.Equals("success", StringComparison.OrdinalIgnoreCase) ||
-               value.Equals("danger", StringComparison.OrdinalIgnoreCase) ||
-               value.Equals("destructive", StringComparison.OrdinalIgnoreCase) ||
-               value.Equals("destructive-foreground", StringComparison.OrdinalIgnoreCase) ||
-               value.Equals("warning", StringComparison.OrdinalIgnoreCase) ||
-               value.Equals("info", StringComparison.OrdinalIgnoreCase) ||
-               value.Equals("light", StringComparison.OrdinalIgnoreCase) ||
-               value.Equals("dark", StringComparison.OrdinalIgnoreCase) ||
-               value.Equals("background", StringComparison.OrdinalIgnoreCase) ||
-               value.Equals("foreground", StringComparison.OrdinalIgnoreCase) ||
-               value.Equals("card", StringComparison.OrdinalIgnoreCase) ||
-               value.Equals("card-foreground", StringComparison.OrdinalIgnoreCase) ||
-               value.Equals("popover", StringComparison.OrdinalIgnoreCase) ||
-               value.Equals("popover-foreground", StringComparison.OrdinalIgnoreCase) ||
-               value.Equals("accent", StringComparison.OrdinalIgnoreCase) ||
-               value.Equals("accent-foreground", StringComparison.OrdinalIgnoreCase) ||
-               value.Equals("input", StringComparison.OrdinalIgnoreCase) ||
-               value.Equals("ring", StringComparison.OrdinalIgnoreCase) ||
-               value.Equals("border", StringComparison.OrdinalIgnoreCase) ||
-               value.Equals("body", StringComparison.OrdinalIgnoreCase) ||
-               value.Equals("body-secondary", StringComparison.OrdinalIgnoreCase) ||
-               value.Equals("body-tertiary", StringComparison.OrdinalIgnoreCase) ||
-               value.Equals("link", StringComparison.OrdinalIgnoreCase) ||
-               value.Equals("muted", StringComparison.OrdinalIgnoreCase) ||
-               value.Equals("muted-foreground", StringComparison.OrdinalIgnoreCase) ||
-               value.Equals("white", StringComparison.OrdinalIgnoreCase) ||
-               value.Equals("black", StringComparison.OrdinalIgnoreCase);
+        return Combine(this, values);
     }
 
     /// <summary>
@@ -211,61 +166,74 @@ public readonly struct CssValue<TBuilder> : IEquatable<CssValue<TBuilder>> where
     /// </summary>
     public static bool operator !=(CssValue<TBuilder> a, CssValue<TBuilder> b) => !a.Equals(b);
 
-    /// <summary>
-    /// Attempts to extract a theme token from this CSS value (e.g. size or color token for theme mapping).
-    /// </summary>
-    /// <param name="token">When this method returns, contains the theme token if found; otherwise, null.</param>
-    /// <returns>true if a theme token was found; otherwise, false.</returns>
-    public bool TryGetThemeToken(out string? token)
-    {
-        token = null;
-        if (_value.IsNullOrEmpty())
-            return false;
-        if (!IsKnownThemeOrSizeToken(_value))
-            return false;
-        token = _value;
-        return true;
-    }
+    private static CssValue<TBuilder> Combine(IReadOnlyList<object?> values) => Combine(null, values);
 
-    private static CssValue<TBuilder> Combine(IReadOnlyList<object?> values)
+    private static CssValue<TBuilder> Combine(object? first, IReadOnlyList<object?> values)
     {
-        string combinedValue = string.Empty;
-        string? combinedStyle = null;
+        var combinedValue = new PooledStringBuilder();
+        var combinedStyle = new PooledStringBuilder();
+        var hasValue = false;
+        var hasStyle = false;
         string? combinedSelector = null;
         var combinedSelectorIsAbsolute = false;
 
-        for (var i = 0; i < values.Count; i++)
+        try
         {
-            object? value = values[i];
+            AppendValue(first, ref combinedValue, ref combinedStyle, ref hasValue, ref hasStyle, ref combinedSelector, ref combinedSelectorIsAbsolute);
 
-            switch (value)
+            for (var i = 0; i < values.Count; i++)
             {
-                case null:
-                    continue;
-                case CssValue<TBuilder> cssValue:
-                    AppendSegment(ref combinedValue, cssValue._value, ' ');
-                    AppendStyle(ref combinedStyle, cssValue._styleValue);
-                    MergeSelector(ref combinedSelector, ref combinedSelectorIsAbsolute, cssValue._cssSelector, cssValue._selectorIsAbsolute);
-                    break;
-                case ICssBuilder builder:
-                    AppendSegment(ref combinedValue, builder.ToClass(), ' ');
-                    AppendStyle(ref combinedStyle, builder.ToStyle());
-                    break;
-                case string str:
-                    AppendSegment(ref combinedValue, str, ' ');
-                    break;
-                case int intValue:
-                    CssValue<TBuilder> numeric = intValue;
-                    AppendSegment(ref combinedValue, numeric._value, ' ');
-                    AppendStyle(ref combinedStyle, numeric._styleValue);
-                    break;
-                default:
-                    AppendSegment(ref combinedValue, value.ToString(), ' ');
-                    break;
+                object? value = values[i];
+                AppendValue(value, ref combinedValue, ref combinedStyle, ref hasValue, ref hasStyle, ref combinedSelector, ref combinedSelectorIsAbsolute);
             }
-        }
 
-        return new CssValue<TBuilder>(combinedValue, combinedStyle, combinedSelector, combinedSelectorIsAbsolute);
+            return new CssValue<TBuilder>(
+                hasValue ? combinedValue.ToString() : string.Empty,
+                hasStyle ? combinedStyle.ToString() : null,
+                combinedSelector,
+                combinedSelectorIsAbsolute);
+        }
+        finally
+        {
+            combinedValue.Dispose();
+            combinedStyle.Dispose();
+        }
+    }
+
+    private static void AppendValue(
+        object? value,
+        ref PooledStringBuilder combinedValue,
+        ref PooledStringBuilder combinedStyle,
+        ref bool hasValue,
+        ref bool hasStyle,
+        ref string? combinedSelector,
+        ref bool combinedSelectorIsAbsolute)
+    {
+        switch (value)
+        {
+            case null:
+                return;
+            case CssValue<TBuilder> cssValue:
+                AppendSegment(ref combinedValue, ref hasValue, cssValue._value, ' ');
+                AppendStyle(ref combinedStyle, ref hasStyle, cssValue._styleValue);
+                MergeSelector(ref combinedSelector, ref combinedSelectorIsAbsolute, cssValue._cssSelector, cssValue._selectorIsAbsolute);
+                return;
+            case ICssBuilder builder:
+                AppendSegment(ref combinedValue, ref hasValue, builder.ToClass(), ' ');
+                AppendStyle(ref combinedStyle, ref hasStyle, builder.ToStyle());
+                return;
+            case string str:
+                AppendSegment(ref combinedValue, ref hasValue, str, ' ');
+                return;
+            case int intValue:
+                CssValue<TBuilder> numeric = intValue;
+                AppendSegment(ref combinedValue, ref hasValue, numeric._value, ' ');
+                AppendStyle(ref combinedStyle, ref hasStyle, numeric._styleValue);
+                return;
+            default:
+                AppendSegment(ref combinedValue, ref hasValue, value.ToString(), ' ');
+                return;
+        }
     }
 
     private static void MergeSelector(ref string? currentSelector, ref bool currentAbsolute, string? nextSelector, bool nextAbsolute)
@@ -284,35 +252,45 @@ public readonly struct CssValue<TBuilder> : IEquatable<CssValue<TBuilder>> where
             throw new InvalidOperationException("Cannot combine CssValue instances with different CSS selectors.");
     }
 
-    private static void AppendStyle(ref string? current, string? next)
+    private static void AppendStyle(ref PooledStringBuilder current, ref bool hasValue, string? next)
     {
         if (next.IsNullOrWhiteSpace())
             return;
 
-        string trimmed = next.Trim().TrimEnd(';');
+        ReadOnlySpan<char> trimmed = next.AsSpan().Trim().TrimEnd(';');
 
         if (trimmed.Length == 0)
             return;
 
-        if (string.IsNullOrEmpty(current))
-        {
-            current = trimmed;
-            return;
-        }
+        if (hasValue)
+            current.Append("; ");
+        else
+            hasValue = true;
 
-        current = $"{current}; {trimmed}";
+        AppendSpan(ref current, trimmed);
     }
 
-    private static void AppendSegment(ref string current, string? next, char separator)
+    private static void AppendSegment(ref PooledStringBuilder current, ref bool hasValue, string? next, char separator)
     {
         if (next.IsNullOrWhiteSpace())
             return;
 
-        string trimmed = next.Trim();
+        ReadOnlySpan<char> trimmed = next.AsSpan().Trim();
 
         if (trimmed.Length == 0)
             return;
 
-        current = current.Length == 0 ? trimmed : $"{current}{separator}{trimmed}";
+        if (hasValue)
+            current.Append(separator);
+        else
+            hasValue = true;
+
+        AppendSpan(ref current, trimmed);
+    }
+
+    private static void AppendSpan(ref PooledStringBuilder builder, ReadOnlySpan<char> value)
+    {
+        for (var i = 0; i < value.Length; i++)
+            builder.Append(value[i]);
     }
 }

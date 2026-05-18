@@ -1,3 +1,5 @@
+using System;
+
 namespace Soenneker.Quark;
 
 public abstract class CssBuilderBase : ICssBuilder
@@ -220,24 +222,46 @@ public abstract class CssBuilderBase<TBuilder> : CssBuilderBase where TBuilder :
         if (!IsBreakpointModifier(modifier))
             return $"{existingModifierChain}:{modifier}";
 
-        string[] existingModifiers = existingModifierChain.Split(':');
-        var insertIndex = 0;
+        int insertIndex = GetBreakpointPrefixLength(existingModifierChain);
 
-        while (insertIndex < existingModifiers.Length && IsBreakpointModifier(existingModifiers[insertIndex]))
-        {
-            insertIndex++;
-        }
-
-        if (insertIndex == 0)
+        if (insertIndex <= 0)
             return $"{modifier}:{existingModifierChain}";
 
-        if (insertIndex == existingModifiers.Length)
+        if (insertIndex >= existingModifierChain.Length)
             return $"{existingModifierChain}:{modifier}";
 
-        return $"{string.Join(":", existingModifiers[..insertIndex])}:{modifier}:{string.Join(":", existingModifiers[insertIndex..])}";
+        return $"{existingModifierChain[..insertIndex]}:{modifier}:{existingModifierChain[(insertIndex + 1)..]}";
+    }
+
+    private static int GetBreakpointPrefixLength(string modifierChain)
+    {
+        var segmentStart = 0;
+        var prefixEnd = -1;
+
+        for (var i = 0; i <= modifierChain.Length; i++)
+        {
+            if (i < modifierChain.Length && modifierChain[i] != ':')
+                continue;
+
+            ReadOnlySpan<char> segment = modifierChain.AsSpan(segmentStart, i - segmentStart);
+
+            if (!IsBreakpointModifier(segment))
+                break;
+
+            prefixEnd = i;
+            segmentStart = i + 1;
+        }
+
+        return prefixEnd;
     }
 
     protected static bool IsBreakpointModifier(string modifier)
+    {
+        return modifier is "sm" or "md" or "lg" or "xl" or "2xl" or "max-sm" or "max-md" or "max-lg" or "max-xl"
+            or "@sm" or "@md" or "@lg" or "@xl" or "@2xl" or "@max-sm" or "@max-md";
+    }
+
+    protected static bool IsBreakpointModifier(ReadOnlySpan<char> modifier)
     {
         return modifier is "sm" or "md" or "lg" or "xl" or "2xl" or "max-sm" or "max-md" or "max-lg" or "max-xl"
             or "@sm" or "@md" or "@lg" or "@xl" or "@2xl" or "@max-sm" or "@max-md";

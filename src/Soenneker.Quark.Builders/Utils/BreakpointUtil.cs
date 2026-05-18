@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using Soenneker.Utils.PooledStringBuilders;
 
 namespace Soenneker.Quark;
 
@@ -62,25 +63,17 @@ public static class BreakpointUtil
         if (string.IsNullOrEmpty(classGroup) || modifiers.Count == 0)
             return classGroup;
 
-        string[] tokens = classGroup.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+        var sb = new PooledStringBuilder(classGroup.Length + EstimateModifierLength(modifiers));
 
-        if (tokens.Length == 0)
-            return string.Empty;
-
-        using var sb = new Soenneker.Utils.PooledStringBuilders.PooledStringBuilder();
-
-        for (var i = 0; i < tokens.Length; i++)
+        try
         {
-            string token = tokens[i];
-            token = AppendTailwindModifiers(token, modifiers);
-
-            if (i > 0)
-                sb.Append(' ');
-
-            sb.Append(token);
+            AppendClassGroupWithModifiers(ref sb, classGroup, modifiers);
+            return sb.ToString();
         }
-
-        return sb.ToString();
+        finally
+        {
+            sb.Dispose();
+        }
     }
 
     public static string ApplyTailwindModifiers(string classGroup, string modifierChain)
@@ -88,122 +81,129 @@ public static class BreakpointUtil
         if (string.IsNullOrEmpty(classGroup) || string.IsNullOrEmpty(modifierChain))
             return classGroup;
 
-        string[] tokens = classGroup.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+        var sb = new PooledStringBuilder(classGroup.Length + modifierChain.Length + 1);
 
-        if (tokens.Length == 0)
-            return string.Empty;
-
-        using var sb = new Soenneker.Utils.PooledStringBuilders.PooledStringBuilder();
-
-        for (var i = 0; i < tokens.Length; i++)
+        try
         {
-            string token = AppendTailwindModifierChain(tokens[i], modifierChain);
-
-            if (i > 0)
-                sb.Append(' ');
-
-            sb.Append(token);
+            AppendClassGroupWithModifierChain(ref sb, classGroup, modifierChain);
+            return sb.ToString();
         }
-
-        return sb.ToString();
+        finally
+        {
+            sb.Dispose();
+        }
     }
 
-    private static string AppendTailwindModifiers(string token, IReadOnlyList<string> modifiers)
+    private static void AppendClassGroupWithModifiers(ref PooledStringBuilder sb, string classGroup, IReadOnlyList<string> modifiers)
     {
-        if (string.IsNullOrEmpty(token))
-            return token;
+        var tokenStart = -1;
+        var first = true;
 
-        List<string> segments = SplitTailwindSegments(token);
+        for (var i = 0; i <= classGroup.Length; i++)
+        {
+            bool isEnd = i == classGroup.Length;
 
-        if (segments.Count == 0)
-            return token;
+            if (!isEnd && !char.IsWhiteSpace(classGroup[i]))
+            {
+                if (tokenStart < 0)
+                    tokenStart = i;
 
-        string utility = segments[^1];
-        segments.RemoveAt(segments.Count - 1);
+                continue;
+            }
 
-        var prefixedSegments = new List<string>(segments.Count + modifiers.Count + 1);
+            if (tokenStart < 0)
+                continue;
+
+            if (!first)
+                sb.Append(' ');
+            else
+                first = false;
+
+            AppendTokenWithModifiers(ref sb, classGroup.AsSpan(tokenStart, i - tokenStart), modifiers);
+            tokenStart = -1;
+        }
+    }
+
+    private static void AppendClassGroupWithModifierChain(ref PooledStringBuilder sb, string classGroup, string modifierChain)
+    {
+        var tokenStart = -1;
+        var first = true;
+
+        for (var i = 0; i <= classGroup.Length; i++)
+        {
+            bool isEnd = i == classGroup.Length;
+
+            if (!isEnd && !char.IsWhiteSpace(classGroup[i]))
+            {
+                if (tokenStart < 0)
+                    tokenStart = i;
+
+                continue;
+            }
+
+            if (tokenStart < 0)
+                continue;
+
+            if (!first)
+                sb.Append(' ');
+            else
+                first = false;
+
+            AppendTokenWithModifierChain(ref sb, classGroup.AsSpan(tokenStart, i - tokenStart), modifierChain);
+            tokenStart = -1;
+        }
+    }
+
+    private static void AppendTokenWithModifiers(ref PooledStringBuilder sb, ReadOnlySpan<char> token, IReadOnlyList<string> modifiers)
+    {
+        var wroteModifier = false;
+
+        for (var i = 0; i < modifiers.Count; i++)
+        {
+            string modifier = modifiers[i];
+
+            if (string.IsNullOrEmpty(modifier))
+                continue;
+
+            if (wroteModifier)
+                sb.Append(':');
+
+            sb.Append(modifier);
+            wroteModifier = true;
+        }
+
+        if (wroteModifier)
+            sb.Append(':');
+
+        AppendSpan(ref sb, token);
+    }
+
+    private static void AppendTokenWithModifierChain(ref PooledStringBuilder sb, ReadOnlySpan<char> token, string modifierChain)
+    {
+        sb.Append(modifierChain);
+        sb.Append(':');
+        AppendSpan(ref sb, token);
+    }
+
+    private static void AppendSpan(ref PooledStringBuilder sb, ReadOnlySpan<char> value)
+    {
+        for (var i = 0; i < value.Length; i++)
+            sb.Append(value[i]);
+    }
+
+    private static int EstimateModifierLength(IReadOnlyList<string> modifiers)
+    {
+        var length = 0;
 
         for (var i = 0; i < modifiers.Count; i++)
         {
             string modifier = modifiers[i];
 
             if (!string.IsNullOrEmpty(modifier))
-                prefixedSegments.Add(modifier);
+                length += modifier.Length + 1;
         }
 
-        prefixedSegments.AddRange(segments);
-        prefixedSegments.Add(utility);
-
-        return string.Join(":", prefixedSegments);
-    }
-
-    private static string AppendTailwindModifierChain(string token, string modifierChain)
-    {
-        if (string.IsNullOrEmpty(token))
-            return token;
-
-        List<string> segments = SplitTailwindSegments(token);
-
-        if (segments.Count == 0)
-            return token;
-
-        string utility = segments[^1];
-        segments.RemoveAt(segments.Count - 1);
-
-        return segments.Count == 0
-            ? $"{modifierChain}:{utility}"
-            : $"{modifierChain}:{string.Join(":", segments)}:{utility}";
-    }
-
-    private static List<string> SplitTailwindSegments(string token)
-    {
-        var segments = new List<string>(4);
-        var start = 0;
-        var squareDepth = 0;
-        var parenDepth = 0;
-        var braceDepth = 0;
-
-        for (var i = 0; i < token.Length; i++)
-        {
-            char ch = token[i];
-
-            switch (ch)
-            {
-                case '[':
-                    squareDepth++;
-                    break;
-                case ']':
-                    if (squareDepth > 0)
-                        squareDepth--;
-                    break;
-                case '(':
-                    parenDepth++;
-                    break;
-                case ')':
-                    if (parenDepth > 0)
-                        parenDepth--;
-                    break;
-                case '{':
-                    braceDepth++;
-                    break;
-                case '}':
-                    if (braceDepth > 0)
-                        braceDepth--;
-                    break;
-                case ':':
-                    if (squareDepth == 0 && parenDepth == 0 && braceDepth == 0)
-                    {
-                        segments.Add(token[start..i]);
-                        start = i + 1;
-                    }
-
-                    break;
-            }
-        }
-
-        segments.Add(token[start..]);
-
-        return segments;
+        return length;
     }
 }
 

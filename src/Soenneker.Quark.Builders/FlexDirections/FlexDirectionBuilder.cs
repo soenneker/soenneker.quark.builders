@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Soenneker.Utils.PooledStringBuilders;
 
@@ -30,7 +31,6 @@ public sealed class FlexDirectionBuilder : ResponsiveUtilityBuilder<FlexDirectio
             return string.Empty;
 
         using var sb = new PooledStringBuilder();
-        var emittedFlexBreakpoints = new HashSet<string>();
         var first = true;
 
         for (var i = 0; i < Rules.Count; i++)
@@ -42,7 +42,7 @@ public sealed class FlexDirectionBuilder : ResponsiveUtilityBuilder<FlexDirectio
 
             string modifierChain = GetModifierChain(rule);
 
-            if (emittedFlexBreakpoints.Add(modifierChain))
+            if (!HasPreviousModifierChain(i, modifierChain))
             {
                 string flexClass = modifierChain.Length == 0 ? "flex" : BreakpointUtil.ApplyTailwindModifiers("flex", modifierChain);
 
@@ -65,6 +65,17 @@ public sealed class FlexDirectionBuilder : ResponsiveUtilityBuilder<FlexDirectio
         }
 
         return sb.ToString();
+    }
+
+    private bool HasPreviousModifierChain(int ruleIndex, string modifierChain)
+    {
+        for (var i = 0; i < ruleIndex; i++)
+        {
+            if (string.Equals(GetModifierChain(Rules[i]), modifierChain, StringComparison.Ordinal))
+                return true;
+        }
+
+        return false;
     }
 
     private static string GetModifierChain(UtilityRule rule)
