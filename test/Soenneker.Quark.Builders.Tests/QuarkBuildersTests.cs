@@ -53,6 +53,28 @@ public sealed class QuarkBuildersTests : HostedUnitTest
     }
 
     [Test]
+    public void ButtonSizeBuilder_css_value_to_string_uses_enum_class_values()
+    {
+        CssValue<ButtonSizeBuilder> defaultSize = ButtonSizes.Default;
+        CssValue<ButtonSizeBuilder> xs = ButtonSizes.Xs;
+        CssValue<ButtonSizeBuilder> sm = ButtonSizes.Sm;
+        CssValue<ButtonSizeBuilder> lg = ButtonSizes.Lg;
+        CssValue<ButtonSizeBuilder> icon = ButtonSizes.Icon;
+        CssValue<ButtonSizeBuilder> iconXs = ButtonSizes.IconXs;
+        CssValue<ButtonSizeBuilder> iconSm = ButtonSizes.IconSm;
+        CssValue<ButtonSizeBuilder> iconLg = ButtonSizes.IconLg;
+
+        defaultSize.ToString().Should().Be(ButtonSizeEnum.Default.Class);
+        xs.ToString().Should().Be(ButtonSizeEnum.Xs.Class);
+        sm.ToString().Should().Be(ButtonSizeEnum.Sm.Class);
+        lg.ToString().Should().Be(ButtonSizeEnum.Lg.Class);
+        icon.ToString().Should().Be(ButtonSizeEnum.Icon.Class);
+        iconXs.ToString().Should().Be(ButtonSizeEnum.IconXs.Class);
+        iconSm.ToString().Should().Be(ButtonSizeEnum.IconSm.Class);
+        iconLg.ToString().Should().Be(ButtonSizeEnum.IconLg.Class);
+    }
+
+    [Test]
     public void ButtonVariant_exposes_token_and_class_values()
     {
         ButtonVariant.Default.Value.Should().Be("default");
