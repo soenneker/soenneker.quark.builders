@@ -381,6 +381,14 @@ public sealed class QuarkBuildersTests : HostedUnitTest
     [Test]
     public void LeadingBuilder_builds_tailwind_leading_classes()
     {
+        string result = Leading.None.Tight.Snug.Normal.Relaxed.Loose.ToClass();
+
+        result.Should().Be("leading-none leading-tight leading-snug leading-normal leading-relaxed leading-loose");
+    }
+
+    [Test]
+    public void LeadingBuilder_builds_responsive_named_tailwind_leading_classes()
+    {
         string result = Leading.Tight.OnMd.Loose.ToClass();
 
         result.Should().Be("leading-tight md:leading-loose");
