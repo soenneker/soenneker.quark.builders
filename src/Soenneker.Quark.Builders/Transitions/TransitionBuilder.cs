@@ -36,6 +36,10 @@ public sealed class TransitionBuilder : CssBuilderBase<TransitionBuilder>
     /// <summary>
     /// Sets the transition to none.
     /// </summary>
+    public TransitionBuilder Default => ChainWithTransition(TransitionEnum.Default);
+    /// <summary>
+    /// Sets the transition to none.
+    /// </summary>
     public TransitionBuilder None => ChainWithTransition(TransitionEnum.None);
     /// <summary>
     /// Sets the transition to all.
@@ -61,7 +65,7 @@ public sealed class TransitionBuilder : CssBuilderBase<TransitionBuilder>
     /// <summary>
     /// Applies an exact Tailwind transition utility token, e.g. "transition-[left,right,width]".
     /// </summary>
-    public TransitionBuilder Token(string token) => ChainWithTransition(token);
+    public TransitionBuilder Token(string token) => ChainWithTransition(token.StartsWith("transition") ? token : $"transition-{token}");
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private TransitionBuilder ChainWithTransition(TransitionEnum transition)

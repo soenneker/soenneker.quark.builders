@@ -7,6 +7,11 @@ namespace Soenneker.Quark;
 public static partial class Transition
 {
     /// <summary>
+    /// Default transition property set.
+    /// </summary>
+    public static TransitionBuilder Default => new(TransitionEnum.Default);
+
+    /// <summary>
     /// No transition (none).
     /// </summary>
     public static TransitionBuilder None => new(TransitionEnum.None);
@@ -39,5 +44,5 @@ public static partial class Transition
     /// <summary>
     /// Applies an exact Tailwind transition utility token, e.g. "transition-[color,shadow]".
     /// </summary>
-    public static TransitionBuilder Token(string token) => new(token);
+    public static TransitionBuilder Token(string token) => new(token.StartsWith("transition") ? token : $"transition-{token}");
 }

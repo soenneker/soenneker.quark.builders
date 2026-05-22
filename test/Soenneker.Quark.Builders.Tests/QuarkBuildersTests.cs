@@ -723,6 +723,42 @@ public sealed class QuarkBuildersTests : HostedUnitTest
     }
 
     [Test]
+    public void Missing_tailwind_layout_builders_cover_common_v4_utilities()
+    {
+        BoxSizing.Border.OnMd.Content.ToClass().Should().Be("box-border md:box-content");
+        Clear.Start.OnLg.Both.ToClass().Should().Be("clear-start lg:clear-both");
+        FlexBasis.Is1of2.OnMd.Token("[18rem]").ToClass().Should().Be("basis-1/2 md:basis-[18rem]");
+        Order.First.OnLg.At(3).ToClass().Should().Be("order-first lg:order-3");
+        GridAutoFlow.RowDense.OnMd.Col.ToClass().Should().Be("grid-flow-row-dense md:grid-flow-col");
+        PlaceContentAlign.Center.OnMd.Between.ToClass().Should().Be("place-content-center md:place-content-between");
+        PlaceItemsAlign.Stretch.OnLg.Center.ToClass().Should().Be("place-items-stretch lg:place-items-center");
+        PlaceSelfAlign.Auto.OnHover.End.ToClass().Should().Be("place-self-auto hover:place-self-end");
+    }
+
+    [Test]
+    public void Missing_tailwind_background_and_border_builders_cover_common_v4_utilities()
+    {
+        BackgroundImage.LinearToR.OnDark.Token("radial-[at_25%_25%]").ToClass().Should().Be("bg-linear-to-r dark:bg-radial-[at_25%_25%]");
+        BackgroundSize.Cover.OnMd.Contain.ToClass().Should().Be("bg-cover md:bg-contain");
+        BackgroundPosition.Center.OnLg.RightTop.ToClass().Should().Be("bg-center lg:bg-right-top");
+        BackgroundRepeat.NoRepeat.OnMd.RepeatX.ToClass().Should().Be("bg-no-repeat md:bg-repeat-x");
+        BorderStyle.Solid.OnDisabled.Dashed.ToClass().Should().Be("border-solid disabled:border-dashed");
+    }
+
+    [Test]
+    public void Missing_tailwind_interaction_and_typography_builders_cover_common_v4_utilities()
+    {
+        Appearance.None.OnMd.Auto.ToClass().Should().Be("appearance-none md:appearance-auto");
+        TouchAction.Manipulation.OnLg.PanY.ToClass().Should().Be("touch-manipulation lg:touch-pan-y");
+        WillChange.Transform.OnMotionReduce.Auto.ToClass().Should().Be("will-change-transform motion-reduce:will-change-auto");
+        ForcedColorAdjust.None.OnForcedColors.Auto.ToClass().Should().Be("forced-color-adjust-none forced-colors:forced-color-adjust-auto");
+        FontSmoothing.Antialiased.OnMd.SubpixelAntialiased.ToClass().Should().Be("antialiased md:subpixel-antialiased");
+        OverflowWrap.Anywhere.OnSm.BreakWord.ToClass().Should().Be("wrap-anywhere sm:wrap-break-word");
+        Hyphen.Auto.OnPrint.Manual.ToClass().Should().Be("hyphens-auto print:hyphens-manual");
+        Transition.Default.Token("[color,box-shadow]").ToClass().Should().Be("transition transition-[color,box-shadow]");
+    }
+
+    [Test]
     public void Common_typography_builders_support_generated_static_variant_entrypoints()
     {
         FontStyle.OnFirstLetter.Italic.OnHover.Normal.ToClass()
