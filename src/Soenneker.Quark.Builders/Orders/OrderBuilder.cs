@@ -3,12 +3,20 @@ namespace Soenneker.Quark;
 [TailwindPrefix("order-", Responsive = true)]
 public sealed class OrderBuilder : FinalClassUtilityBuilder<OrderBuilder>
 {
-    internal OrderBuilder() {}
-    internal OrderBuilder(OrderEnum value) : base(value.Value) {}
-    internal OrderBuilder(string value) : base(value) {}
+    internal OrderBuilder()
+    {
+    }
 
-    public new OrderBuilder First => ChainClass(OrderEnum.First.Value);
-    public new OrderBuilder Last => ChainClass(OrderEnum.Last.Value);
+    internal OrderBuilder(OrderEnum value) : base(value.Value)
+    {
+    }
+
+    internal OrderBuilder(string value) : base(value)
+    {
+    }
+
+    public OrderBuilder First => ChainClass(OrderEnum.First.Value);
+    public OrderBuilder Last => ChainClass(OrderEnum.Last.Value);
     public OrderBuilder None => ChainClass(OrderEnum.None.Value);
     public OrderBuilder Is1 => ChainClass(OrderEnum.Is1.Value);
     public OrderBuilder Is12 => ChainClass(OrderEnum.Is12.Value);

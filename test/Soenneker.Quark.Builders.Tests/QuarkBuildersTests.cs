@@ -137,8 +137,10 @@ public sealed class QuarkBuildersTests : HostedUnitTest
     public void BackgroundColorBuilder_supports_pending_on_variants_before_color_values()
     {
         string result = BackgroundColor.OnHover.Accent.ToClass();
+        string chained = BackgroundColor.Transparent.OnHover.Accent.ToClass();
 
         result.Should().Be("hover:bg-accent");
+        chained.Should().Be("bg-transparent hover:bg-accent");
     }
 
     [Test]
@@ -236,8 +238,8 @@ public sealed class QuarkBuildersTests : HostedUnitTest
     [Test]
     public void VariantBuilder_builds_pseudo_element_utilities()
     {
-        string rounded = Rounded.Full.After.ToClass();
-        string border = BorderColor.Border.After.ToClass();
+        string rounded = Rounded.OnAfter.Full.ToClass();
+        string border = BorderColor.OnAfter.Border.ToClass();
 
         rounded.Should().Be("after:rounded-full");
         border.Should().Be("after:border-border");
@@ -256,8 +258,8 @@ public sealed class QuarkBuildersTests : HostedUnitTest
     [Test]
     public void VariantBuilder_supports_responsive_variant_chaining()
     {
-        string rounded = Rounded.Full.After.OnMd.ToClass();
-        string hidden = Display.None.Dark.Hover.OnLg.ToClass();
+        string rounded = Rounded.OnAfter.OnMd.Full.ToClass();
+        string hidden = Display.OnDark.OnHover.OnLg.None.ToClass();
 
         rounded.Should().Be("md:after:rounded-full");
         hidden.Should().Be("lg:dark:hover:hidden");
@@ -278,7 +280,7 @@ public sealed class QuarkBuildersTests : HostedUnitTest
     {
         CssValue<RoundedBuilder> value = CssValue<RoundedBuilder>.For(
             Rounded.Full,
-            Rounded.Full.After
+            Variant.Of(Rounded.Full).After
         );
 
         value.ToString().Should().Be("rounded-full after:rounded-full");
@@ -288,7 +290,7 @@ public sealed class QuarkBuildersTests : HostedUnitTest
     public void CssValue_can_append_additional_builders()
     {
         CssValue<RoundedBuilder> value = CssValue<RoundedBuilder>.For(Rounded.Full)
-            .Add(Rounded.Full.After);
+            .Add(Variant.Of(Rounded.Full).After);
 
         value.ToString().Should().Be("rounded-full after:rounded-full");
     }
@@ -296,7 +298,7 @@ public sealed class QuarkBuildersTests : HostedUnitTest
     [Test]
     public void CssValue_allows_direct_assignment_from_variant_builder()
     {
-        CssValue<RoundedBuilder> value = Rounded.Full.After;
+        CssValue<RoundedBuilder> value = Variant.Of(Rounded.Full).After;
 
         value.ToString().Should().Be("after:rounded-full");
     }
