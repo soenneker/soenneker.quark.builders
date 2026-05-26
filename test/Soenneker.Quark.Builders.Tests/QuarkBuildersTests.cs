@@ -616,7 +616,7 @@ public sealed class QuarkBuildersTests : HostedUnitTest
     public void Common_missing_suite_defaults_are_expressible()
     {
         MinWidth.Is32.ToClass().Should().Be("min-w-32");
-        ZIndex.Z0.OnMd.Z50.ToClass().Should().Be("z-0 md:z-50");
+        ZIndex.Is0.OnMd.Is50.ToClass().Should().Be("z-0 md:z-50");
     }
 
     [Test]
@@ -838,7 +838,7 @@ public sealed class QuarkBuildersTests : HostedUnitTest
         Shrink.OnMaxLg.Is0.OnContainerSm.Is1.ToClass()
             .Should().Be("max-lg:shrink-0 @sm:shrink");
 
-        ZIndex.OnOpen.Z50.OnBackdrop.N1.ToClass()
+        ZIndex.OnOpen.Is50.OnBackdrop.Negative1.ToClass()
             .Should().Be("open:z-50 backdrop:z-n1");
     }
 

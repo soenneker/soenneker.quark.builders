@@ -10,35 +10,35 @@ public static partial class ZIndex
     /// <summary>
     /// Gets a Z-index builder with value -1.
     /// </summary>
-    public static ZIndexBuilder N1 => new(ZIndexEnum.N1);
+    public static ZIndexBuilder Negative1 => new(ZIndexEnum.Negative1);
 
     /// <summary>
     /// Gets a Z-index builder with value 0.
     /// </summary>
-    public static ZIndexBuilder Z0 => new(ZIndexEnum.Z0);
+    public static ZIndexBuilder Is0 => new(ZIndexEnum.Is0);
 
     /// <summary>
     /// Gets a Z-index builder with value 1.
     /// </summary>
-    public static ZIndexBuilder Z1 => new(ZIndexEnum.Z1);
+    public static ZIndexBuilder Is1 => new(ZIndexEnum.Is1);
 
     /// <summary>
     /// Gets a Z-index builder with value 2.
     /// </summary>
-    public static ZIndexBuilder Z2 => new(ZIndexEnum.Z2);
+    public static ZIndexBuilder Is2 => new(ZIndexEnum.Is2);
 
     /// <summary>
     /// Gets a Z-index builder with value 3.
     /// </summary>
-    public static ZIndexBuilder Z3 => new(ZIndexEnum.Z3);
+    public static ZIndexBuilder Is3 => new(ZIndexEnum.Is3);
 
     /// <summary>
     /// Gets a Z-index builder with value 10.
     /// </summary>
-    public static ZIndexBuilder Z10 => new(ZIndexEnum.Z10);
+    public static ZIndexBuilder Is10 => new(ZIndexEnum.Is10);
 
     /// <summary>
     /// Gets a Z-index builder with value 50.
     /// </summary>
-    public static ZIndexBuilder Z50 => new(ZIndexEnum.Z50);
+    public static ZIndexBuilder Is50 => new(ZIndexEnum.Is50);
 }

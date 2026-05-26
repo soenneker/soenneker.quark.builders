@@ -32,42 +32,37 @@ public sealed class ZIndexBuilder : CssBuilderBase<ZIndexBuilder>
     /// <summary>
     /// Sets the z-index to -1.
     /// </summary>
-    public ZIndexBuilder N1 => Chain(ZIndexEnum.N1);
+    public ZIndexBuilder Negative1 => Chain(ZIndexEnum.Negative1);
 
     /// <summary>
     /// Sets the z-index to 0.
     /// </summary>
-    public ZIndexBuilder Z0 => Chain(ZIndexEnum.Z0);
+    public ZIndexBuilder Is0 => Chain(ZIndexEnum.Is0);
 
     /// <summary>
     /// Sets the z-index to 1.
     /// </summary>
-    public ZIndexBuilder Z1 => Chain(ZIndexEnum.Z1);
+    public ZIndexBuilder Is1 => Chain(ZIndexEnum.Is1);
 
     /// <summary>
     /// Sets the z-index to 2.
     /// </summary>
-    public ZIndexBuilder Z2 => Chain(ZIndexEnum.Z2);
+    public ZIndexBuilder Is2 => Chain(ZIndexEnum.Is2);
 
     /// <summary>
     /// Sets the z-index to 3.
     /// </summary>
-    public ZIndexBuilder Z3 => Chain(ZIndexEnum.Z3);
+    public ZIndexBuilder Is3 => Chain(ZIndexEnum.Is3);
 
     /// <summary>
     /// Sets the z-index to 10.
     /// </summary>
-    public ZIndexBuilder Z10 => Chain(ZIndexEnum.Z10);
+    public ZIndexBuilder Is10 => Chain(ZIndexEnum.Is10);
 
     /// <summary>
     /// Sets the z-index to 50.
     /// </summary>
-    public ZIndexBuilder Z50 => Chain(ZIndexEnum.Z50);
-
-
-
-
-
+    public ZIndexBuilder Is50 => Chain(ZIndexEnum.Is50);
 
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
