@@ -61,10 +61,25 @@ public sealed class TextSizeBuilder : CssBuilderBase<TextSizeBuilder>
     /// Fluent step for `Four Xl` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
     public TextSizeBuilder FourXl => ChainSize("text-4xl");
+    /// <summary>
+    /// Gets or sets five xl.
+    /// </summary>
     public TextSizeBuilder FiveXl => ChainSize("text-5xl");
+    /// <summary>
+    /// Gets or sets six xl.
+    /// </summary>
     public TextSizeBuilder SixXl => ChainSize("text-6xl");
+    /// <summary>
+    /// Gets or sets seven xl.
+    /// </summary>
     public TextSizeBuilder SevenXl => ChainSize("text-7xl");
+    /// <summary>
+    /// Gets or sets eight xl.
+    /// </summary>
     public TextSizeBuilder EightXl => ChainSize("text-8xl");
+    /// <summary>
+    /// Gets or sets nine xl.
+    /// </summary>
     public TextSizeBuilder NineXl => ChainSize("text-9xl");
 
     /// <summary>
@@ -115,6 +130,10 @@ public sealed class TextSizeBuilder : CssBuilderBase<TextSizeBuilder>
         return sb.ToString();
     }
 
+    /// <summary>
+    /// Executes the to style operation.
+    /// </summary>
+    /// <returns>The result of the operation.</returns>
     public override string ToStyle() => string.Empty;
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]

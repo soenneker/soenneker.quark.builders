@@ -2,6 +2,9 @@
 
 namespace Soenneker.Quark;
 
+/// <summary>
+/// Represents the tailwind prefix attribute.
+/// </summary>
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = false)]
 public sealed class TailwindPrefixAttribute : Attribute
 {

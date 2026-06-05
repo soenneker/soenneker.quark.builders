@@ -32,21 +32,71 @@ public sealed class BottomBuilder : CssBuilderBase<BottomBuilder>
             _rules.AddRange(rules);
     }
 
+    /// <summary>
+    /// Gets or sets is0.
+    /// </summary>
     public BottomBuilder Is0 => Chain(BottomEnum.Is0);
+    /// <summary>
+    /// Gets or sets is1.
+    /// </summary>
     public BottomBuilder Is1 => Chain(BottomEnum.Is1);
+    /// <summary>
+    /// Gets or sets is1 5.
+    /// </summary>
     public BottomBuilder Is1_5 => Chain(BottomEnum.Is1_5);
+    /// <summary>
+    /// Gets or sets is2.
+    /// </summary>
     public BottomBuilder Is2 => Chain(BottomEnum.Is2);
+    /// <summary>
+    /// Gets or sets is3.
+    /// </summary>
     public BottomBuilder Is3 => Chain(BottomEnum.Is3);
+    /// <summary>
+    /// Gets or sets is4.
+    /// </summary>
     public BottomBuilder Is4 => Chain(BottomEnum.Is4);
+    /// <summary>
+    /// Gets or sets is5.
+    /// </summary>
     public BottomBuilder Is5 => Chain(BottomEnum.Is5);
+    /// <summary>
+    /// Gets or sets is6.
+    /// </summary>
     public BottomBuilder Is6 => Chain(BottomEnum.Is6);
+    /// <summary>
+    /// Gets or sets is8.
+    /// </summary>
     public BottomBuilder Is8 => Chain(BottomEnum.Is8);
+    /// <summary>
+    /// Gets or sets is12.
+    /// </summary>
     public BottomBuilder Is12 => Chain(BottomEnum.Is12);
+    /// <summary>
+    /// Gets or sets is16.
+    /// </summary>
     public BottomBuilder Is16 => Chain(BottomEnum.Is16);
+    /// <summary>
+    /// Gets or sets is24.
+    /// </summary>
     public BottomBuilder Is24 => Chain(BottomEnum.Is24);
+    /// <summary>
+    /// Gets or sets auto.
+    /// </summary>
     public BottomBuilder Auto => Chain(BottomEnum.Auto);
+    /// <summary>
+    /// Gets or sets px.
+    /// </summary>
     public BottomBuilder Px => Chain(BottomEnum.Px);
+    /// <summary>
+    /// Gets or sets negative1.
+    /// </summary>
     public BottomBuilder Negative1 => Chain(BottomEnum.Negative1);
+    /// <summary>
+    /// Executes the token operation.
+    /// </summary>
+    /// <param name="value">The value.</param>
+    /// <returns>The result of the operation.</returns>
     public BottomBuilder Token(string value) => Chain(value.StartsWith("bottom-") ? value : "bottom-" + value);
 
 
@@ -66,6 +116,10 @@ public sealed class BottomBuilder : CssBuilderBase<BottomBuilder>
 
 
 
+    /// <summary>
+    /// Executes the to class operation.
+    /// </summary>
+    /// <returns>The result of the operation.</returns>
     public override string ToClass()
     {
         if (_rules.Count == 0) return string.Empty;
@@ -85,7 +139,15 @@ public sealed class BottomBuilder : CssBuilderBase<BottomBuilder>
         return sb.ToString();
     }
 
+    /// <summary>
+    /// Executes the to style operation.
+    /// </summary>
+    /// <returns>The result of the operation.</returns>
     public override string ToStyle() => string.Empty;
 
+    /// <summary>
+    /// Returns a string representation of the current instance.
+    /// </summary>
+    /// <returns>The result of the operation.</returns>
     public override string ToString() => ToClass();
 }

@@ -4,6 +4,10 @@ using Soenneker.Utils.PooledStringBuilders;
 
 namespace Soenneker.Quark;
 
+/// <summary>
+/// Represents the responsive utility builder.
+/// </summary>
+/// <typeparam name="TBuilder">The TBuilder type.</typeparam>
 public abstract class ResponsiveUtilityBuilder<TBuilder> : CssBuilderBase<TBuilder> where TBuilder : ResponsiveUtilityBuilder<TBuilder>
 {
     protected readonly List<UtilityRule> Rules = new(4);
@@ -43,6 +47,10 @@ public abstract class ResponsiveUtilityBuilder<TBuilder> : CssBuilderBase<TBuild
         return breakpoint;
     }
 
+    /// <summary>
+    /// Executes the to class operation.
+    /// </summary>
+    /// <returns>The result of the operation.</returns>
     public override string ToClass()
     {
         if (Rules.Count == 0)
@@ -78,9 +86,23 @@ public abstract class ResponsiveUtilityBuilder<TBuilder> : CssBuilderBase<TBuild
         return sb.ToString();
     }
 
+    /// <summary>
+    /// Executes the to style operation.
+    /// </summary>
+    /// <returns>The result of the operation.</returns>
     public override string ToStyle() => string.Empty;
 
+    /// <summary>
+    /// Returns a string representation of the current instance.
+    /// </summary>
+    /// <returns>The result of the operation.</returns>
     public override string ToString() => ToClass();
 }
 
+/// <summary>
+/// Represents the utility rule record structure.
+/// </summary>
+/// <param name="Value">The value.</param>
+/// <param name="Breakpoint">The breakpoint.</param>
+/// <param name="ModifierChain">The modifier chain.</param>
 public readonly record struct UtilityRule(string Value, BreakpointType? Breakpoint, string? ModifierChain = null);

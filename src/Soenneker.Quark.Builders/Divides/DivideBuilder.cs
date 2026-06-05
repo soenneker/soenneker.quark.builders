@@ -5,6 +5,9 @@ using Soenneker.Utils.PooledStringBuilders;
 
 namespace Soenneker.Quark;
 
+/// <summary>
+/// Represents the divide builder.
+/// </summary>
 [TailwindPrefix("divide-", Responsive = true)]
 public sealed class DivideBuilder : CssBuilderBase<DivideBuilder>
 {
@@ -41,20 +44,67 @@ public sealed class DivideBuilder : CssBuilderBase<DivideBuilder>
     /// Fluent step for `YReverse` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
     public DivideBuilder YReverse => Chain(DivideEnum.YReverse);
+    /// <summary>
+    /// Gets or sets primary.
+    /// </summary>
     public DivideBuilder Primary => Chain(DivideEnum.Primary);
+    /// <summary>
+    /// Gets or sets secondary.
+    /// </summary>
     public DivideBuilder Secondary => Chain(DivideEnum.Secondary);
+    /// <summary>
+    /// Gets or sets destructive.
+    /// </summary>
     public DivideBuilder Destructive => Chain(DivideEnum.Destructive);
+    /// <summary>
+    /// Gets or sets muted.
+    /// </summary>
     public DivideBuilder Muted => Chain(DivideEnum.Muted);
+    /// <summary>
+    /// Gets or sets accent.
+    /// </summary>
     public DivideBuilder Accent => Chain(DivideEnum.Accent);
+    /// <summary>
+    /// Gets or sets popover.
+    /// </summary>
     public DivideBuilder Popover => Chain(DivideEnum.Popover);
+    /// <summary>
+    /// Gets or sets card.
+    /// </summary>
     public DivideBuilder Card => Chain(DivideEnum.Card);
+    /// <summary>
+    /// Gets or sets background.
+    /// </summary>
     public DivideBuilder Background => Chain(DivideEnum.Background);
+    /// <summary>
+    /// Gets or sets border.
+    /// </summary>
     public DivideBuilder Border => Chain(DivideEnum.Border);
+    /// <summary>
+    /// Gets or sets input.
+    /// </summary>
     public DivideBuilder Input => Chain(DivideEnum.Input);
+    /// <summary>
+    /// Gets or sets ring.
+    /// </summary>
     public DivideBuilder Ring => Chain(DivideEnum.Ring);
+    /// <summary>
+    /// Gets or sets white.
+    /// </summary>
     public DivideBuilder White => Chain(DivideEnum.White);
+    /// <summary>
+    /// Gets or sets black.
+    /// </summary>
     public DivideBuilder Black => Chain(DivideEnum.Black);
+    /// <summary>
+    /// Gets or sets transparent.
+    /// </summary>
     public DivideBuilder Transparent => Chain(DivideEnum.Transparent);
+    /// <summary>
+    /// Executes the color operation.
+    /// </summary>
+    /// <param name="value">The value.</param>
+    /// <returns>The result of the operation.</returns>
     public DivideBuilder Color(string value) => ChainClass($"divide-{value}");
     /// <summary>
     /// Fluent step for `Solid` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
@@ -100,6 +150,10 @@ public sealed class DivideBuilder : CssBuilderBase<DivideBuilder>
             _rules.Add(new DivideRule(value, null, ConsumePendingModifierChain()));
         return this;
     }
+    /// <summary>
+    /// Executes the to class operation.
+    /// </summary>
+    /// <returns>The result of the operation.</returns>
     public override string ToClass()
     {
         if (_rules.Count == 0)
@@ -129,8 +183,16 @@ public sealed class DivideBuilder : CssBuilderBase<DivideBuilder>
         return sb.ToString();
     }
 
+    /// <summary>
+    /// Executes the to style operation.
+    /// </summary>
+    /// <returns>The result of the operation.</returns>
     public override string ToStyle() => string.Empty;
 
+    /// <summary>
+    /// Returns a string representation of the current instance.
+    /// </summary>
+    /// <returns>The result of the operation.</returns>
     public override string ToString() => ToClass();
 }
 

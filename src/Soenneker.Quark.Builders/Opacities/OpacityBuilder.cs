@@ -37,30 +37,60 @@ public sealed class OpacityBuilder : CssBuilderBase<OpacityBuilder>
     /// Sets the opacity to 0 (fully transparent).
     /// </summary>
     public OpacityBuilder Is0 => Chain(OpacityEnum.Is0);
+    /// <summary>
+    /// Gets or sets is5.
+    /// </summary>
     public OpacityBuilder Is5 => Chain(OpacityEnum.Is5);
+    /// <summary>
+    /// Gets or sets is10.
+    /// </summary>
     public OpacityBuilder Is10 => Chain(OpacityEnum.Is10);
+    /// <summary>
+    /// Gets or sets is15.
+    /// </summary>
     public OpacityBuilder Is15 => Chain(OpacityEnum.Is15);
+    /// <summary>
+    /// Gets or sets is20.
+    /// </summary>
     public OpacityBuilder Is20 => Chain(OpacityEnum.Is20);
 
     /// <summary>
     /// Sets the opacity to 25%.
     /// </summary>
     public OpacityBuilder Is25 => Chain(OpacityEnum.Is25);
+    /// <summary>
+    /// Gets or sets is30.
+    /// </summary>
     public OpacityBuilder Is30 => Chain(OpacityEnum.Is30);
+    /// <summary>
+    /// Gets or sets is35.
+    /// </summary>
     public OpacityBuilder Is35 => Chain(OpacityEnum.Is35);
+    /// <summary>
+    /// Gets or sets is40.
+    /// </summary>
     public OpacityBuilder Is40 => Chain(OpacityEnum.Is40);
+    /// <summary>
+    /// Gets or sets is45.
+    /// </summary>
     public OpacityBuilder Is45 => Chain(OpacityEnum.Is45);
 
     /// <summary>
     /// Sets the opacity to 50%.
     /// </summary>
     public OpacityBuilder Is50 => Chain(OpacityEnum.Is50);
+    /// <summary>
+    /// Gets or sets is55.
+    /// </summary>
     public OpacityBuilder Is55 => Chain(OpacityEnum.Is55);
 
     /// <summary>
     /// Sets the opacity to 60%.
     /// </summary>
     public OpacityBuilder Is60 => Chain(OpacityEnum.Is60);
+    /// <summary>
+    /// Gets or sets is65.
+    /// </summary>
     public OpacityBuilder Is65 => Chain(OpacityEnum.Is65);
 
     /// <summary>
@@ -72,9 +102,21 @@ public sealed class OpacityBuilder : CssBuilderBase<OpacityBuilder>
     /// Sets the opacity to 75%.
     /// </summary>
     public OpacityBuilder Is75 => Chain(OpacityEnum.Is75);
+    /// <summary>
+    /// Gets or sets is80.
+    /// </summary>
     public OpacityBuilder Is80 => Chain(OpacityEnum.Is80);
+    /// <summary>
+    /// Gets or sets is85.
+    /// </summary>
     public OpacityBuilder Is85 => Chain(OpacityEnum.Is85);
+    /// <summary>
+    /// Gets or sets is90.
+    /// </summary>
     public OpacityBuilder Is90 => Chain(OpacityEnum.Is90);
+    /// <summary>
+    /// Gets or sets is95.
+    /// </summary>
     public OpacityBuilder Is95 => Chain(OpacityEnum.Is95);
 
     /// <summary>
@@ -82,6 +124,11 @@ public sealed class OpacityBuilder : CssBuilderBase<OpacityBuilder>
     /// </summary>
     public OpacityBuilder Is100 => Chain(OpacityEnum.Is100);
 
+    /// <summary>
+    /// Executes the token operation.
+    /// </summary>
+    /// <param name="value">The value.</param>
+    /// <returns>The result of the operation.</returns>
     public OpacityBuilder Token(string value) => Chain(NormalizeOpacityClass(value));
 
 
@@ -136,6 +183,10 @@ public sealed class OpacityBuilder : CssBuilderBase<OpacityBuilder>
         return sb.ToString();
     }
 
+    /// <summary>
+    /// Executes the to style operation.
+    /// </summary>
+    /// <returns>The result of the operation.</returns>
     public override string ToStyle() => string.Empty;
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -147,5 +198,9 @@ public sealed class OpacityBuilder : CssBuilderBase<OpacityBuilder>
         return value.StartsWith("opacity-") ? value : "opacity-" + value;
     }
     
+    /// <summary>
+    /// Returns a string representation of the current instance.
+    /// </summary>
+    /// <returns>The result of the operation.</returns>
     public override string ToString() => ToClass();
 }

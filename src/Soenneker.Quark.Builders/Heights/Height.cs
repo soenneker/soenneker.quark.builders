@@ -27,11 +27,17 @@ public static partial class Height
     /// Spacing/sizing scale step `0` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 0` for integer spacing utilities unless overridden).
     /// </summary>
     public static HeightBuilder Is0 => new("h-0");
+    /// <summary>
+    /// Gets or sets is0 5.
+    /// </summary>
     public static HeightBuilder Is0_5 => new("h-0.5");
     /// <summary>
     /// Spacing/sizing scale step `1`.
     /// </summary>
     public static HeightBuilder Is1 => new("h-1");
+    /// <summary>
+    /// Gets or sets is1 5.
+    /// </summary>
     public static HeightBuilder Is1_5 => new("h-1.5");
     /// <summary>
     /// Spacing/sizing scale step `2`.
@@ -49,6 +55,9 @@ public static partial class Height
     /// Spacing/sizing scale step `5`.
     /// </summary>
     public static HeightBuilder Is5 => new("h-5");
+    /// <summary>
+    /// Gets or sets is5 5.
+    /// </summary>
     public static HeightBuilder Is5_5 => new("h-5.5");
     /// <summary>
     /// Spacing/sizing scale step `6`.

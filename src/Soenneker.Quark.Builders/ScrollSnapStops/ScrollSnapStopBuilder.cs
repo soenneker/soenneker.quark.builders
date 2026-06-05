@@ -27,7 +27,13 @@ public sealed class ScrollSnapStopBuilder : CssBuilderBase<ScrollSnapStopBuilder
             _rules.AddRange(rules);
     }
 
+    /// <summary>
+    /// Gets or sets normal.
+    /// </summary>
     public ScrollSnapStopBuilder Normal => Chain(ScrollSnapStopEnum.Normal);
+    /// <summary>
+    /// Gets or sets always.
+    /// </summary>
     public ScrollSnapStopBuilder Always => Chain(ScrollSnapStopEnum.Always);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -37,6 +43,10 @@ public sealed class ScrollSnapStopBuilder : CssBuilderBase<ScrollSnapStopBuilder
         return this;
     }
 
+    /// <summary>
+    /// Executes the to class operation.
+    /// </summary>
+    /// <returns>The result of the operation.</returns>
     public override string ToClass()
     {
         if (_rules.Count == 0)
@@ -69,7 +79,15 @@ public sealed class ScrollSnapStopBuilder : CssBuilderBase<ScrollSnapStopBuilder
         return sb.ToString();
     }
 
+    /// <summary>
+    /// Executes the to style operation.
+    /// </summary>
+    /// <returns>The result of the operation.</returns>
     public override string ToStyle() => string.Empty;
 
+    /// <summary>
+    /// Returns a string representation of the current instance.
+    /// </summary>
+    /// <returns>The result of the operation.</returns>
     public override string ToString() => ToClass();
 }

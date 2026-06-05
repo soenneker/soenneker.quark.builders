@@ -21,9 +21,20 @@ public sealed class SelectSizeBuilder : CssBuilderBase
         _tokens.Add(value);
     }
 
+    /// <summary>
+    /// Gets or sets default.
+    /// </summary>
     public SelectSizeBuilder Default => Chain(SelectSizeEnum.Default);
+    /// <summary>
+    /// Gets or sets sm.
+    /// </summary>
     public SelectSizeBuilder Sm => Chain(SelectSizeEnum.Sm);
 
+    /// <summary>
+    /// Executes the token operation.
+    /// </summary>
+    /// <param name="value">The value.</param>
+    /// <returns>The result of the operation.</returns>
     public SelectSizeBuilder Token(string value) => Chain(value);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -40,6 +51,10 @@ public sealed class SelectSizeBuilder : CssBuilderBase
         return this;
     }
 
+    /// <summary>
+    /// Executes the to class operation.
+    /// </summary>
+    /// <returns>The result of the operation.</returns>
     public override string ToClass()
     {
         if (_tokens.Count == 0)
@@ -58,5 +73,9 @@ public sealed class SelectSizeBuilder : CssBuilderBase
         return sb.ToString();
     }
 
+    /// <summary>
+    /// Executes the to style operation.
+    /// </summary>
+    /// <returns>The result of the operation.</returns>
     public override string ToStyle() => string.Empty;
 }

@@ -32,21 +32,71 @@ public sealed class TopBuilder : CssBuilderBase<TopBuilder>
             _rules.AddRange(rules);
     }
 
+    /// <summary>
+    /// Gets or sets is0.
+    /// </summary>
     public TopBuilder Is0 => Chain(TopEnum.Is0);
+    /// <summary>
+    /// Gets or sets is1.
+    /// </summary>
     public TopBuilder Is1 => Chain(TopEnum.Is1);
+    /// <summary>
+    /// Gets or sets is1 5.
+    /// </summary>
     public TopBuilder Is1_5 => Chain(TopEnum.Is1_5);
+    /// <summary>
+    /// Gets or sets is1of2.
+    /// </summary>
     public TopBuilder Is1of2 => Chain(TopEnum.Is1of2);
+    /// <summary>
+    /// Gets or sets is1of3.
+    /// </summary>
     public TopBuilder Is1of3 => Chain(TopEnum.Is1of3);
+    /// <summary>
+    /// Gets or sets is2.
+    /// </summary>
     public TopBuilder Is2 => Chain(TopEnum.Is2);
+    /// <summary>
+    /// Gets or sets is3.
+    /// </summary>
     public TopBuilder Is3 => Chain(TopEnum.Is3);
+    /// <summary>
+    /// Gets or sets is4.
+    /// </summary>
     public TopBuilder Is4 => Chain(TopEnum.Is4);
+    /// <summary>
+    /// Gets or sets is5.
+    /// </summary>
     public TopBuilder Is5 => Chain(TopEnum.Is5);
+    /// <summary>
+    /// Gets or sets is8.
+    /// </summary>
     public TopBuilder Is8 => Chain(TopEnum.Is8);
+    /// <summary>
+    /// Gets or sets is12.
+    /// </summary>
     public TopBuilder Is12 => Chain(TopEnum.Is12);
+    /// <summary>
+    /// Gets or sets is16.
+    /// </summary>
     public TopBuilder Is16 => Chain(TopEnum.Is16);
+    /// <summary>
+    /// Gets or sets is24.
+    /// </summary>
     public TopBuilder Is24 => Chain(TopEnum.Is24);
+    /// <summary>
+    /// Gets or sets auto.
+    /// </summary>
     public TopBuilder Auto => Chain(TopEnum.Auto);
+    /// <summary>
+    /// Gets or sets px.
+    /// </summary>
     public TopBuilder Px => Chain(TopEnum.Px);
+    /// <summary>
+    /// Executes the token operation.
+    /// </summary>
+    /// <param name="value">The value.</param>
+    /// <returns>The result of the operation.</returns>
     public TopBuilder Token(string value) => Chain(value.StartsWith("top-") ? value : "top-" + value);
 
 
@@ -66,6 +116,10 @@ public sealed class TopBuilder : CssBuilderBase<TopBuilder>
 
 
 
+    /// <summary>
+    /// Executes the to class operation.
+    /// </summary>
+    /// <returns>The result of the operation.</returns>
     public override string ToClass()
     {
         if (_rules.Count == 0) return string.Empty;
@@ -85,7 +139,15 @@ public sealed class TopBuilder : CssBuilderBase<TopBuilder>
         return sb.ToString();
     }
 
+    /// <summary>
+    /// Executes the to style operation.
+    /// </summary>
+    /// <returns>The result of the operation.</returns>
     public override string ToStyle() => string.Empty;
 
+    /// <summary>
+    /// Returns a string representation of the current instance.
+    /// </summary>
+    /// <returns>The result of the operation.</returns>
     public override string ToString() => ToClass();
 }

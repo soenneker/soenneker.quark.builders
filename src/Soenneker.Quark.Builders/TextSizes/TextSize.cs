@@ -38,10 +38,25 @@ public static partial class TextSize
     /// Fluent step for `Four Xl` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
     public static TextSizeBuilder FourXl => new("text-4xl");
+    /// <summary>
+    /// Gets or sets five xl.
+    /// </summary>
     public static TextSizeBuilder FiveXl => new("text-5xl");
+    /// <summary>
+    /// Gets or sets six xl.
+    /// </summary>
     public static TextSizeBuilder SixXl => new("text-6xl");
+    /// <summary>
+    /// Gets or sets seven xl.
+    /// </summary>
     public static TextSizeBuilder SevenXl => new("text-7xl");
+    /// <summary>
+    /// Gets or sets eight xl.
+    /// </summary>
     public static TextSizeBuilder EightXl => new("text-8xl");
+    /// <summary>
+    /// Gets or sets nine xl.
+    /// </summary>
     public static TextSizeBuilder NineXl => new("text-9xl");
 
     /// <summary>

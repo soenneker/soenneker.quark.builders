@@ -82,6 +82,10 @@ public sealed class FontVariantNumericBuilder : CssBuilderBase<FontVariantNumeri
         _rules.Add(new FontVariantNumericRule(value.Value, null, ConsumePendingModifierChain()));
         return this;
     }
+    /// <summary>
+    /// Executes the to class operation.
+    /// </summary>
+    /// <returns>The result of the operation.</returns>
     public override string ToClass()
     {
         if (_rules.Count == 0)
@@ -116,6 +120,10 @@ public sealed class FontVariantNumericBuilder : CssBuilderBase<FontVariantNumeri
         return sb.ToString();
     }
 
+    /// <summary>
+    /// Executes the to style operation.
+    /// </summary>
+    /// <returns>The result of the operation.</returns>
     public override string ToStyle() => string.Empty;
 }
 

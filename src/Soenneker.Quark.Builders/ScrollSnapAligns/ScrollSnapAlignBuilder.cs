@@ -27,9 +27,21 @@ public sealed class ScrollSnapAlignBuilder : CssBuilderBase<ScrollSnapAlignBuild
             _rules.AddRange(rules);
     }
 
+    /// <summary>
+    /// Gets or sets start.
+    /// </summary>
     public ScrollSnapAlignBuilder Start => Chain(ScrollSnapAlignEnum.Start);
+    /// <summary>
+    /// Gets or sets center.
+    /// </summary>
     public ScrollSnapAlignBuilder Center => Chain(ScrollSnapAlignEnum.Center);
+    /// <summary>
+    /// Gets or sets end.
+    /// </summary>
     public ScrollSnapAlignBuilder End => Chain(ScrollSnapAlignEnum.End);
+    /// <summary>
+    /// Gets or sets none.
+    /// </summary>
     public ScrollSnapAlignBuilder None => Chain(ScrollSnapAlignEnum.None);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -39,6 +51,10 @@ public sealed class ScrollSnapAlignBuilder : CssBuilderBase<ScrollSnapAlignBuild
         return this;
     }
 
+    /// <summary>
+    /// Executes the to class operation.
+    /// </summary>
+    /// <returns>The result of the operation.</returns>
     public override string ToClass()
     {
         if (_rules.Count == 0)
@@ -71,7 +87,15 @@ public sealed class ScrollSnapAlignBuilder : CssBuilderBase<ScrollSnapAlignBuild
         return sb.ToString();
     }
 
+    /// <summary>
+    /// Executes the to style operation.
+    /// </summary>
+    /// <returns>The result of the operation.</returns>
     public override string ToStyle() => string.Empty;
 
+    /// <summary>
+    /// Returns a string representation of the current instance.
+    /// </summary>
+    /// <returns>The result of the operation.</returns>
     public override string ToString() => ToClass();
 }

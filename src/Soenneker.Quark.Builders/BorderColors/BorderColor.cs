@@ -6,20 +6,65 @@ namespace Soenneker.Quark;
 [TailwindModifiers(typeof(BorderColorBuilder), IncludeColorPalettes = true)]
 public static partial class BorderColor
 {
+    /// <summary>
+    /// Gets or sets primary.
+    /// </summary>
     public static BorderColorBuilder Primary => new(BorderColorEnum.Primary);
+    /// <summary>
+    /// Gets or sets secondary.
+    /// </summary>
     public static BorderColorBuilder Secondary => new(BorderColorEnum.Secondary);
+    /// <summary>
+    /// Gets or sets destructive.
+    /// </summary>
     public static BorderColorBuilder Destructive => new(BorderColorEnum.Destructive);
+    /// <summary>
+    /// Gets or sets muted.
+    /// </summary>
     public static BorderColorBuilder Muted => new(BorderColorEnum.Muted);
+    /// <summary>
+    /// Gets or sets accent.
+    /// </summary>
     public static BorderColorBuilder Accent => new(BorderColorEnum.Accent);
+    /// <summary>
+    /// Gets or sets popover.
+    /// </summary>
     public static BorderColorBuilder Popover => new(BorderColorEnum.Popover);
+    /// <summary>
+    /// Gets or sets card.
+    /// </summary>
     public static BorderColorBuilder Card => new(BorderColorEnum.Card);
+    /// <summary>
+    /// Gets or sets background.
+    /// </summary>
     public static BorderColorBuilder Background => new(BorderColorEnum.Background);
+    /// <summary>
+    /// Gets or sets border.
+    /// </summary>
     public static BorderColorBuilder Border => new(BorderColorEnum.Border);
+    /// <summary>
+    /// Gets or sets input.
+    /// </summary>
     public static BorderColorBuilder Input => new(BorderColorEnum.Input);
+    /// <summary>
+    /// Gets or sets ring.
+    /// </summary>
     public static BorderColorBuilder Ring => new(BorderColorEnum.Ring);
+    /// <summary>
+    /// Gets or sets current.
+    /// </summary>
     public static BorderColorBuilder Current => new(BorderColorEnum.Current);
+    /// <summary>
+    /// Gets or sets white.
+    /// </summary>
     public static BorderColorBuilder White => new(BorderColorEnum.White);
+    /// <summary>
+    /// Gets or sets black.
+    /// </summary>
     public static BorderColorBuilder Black => new(BorderColorEnum.Black);
+    /// <summary>
+    /// Gets or sets transparent.
+    /// </summary>
     public static BorderColorBuilder Transparent => new(BorderColorEnum.Transparent);
 
     /// <summary>

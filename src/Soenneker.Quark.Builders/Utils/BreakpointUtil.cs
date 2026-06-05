@@ -43,6 +43,12 @@ public static class BreakpointUtil
         });
     }
 
+    /// <summary>
+    /// Executes the apply tailwind modifier operation.
+    /// </summary>
+    /// <param name="className">The class name.</param>
+    /// <param name="modifier">The modifier.</param>
+    /// <returns>The result of the operation.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static string ApplyTailwindModifier(string className, string modifier)
     {
@@ -58,6 +64,12 @@ public static class BreakpointUtil
         });
     }
 
+    /// <summary>
+    /// Executes the apply tailwind modifiers operation.
+    /// </summary>
+    /// <param name="classGroup">The class group.</param>
+    /// <param name="modifiers">The modifiers.</param>
+    /// <returns>The result of the operation.</returns>
     public static string ApplyTailwindModifiers(string classGroup, IReadOnlyList<string> modifiers)
     {
         if (string.IsNullOrEmpty(classGroup) || modifiers.Count == 0)
@@ -76,6 +88,12 @@ public static class BreakpointUtil
         }
     }
 
+    /// <summary>
+    /// Executes the apply tailwind modifiers operation.
+    /// </summary>
+    /// <param name="classGroup">The class group.</param>
+    /// <param name="modifierChain">The modifier chain.</param>
+    /// <returns>The result of the operation.</returns>
     public static string ApplyTailwindModifiers(string classGroup, string modifierChain)
     {
         if (string.IsNullOrEmpty(classGroup) || string.IsNullOrEmpty(modifierChain))

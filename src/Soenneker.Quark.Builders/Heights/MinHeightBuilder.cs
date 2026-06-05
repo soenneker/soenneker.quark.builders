@@ -21,16 +21,51 @@ public sealed class MinHeightBuilder : CssBuilderBase<MinHeightBuilder>
         _rules.Add(new UtilityRule(value, breakpoint));
     }
 
+    /// <summary>
+    /// Gets or sets is0.
+    /// </summary>
     public MinHeightBuilder Is0 => Chain("min-h-0");
+    /// <summary>
+    /// Gets or sets is px.
+    /// </summary>
     public MinHeightBuilder IsPx => Chain("min-h-px");
+    /// <summary>
+    /// Gets or sets is full.
+    /// </summary>
     public MinHeightBuilder IsFull => Chain("min-h-full");
+    /// <summary>
+    /// Gets or sets is screen.
+    /// </summary>
     public MinHeightBuilder IsScreen => Chain("min-h-screen");
+    /// <summary>
+    /// Gets or sets is svh.
+    /// </summary>
     public MinHeightBuilder IsSvh => Chain("min-h-svh");
+    /// <summary>
+    /// Gets or sets is lvh.
+    /// </summary>
     public MinHeightBuilder IsLvh => Chain("min-h-lvh");
+    /// <summary>
+    /// Gets or sets is dvh.
+    /// </summary>
     public MinHeightBuilder IsDvh => Chain("min-h-dvh");
+    /// <summary>
+    /// Gets or sets is min.
+    /// </summary>
     public MinHeightBuilder IsMin => Chain("min-h-min");
+    /// <summary>
+    /// Gets or sets is max.
+    /// </summary>
     public MinHeightBuilder IsMax => Chain("min-h-max");
+    /// <summary>
+    /// Gets or sets is fit.
+    /// </summary>
     public MinHeightBuilder IsFit => Chain("min-h-fit");
+    /// <summary>
+    /// Executes the token operation.
+    /// </summary>
+    /// <param name="value">The value.</param>
+    /// <returns>The result of the operation.</returns>
     public MinHeightBuilder Token(string value) => Chain(Normalize(value));
 
 
@@ -43,6 +78,10 @@ public sealed class MinHeightBuilder : CssBuilderBase<MinHeightBuilder>
 
 
 
+    /// <summary>
+    /// Executes the to class operation.
+    /// </summary>
+    /// <returns>The result of the operation.</returns>
     public override string ToClass()
     {
         if (_rules.Count == 0)

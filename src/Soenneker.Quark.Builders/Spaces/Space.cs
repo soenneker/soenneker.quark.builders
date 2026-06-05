@@ -1,5 +1,8 @@
 namespace Soenneker.Quark;
 
+/// <summary>
+/// Represents the space.
+/// </summary>
 [TailwindModifiers(typeof(SpaceBuilder))]
 public static partial class Space
 {
@@ -29,6 +32,9 @@ public static partial class Space
     /// </summary>
     public static SpaceBuilder YReverse => new(SpaceEnum.YReverse);
 
+    /// <summary>
+    /// Represents the x.
+    /// </summary>
     public static class X
     {
         /// <summary>
@@ -88,6 +94,9 @@ public static partial class Space
         public static SpaceBuilder Token(string value) => new(NormalizeToken(value, preferY: false));
     }
 
+    /// <summary>
+    /// Represents the y.
+    /// </summary>
     public static class Y
     {
         /// <summary>

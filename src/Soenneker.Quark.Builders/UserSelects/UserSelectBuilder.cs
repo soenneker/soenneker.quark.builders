@@ -95,5 +95,9 @@ public sealed class UserSelectBuilder : CssBuilderBase<UserSelectBuilder>
     /// </summary>
     /// <returns>The CSS style string.</returns>
     public override string ToStyle() => string.Empty;
+    /// <summary>
+    /// Returns a string representation of the current instance.
+    /// </summary>
+    /// <returns>The result of the operation.</returns>
     public override string ToString() => ToClass();
 }

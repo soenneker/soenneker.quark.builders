@@ -5,6 +5,9 @@ using Soenneker.Utils.PooledStringBuilders;
 
 namespace Soenneker.Quark;
 
+/// <summary>
+/// Represents the column span builder.
+/// </summary>
 [TailwindPrefix("col-span", Responsive = true)]
 public sealed class ColumnSpanBuilder : CssBuilderBase<ColumnSpanBuilder>
 {
@@ -84,6 +87,11 @@ public sealed class ColumnSpanBuilder : CssBuilderBase<ColumnSpanBuilder>
     /// </summary>
     public ColumnSpanBuilder Full => Chain(ColumnSpanEnum.Full);
 
+    /// <summary>
+    /// Executes the span operation.
+    /// </summary>
+    /// <param name="value">The value.</param>
+    /// <returns>The result of the operation.</returns>
     public ColumnSpanBuilder Span(int value) => ChainClass($"col-span-{value}");
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -101,6 +109,10 @@ public sealed class ColumnSpanBuilder : CssBuilderBase<ColumnSpanBuilder>
         return this;
     }
 
+    /// <summary>
+    /// Executes the to class operation.
+    /// </summary>
+    /// <returns>The result of the operation.</returns>
     public override string ToClass()
     {
         if (_rules.Count == 0)
@@ -132,7 +144,15 @@ public sealed class ColumnSpanBuilder : CssBuilderBase<ColumnSpanBuilder>
         return sb.ToString();
     }
 
+    /// <summary>
+    /// Executes the to style operation.
+    /// </summary>
+    /// <returns>The result of the operation.</returns>
     public override string ToStyle() => string.Empty;
 
+    /// <summary>
+    /// Returns a string representation of the current instance.
+    /// </summary>
+    /// <returns>The result of the operation.</returns>
     public override string ToString() => ToClass();
 }

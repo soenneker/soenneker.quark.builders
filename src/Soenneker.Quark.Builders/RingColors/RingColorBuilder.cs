@@ -112,6 +112,9 @@ public sealed class RingColorBuilder : ColorBuilderBase<RingColorBuilder>
     /// Fluent step for `Ring` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
     public RingColorBuilder Ring => ChainValue(RingColorEnum.Ring);
+    /// <summary>
+    /// Gets or sets ring50.
+    /// </summary>
     public RingColorBuilder Ring50 => ChainValue(RingColorEnum.Ring50);
     /// <summary>
     /// Fluent step for `Success` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
@@ -134,8 +137,18 @@ public sealed class RingColorBuilder : ColorBuilderBase<RingColorBuilder>
     /// </summary>
     public RingColorBuilder Black => ChainValue(RingColorEnum.Black);
 
+    /// <summary>
+    /// Executes the token operation.
+    /// </summary>
+    /// <param name="token">The token.</param>
+    /// <returns>The result of the operation.</returns>
     public override RingColorBuilder Token(string token) => ChainClass(ColorUtility.CreateClass("ring-", token));
 
+    /// <summary>
+    /// Executes the utility operation.
+    /// </summary>
+    /// <param name="utility">The utility.</param>
+    /// <returns>The result of the operation.</returns>
     public RingColorBuilder Utility(string utility) => ChainClass(ColorUtility.CreateUtilityClass("ring-", utility));
 
 
@@ -159,6 +172,10 @@ public sealed class RingColorBuilder : ColorBuilderBase<RingColorBuilder>
     }
 
 
+    /// <summary>
+    /// Executes the to class operation.
+    /// </summary>
+    /// <returns>The result of the operation.</returns>
     public override string ToClass()
     {
         if (_rules.Count == 0)
@@ -192,8 +209,16 @@ public sealed class RingColorBuilder : ColorBuilderBase<RingColorBuilder>
         return sb.ToString();
     }
 
+    /// <summary>
+    /// Executes the to style operation.
+    /// </summary>
+    /// <returns>The result of the operation.</returns>
     public override string ToStyle() => string.Empty;
 
+    /// <summary>
+    /// Returns a string representation of the current instance.
+    /// </summary>
+    /// <returns>The result of the operation.</returns>
     public override string ToString()
     {
         return ToClass();

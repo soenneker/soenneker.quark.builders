@@ -4,6 +4,9 @@ using Soenneker.Utils.PooledStringBuilders;
 
 namespace Soenneker.Quark;
 
+/// <summary>
+/// Represents the grow builder.
+/// </summary>
 public sealed class GrowBuilder : CssBuilderBase<GrowBuilder>
 {
     private readonly List<GrowRule> _rules = new(4);
@@ -23,7 +26,13 @@ public sealed class GrowBuilder : CssBuilderBase<GrowBuilder>
             _rules.AddRange(rules);
     }
 
+    /// <summary>
+    /// Gets or sets is1.
+    /// </summary>
     public GrowBuilder Is1 => Chain(GrowEnum.Is1);
+    /// <summary>
+    /// Gets or sets is0.
+    /// </summary>
     public GrowBuilder Is0 => Chain(GrowEnum.Is0);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -33,6 +42,10 @@ public sealed class GrowBuilder : CssBuilderBase<GrowBuilder>
         return this;
     }
 
+    /// <summary>
+    /// Executes the to class operation.
+    /// </summary>
+    /// <returns>The result of the operation.</returns>
     public override string ToClass()
     {
         if (_rules.Count == 0)
@@ -62,7 +75,15 @@ public sealed class GrowBuilder : CssBuilderBase<GrowBuilder>
         return sb.ToString();
     }
 
+    /// <summary>
+    /// Executes the to style operation.
+    /// </summary>
+    /// <returns>The result of the operation.</returns>
     public override string ToStyle() => string.Empty;
 
+    /// <summary>
+    /// Returns a string representation of the current instance.
+    /// </summary>
+    /// <returns>The result of the operation.</returns>
     public override string ToString() => ToClass();
 }

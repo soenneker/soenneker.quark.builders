@@ -53,8 +53,18 @@ public sealed class AccentColorBuilder : ColorBuilderBase<AccentColorBuilder>
     public AccentColorBuilder Current => Chain(AccentColorEnum.Current);
 
 
+    /// <summary>
+    /// Executes the token operation.
+    /// </summary>
+    /// <param name="token">The token.</param>
+    /// <returns>The result of the operation.</returns>
     public override AccentColorBuilder Token(string token) => ChainClass(ColorUtility.CreateClass(Prefix, token));
 
+    /// <summary>
+    /// Executes the utility operation.
+    /// </summary>
+    /// <param name="utility">The utility.</param>
+    /// <returns>The result of the operation.</returns>
     public AccentColorBuilder Utility(string utility) => ChainClass(ColorUtility.CreateUtilityClass(Prefix, utility));
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -76,6 +86,10 @@ public sealed class AccentColorBuilder : ColorBuilderBase<AccentColorBuilder>
         return this;
     }
 
+    /// <summary>
+    /// Executes the to class operation.
+    /// </summary>
+    /// <returns>The result of the operation.</returns>
     public override string ToClass()
     {
         if (_rules.Count == 0) return string.Empty;
@@ -95,8 +109,16 @@ public sealed class AccentColorBuilder : ColorBuilderBase<AccentColorBuilder>
         return sb.ToString();
     }
 
+    /// <summary>
+    /// Executes the to style operation.
+    /// </summary>
+    /// <returns>The result of the operation.</returns>
     public override string ToStyle()
         => string.Empty;
 
+    /// <summary>
+    /// Returns a string representation of the current instance.
+    /// </summary>
+    /// <returns>The result of the operation.</returns>
     public override string ToString() => ToClass();
 }

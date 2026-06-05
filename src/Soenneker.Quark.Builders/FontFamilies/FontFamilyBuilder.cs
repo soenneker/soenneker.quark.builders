@@ -60,6 +60,10 @@ public sealed class FontFamilyBuilder : CssBuilderBase<FontFamilyBuilder>
         _rules.Add(new FontFamilyRule(value.Value, null, ConsumePendingModifierChain()));
         return this;
     }
+    /// <summary>
+    /// Executes the to class operation.
+    /// </summary>
+    /// <returns>The result of the operation.</returns>
     public override string ToClass()
     {
         if (_rules.Count == 0)
@@ -94,6 +98,10 @@ public sealed class FontFamilyBuilder : CssBuilderBase<FontFamilyBuilder>
         return sb.ToString();
     }
 
+    /// <summary>
+    /// Executes the to style operation.
+    /// </summary>
+    /// <returns>The result of the operation.</returns>
     public override string ToStyle() => string.Empty;
 }
 

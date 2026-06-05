@@ -1,5 +1,8 @@
 namespace Soenneker.Quark;
 
+/// <summary>
+/// Represents the clear builder.
+/// </summary>
 [TailwindPrefix("clear-", Responsive = true)]
 public sealed class ClearBuilder : FinalClassUtilityBuilder<ClearBuilder>
 {
@@ -7,11 +10,34 @@ public sealed class ClearBuilder : FinalClassUtilityBuilder<ClearBuilder>
     internal ClearBuilder(ClearEnum value) : base(value.Value) {}
     internal ClearBuilder(string value) : base(value) {}
 
+    /// <summary>
+    /// Gets or sets start.
+    /// </summary>
     public ClearBuilder Start => ChainClass(ClearEnum.Start.Value);
+    /// <summary>
+    /// Gets or sets end.
+    /// </summary>
     public ClearBuilder End => ChainClass(ClearEnum.End.Value);
+    /// <summary>
+    /// Gets or sets left.
+    /// </summary>
     public ClearBuilder Left => ChainClass(ClearEnum.Left.Value);
+    /// <summary>
+    /// Gets or sets right.
+    /// </summary>
     public ClearBuilder Right => ChainClass(ClearEnum.Right.Value);
+    /// <summary>
+    /// Gets or sets both.
+    /// </summary>
     public ClearBuilder Both => ChainClass(ClearEnum.Both.Value);
+    /// <summary>
+    /// Gets or sets none.
+    /// </summary>
     public ClearBuilder None => ChainClass(ClearEnum.None.Value);
+    /// <summary>
+    /// Executes the token operation.
+    /// </summary>
+    /// <param name="value">The value.</param>
+    /// <returns>The result of the operation.</returns>
     public ClearBuilder Token(string value) => ChainClass(value.StartsWith("clear-") ? value : $"clear-{value}");
 }

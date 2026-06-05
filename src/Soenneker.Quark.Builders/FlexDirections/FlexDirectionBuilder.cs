@@ -4,6 +4,9 @@ using Soenneker.Utils.PooledStringBuilders;
 
 namespace Soenneker.Quark;
 
+/// <summary>
+/// Represents the flex direction builder.
+/// </summary>
 [TailwindPrefix("flex-", Responsive = true)]
 public sealed class FlexDirectionBuilder : ResponsiveUtilityBuilder<FlexDirectionBuilder>
 {
@@ -19,12 +22,33 @@ public sealed class FlexDirectionBuilder : ResponsiveUtilityBuilder<FlexDirectio
     {
     }
 
+    /// <summary>
+    /// Gets or sets row.
+    /// </summary>
     public FlexDirectionBuilder Row => ChainValue(FlexDirectionEnum.RowValue);
+    /// <summary>
+    /// Gets or sets row reverse.
+    /// </summary>
     public FlexDirectionBuilder RowReverse => ChainValue(FlexDirectionEnum.RowReverseValue);
+    /// <summary>
+    /// Gets or sets col.
+    /// </summary>
     public FlexDirectionBuilder Col => ChainValue(FlexDirectionEnum.ColValue);
+    /// <summary>
+    /// Gets or sets col reverse.
+    /// </summary>
     public FlexDirectionBuilder ColReverse => ChainValue(FlexDirectionEnum.ColReverseValue);
+    /// <summary>
+    /// Executes the token operation.
+    /// </summary>
+    /// <param name="value">The value.</param>
+    /// <returns>The result of the operation.</returns>
     public FlexDirectionBuilder Token(string value) => ChainValue("flex-" + value);
 
+    /// <summary>
+    /// Executes the to class operation.
+    /// </summary>
+    /// <returns>The result of the operation.</returns>
     public override string ToClass()
     {
         if (Rules.Count == 0)

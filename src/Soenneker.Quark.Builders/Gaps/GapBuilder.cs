@@ -34,20 +34,35 @@ public sealed class GapBuilder : CssBuilderBase<GapBuilder>
     /// Chain with a new size for the next rule.
     /// </summary>
     public GapBuilder Is0 => ChainWithSize(GapScaleEnum.Is0Value);
+    /// <summary>
+    /// Gets or sets is0 25.
+    /// </summary>
     public GapBuilder Is0_25 => ChainWithSize(GapScaleEnum.Is0_25Value);
+    /// <summary>
+    /// Gets or sets is0 5.
+    /// </summary>
     public GapBuilder Is0_5 => ChainWithSize(GapScaleEnum.Is0_5Value);
 
     /// <summary>
     /// Chain with a new size for the next rule.
     /// </summary>
     public GapBuilder Is1 => ChainWithSize(GapScaleEnum.Is1Value);
+    /// <summary>
+    /// Gets or sets is1 25.
+    /// </summary>
     public GapBuilder Is1_25 => ChainWithSize(GapScaleEnum.Is1_25Value);
+    /// <summary>
+    /// Gets or sets is1 5.
+    /// </summary>
     public GapBuilder Is1_5 => ChainWithSize(GapScaleEnum.Is1_5Value);
 
     /// <summary>
     /// Chain with a new size for the next rule.
     /// </summary>
     public GapBuilder Is2 => ChainWithSize(GapScaleEnum.Is2Value);
+    /// <summary>
+    /// Gets or sets is2 5.
+    /// </summary>
     public GapBuilder Is2_5 => ChainWithSize(GapScaleEnum.Is2_5Value);
 
     /// <summary>
@@ -95,6 +110,9 @@ public sealed class GapBuilder : CssBuilderBase<GapBuilder>
     /// </summary>
     public GapBuilder X => ChainWithAxis(GapAxisEnum.X);
 
+    /// <summary>
+    /// Gets or sets column.
+    /// </summary>
     public GapBuilder Column => X;
 
     /// <summary>
@@ -102,6 +120,9 @@ public sealed class GapBuilder : CssBuilderBase<GapBuilder>
     /// </summary>
     public GapBuilder Y => ChainWithAxis(GapAxisEnum.Y);
 
+    /// <summary>
+    /// Gets or sets row.
+    /// </summary>
     public GapBuilder Row => Y;
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -165,6 +186,10 @@ public sealed class GapBuilder : CssBuilderBase<GapBuilder>
         return sb.ToString();
     }
 
+    /// <summary>
+    /// Executes the to style operation.
+    /// </summary>
+    /// <returns>The result of the operation.</returns>
     public override string ToStyle() => string.Empty;
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]

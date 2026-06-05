@@ -41,9 +41,21 @@ public sealed class RingBuilder : CssBuilderBase<RingBuilder>
     /// Disables the effect (`none` token) or sets size to zero, depending on the utility.
     /// </summary>
     public RingBuilder None => Chain(RingEnum.None);
+    /// <summary>
+    /// Gets or sets is1.
+    /// </summary>
     public RingBuilder Is1 => Chain(RingEnum.Is1);
+    /// <summary>
+    /// Gets or sets is2.
+    /// </summary>
     public RingBuilder Is2 => Chain(RingEnum.Is2);
+    /// <summary>
+    /// Gets or sets is4.
+    /// </summary>
     public RingBuilder Is4 => Chain(RingEnum.Is4);
+    /// <summary>
+    /// Gets or sets is8.
+    /// </summary>
     public RingBuilder Is8 => Chain(RingEnum.Is8);
     /// <summary>
     /// Fluent step for `Inset` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
@@ -64,6 +76,10 @@ public sealed class RingBuilder : CssBuilderBase<RingBuilder>
         return this;
     }
 
+    /// <summary>
+    /// Executes the to class operation.
+    /// </summary>
+    /// <returns>The result of the operation.</returns>
     public override string ToClass()
     {
         if (_rules.Count == 0)
@@ -97,6 +113,10 @@ public sealed class RingBuilder : CssBuilderBase<RingBuilder>
         return sb.ToString();
     }
 
+    /// <summary>
+    /// Executes the to style operation.
+    /// </summary>
+    /// <returns>The result of the operation.</returns>
     public override string ToStyle() => string.Empty;
 
 }

@@ -21,14 +21,40 @@ public sealed class CheckSizeBuilder : CssBuilderBase
         _tokens.Add(value);
     }
 
+    /// <summary>
+    /// Gets or sets default.
+    /// </summary>
     public CheckSizeBuilder Default => Chain(CheckSizeEnum.Default);
+    /// <summary>
+    /// Gets or sets xs.
+    /// </summary>
     public CheckSizeBuilder Xs => Chain(CheckSizeEnum.Xs);
+    /// <summary>
+    /// Gets or sets sm.
+    /// </summary>
     public CheckSizeBuilder Sm => Chain(CheckSizeEnum.Sm);
+    /// <summary>
+    /// Gets or sets md.
+    /// </summary>
     public CheckSizeBuilder Md => Chain(CheckSizeEnum.Md);
+    /// <summary>
+    /// Gets or sets lg.
+    /// </summary>
     public CheckSizeBuilder Lg => Chain(CheckSizeEnum.Lg);
+    /// <summary>
+    /// Gets or sets xl.
+    /// </summary>
     public CheckSizeBuilder Xl => Chain(CheckSizeEnum.Xl);
+    /// <summary>
+    /// Gets or sets xxl.
+    /// </summary>
     public CheckSizeBuilder Xxl => Chain(CheckSizeEnum.Xxl);
 
+    /// <summary>
+    /// Executes the token operation.
+    /// </summary>
+    /// <param name="value">The value.</param>
+    /// <returns>The result of the operation.</returns>
     public CheckSizeBuilder Token(string value) => Chain(value);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -45,6 +71,10 @@ public sealed class CheckSizeBuilder : CssBuilderBase
         return this;
     }
 
+    /// <summary>
+    /// Executes the to class operation.
+    /// </summary>
+    /// <returns>The result of the operation.</returns>
     public override string ToClass()
     {
         if (_tokens.Count == 0)
@@ -63,5 +93,9 @@ public sealed class CheckSizeBuilder : CssBuilderBase
         return sb.ToString();
     }
 
+    /// <summary>
+    /// Executes the to style operation.
+    /// </summary>
+    /// <returns>The result of the operation.</returns>
     public override string ToStyle() => string.Empty;
 }

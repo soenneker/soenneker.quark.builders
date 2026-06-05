@@ -4,6 +4,9 @@ using Soenneker.Utils.PooledStringBuilders;
 
 namespace Soenneker.Quark;
 
+/// <summary>
+/// Represents the text color builder.
+/// </summary>
 [TailwindPrefix("text-", Responsive = true)]
 public sealed class TextColorBuilder : ColorBuilderBase<TextColorBuilder>
 {
@@ -32,23 +35,75 @@ public sealed class TextColorBuilder : ColorBuilderBase<TextColorBuilder>
             _rules.AddRange(rules);
     }
 
+    /// <summary>
+    /// Gets or sets primary.
+    /// </summary>
     public TextColorBuilder Primary => ChainValue(TextColorEnum.Primary);
+    /// <summary>
+    /// Gets or sets primary foreground.
+    /// </summary>
     public TextColorBuilder PrimaryForeground => ChainValue(TextColorEnum.PrimaryForeground);
+    /// <summary>
+    /// Gets or sets secondary.
+    /// </summary>
     public TextColorBuilder Secondary => ChainValue(TextColorEnum.Secondary);
+    /// <summary>
+    /// Gets or sets secondary foreground.
+    /// </summary>
     public TextColorBuilder SecondaryForeground => ChainValue(TextColorEnum.SecondaryForeground);
+    /// <summary>
+    /// Gets or sets destructive.
+    /// </summary>
     public TextColorBuilder Destructive => ChainValue(TextColorEnum.Destructive);
+    /// <summary>
+    /// Gets or sets destructive foreground.
+    /// </summary>
     public TextColorBuilder DestructiveForeground => ChainValue(TextColorEnum.DestructiveForeground);
+    /// <summary>
+    /// Gets or sets muted foreground.
+    /// </summary>
     public TextColorBuilder MutedForeground => ChainValue(TextColorEnum.MutedForeground);
+    /// <summary>
+    /// Gets or sets accent.
+    /// </summary>
     public TextColorBuilder Accent => ChainValue(TextColorEnum.Accent);
+    /// <summary>
+    /// Gets or sets accent foreground.
+    /// </summary>
     public TextColorBuilder AccentForeground => ChainValue(TextColorEnum.AccentForeground);
+    /// <summary>
+    /// Gets or sets popover foreground.
+    /// </summary>
     public TextColorBuilder PopoverForeground => ChainValue(TextColorEnum.PopoverForeground);
+    /// <summary>
+    /// Gets or sets card foreground.
+    /// </summary>
     public TextColorBuilder CardForeground => ChainValue(TextColorEnum.CardForeground);
+    /// <summary>
+    /// Gets or sets foreground.
+    /// </summary>
     public TextColorBuilder Foreground => ChainValue(TextColorEnum.Foreground);
+    /// <summary>
+    /// Gets or sets white.
+    /// </summary>
     public TextColorBuilder White => ChainValue(TextColorEnum.White);
+    /// <summary>
+    /// Gets or sets black.
+    /// </summary>
     public TextColorBuilder Black => ChainValue(TextColorEnum.Black);
 
+    /// <summary>
+    /// Executes the token operation.
+    /// </summary>
+    /// <param name="token">The token.</param>
+    /// <returns>The result of the operation.</returns>
     public override TextColorBuilder Token(string token) => ChainClass(ColorUtility.CreateClass(Prefix, token));
 
+    /// <summary>
+    /// Executes the utility operation.
+    /// </summary>
+    /// <param name="utility">The utility.</param>
+    /// <returns>The result of the operation.</returns>
     public TextColorBuilder Utility(string utility) => ChainClass(ColorUtility.CreateUtilityClass(Prefix, utility));
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -69,6 +124,10 @@ public sealed class TextColorBuilder : ColorBuilderBase<TextColorBuilder>
     }
 
 
+    /// <summary>
+    /// Executes the to class operation.
+    /// </summary>
+    /// <returns>The result of the operation.</returns>
     public override string ToClass()
     {
         if (_rules.Count == 0)
@@ -100,7 +159,15 @@ public sealed class TextColorBuilder : ColorBuilderBase<TextColorBuilder>
         return sb.ToString();
     }
 
+    /// <summary>
+    /// Executes the to style operation.
+    /// </summary>
+    /// <returns>The result of the operation.</returns>
     public override string ToStyle() => string.Empty;
 
+    /// <summary>
+    /// Returns a string representation of the current instance.
+    /// </summary>
+    /// <returns>The result of the operation.</returns>
     public override string ToString() => ToClass();
 }

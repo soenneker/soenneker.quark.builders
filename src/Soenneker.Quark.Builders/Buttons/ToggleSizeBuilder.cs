@@ -28,10 +28,24 @@ public sealed class ToggleSizeBuilder : CssBuilderBase<ToggleSizeBuilder>
             _rules.AddRange(rules);
     }
 
+    /// <summary>
+    /// Gets or sets default.
+    /// </summary>
     public ToggleSizeBuilder Default => Chain("h-9 min-w-9 px-2");
+    /// <summary>
+    /// Gets or sets sm.
+    /// </summary>
     public ToggleSizeBuilder Sm => Chain("h-8 min-w-8 px-1.5");
+    /// <summary>
+    /// Gets or sets lg.
+    /// </summary>
     public ToggleSizeBuilder Lg => Chain("h-10 min-w-10 px-2.5");
 
+    /// <summary>
+    /// Executes the token operation.
+    /// </summary>
+    /// <param name="value">The value.</param>
+    /// <returns>The result of the operation.</returns>
     public ToggleSizeBuilder Token(string value) => Chain(value);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -41,6 +55,10 @@ public sealed class ToggleSizeBuilder : CssBuilderBase<ToggleSizeBuilder>
         return this;
     }
 
+    /// <summary>
+    /// Executes the to class operation.
+    /// </summary>
+    /// <returns>The result of the operation.</returns>
     public override string ToClass()
     {
         if (_rules.Count == 0)
@@ -76,6 +94,10 @@ public sealed class ToggleSizeBuilder : CssBuilderBase<ToggleSizeBuilder>
         return sb.ToString();
     }
 
+    /// <summary>
+    /// Executes the to style operation.
+    /// </summary>
+    /// <returns>The result of the operation.</returns>
     public override string ToStyle() => string.Empty;
 
 }

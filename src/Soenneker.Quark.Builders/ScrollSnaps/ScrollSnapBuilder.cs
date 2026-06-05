@@ -27,11 +27,29 @@ public sealed class ScrollSnapBuilder : CssBuilderBase<ScrollSnapBuilder>
             _rules.AddRange(rules);
     }
 
+    /// <summary>
+    /// Gets or sets none.
+    /// </summary>
     public ScrollSnapBuilder None => Chain(ScrollSnapEnum.None);
+    /// <summary>
+    /// Gets or sets x.
+    /// </summary>
     public ScrollSnapBuilder X => Chain(ScrollSnapEnum.X);
+    /// <summary>
+    /// Gets or sets y.
+    /// </summary>
     public ScrollSnapBuilder Y => Chain(ScrollSnapEnum.Y);
+    /// <summary>
+    /// Gets or sets both.
+    /// </summary>
     public ScrollSnapBuilder Both => Chain(ScrollSnapEnum.Both);
+    /// <summary>
+    /// Gets or sets mandatory.
+    /// </summary>
     public ScrollSnapBuilder Mandatory => Chain(ScrollSnapEnum.Mandatory);
+    /// <summary>
+    /// Gets or sets proximity.
+    /// </summary>
     public ScrollSnapBuilder Proximity => Chain(ScrollSnapEnum.Proximity);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -41,6 +59,10 @@ public sealed class ScrollSnapBuilder : CssBuilderBase<ScrollSnapBuilder>
         return this;
     }
 
+    /// <summary>
+    /// Executes the to class operation.
+    /// </summary>
+    /// <returns>The result of the operation.</returns>
     public override string ToClass()
     {
         if (_rules.Count == 0)
@@ -73,7 +95,15 @@ public sealed class ScrollSnapBuilder : CssBuilderBase<ScrollSnapBuilder>
         return sb.ToString();
     }
 
+    /// <summary>
+    /// Executes the to style operation.
+    /// </summary>
+    /// <returns>The result of the operation.</returns>
     public override string ToStyle() => string.Empty;
 
+    /// <summary>
+    /// Returns a string representation of the current instance.
+    /// </summary>
+    /// <returns>The result of the operation.</returns>
     public override string ToString() => ToClass();
 }

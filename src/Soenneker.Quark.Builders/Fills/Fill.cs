@@ -1,5 +1,8 @@
 namespace Soenneker.Quark;
 
+/// <summary>
+/// Represents the fill.
+/// </summary>
 [TailwindModifiers(typeof(FillBuilder))]
 public static partial class Fill
 {

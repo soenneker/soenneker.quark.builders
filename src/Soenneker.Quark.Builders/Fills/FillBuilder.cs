@@ -1,5 +1,8 @@
 namespace Soenneker.Quark;
 
+/// <summary>
+/// Represents the fill builder.
+/// </summary>
 [TailwindPrefix("fill-", Responsive = true)]
 public sealed class FillBuilder : FinalClassUtilityBuilder<FillBuilder>
 {

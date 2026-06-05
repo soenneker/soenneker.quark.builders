@@ -1,5 +1,8 @@
 namespace Soenneker.Quark;
 
+/// <summary>
+/// Represents the stroke builder.
+/// </summary>
 [TailwindPrefix("stroke-", Responsive = true)]
 public sealed class StrokeBuilder : FinalClassUtilityBuilder<StrokeBuilder>
 {
@@ -19,6 +22,9 @@ public sealed class StrokeBuilder : FinalClassUtilityBuilder<StrokeBuilder>
     /// Disables the effect (`none` token) or sets size to zero, depending on the utility.
     /// </summary>
     public StrokeBuilder None => ChainClass(StrokeEnum.NoneValue);
+    /// <summary>
+    /// Gets or sets current.
+    /// </summary>
     public StrokeBuilder Current => ChainClass(StrokeEnum.CurrentValue);
 
 }

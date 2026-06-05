@@ -27,6 +27,9 @@ public sealed partial class ButtonVariant
     /// <summary>Link-styled button (underlined text).</summary>
     public static readonly ButtonVariant Link = new("link", "border-transparent text-primary underline-offset-4 hover:underline");
 
+    /// <summary>
+    /// Gets class.
+    /// </summary>
     public string Class { get; } = string.Empty;
 
     private ButtonVariant(string value, string cssClass) : this(value)

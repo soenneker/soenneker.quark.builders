@@ -4,6 +4,9 @@ using Soenneker.Utils.PooledStringBuilders;
 
 namespace Soenneker.Quark;
 
+/// <summary>
+/// Represents the tracking builder.
+/// </summary>
 [TailwindPrefix("tracking-", Responsive = true)]
 public sealed class TrackingBuilder : CssBuilderBase<TrackingBuilder>
 {
@@ -24,12 +27,35 @@ public sealed class TrackingBuilder : CssBuilderBase<TrackingBuilder>
         _rules.Add(new TrackingRule(value, breakpoint));
     }
 
+    /// <summary>
+    /// Gets or sets tighter.
+    /// </summary>
     public TrackingBuilder Tighter => Chain(TrackingEnum.Tighter);
+    /// <summary>
+    /// Gets or sets tight.
+    /// </summary>
     public TrackingBuilder Tight => Chain(TrackingEnum.Tight);
+    /// <summary>
+    /// Gets or sets normal.
+    /// </summary>
     public TrackingBuilder Normal => Chain(TrackingEnum.Normal);
+    /// <summary>
+    /// Gets or sets wide.
+    /// </summary>
     public TrackingBuilder Wide => Chain(TrackingEnum.Wide);
+    /// <summary>
+    /// Gets or sets wider.
+    /// </summary>
     public TrackingBuilder Wider => Chain(TrackingEnum.Wider);
+    /// <summary>
+    /// Gets or sets widest.
+    /// </summary>
     public TrackingBuilder Widest => Chain(TrackingEnum.Widest);
+    /// <summary>
+    /// Executes the token operation.
+    /// </summary>
+    /// <param name="value">The value.</param>
+    /// <returns>The result of the operation.</returns>
     public TrackingBuilder Token(string value) => Chain(Prefix + value);
 
 
@@ -49,6 +75,10 @@ public sealed class TrackingBuilder : CssBuilderBase<TrackingBuilder>
 
 
 
+    /// <summary>
+    /// Executes the to class operation.
+    /// </summary>
+    /// <returns>The result of the operation.</returns>
     public override string ToClass()
     {
         if (_rules.Count == 0)
@@ -84,7 +114,15 @@ public sealed class TrackingBuilder : CssBuilderBase<TrackingBuilder>
         return sb.ToString();
     }
 
+    /// <summary>
+    /// Executes the to style operation.
+    /// </summary>
+    /// <returns>The result of the operation.</returns>
     public override string ToStyle() => string.Empty;
 
+    /// <summary>
+    /// Returns a string representation of the current instance.
+    /// </summary>
+    /// <returns>The result of the operation.</returns>
     public override string ToString() => ToClass();
 }

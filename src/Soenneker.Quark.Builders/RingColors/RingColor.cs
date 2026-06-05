@@ -82,6 +82,9 @@ public static partial class RingColor
     /// Fluent step for `Ring` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
     public static RingColorBuilder Ring => new(RingColorEnum.Ring);
+    /// <summary>
+    /// Gets or sets ring50.
+    /// </summary>
     public static RingColorBuilder Ring50 => new(RingColorEnum.Ring50);
     /// <summary>
     /// Fluent step for `Success` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.

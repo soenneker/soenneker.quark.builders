@@ -51,35 +51,125 @@ public sealed class WidthBuilder : CssBuilderBase<WidthBuilder>
     /// <c>w-0</c> — <c>width: 0px</c>.
     /// </summary>
     public WidthBuilder Is0 => ChainWithSize("w-0");
+    /// <summary>
+    /// Gets or sets is0 5.
+    /// </summary>
     public WidthBuilder Is0_5 => ChainWithSize("w-0.5");
+    /// <summary>
+    /// Gets or sets is1.
+    /// </summary>
     public WidthBuilder Is1 => ChainWithSize("w-1");
+    /// <summary>
+    /// Gets or sets is1 5.
+    /// </summary>
     public WidthBuilder Is1_5 => ChainWithSize("w-1.5");
+    /// <summary>
+    /// Gets or sets is2.
+    /// </summary>
     public WidthBuilder Is2 => ChainWithSize("w-2");
+    /// <summary>
+    /// Gets or sets is3.
+    /// </summary>
     public WidthBuilder Is3 => ChainWithSize("w-3");
+    /// <summary>
+    /// Gets or sets is4.
+    /// </summary>
     public WidthBuilder Is4 => ChainWithSize("w-4");
+    /// <summary>
+    /// Gets or sets is5.
+    /// </summary>
     public WidthBuilder Is5 => ChainWithSize("w-5");
+    /// <summary>
+    /// Gets or sets is6.
+    /// </summary>
     public WidthBuilder Is6 => ChainWithSize("w-6");
+    /// <summary>
+    /// Gets or sets is7.
+    /// </summary>
     public WidthBuilder Is7 => ChainWithSize("w-7");
+    /// <summary>
+    /// Gets or sets is8.
+    /// </summary>
     public WidthBuilder Is8 => ChainWithSize("w-8");
+    /// <summary>
+    /// Gets or sets is9.
+    /// </summary>
     public WidthBuilder Is9 => ChainWithSize("w-9");
+    /// <summary>
+    /// Gets or sets is10.
+    /// </summary>
     public WidthBuilder Is10 => ChainWithSize("w-10");
+    /// <summary>
+    /// Gets or sets is11.
+    /// </summary>
     public WidthBuilder Is11 => ChainWithSize("w-11");
+    /// <summary>
+    /// Gets or sets is12.
+    /// </summary>
     public WidthBuilder Is12 => ChainWithSize("w-12");
+    /// <summary>
+    /// Gets or sets is14.
+    /// </summary>
     public WidthBuilder Is14 => ChainWithSize("w-14");
+    /// <summary>
+    /// Gets or sets is16.
+    /// </summary>
     public WidthBuilder Is16 => ChainWithSize("w-16");
+    /// <summary>
+    /// Gets or sets is20.
+    /// </summary>
     public WidthBuilder Is20 => ChainWithSize("w-20");
+    /// <summary>
+    /// Gets or sets is24.
+    /// </summary>
     public WidthBuilder Is24 => ChainWithSize("w-24");
+    /// <summary>
+    /// Gets or sets is32.
+    /// </summary>
     public WidthBuilder Is32 => ChainWithSize("w-32");
+    /// <summary>
+    /// Gets or sets is36.
+    /// </summary>
     public WidthBuilder Is36 => ChainWithSize("w-36");
+    /// <summary>
+    /// Gets or sets is40.
+    /// </summary>
     public WidthBuilder Is40 => ChainWithSize("w-40");
+    /// <summary>
+    /// Gets or sets is44.
+    /// </summary>
     public WidthBuilder Is44 => ChainWithSize("w-44");
+    /// <summary>
+    /// Gets or sets is48.
+    /// </summary>
     public WidthBuilder Is48 => ChainWithSize("w-48");
+    /// <summary>
+    /// Gets or sets is52.
+    /// </summary>
     public WidthBuilder Is52 => ChainWithSize("w-52");
+    /// <summary>
+    /// Gets or sets is56.
+    /// </summary>
     public WidthBuilder Is56 => ChainWithSize("w-56");
+    /// <summary>
+    /// Gets or sets is60.
+    /// </summary>
     public WidthBuilder Is60 => ChainWithSize("w-60");
+    /// <summary>
+    /// Gets or sets is64.
+    /// </summary>
     public WidthBuilder Is64 => ChainWithSize("w-64");
+    /// <summary>
+    /// Gets or sets is72.
+    /// </summary>
     public WidthBuilder Is72 => ChainWithSize("w-72");
+    /// <summary>
+    /// Gets or sets is80.
+    /// </summary>
     public WidthBuilder Is80 => ChainWithSize("w-80");
+    /// <summary>
+    /// Gets or sets is96.
+    /// </summary>
     public WidthBuilder Is96 => ChainWithSize("w-96");
     /// <summary>
     /// <c>w-px</c> — fixed <c>1px</c> width.
@@ -220,6 +310,10 @@ public sealed class WidthBuilder : CssBuilderBase<WidthBuilder>
     }
 
 
+    /// <summary>
+    /// Executes the to class operation.
+    /// </summary>
+    /// <returns>The result of the operation.</returns>
     public override string ToClass()
     {
         if (_rules.Count == 0)
@@ -251,6 +345,10 @@ public sealed class WidthBuilder : CssBuilderBase<WidthBuilder>
         return sb.ToString();
     }
 
+    /// <summary>
+    /// Executes the to style operation.
+    /// </summary>
+    /// <returns>The result of the operation.</returns>
     public override string ToStyle() => string.Empty;
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]

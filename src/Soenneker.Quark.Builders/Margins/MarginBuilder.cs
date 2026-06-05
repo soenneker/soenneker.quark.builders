@@ -80,11 +80,17 @@ public sealed class MarginBuilder : CssBuilderBase<MarginBuilder>
     /// Spacing/sizing scale step `0` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 0` for integer spacing utilities unless overridden).
     /// </summary>
     public MarginBuilder Is0 => ChainWithSize(MarginScaleEnum.Is0);
+    /// <summary>
+    /// Gets or sets is0 5.
+    /// </summary>
     public MarginBuilder Is0_5 => ChainWithSize(MarginScaleEnum.Is0_5);
     /// <summary>
     /// Spacing/sizing scale step `1` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 1` for integer spacing utilities unless overridden).
     /// </summary>
     public MarginBuilder Is1 => ChainWithSize(MarginScaleEnum.Is1);
+    /// <summary>
+    /// Gets or sets is1 5.
+    /// </summary>
     public MarginBuilder Is1_5 => ChainWithSize(MarginScaleEnum.Is1_5);
     /// <summary>
     /// Spacing/sizing scale step `2` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 2` for integer spacing utilities unless overridden).
@@ -94,6 +100,9 @@ public sealed class MarginBuilder : CssBuilderBase<MarginBuilder>
     /// Spacing/sizing scale step `3` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 3` for integer spacing utilities unless overridden).
     /// </summary>
     public MarginBuilder Is3 => ChainWithSize(MarginScaleEnum.Is3);
+    /// <summary>
+    /// Gets or sets is3 5.
+    /// </summary>
     public MarginBuilder Is3_5 => ChainWithSize(MarginScaleEnum.Is3_5);
     /// <summary>
     /// Spacing/sizing scale step `4` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 4` for integer spacing utilities unless overridden).
@@ -103,13 +112,25 @@ public sealed class MarginBuilder : CssBuilderBase<MarginBuilder>
     /// Spacing/sizing scale step `5` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 5` for integer spacing utilities unless overridden).
     /// </summary>
     public MarginBuilder Is5 => ChainWithSize(MarginScaleEnum.Is5);
+    /// <summary>
+    /// Gets or sets is6.
+    /// </summary>
     public MarginBuilder Is6 => ChainWithSize(MarginScaleEnum.Is6);
     /// <summary>
     /// Spacing/sizing scale step `8` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 8` for integer spacing utilities unless overridden).
     /// </summary>
     public MarginBuilder Is8 => ChainWithSize(MarginScaleEnum.Is8);
+    /// <summary>
+    /// Gets or sets is12.
+    /// </summary>
     public MarginBuilder Is12 => ChainWithSize(MarginScaleEnum.Is12);
+    /// <summary>
+    /// Gets or sets negative1.
+    /// </summary>
     public MarginBuilder Negative1 => ChainWithSize(MarginScaleEnum.Negative1);
+    /// <summary>
+    /// Gets or sets negative2.
+    /// </summary>
     public MarginBuilder Negative2 => ChainWithSize(MarginScaleEnum.Negative2);
 
 	/// <summary>

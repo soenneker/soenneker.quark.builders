@@ -4,6 +4,9 @@ using Soenneker.Utils.PooledStringBuilders;
 
 namespace Soenneker.Quark;
 
+/// <summary>
+/// Represents the flex wrap builder.
+/// </summary>
 [TailwindPrefix("flex-", Responsive = true)]
 public sealed class FlexWrapBuilder : ResponsiveUtilityBuilder<FlexWrapBuilder>
 {
@@ -19,12 +22,30 @@ public sealed class FlexWrapBuilder : ResponsiveUtilityBuilder<FlexWrapBuilder>
     {
     }
 
+    /// <summary>
+    /// Gets or sets wrap.
+    /// </summary>
     public FlexWrapBuilder Wrap => ChainValue(FlexWrapEnum.WrapValue);
+    /// <summary>
+    /// Gets or sets wrap reverse.
+    /// </summary>
     public FlexWrapBuilder WrapReverse => ChainValue(FlexWrapEnum.WrapReverseValue);
+    /// <summary>
+    /// Gets or sets no wrap.
+    /// </summary>
     public FlexWrapBuilder NoWrap => ChainValue(FlexWrapEnum.NoWrapValue);
+    /// <summary>
+    /// Executes the token operation.
+    /// </summary>
+    /// <param name="value">The value.</param>
+    /// <returns>The result of the operation.</returns>
     public FlexWrapBuilder Token(string value) => ChainValue("flex-" + value);
 
 
+    /// <summary>
+    /// Executes the to class operation.
+    /// </summary>
+    /// <returns>The result of the operation.</returns>
     public override string ToClass()
     {
         if (Rules.Count == 0)

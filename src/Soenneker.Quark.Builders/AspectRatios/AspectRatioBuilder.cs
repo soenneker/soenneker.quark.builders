@@ -102,6 +102,10 @@ public sealed class AspectRatioBuilder : CssBuilderBase<AspectRatioBuilder>
         return sb.ToString();
     }
 
+    /// <summary>
+    /// Executes the to style operation.
+    /// </summary>
+    /// <returns>The result of the operation.</returns>
     public override string ToStyle() => string.Empty;
 
     /// <summary>

@@ -29,6 +29,9 @@ public sealed class TruncateBuilder : CssBuilderBase<TruncateBuilder>
             _rules.AddRange(rules);
     }
 
+    /// <summary>
+    /// Gets or sets default.
+    /// </summary>
     public TruncateBuilder Default => Chain();
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -71,6 +74,10 @@ public sealed class TruncateBuilder : CssBuilderBase<TruncateBuilder>
         return sb.ToString();
     }
 
+    /// <summary>
+    /// Executes the to style operation.
+    /// </summary>
+    /// <returns>The result of the operation.</returns>
     public override string ToStyle() => string.Empty;
 
     /// <summary>

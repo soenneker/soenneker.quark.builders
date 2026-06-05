@@ -85,5 +85,9 @@ public sealed class TextOverflowBuilder : CssBuilderBase<TextOverflowBuilder>
     /// <summary>Gets the CSS style string for the current configuration.</summary>
     public override string ToStyle() => string.Empty;
 
+    /// <summary>
+    /// Returns a string representation of the current instance.
+    /// </summary>
+    /// <returns>The result of the operation.</returns>
     public override string ToString() => ToClass();
 }

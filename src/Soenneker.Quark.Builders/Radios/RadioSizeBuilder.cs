@@ -21,14 +21,40 @@ public sealed class RadioSizeBuilder : CssBuilderBase
         _tokens.Add(value);
     }
 
+    /// <summary>
+    /// Gets or sets default.
+    /// </summary>
     public RadioSizeBuilder Default => Chain(RadioSizeEnum.Default);
+    /// <summary>
+    /// Gets or sets xs.
+    /// </summary>
     public RadioSizeBuilder Xs => Chain(RadioSizeEnum.Xs);
+    /// <summary>
+    /// Gets or sets sm.
+    /// </summary>
     public RadioSizeBuilder Sm => Chain(RadioSizeEnum.Sm);
+    /// <summary>
+    /// Gets or sets md.
+    /// </summary>
     public RadioSizeBuilder Md => Chain(RadioSizeEnum.Md);
+    /// <summary>
+    /// Gets or sets lg.
+    /// </summary>
     public RadioSizeBuilder Lg => Chain(RadioSizeEnum.Lg);
+    /// <summary>
+    /// Gets or sets xl.
+    /// </summary>
     public RadioSizeBuilder Xl => Chain(RadioSizeEnum.Xl);
+    /// <summary>
+    /// Gets or sets xxl.
+    /// </summary>
     public RadioSizeBuilder Xxl => Chain(RadioSizeEnum.Xxl);
 
+    /// <summary>
+    /// Executes the token operation.
+    /// </summary>
+    /// <param name="value">The value.</param>
+    /// <returns>The result of the operation.</returns>
     public RadioSizeBuilder Token(string value) => Chain(value);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -45,6 +71,10 @@ public sealed class RadioSizeBuilder : CssBuilderBase
         return this;
     }
 
+    /// <summary>
+    /// Executes the to class operation.
+    /// </summary>
+    /// <returns>The result of the operation.</returns>
     public override string ToClass()
     {
         if (_tokens.Count == 0)
@@ -63,5 +93,9 @@ public sealed class RadioSizeBuilder : CssBuilderBase
         return sb.ToString();
     }
 
+    /// <summary>
+    /// Executes the to style operation.
+    /// </summary>
+    /// <returns>The result of the operation.</returns>
     public override string ToStyle() => string.Empty;
 }

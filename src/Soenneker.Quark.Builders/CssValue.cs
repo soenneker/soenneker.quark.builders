@@ -94,8 +94,14 @@ public readonly struct CssValue<TBuilder> : IEquatable<CssValue<TBuilder>> where
     /// </summary>
     public bool IsCssClass => !IsCssStyle && !IsEmpty;
 
+    /// <summary>
+    /// Gets or sets css selector.
+    /// </summary>
     public string? CssSelector => _cssSelector;
 
+    /// <summary>
+    /// Gets or sets a value indicating whether selector is absolute.
+    /// </summary>
     public bool SelectorIsAbsolute => _selectorIsAbsolute;
 
     /// <summary>Gets the explicit style representation if available.</summary>

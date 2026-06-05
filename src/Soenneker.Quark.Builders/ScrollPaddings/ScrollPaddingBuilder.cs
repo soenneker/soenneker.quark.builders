@@ -129,6 +129,10 @@ public sealed class ScrollPaddingBuilder : CssBuilderBase<ScrollPaddingBuilder>
         return this;
     }
 
+    /// <summary>
+    /// Executes the to class operation.
+    /// </summary>
+    /// <returns>The result of the operation.</returns>
     public override string ToClass()
     {
         if (_rules.Count == 0) return string.Empty;
@@ -146,8 +150,16 @@ public sealed class ScrollPaddingBuilder : CssBuilderBase<ScrollPaddingBuilder>
         return sb.ToString();
     }
 
+    /// <summary>
+    /// Executes the to style operation.
+    /// </summary>
+    /// <returns>The result of the operation.</returns>
     public override string ToStyle() => string.Empty;
 
+    /// <summary>
+    /// Returns a string representation of the current instance.
+    /// </summary>
+    /// <returns>The result of the operation.</returns>
     public override string ToString() => ToClass();
 
     private static string BuildClass(ScrollPaddingRule rule)

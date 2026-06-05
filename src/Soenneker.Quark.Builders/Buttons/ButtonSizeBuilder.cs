@@ -33,13 +33,37 @@ public sealed class ButtonSizeBuilder : CssBuilderBase<ButtonSizeBuilder>
             _rules.AddRange(rules);
     }
 
+    /// <summary>
+    /// Gets or sets default.
+    /// </summary>
     public ButtonSizeBuilder Default => Chain(ButtonSizeEnum.Default);
+    /// <summary>
+    /// Gets or sets xs.
+    /// </summary>
     public ButtonSizeBuilder Xs => Chain(ButtonSizeEnum.Xs);
+    /// <summary>
+    /// Gets or sets sm.
+    /// </summary>
     public ButtonSizeBuilder Sm => Chain(ButtonSizeEnum.Sm);
+    /// <summary>
+    /// Gets or sets lg.
+    /// </summary>
     public ButtonSizeBuilder Lg => Chain(ButtonSizeEnum.Lg);
+    /// <summary>
+    /// Gets or sets icon.
+    /// </summary>
     public ButtonSizeBuilder Icon => Chain(ButtonSizeEnum.Icon);
+    /// <summary>
+    /// Gets or sets icon xs.
+    /// </summary>
     public ButtonSizeBuilder IconXs => Chain(ButtonSizeEnum.IconXs);
+    /// <summary>
+    /// Gets or sets icon sm.
+    /// </summary>
     public ButtonSizeBuilder IconSm => Chain(ButtonSizeEnum.IconSm);
+    /// <summary>
+    /// Gets or sets icon lg.
+    /// </summary>
     public ButtonSizeBuilder IconLg => Chain(ButtonSizeEnum.IconLg);
 
     /// <summary>
@@ -61,6 +85,10 @@ public sealed class ButtonSizeBuilder : CssBuilderBase<ButtonSizeBuilder>
         return this;
     }
 
+    /// <summary>
+    /// Executes the to class operation.
+    /// </summary>
+    /// <returns>The result of the operation.</returns>
     public override string ToClass()
     {
         if (_rules.Count == 0)
@@ -96,6 +124,10 @@ public sealed class ButtonSizeBuilder : CssBuilderBase<ButtonSizeBuilder>
         return sb.ToString();
     }
 
+    /// <summary>
+    /// Executes the to style operation.
+    /// </summary>
+    /// <returns>The result of the operation.</returns>
     public override string ToStyle() => string.Empty;
 
 }

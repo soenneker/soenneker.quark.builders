@@ -4,6 +4,9 @@ using Soenneker.Utils.PooledStringBuilders;
 
 namespace Soenneker.Quark;
 
+/// <summary>
+/// Represents the shrink builder.
+/// </summary>
 public sealed class ShrinkBuilder : CssBuilderBase<ShrinkBuilder>
 {
     private readonly List<ShrinkRule> _rules = new(4);
@@ -23,7 +26,13 @@ public sealed class ShrinkBuilder : CssBuilderBase<ShrinkBuilder>
             _rules.AddRange(rules);
     }
 
+    /// <summary>
+    /// Gets or sets is1.
+    /// </summary>
     public ShrinkBuilder Is1 => Chain(ShrinkEnum.Is1);
+    /// <summary>
+    /// Gets or sets is0.
+    /// </summary>
     public ShrinkBuilder Is0 => Chain(ShrinkEnum.Is0);
 
 
@@ -36,6 +45,10 @@ public sealed class ShrinkBuilder : CssBuilderBase<ShrinkBuilder>
 
 
 
+    /// <summary>
+    /// Executes the to class operation.
+    /// </summary>
+    /// <returns>The result of the operation.</returns>
     public override string ToClass()
     {
         if (_rules.Count == 0)
@@ -65,7 +78,15 @@ public sealed class ShrinkBuilder : CssBuilderBase<ShrinkBuilder>
         return sb.ToString();
     }
 
+    /// <summary>
+    /// Executes the to style operation.
+    /// </summary>
+    /// <returns>The result of the operation.</returns>
     public override string ToStyle() => string.Empty;
 
+    /// <summary>
+    /// Returns a string representation of the current instance.
+    /// </summary>
+    /// <returns>The result of the operation.</returns>
     public override string ToString() => ToClass();
 }

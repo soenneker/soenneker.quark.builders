@@ -21,5 +21,10 @@ public static partial class Transform
     /// Uses the CPU transform utility.
     /// </summary>
     public static TransformBuilder Cpu => new(TransformEnum.Cpu);
+    /// <summary>
+    /// Executes the token operation.
+    /// </summary>
+    /// <param name="value">The value.</param>
+    /// <returns>The result of the operation.</returns>
     public static TransformBuilder Token(string value) => new("transform-" + value);
 }

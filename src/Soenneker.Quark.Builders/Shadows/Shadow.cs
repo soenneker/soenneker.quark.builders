@@ -21,6 +21,9 @@ public static partial class Shadow
     /// </summary>
     public static ShadowBuilder Sm => new(ShadowKeyword.Sm);
 
+    /// <summary>
+    /// Gets or sets small.
+    /// </summary>
     public static ShadowBuilder Small => Sm;
 
     /// <summary>
@@ -28,6 +31,9 @@ public static partial class Shadow
     /// </summary>
     public static ShadowBuilder Default => new(ShadowKeyword.Default);
 
+    /// <summary>
+    /// Gets or sets base.
+    /// </summary>
     public static ShadowBuilder Base => Default;
 
     /// <summary>

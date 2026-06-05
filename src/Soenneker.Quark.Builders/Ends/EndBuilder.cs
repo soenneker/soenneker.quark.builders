@@ -27,14 +27,41 @@ public sealed class EndBuilder : CssBuilderBase<EndBuilder>
             _rules.AddRange(rules);
     }
 
+    /// <summary>
+    /// Gets or sets is0.
+    /// </summary>
     public EndBuilder Is0 => Chain(EndEnum.Is0);
+    /// <summary>
+    /// Gets or sets is1.
+    /// </summary>
     public EndBuilder Is1 => Chain(EndEnum.Is1);
+    /// <summary>
+    /// Gets or sets is1 5.
+    /// </summary>
     public EndBuilder Is1_5 => Chain(EndEnum.Is1_5);
+    /// <summary>
+    /// Gets or sets is2.
+    /// </summary>
     public EndBuilder Is2 => Chain(EndEnum.Is2);
+    /// <summary>
+    /// Gets or sets is3.
+    /// </summary>
     public EndBuilder Is3 => Chain(EndEnum.Is3);
+    /// <summary>
+    /// Gets or sets is4.
+    /// </summary>
     public EndBuilder Is4 => Chain(EndEnum.Is4);
+    /// <summary>
+    /// Gets or sets is5.
+    /// </summary>
     public EndBuilder Is5 => Chain(EndEnum.Is5);
+    /// <summary>
+    /// Gets or sets auto.
+    /// </summary>
     public EndBuilder Auto => Chain(EndEnum.Auto);
+    /// <summary>
+    /// Gets or sets px.
+    /// </summary>
     public EndBuilder Px => Chain(EndEnum.Px);
 
 
@@ -45,6 +72,10 @@ public sealed class EndBuilder : CssBuilderBase<EndBuilder>
         return this;
     }
 
+    /// <summary>
+    /// Executes the to class operation.
+    /// </summary>
+    /// <returns>The result of the operation.</returns>
     public override string ToClass()
     {
         if (_rules.Count == 0) return string.Empty;
@@ -64,7 +95,15 @@ public sealed class EndBuilder : CssBuilderBase<EndBuilder>
         return sb.ToString();
     }
 
+    /// <summary>
+    /// Executes the to style operation.
+    /// </summary>
+    /// <returns>The result of the operation.</returns>
     public override string ToStyle() => string.Empty;
 
+    /// <summary>
+    /// Returns a string representation of the current instance.
+    /// </summary>
+    /// <returns>The result of the operation.</returns>
     public override string ToString() => ToClass();
 }

@@ -21,10 +21,24 @@ public sealed class PaginationSizeBuilder : CssBuilderBase
         _tokens.Add(value);
     }
 
+    /// <summary>
+    /// Gets or sets default.
+    /// </summary>
     public PaginationSizeBuilder Default => Chain(PaginationSizeEnum.Default);
+    /// <summary>
+    /// Gets or sets sm.
+    /// </summary>
     public PaginationSizeBuilder Sm => Chain(PaginationSizeEnum.Sm);
+    /// <summary>
+    /// Gets or sets lg.
+    /// </summary>
     public PaginationSizeBuilder Lg => Chain(PaginationSizeEnum.Lg);
 
+    /// <summary>
+    /// Executes the token operation.
+    /// </summary>
+    /// <param name="value">The value.</param>
+    /// <returns>The result of the operation.</returns>
     public PaginationSizeBuilder Token(string value) => Chain(value);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -41,6 +55,10 @@ public sealed class PaginationSizeBuilder : CssBuilderBase
         return this;
     }
 
+    /// <summary>
+    /// Executes the to class operation.
+    /// </summary>
+    /// <returns>The result of the operation.</returns>
     public override string ToClass()
     {
         if (_tokens.Count == 0)
@@ -66,5 +84,9 @@ public sealed class PaginationSizeBuilder : CssBuilderBase
         return sb.ToString();
     }
 
+    /// <summary>
+    /// Executes the to style operation.
+    /// </summary>
+    /// <returns>The result of the operation.</returns>
     public override string ToStyle() => string.Empty;
 }

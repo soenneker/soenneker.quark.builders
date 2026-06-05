@@ -32,19 +32,63 @@ public sealed class LeftBuilder : CssBuilderBase<LeftBuilder>
             _rules.AddRange(rules);
     }
 
+    /// <summary>
+    /// Gets or sets is0.
+    /// </summary>
     public LeftBuilder Is0 => Chain(LeftEnum.Is0);
+    /// <summary>
+    /// Gets or sets is1.
+    /// </summary>
     public LeftBuilder Is1 => Chain(LeftEnum.Is1);
+    /// <summary>
+    /// Gets or sets is1 5.
+    /// </summary>
     public LeftBuilder Is1_5 => Chain(LeftEnum.Is1_5);
+    /// <summary>
+    /// Gets or sets is2.
+    /// </summary>
     public LeftBuilder Is2 => Chain(LeftEnum.Is2);
+    /// <summary>
+    /// Gets or sets is3.
+    /// </summary>
     public LeftBuilder Is3 => Chain(LeftEnum.Is3);
+    /// <summary>
+    /// Gets or sets is4.
+    /// </summary>
     public LeftBuilder Is4 => Chain(LeftEnum.Is4);
+    /// <summary>
+    /// Gets or sets is5.
+    /// </summary>
     public LeftBuilder Is5 => Chain(LeftEnum.Is5);
+    /// <summary>
+    /// Gets or sets is8.
+    /// </summary>
     public LeftBuilder Is8 => Chain(LeftEnum.Is8);
+    /// <summary>
+    /// Gets or sets is12.
+    /// </summary>
     public LeftBuilder Is12 => Chain(LeftEnum.Is12);
+    /// <summary>
+    /// Gets or sets is16.
+    /// </summary>
     public LeftBuilder Is16 => Chain(LeftEnum.Is16);
+    /// <summary>
+    /// Gets or sets is24.
+    /// </summary>
     public LeftBuilder Is24 => Chain(LeftEnum.Is24);
+    /// <summary>
+    /// Gets or sets auto.
+    /// </summary>
     public LeftBuilder Auto => Chain(LeftEnum.Auto);
+    /// <summary>
+    /// Gets or sets px.
+    /// </summary>
     public LeftBuilder Px => Chain(LeftEnum.Px);
+    /// <summary>
+    /// Executes the token operation.
+    /// </summary>
+    /// <param name="value">The value.</param>
+    /// <returns>The result of the operation.</returns>
     public LeftBuilder Token(string value) => Chain(value.StartsWith("left-") ? value : "left-" + value);
 
 
@@ -64,6 +108,10 @@ public sealed class LeftBuilder : CssBuilderBase<LeftBuilder>
 
 
 
+    /// <summary>
+    /// Executes the to class operation.
+    /// </summary>
+    /// <returns>The result of the operation.</returns>
     public override string ToClass()
     {
         if (_rules.Count == 0) return string.Empty;
@@ -83,7 +131,15 @@ public sealed class LeftBuilder : CssBuilderBase<LeftBuilder>
         return sb.ToString();
     }
 
+    /// <summary>
+    /// Executes the to style operation.
+    /// </summary>
+    /// <returns>The result of the operation.</returns>
     public override string ToStyle() => string.Empty;
 
+    /// <summary>
+    /// Returns a string representation of the current instance.
+    /// </summary>
+    /// <returns>The result of the operation.</returns>
     public override string ToString() => ToClass();
 }

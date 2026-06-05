@@ -4,6 +4,10 @@ using Soenneker.Utils.PooledStringBuilders;
 
 namespace Soenneker.Quark;
 
+/// <summary>
+/// Represents the final class utility builder.
+/// </summary>
+/// <typeparam name="TBuilder">The TBuilder type.</typeparam>
 public abstract class FinalClassUtilityBuilder<TBuilder> : CssBuilderBase<TBuilder> where TBuilder : FinalClassUtilityBuilder<TBuilder>
 {
     private readonly List<UtilityRule> _rules = new(4);
@@ -42,6 +46,10 @@ public abstract class FinalClassUtilityBuilder<TBuilder> : CssBuilderBase<TBuild
         return breakpoint;
     }
 
+    /// <summary>
+    /// Executes the to class operation.
+    /// </summary>
+    /// <returns>The result of the operation.</returns>
     public override string ToClass()
     {
         if (_rules.Count == 0)
@@ -75,7 +83,15 @@ public abstract class FinalClassUtilityBuilder<TBuilder> : CssBuilderBase<TBuild
         return sb.ToString();
     }
 
+    /// <summary>
+    /// Executes the to style operation.
+    /// </summary>
+    /// <returns>The result of the operation.</returns>
     public override string ToStyle() => string.Empty;
 
+    /// <summary>
+    /// Returns a string representation of the current instance.
+    /// </summary>
+    /// <returns>The result of the operation.</returns>
     public override string ToString() => ToClass();
 }

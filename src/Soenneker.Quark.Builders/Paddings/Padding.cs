@@ -50,21 +50,33 @@ public static partial class Padding
     /// Spacing/sizing scale step `0` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 0` for integer spacing utilities unless overridden).
     /// </summary>
     public static PaddingBuilder Is0 => new(PaddingScaleEnum.Is0Value);
+    /// <summary>
+    /// Gets or sets is0 5.
+    /// </summary>
     public static PaddingBuilder Is0_5 => new(PaddingScaleEnum.Is0_5Value);
     /// <summary>
     /// Spacing/sizing scale step `1` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 1` for integer spacing utilities unless overridden).
     /// </summary>
     public static PaddingBuilder Is1 => new(PaddingScaleEnum.Is1Value);
+    /// <summary>
+    /// Gets or sets is1 5.
+    /// </summary>
     public static PaddingBuilder Is1_5 => new(PaddingScaleEnum.Is1_5Value);
     /// <summary>
     /// Spacing/sizing scale step `2` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 2` for integer spacing utilities unless overridden).
     /// </summary>
     public static PaddingBuilder Is2 => new(PaddingScaleEnum.Is2Value);
+    /// <summary>
+    /// Gets or sets is2 5.
+    /// </summary>
     public static PaddingBuilder Is2_5 => new(PaddingScaleEnum.Is2_5Value);
     /// <summary>
     /// Spacing/sizing scale step `3` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 3` for integer spacing utilities unless overridden).
     /// </summary>
     public static PaddingBuilder Is3 => new(PaddingScaleEnum.Is3Value);
+    /// <summary>
+    /// Gets or sets is3 5.
+    /// </summary>
     public static PaddingBuilder Is3_5 => new(PaddingScaleEnum.Is3_5Value);
     /// <summary>
     /// Spacing/sizing scale step `4` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 4` for integer spacing utilities unless overridden).
@@ -78,20 +90,41 @@ public static partial class Padding
     /// Spacing/sizing scale step `6` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 6` for integer spacing utilities unless overridden).
     /// </summary>
     public static PaddingBuilder Is6 => new(PaddingScaleEnum.Is6Value);
+    /// <summary>
+    /// Gets or sets is7.
+    /// </summary>
     public static PaddingBuilder Is7 => new(PaddingScaleEnum.Is7Value);
     /// <summary>
     /// Spacing/sizing scale step `8` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 8` for integer spacing utilities unless overridden).
     /// </summary>
     public static PaddingBuilder Is8 => new(PaddingScaleEnum.Is8Value);
+    /// <summary>
+    /// Gets or sets is9.
+    /// </summary>
     public static PaddingBuilder Is9 => new(PaddingScaleEnum.Is9Value);
+    /// <summary>
+    /// Gets or sets is10.
+    /// </summary>
     public static PaddingBuilder Is10 => new(PaddingScaleEnum.Is10Value);
+    /// <summary>
+    /// Gets or sets is12.
+    /// </summary>
     public static PaddingBuilder Is12 => new(PaddingScaleEnum.Is12Value);
+    /// <summary>
+    /// Gets or sets is14.
+    /// </summary>
     public static PaddingBuilder Is14 => new(PaddingScaleEnum.Is14Value);
     /// <summary>
     /// Spacing/sizing scale step `16` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 16` for integer spacing utilities unless overridden).
     /// </summary>
     public static PaddingBuilder Is16 => new(PaddingScaleEnum.Is16Value);
+    /// <summary>
+    /// Gets or sets is20.
+    /// </summary>
     public static PaddingBuilder Is20 => new(PaddingScaleEnum.Is20Value);
+    /// <summary>
+    /// Gets or sets is px.
+    /// </summary>
     public static PaddingBuilder IsPx => new(PaddingScaleEnum.IsPxValue);
 
     /// <summary>

@@ -4,6 +4,9 @@ using Soenneker.Utils.PooledStringBuilders;
 
 namespace Soenneker.Quark;
 
+/// <summary>
+/// Represents the space builder.
+/// </summary>
 [TailwindPrefix("space-", Responsive = true)]
 public sealed class SpaceBuilder : CssBuilderBase<SpaceBuilder>
 {
@@ -59,6 +62,10 @@ public sealed class SpaceBuilder : CssBuilderBase<SpaceBuilder>
         return this;
     }
 
+    /// <summary>
+    /// Executes the to class operation.
+    /// </summary>
+    /// <returns>The result of the operation.</returns>
     public override string ToClass()
     {
         if (_rules.Count == 0)
@@ -88,7 +95,15 @@ public sealed class SpaceBuilder : CssBuilderBase<SpaceBuilder>
         return sb.ToString();
     }
 
+    /// <summary>
+    /// Executes the to style operation.
+    /// </summary>
+    /// <returns>The result of the operation.</returns>
     public override string ToStyle() => string.Empty;
 
+    /// <summary>
+    /// Returns a string representation of the current instance.
+    /// </summary>
+    /// <returns>The result of the operation.</returns>
     public override string ToString() => ToClass();
 }

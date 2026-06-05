@@ -15,10 +15,18 @@ public sealed class MaxWidthBuilder : CssBuilderBase
         _token = token;
     }
 
+    /// <summary>
+    /// Executes the to class operation.
+    /// </summary>
+    /// <returns>The result of the operation.</returns>
     public override string ToClass()
     {
         return _token.Length == 0 ? string.Empty : _token;
     }
 
+    /// <summary>
+    /// Executes the to style operation.
+    /// </summary>
+    /// <returns>The result of the operation.</returns>
     public override string ToStyle() => string.Empty;
 }

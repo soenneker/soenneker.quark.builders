@@ -1,5 +1,8 @@
 namespace Soenneker.Quark;
 
+/// <summary>
+/// Represents the stroke.
+/// </summary>
 [TailwindModifiers(typeof(StrokeBuilder))]
 public static partial class Stroke
 {
@@ -12,5 +15,8 @@ public static partial class Stroke
     /// Disables the effect (`none` token) or sets size to zero, depending on the utility.
     /// </summary>
     public static StrokeBuilder None => new(StrokeEnum.None);
+    /// <summary>
+    /// Gets or sets current.
+    /// </summary>
     public static StrokeBuilder Current => new(StrokeEnum.Current);
 }

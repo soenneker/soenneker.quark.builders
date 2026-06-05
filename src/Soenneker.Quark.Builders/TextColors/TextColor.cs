@@ -6,19 +6,61 @@ namespace Soenneker.Quark;
 [TailwindModifiers(typeof(TextColorBuilder), IncludeColorPalettes = true)]
 public static partial class TextColor
 {
+    /// <summary>
+    /// Gets or sets primary.
+    /// </summary>
     public static TextColorBuilder Primary => new(TextColorEnum.Primary);
+    /// <summary>
+    /// Gets or sets primary foreground.
+    /// </summary>
     public static TextColorBuilder PrimaryForeground => new(TextColorEnum.PrimaryForeground);
+    /// <summary>
+    /// Gets or sets secondary.
+    /// </summary>
     public static TextColorBuilder Secondary => new(TextColorEnum.Secondary);
+    /// <summary>
+    /// Gets or sets secondary foreground.
+    /// </summary>
     public static TextColorBuilder SecondaryForeground => new(TextColorEnum.SecondaryForeground);
+    /// <summary>
+    /// Gets or sets destructive.
+    /// </summary>
     public static TextColorBuilder Destructive => new(TextColorEnum.Destructive);
+    /// <summary>
+    /// Gets or sets destructive foreground.
+    /// </summary>
     public static TextColorBuilder DestructiveForeground => new(TextColorEnum.DestructiveForeground);
+    /// <summary>
+    /// Gets or sets muted foreground.
+    /// </summary>
     public static TextColorBuilder MutedForeground => new(TextColorEnum.MutedForeground);
+    /// <summary>
+    /// Gets or sets accent.
+    /// </summary>
     public static TextColorBuilder Accent => new(TextColorEnum.Accent);
+    /// <summary>
+    /// Gets or sets accent foreground.
+    /// </summary>
     public static TextColorBuilder AccentForeground => new(TextColorEnum.AccentForeground);
+    /// <summary>
+    /// Gets or sets popover foreground.
+    /// </summary>
     public static TextColorBuilder PopoverForeground => new(TextColorEnum.PopoverForeground);
+    /// <summary>
+    /// Gets or sets card foreground.
+    /// </summary>
     public static TextColorBuilder CardForeground => new(TextColorEnum.CardForeground);
+    /// <summary>
+    /// Gets or sets foreground.
+    /// </summary>
     public static TextColorBuilder Foreground => new(TextColorEnum.Foreground);
+    /// <summary>
+    /// Gets or sets white.
+    /// </summary>
     public static TextColorBuilder White => new(TextColorEnum.White);
+    /// <summary>
+    /// Gets or sets black.
+    /// </summary>
     public static TextColorBuilder Black => new(TextColorEnum.Black);
 
     /// <summary>

@@ -21,10 +21,24 @@ public sealed class SliderSizeBuilder : CssBuilderBase
         _tokens.Add(value);
     }
 
+    /// <summary>
+    /// Gets or sets default.
+    /// </summary>
     public SliderSizeBuilder Default => Chain(SliderSizeEnum.Default);
+    /// <summary>
+    /// Gets or sets sm.
+    /// </summary>
     public SliderSizeBuilder Sm => Chain(SliderSizeEnum.Sm);
+    /// <summary>
+    /// Gets or sets lg.
+    /// </summary>
     public SliderSizeBuilder Lg => Chain(SliderSizeEnum.Lg);
 
+    /// <summary>
+    /// Executes the token operation.
+    /// </summary>
+    /// <param name="value">The value.</param>
+    /// <returns>The result of the operation.</returns>
     public SliderSizeBuilder Token(string value) => Chain(value);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -41,6 +55,10 @@ public sealed class SliderSizeBuilder : CssBuilderBase
         return this;
     }
 
+    /// <summary>
+    /// Executes the to class operation.
+    /// </summary>
+    /// <returns>The result of the operation.</returns>
     public override string ToClass()
     {
         if (_tokens.Count == 0)
@@ -59,5 +77,9 @@ public sealed class SliderSizeBuilder : CssBuilderBase
         return sb.ToString();
     }
 
+    /// <summary>
+    /// Executes the to style operation.
+    /// </summary>
+    /// <returns>The result of the operation.</returns>
     public override string ToStyle() => string.Empty;
 }

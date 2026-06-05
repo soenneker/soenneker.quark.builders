@@ -1,5 +1,8 @@
 namespace Soenneker.Quark;
 
+/// <summary>
+/// Represents the grid cols builder.
+/// </summary>
 [TailwindPrefix("grid-cols-", Responsive = true)]
 public sealed class GridColsBuilder : ResponsiveUtilityBuilder<GridColsBuilder>
 {
@@ -11,21 +14,73 @@ public sealed class GridColsBuilder : ResponsiveUtilityBuilder<GridColsBuilder>
     {
     }
 
+    /// <summary>
+    /// Gets or sets is1.
+    /// </summary>
     public GridColsBuilder Is1 => ChainValue("grid-cols-1");
+    /// <summary>
+    /// Gets or sets is2.
+    /// </summary>
     public GridColsBuilder Is2 => ChainValue("grid-cols-2");
+    /// <summary>
+    /// Gets or sets is3.
+    /// </summary>
     public GridColsBuilder Is3 => ChainValue("grid-cols-3");
+    /// <summary>
+    /// Gets or sets is4.
+    /// </summary>
     public GridColsBuilder Is4 => ChainValue("grid-cols-4");
+    /// <summary>
+    /// Gets or sets is5.
+    /// </summary>
     public GridColsBuilder Is5 => ChainValue("grid-cols-5");
+    /// <summary>
+    /// Gets or sets is6.
+    /// </summary>
     public GridColsBuilder Is6 => ChainValue("grid-cols-6");
+    /// <summary>
+    /// Gets or sets is7.
+    /// </summary>
     public GridColsBuilder Is7 => ChainValue("grid-cols-7");
+    /// <summary>
+    /// Gets or sets is8.
+    /// </summary>
     public GridColsBuilder Is8 => ChainValue("grid-cols-8");
+    /// <summary>
+    /// Gets or sets is9.
+    /// </summary>
     public GridColsBuilder Is9 => ChainValue("grid-cols-9");
+    /// <summary>
+    /// Gets or sets is10.
+    /// </summary>
     public GridColsBuilder Is10 => ChainValue("grid-cols-10");
+    /// <summary>
+    /// Gets or sets is11.
+    /// </summary>
     public GridColsBuilder Is11 => ChainValue("grid-cols-11");
+    /// <summary>
+    /// Gets or sets is12.
+    /// </summary>
     public GridColsBuilder Is12 => ChainValue("grid-cols-12");
+    /// <summary>
+    /// Gets or sets none.
+    /// </summary>
     public GridColsBuilder None => ChainValue("grid-cols-none");
+    /// <summary>
+    /// Gets or sets subgrid.
+    /// </summary>
     public GridColsBuilder Subgrid => ChainValue("grid-cols-subgrid");
+    /// <summary>
+    /// Executes the count operation.
+    /// </summary>
+    /// <param name="value">The value.</param>
+    /// <returns>The result of the operation.</returns>
     public GridColsBuilder Count(int value) => ChainValue("grid-cols-" + value);
+    /// <summary>
+    /// Executes the token operation.
+    /// </summary>
+    /// <param name="value">The value.</param>
+    /// <returns>The result of the operation.</returns>
     public GridColsBuilder Token(string value) => ChainValue("grid-cols-" + value);
 
 }
