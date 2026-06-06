@@ -44,7 +44,7 @@
 
     <ItemGroup>
         <PackageReference Include="Soenneker.Extensions.String" Version="4.0.675" />
-        <PackageReference Include="Soenneker.Quark.Enums.Breakpoints" Version="4.0.44" />
+        <PackageReference Include="Soenneker.Quark.Enums.Breakpoints" Version="4.0.46" />
         <PackageReference Include="Soenneker.Quark.Enums.ColorPalettes" Version="4.0.2" />
         <PackageReference Include="Soenneker.Quark.Enums.DisplayTypes" Version="4.0.54" />
         <PackageReference Include="Soenneker.Quark.Enums.FontStyles" Version="4.0.45" />
