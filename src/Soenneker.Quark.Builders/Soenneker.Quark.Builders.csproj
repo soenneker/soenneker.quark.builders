@@ -46,7 +46,7 @@
         <PackageReference Include="Soenneker.Extensions.String" Version="4.0.711" />
         <PackageReference Include="Soenneker.Quark.Enums.Breakpoints" Version="4.0.52" />
         <PackageReference Include="Soenneker.Quark.Enums.ColorPalettes" Version="4.0.12" />
-        <PackageReference Include="Soenneker.Quark.Enums.DisplayTypes" Version="4.0.62" />
+        <PackageReference Include="Soenneker.Quark.Enums.DisplayTypes" Version="4.0.64" />
         <PackageReference Include="Soenneker.Quark.Enums.FontStyles" Version="4.0.54" />
         <PackageReference Include="Soenneker.Quark.Enums.HtmlElementTypes" Version="4.0.42" />
         <PackageReference Include="Soenneker.Quark.Enums.ObjectFits" Version="4.0.56" />
