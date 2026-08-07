@@ -61,7 +61,7 @@
         <PackageReference Include="Soenneker.Quark.Enums.TextOverflows" Version="4.0.33" />
         <PackageReference Include="Soenneker.Quark.Enums.TextTransforms" Version="4.0.58" />
         <PackageReference Include="Soenneker.Quark.Enums.UserSelects" Version="4.0.47" />
-        <PackageReference Include="Soenneker.Quark.Enums.Visibilities" Version="4.0.60" />
+        <PackageReference Include="Soenneker.Quark.Enums.Visibilities" Version="4.0.61" />
         <PackageReference Include="Soenneker.Quark.Gen.Tailwind.Modifiers" Version="4.0.11">
           <PrivateAssets>all</PrivateAssets>
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
