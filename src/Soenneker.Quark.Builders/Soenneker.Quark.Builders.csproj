@@ -44,19 +44,19 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Soenneker.Extensions.String" Version="4.0.713" />
+        <PackageReference Include="Soenneker.Extensions.String" Version="4.0.714" />
         <PackageReference Include="Soenneker.Gen.EnumValues" Version="4.0.42" />
-        <PackageReference Include="Soenneker.Quark.Enums.Breakpoints" Version="4.0.53" />
-        <PackageReference Include="Soenneker.Quark.Enums.ColorPalettes" Version="4.0.12" />
-        <PackageReference Include="Soenneker.Quark.Enums.DisplayTypes" Version="4.0.64" />
+        <PackageReference Include="Soenneker.Quark.Enums.Breakpoints" Version="4.0.55" />
+        <PackageReference Include="Soenneker.Quark.Enums.ColorPalettes" Version="4.0.14" />
+        <PackageReference Include="Soenneker.Quark.Enums.DisplayTypes" Version="4.0.66" />
         <PackageReference Include="Soenneker.Quark.Enums.FontStyles" Version="4.0.56" />
-        <PackageReference Include="Soenneker.Quark.Enums.HtmlElementTypes" Version="4.0.44" />
-        <PackageReference Include="Soenneker.Quark.Enums.ObjectFits" Version="4.0.58" />
-        <PackageReference Include="Soenneker.Quark.Enums.Overflows" Version="4.0.60" />
-        <PackageReference Include="Soenneker.Quark.Enums.Placements" Version="4.0.46" />
+        <PackageReference Include="Soenneker.Quark.Enums.HtmlElementTypes" Version="4.0.46" />
+        <PackageReference Include="Soenneker.Quark.Enums.ObjectFits" Version="4.0.61" />
+        <PackageReference Include="Soenneker.Quark.Enums.Overflows" Version="4.0.63" />
+        <PackageReference Include="Soenneker.Quark.Enums.Placements" Version="4.0.48" />
         <PackageReference Include="Soenneker.Quark.Enums.PointerEvents" Version="4.0.59" />
-        <PackageReference Include="Soenneker.Quark.Enums.Positions" Version="4.0.59" />
-        <PackageReference Include="Soenneker.Quark.Enums.TextAlignments" Version="4.0.62" />
+        <PackageReference Include="Soenneker.Quark.Enums.Positions" Version="4.0.62" />
+        <PackageReference Include="Soenneker.Quark.Enums.TextAlignments" Version="4.0.64" />
         <PackageReference Include="Soenneker.Quark.Enums.TextBreaks" Version="4.0.43" />
         <PackageReference Include="Soenneker.Quark.Enums.TextOverflows" Version="4.0.33" />
         <PackageReference Include="Soenneker.Quark.Enums.TextTransforms" Version="4.0.58" />
