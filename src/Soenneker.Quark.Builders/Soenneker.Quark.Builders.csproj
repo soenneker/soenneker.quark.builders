@@ -59,7 +59,7 @@
         <PackageReference Include="Soenneker.Quark.Enums.TextAlignments" Version="4.0.64" />
         <PackageReference Include="Soenneker.Quark.Enums.TextBreaks" Version="4.0.43" />
         <PackageReference Include="Soenneker.Quark.Enums.TextOverflows" Version="4.0.33" />
-        <PackageReference Include="Soenneker.Quark.Enums.TextTransforms" Version="4.0.59" />
+        <PackageReference Include="Soenneker.Quark.Enums.TextTransforms" Version="4.0.60" />
         <PackageReference Include="Soenneker.Quark.Enums.UserSelects" Version="4.0.47" />
         <PackageReference Include="Soenneker.Quark.Enums.Visibilities" Version="4.0.61" />
         <PackageReference Include="Soenneker.Quark.Gen.Tailwind.Modifiers" Version="4.0.13">
