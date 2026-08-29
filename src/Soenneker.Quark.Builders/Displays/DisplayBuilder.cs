@@ -116,6 +116,8 @@ public sealed class DisplayBuilder : CssBuilderBase<DisplayBuilder>
     /// <summary>
     /// Applies an exact Tailwind display utility.
     /// </summary>
+    /// <param name="value">Arbitrary utility value to append without predefined validation.</param>
+    /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public DisplayBuilder Token(string value) => ChainWithDisplay(value);
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private DisplayBuilder ChainWithDisplay(DisplayEnum display)

@@ -6,9 +6,9 @@ namespace Soenneker.Quark;
 public static class Variant
 {
     /// <summary>
-    /// Executes the of operation.
+    /// Creates a builder initialized with the supplied class value.
     /// </summary>
-    /// <param name="builder">The builder.</param>
-    /// <returns>The result of the operation.</returns>
+    /// <param name="builder">Builder to configure.</param>
+    /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public static VariantBuilder Of(ICssBuilder builder) => new(builder);
 }

@@ -130,5 +130,7 @@ public static partial class Padding
     /// <summary>
     /// Creates a padding utility from an arbitrary Tailwind spacing token.
     /// </summary>
+    /// <param name="value">Arbitrary utility value to append without predefined validation.</param>
+    /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public static PaddingBuilder Token(string value) => new(value.StartsWith("p-") ? value : "p-" + value);
 }

@@ -35,9 +35,9 @@ public static partial class BackgroundImage
     /// </summary>
     public static BackgroundImageBuilder Conic => new(BackgroundImageEnum.Conic);
     /// <summary>
-    /// Executes the token operation.
+    /// Adds an arbitrary background image utility token to the class list.
     /// </summary>
-    /// <param name="value">The value.</param>
-    /// <returns>The result of the operation.</returns>
+    /// <param name="value">Arbitrary utility value to append without predefined validation.</param>
+    /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public static BackgroundImageBuilder Token(string value) => new(value.StartsWith("bg-") ? value : $"bg-{value}");
 }

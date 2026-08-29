@@ -39,15 +39,15 @@ public static partial class GridRows
     /// </summary>
     public static GridRowsBuilder Subgrid => new("grid-rows-subgrid");
     /// <summary>
-    /// Executes the count operation.
+    /// Adds the count Grid Rows utility to the class list.
     /// </summary>
-    /// <param name="value">The value.</param>
-    /// <returns>The result of the operation.</returns>
+    /// <param name="value">CSS value used to construct the utility class.</param>
+    /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public static GridRowsBuilder Count(int value) => new("grid-rows-" + value);
     /// <summary>
-    /// Executes the token operation.
+    /// Adds an arbitrary grid rows utility token to the class list.
     /// </summary>
-    /// <param name="value">The value.</param>
-    /// <returns>The result of the operation.</returns>
+    /// <param name="value">Arbitrary utility value to append without predefined validation.</param>
+    /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public static GridRowsBuilder Token(string value) => new("grid-rows-" + value);
 }

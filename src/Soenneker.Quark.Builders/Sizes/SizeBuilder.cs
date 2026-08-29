@@ -136,6 +136,8 @@ public sealed class SizeBuilder : CssBuilderBase
     /// <summary>
     /// Applies an arbitrary Tailwind size token (e.g. "4", "5", "[18px]", "full").
     /// </summary>
+    /// <param name="value">Arbitrary utility value to append without predefined validation.</param>
+    /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public SizeBuilder Token(string value) => ChainWithValue(NormalizeSizeClass(value));
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]

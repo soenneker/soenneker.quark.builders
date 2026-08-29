@@ -41,6 +41,7 @@ public sealed class SpaceBuilder : CssBuilderBase<SpaceBuilder>
     /// Tailwind token segment (spacing scale step, arbitrary value like `[17rem]`, or theme key). Builds the matching utility class for this builder.
     /// </summary>
     /// <param name="value">Suffix/token after the utility prefix (see Tailwind docs for this family).</param>
+    /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public SpaceBuilder Token(string value)
     {
         bool preferY = _rules.Count > 0 && _rules[^1].Value.StartsWith("space-y", System.StringComparison.Ordinal);

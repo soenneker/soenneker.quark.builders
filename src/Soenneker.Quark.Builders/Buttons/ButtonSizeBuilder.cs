@@ -69,6 +69,8 @@ public sealed class ButtonSizeBuilder : CssBuilderBase<ButtonSizeBuilder>
     /// <summary>
     /// Adds an arbitrary button size token understood by the shared button style helper.
     /// </summary>
+    /// <param name="value">Arbitrary utility value to append without predefined validation.</param>
+    /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public ButtonSizeBuilder Token(string value) => Chain(value);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]

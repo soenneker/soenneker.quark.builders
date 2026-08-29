@@ -83,6 +83,8 @@ public sealed class FilterBuilder : CssBuilderBase<FilterBuilder>
     /// <summary>
     /// Applies an exact Tailwind filter utility token, e.g. "blur-xs".
     /// </summary>
+    /// <param name="token">Arbitrary utility token to append.</param>
+    /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public FilterBuilder Token(string token) => ChainWithFilter(token);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]

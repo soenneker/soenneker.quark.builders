@@ -233,6 +233,8 @@ public sealed class HeightBuilder : CssBuilderBase<HeightBuilder>
     /// <summary>
     /// Applies an arbitrary Tailwind height token (e.g. "72", "[18rem]", "full").
     /// </summary>
+    /// <param name="token">Arbitrary utility token to append.</param>
+    /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public HeightBuilder Token(string token) => ChainWithSize(NormalizeHeightClass(token));
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]

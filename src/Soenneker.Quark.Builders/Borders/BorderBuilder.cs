@@ -108,6 +108,7 @@ public sealed class BorderBuilder : CssBuilderBase<BorderBuilder>
     /// Tailwind token segment (spacing scale step, arbitrary value like `[17rem]`, or theme key). Builds the matching utility class for this builder.
     /// </summary>
     /// <param name="value">Suffix/token after the utility prefix (see Tailwind docs for this family).</param>
+    /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public BorderBuilder Token(string value) => ChainWithSize(NormalizeBorderClass(value));
 
 

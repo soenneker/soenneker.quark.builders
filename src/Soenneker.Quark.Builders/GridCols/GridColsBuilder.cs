@@ -71,16 +71,16 @@ public sealed class GridColsBuilder : ResponsiveUtilityBuilder<GridColsBuilder>
     /// </summary>
     public GridColsBuilder Subgrid => ChainValue("grid-cols-subgrid");
     /// <summary>
-    /// Executes the count operation.
+    /// Adds the count Grid Cols utility to the class list.
     /// </summary>
-    /// <param name="value">The value.</param>
-    /// <returns>The result of the operation.</returns>
+    /// <param name="value">CSS value used to construct the utility class.</param>
+    /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public GridColsBuilder Count(int value) => ChainValue("grid-cols-" + value);
     /// <summary>
-    /// Executes the token operation.
+    /// Adds an arbitrary grid cols utility token to the class list.
     /// </summary>
-    /// <param name="value">The value.</param>
-    /// <returns>The result of the operation.</returns>
+    /// <param name="value">Arbitrary utility value to append without predefined validation.</param>
+    /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public GridColsBuilder Token(string value) => ChainValue("grid-cols-" + value);
 
 }

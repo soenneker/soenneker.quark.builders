@@ -100,10 +100,10 @@ public sealed class TextColorBuilder : ColorBuilderBase<TextColorBuilder>
     public override TextColorBuilder Token(string token) => ChainClass(ColorUtility.CreateClass(Prefix, token));
 
     /// <summary>
-    /// Executes the utility operation.
+    /// Adds the utility Text Color utility to the class list.
     /// </summary>
-    /// <param name="utility">The utility.</param>
-    /// <returns>The result of the operation.</returns>
+    /// <param name="utility">Utility name to append to the generated class list.</param>
+    /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public TextColorBuilder Utility(string utility) => ChainClass(ColorUtility.CreateUtilityClass(Prefix, utility));
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]

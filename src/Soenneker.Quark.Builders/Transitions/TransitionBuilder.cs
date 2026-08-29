@@ -65,6 +65,8 @@ public sealed class TransitionBuilder : CssBuilderBase<TransitionBuilder>
     /// <summary>
     /// Applies an exact Tailwind transition utility token, e.g. "transition-[left,right,width]".
     /// </summary>
+    /// <param name="token">Arbitrary utility token to append.</param>
+    /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public TransitionBuilder Token(string token) => ChainWithTransition(token.StartsWith("transition") ? token : $"transition-{token}");
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]

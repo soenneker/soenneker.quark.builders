@@ -61,6 +61,8 @@ public sealed class AnimationBuilder : CssBuilderBase<AnimationBuilder>
     /// <summary>
     /// Applies an exact Tailwind animation utility token, e.g. "animate-in".
     /// </summary>
+    /// <param name="token">Arbitrary utility token to append.</param>
+    /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public AnimationBuilder Token(string token) => ChainWithAnimation(token);
 
 

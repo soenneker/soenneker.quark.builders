@@ -39,15 +39,15 @@ public sealed class OrderBuilder : FinalClassUtilityBuilder<OrderBuilder>
     /// </summary>
     public OrderBuilder Is12 => ChainClass(OrderEnum.Is12.Value);
     /// <summary>
-    /// Executes the at operation.
+    /// Adds the at Order utility to the class list.
     /// </summary>
-    /// <param name="value">The value.</param>
-    /// <returns>The result of the operation.</returns>
+    /// <param name="value">CSS value used to construct the utility class.</param>
+    /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public OrderBuilder At(int value) => ChainClass($"order-{value}");
     /// <summary>
-    /// Executes the token operation.
+    /// Adds an arbitrary order utility token to the class list.
     /// </summary>
-    /// <param name="value">The value.</param>
-    /// <returns>The result of the operation.</returns>
+    /// <param name="value">Arbitrary utility value to append without predefined validation.</param>
+    /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public OrderBuilder Token(string value) => ChainClass(value.StartsWith("order-") ? value : $"order-{value}");
 }

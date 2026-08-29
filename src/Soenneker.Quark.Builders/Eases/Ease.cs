@@ -23,9 +23,9 @@ public static partial class Ease
     /// </summary>
     public static EaseBuilder InOut => new(EaseEnum.InOut);
     /// <summary>
-    /// Executes the token operation.
+    /// Adds an arbitrary ease utility token to the class list.
     /// </summary>
-    /// <param name="value">The value.</param>
-    /// <returns>The result of the operation.</returns>
+    /// <param name="value">Arbitrary utility value to append without predefined validation.</param>
+    /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public static EaseBuilder Token(string value) => new("ease-" + value);
 }

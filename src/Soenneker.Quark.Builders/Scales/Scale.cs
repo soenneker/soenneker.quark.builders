@@ -46,5 +46,7 @@ public static partial class Scale
     /// <summary>
     /// Create from a ScaleEnum value.
     /// </summary>
+    /// <param name="scaleType">Scale axis or mode to target.</param>
+    /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public static ScaleBuilder From(ScaleEnum scaleType) => new(scaleType);
 }

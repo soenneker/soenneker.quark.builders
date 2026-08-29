@@ -55,10 +55,10 @@ public sealed class RotateBuilder : ResponsiveUtilityBuilder<RotateBuilder>
     /// </summary>
     public RotateBuilder Is180 => ChainValue(RotateEnum.Is180Value);
     /// <summary>
-    /// Executes the token operation.
+    /// Adds an arbitrary rotate utility token to the class list.
     /// </summary>
-    /// <param name="value">The value.</param>
-    /// <returns>The result of the operation.</returns>
+    /// <param name="value">Arbitrary utility value to append without predefined validation.</param>
+    /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public RotateBuilder Token(string value) => ChainValue("rotate-" + value);
 
 }

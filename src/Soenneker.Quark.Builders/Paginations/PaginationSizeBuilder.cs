@@ -35,10 +35,10 @@ public sealed class PaginationSizeBuilder : CssBuilderBase
     public PaginationSizeBuilder Lg => Chain(PaginationSizeEnum.Lg);
 
     /// <summary>
-    /// Executes the token operation.
+    /// Adds an arbitrary pagination size utility token to the class list.
     /// </summary>
-    /// <param name="value">The value.</param>
-    /// <returns>The result of the operation.</returns>
+    /// <param name="value">Arbitrary utility value to append without predefined validation.</param>
+    /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public PaginationSizeBuilder Token(string value) => Chain(value);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]

@@ -9,6 +9,8 @@ public static partial class Space
     /// <summary>
     /// Applies an exact Tailwind space utility token, e.g. "y-3" or "space-y-3".
     /// </summary>
+    /// <param name="value">Arbitrary utility value to append without predefined validation.</param>
+    /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public static SpaceBuilder Token(string value) => new(NormalizeToken(value, preferY: false));
 
     internal static string NormalizeToken(string value, bool preferY)
@@ -91,6 +93,7 @@ public static partial class Space
         /// Tailwind token segment (spacing scale step, arbitrary value like `[17rem]`, or theme key). Builds the matching utility class for this builder.
         /// </summary>
         /// <param name="value">Suffix/token after the utility prefix (see Tailwind docs for this family).</param>
+        /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
         public static SpaceBuilder Token(string value) => new(NormalizeToken(value, preferY: false));
     }
 
@@ -153,6 +156,7 @@ public static partial class Space
         /// Tailwind token segment (spacing scale step, arbitrary value like `[17rem]`, or theme key). Builds the matching utility class for this builder.
         /// </summary>
         /// <param name="value">Suffix/token after the utility prefix (see Tailwind docs for this family).</param>
+        /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
         public static SpaceBuilder Token(string value) => new(NormalizeToken(value, preferY: true));
     }
 }

@@ -102,10 +102,14 @@ public static partial class Divide
     /// <summary>
     /// Creates a divide color utility from a Tailwind color token suffix such as <c>border</c>, <c>zinc-200</c>, or <c>[var(--brand)]</c>.
     /// </summary>
+    /// <param name="value">CSS value used to construct the utility class.</param>
+    /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public static DivideBuilder Color(string value) => new DivideBuilder(string.Empty).Color(value);
 
     /// <summary>
     /// Passes through a fully-prefixed divide utility such as <c>divide-border</c>.
     /// </summary>
+    /// <param name="utility">Utility name to append to the generated class list.</param>
+    /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public static DivideBuilder Utility(string utility) => new(ColorUtility.CreateUtilityClass("divide-", utility));
 }

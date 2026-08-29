@@ -85,5 +85,7 @@ public static class MaxWidth
     /// <summary>
     /// Create from an arbitrary Tailwind max-width token (e.g. "4xl", "[56rem]", "[75ch]").
     /// </summary>
+    /// <param name="token">Arbitrary utility token to append.</param>
+    /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public static MaxWidthBuilder Token(string token) => new(token.StartsWith("max-w-") ? token : "max-w-" + token);
 }

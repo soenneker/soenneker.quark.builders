@@ -109,5 +109,7 @@ public static partial class Display
     /// <summary>
     /// Creates an exact Tailwind display utility.
     /// </summary>
+    /// <param name="value">Arbitrary utility value to append without predefined validation.</param>
+    /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public static DisplayBuilder Token(string value) => new(value);
 }

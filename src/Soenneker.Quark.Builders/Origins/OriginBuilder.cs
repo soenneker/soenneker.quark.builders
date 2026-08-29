@@ -55,10 +55,10 @@ public sealed class OriginBuilder : ResponsiveUtilityBuilder<OriginBuilder>
     /// </summary>
     public OriginBuilder TopLeft => ChainValue(OriginEnum.TopLeftValue);
     /// <summary>
-    /// Executes the token operation.
+    /// Adds an arbitrary origin utility token to the class list.
     /// </summary>
-    /// <param name="value">The value.</param>
-    /// <returns>The result of the operation.</returns>
+    /// <param name="value">Arbitrary utility value to append without predefined validation.</param>
+    /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public OriginBuilder Token(string value) => ChainValue("origin-" + value);
 
 }

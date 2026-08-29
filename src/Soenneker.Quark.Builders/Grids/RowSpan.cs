@@ -38,5 +38,7 @@ public static partial class RowSpan
     /// <summary>
     /// Create from a numeric grid row span.
     /// </summary>
+    /// <param name="value">CSS value used to construct the utility class.</param>
+    /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public static RowSpanBuilder Count(int value) => new($"row-span-{value}");
 }

@@ -88,10 +88,10 @@ public sealed class ColumnSpanBuilder : CssBuilderBase<ColumnSpanBuilder>
     public ColumnSpanBuilder Full => Chain(ColumnSpanEnum.Full);
 
     /// <summary>
-    /// Executes the span operation.
+    /// Adds the span Column Span utility to the class list.
     /// </summary>
-    /// <param name="value">The value.</param>
-    /// <returns>The result of the operation.</returns>
+    /// <param name="value">CSS value used to construct the utility class.</param>
+    /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public ColumnSpanBuilder Span(int value) => ChainClass($"col-span-{value}");
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]

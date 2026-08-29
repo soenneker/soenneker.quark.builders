@@ -39,9 +39,9 @@ public static partial class FlexBasis
     /// </summary>
     public static FlexBasisBuilder Is3of4 => new(FlexBasisEnum.Is3of4);
     /// <summary>
-    /// Executes the token operation.
+    /// Adds an arbitrary flex basis utility token to the class list.
     /// </summary>
-    /// <param name="value">The value.</param>
-    /// <returns>The result of the operation.</returns>
+    /// <param name="value">Arbitrary utility value to append without predefined validation.</param>
+    /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public static FlexBasisBuilder Token(string value) => new(value.StartsWith("basis-") ? value : $"basis-{value}");
 }

@@ -60,6 +60,8 @@ public static partial class BackdropFilter
     /// <summary>
     /// Applies an exact Tailwind backdrop-filter utility token, e.g. "blur-xl" or "backdrop-blur-xl".
     /// </summary>
+    /// <param name="token">Arbitrary utility token to append.</param>
+    /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public static BackdropFilterBuilder Token(string token) => new(NormalizeToken(token));
 
     internal static string NormalizeToken(string token)

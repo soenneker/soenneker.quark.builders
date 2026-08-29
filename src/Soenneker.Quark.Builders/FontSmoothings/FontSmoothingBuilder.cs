@@ -19,9 +19,9 @@ public sealed class FontSmoothingBuilder : FinalClassUtilityBuilder<FontSmoothin
     /// </summary>
     public FontSmoothingBuilder SubpixelAntialiased => ChainClass(FontSmoothingEnum.SubpixelAntialiased.Value);
     /// <summary>
-    /// Executes the token operation.
+    /// Adds an arbitrary font smoothing utility token to the class list.
     /// </summary>
-    /// <param name="value">The value.</param>
-    /// <returns>The result of the operation.</returns>
+    /// <param name="value">Arbitrary utility value to append without predefined validation.</param>
+    /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public FontSmoothingBuilder Token(string value) => ChainClass(value);
 }

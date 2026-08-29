@@ -74,6 +74,8 @@ public sealed class ObjectPositionBuilder : CssBuilderBase<ObjectPositionBuilder
     /// <summary>
     /// Applies an exact Tailwind object-position utility token suffix.
     /// </summary>
+    /// <param name="token">Arbitrary utility token to append.</param>
+    /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public ObjectPositionBuilder Token(string token) => Chain(Prefix + token);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]

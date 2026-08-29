@@ -23,9 +23,9 @@ public static partial class AutoCols
     /// </summary>
     public static AutoColsBuilder Fr => new(AutoColsEnum.Fr);
     /// <summary>
-    /// Executes the token operation.
+    /// Adds an arbitrary auto cols utility token to the class list.
     /// </summary>
-    /// <param name="value">The value.</param>
-    /// <returns>The result of the operation.</returns>
+    /// <param name="value">Arbitrary utility value to append without predefined validation.</param>
+    /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public static AutoColsBuilder Token(string value) => new($"auto-cols-{value}");
 }

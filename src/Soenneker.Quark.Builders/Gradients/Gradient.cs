@@ -7,27 +7,27 @@ namespace Soenneker.Quark;
 public static partial class Gradient
 {
     /// <summary>
-    /// Executes the to operation.
+    /// Adds the to Gradient utility to the class list.
     /// </summary>
-    /// <param name="value">The value.</param>
-    /// <returns>The result of the operation.</returns>
+    /// <param name="value">CSS value used to construct the utility class.</param>
+    /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public static GradientBuilder To(string value) => new($"bg-gradient-to-{value}");
     /// <summary>
-    /// Executes the from operation.
+    /// Adds the from Gradient utility to the class list.
     /// </summary>
-    /// <param name="value">The value.</param>
-    /// <returns>The result of the operation.</returns>
+    /// <param name="value">CSS value used to construct the utility class.</param>
+    /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public static GradientBuilder From(string value) => new($"from-{value}");
     /// <summary>
-    /// Executes the via operation.
+    /// Adds the via Gradient utility to the class list.
     /// </summary>
-    /// <param name="value">The value.</param>
-    /// <returns>The result of the operation.</returns>
+    /// <param name="value">CSS value used to construct the utility class.</param>
+    /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public static GradientBuilder Via(string value) => new($"via-{value}");
     /// <summary>
-    /// Executes the end operation.
+    /// Adds the end Gradient utility to the class list.
     /// </summary>
-    /// <param name="value">The value.</param>
-    /// <returns>The result of the operation.</returns>
+    /// <param name="value">CSS value used to construct the utility class.</param>
+    /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public static GradientBuilder End(string value) => new($"to-{value}");
 }

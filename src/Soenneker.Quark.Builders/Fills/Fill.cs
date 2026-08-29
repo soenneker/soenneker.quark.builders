@@ -10,6 +10,7 @@ public static partial class Fill
     /// Tailwind token segment (spacing scale step, arbitrary value like `[17rem]`, or theme key). Builds the matching utility class for this builder.
     /// </summary>
     /// <param name="value">Suffix/token after the utility prefix (see Tailwind docs for this family).</param>
+    /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public static FillBuilder Token(string value) => new($"fill-{value}");
     /// <summary>
     /// Disables the effect (`none` token) or sets size to zero, depending on the utility.

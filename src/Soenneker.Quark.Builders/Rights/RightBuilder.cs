@@ -85,10 +85,10 @@ public sealed class RightBuilder : CssBuilderBase<RightBuilder>
     /// </summary>
     public RightBuilder Px => Chain(RightEnum.Px);
     /// <summary>
-    /// Executes the token operation.
+    /// Adds an arbitrary right utility token to the class list.
     /// </summary>
-    /// <param name="value">The value.</param>
-    /// <returns>The result of the operation.</returns>
+    /// <param name="value">Arbitrary utility value to append without predefined validation.</param>
+    /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public RightBuilder Token(string value) => Chain(value.StartsWith("right-") ? value : "right-" + value);
 
 

@@ -19,9 +19,9 @@ public static class InputSizes
     public static InputSizeBuilder Lg => new(InputSizeEnum.Lg);
 
     /// <summary>
-    /// Executes the token operation.
+    /// Adds an arbitrary input sizes utility token to the class list.
     /// </summary>
-    /// <param name="value">The value.</param>
-    /// <returns>The result of the operation.</returns>
+    /// <param name="value">Arbitrary utility value to append without predefined validation.</param>
+    /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public static InputSizeBuilder Token(string value) => new(value);
 }

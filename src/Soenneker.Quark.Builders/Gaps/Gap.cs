@@ -79,5 +79,7 @@ public static partial class Gap
     /// <summary>
     /// Create from an arbitrary Tailwind gap token (e.g. "1.5", "6", "8", "16", "20").
     /// </summary>
+    /// <param name="value">Arbitrary utility value to append without predefined validation.</param>
+    /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public static GapBuilder Token(string value) => new($"gap-{value}");
 }

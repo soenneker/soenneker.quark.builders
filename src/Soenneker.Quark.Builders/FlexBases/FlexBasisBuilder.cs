@@ -43,9 +43,9 @@ public sealed class FlexBasisBuilder : FinalClassUtilityBuilder<FlexBasisBuilder
     /// </summary>
     public FlexBasisBuilder Is3of4 => ChainClass(FlexBasisEnum.Is3of4.Value);
     /// <summary>
-    /// Executes the token operation.
+    /// Adds an arbitrary flex basis utility token to the class list.
     /// </summary>
-    /// <param name="value">The value.</param>
-    /// <returns>The result of the operation.</returns>
+    /// <param name="value">Arbitrary utility value to append without predefined validation.</param>
+    /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public FlexBasisBuilder Token(string value) => ChainClass(value.StartsWith("basis-") ? value : $"basis-{value}");
 }

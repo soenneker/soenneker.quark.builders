@@ -62,5 +62,7 @@ public static partial class ColumnSpan
     /// <summary>
     /// Create from a numeric grid column span.
     /// </summary>
+    /// <param name="value">CSS value used to construct the utility class.</param>
+    /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public static ColumnSpanBuilder Count(int value) => new($"col-span-{value}");
 }

@@ -125,10 +125,10 @@ public sealed class OpacityBuilder : CssBuilderBase<OpacityBuilder>
     public OpacityBuilder Is100 => Chain(OpacityEnum.Is100);
 
     /// <summary>
-    /// Executes the token operation.
+    /// Adds an arbitrary opacity utility token to the class list.
     /// </summary>
-    /// <param name="value">The value.</param>
-    /// <returns>The result of the operation.</returns>
+    /// <param name="value">Arbitrary utility value to append without predefined validation.</param>
+    /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public OpacityBuilder Token(string value) => Chain(NormalizeOpacityClass(value));
 
 

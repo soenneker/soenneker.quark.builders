@@ -39,9 +39,9 @@ public sealed class BackgroundImageBuilder : FinalClassUtilityBuilder<Background
     /// </summary>
     public BackgroundImageBuilder Conic => ChainClass(BackgroundImageEnum.Conic.Value);
     /// <summary>
-    /// Executes the token operation.
+    /// Adds an arbitrary background image utility token to the class list.
     /// </summary>
-    /// <param name="value">The value.</param>
-    /// <returns>The result of the operation.</returns>
+    /// <param name="value">Arbitrary utility value to append without predefined validation.</param>
+    /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public BackgroundImageBuilder Token(string value) => ChainClass(value.StartsWith("bg-") ? value : $"bg-{value}");
 }

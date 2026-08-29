@@ -44,11 +44,11 @@ public static class BreakpointUtil
     }
 
     /// <summary>
-    /// Executes the apply tailwind modifier operation.
+    /// Applies the specified Tailwind modifier to the pending utility.
     /// </summary>
-    /// <param name="className">The class name.</param>
-    /// <param name="modifier">The modifier.</param>
-    /// <returns>The result of the operation.</returns>
+    /// <param name="className">Name of the class to target.</param>
+    /// <param name="modifier">Modifier to append to the pending utility.</param>
+    /// <returns>The text produced by apply Tailwind Modifier.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static string ApplyTailwindModifier(string className, string modifier)
     {
@@ -65,11 +65,11 @@ public static class BreakpointUtil
     }
 
     /// <summary>
-    /// Executes the apply tailwind modifiers operation.
+    /// Applies the specified Tailwind modifiers to the pending utility, in order.
     /// </summary>
-    /// <param name="classGroup">The class group.</param>
-    /// <param name="modifiers">The modifiers.</param>
-    /// <returns>The result of the operation.</returns>
+    /// <param name="classGroup">Class Group for the apply tailwind modifiers operation.</param>
+    /// <param name="modifiers">Modifiers to append to the pending utility, in order.</param>
+    /// <returns>The text produced by apply Tailwind Modifiers.</returns>
     public static string ApplyTailwindModifiers(string classGroup, IReadOnlyList<string> modifiers)
     {
         if (string.IsNullOrEmpty(classGroup) || modifiers.Count == 0)
@@ -89,11 +89,11 @@ public static class BreakpointUtil
     }
 
     /// <summary>
-    /// Executes the apply tailwind modifiers operation.
+    /// Applies the specified Tailwind modifiers to the pending utility, in order.
     /// </summary>
-    /// <param name="classGroup">The class group.</param>
-    /// <param name="modifierChain">The modifier chain.</param>
-    /// <returns>The result of the operation.</returns>
+    /// <param name="classGroup">Class Group for the apply tailwind modifiers operation.</param>
+    /// <param name="modifierChain">Modifier Chain for the apply tailwind modifiers operation.</param>
+    /// <returns>The text produced by apply Tailwind Modifiers.</returns>
     public static string ApplyTailwindModifiers(string classGroup, string modifierChain)
     {
         if (string.IsNullOrEmpty(classGroup) || string.IsNullOrEmpty(modifierChain))
@@ -224,4 +224,3 @@ public static class BreakpointUtil
         return length;
     }
 }
-

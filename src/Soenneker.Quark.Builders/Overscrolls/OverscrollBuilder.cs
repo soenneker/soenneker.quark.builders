@@ -75,6 +75,8 @@ public sealed class OverscrollBuilder : CssBuilderBase<OverscrollBuilder>
     /// <summary>
     /// Applies an exact Tailwind overscroll class token, e.g. "overscroll-none".
     /// </summary>
+    /// <param name="token">Arbitrary utility token to append.</param>
+    /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public OverscrollBuilder Token(string token) => Chain(token);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]

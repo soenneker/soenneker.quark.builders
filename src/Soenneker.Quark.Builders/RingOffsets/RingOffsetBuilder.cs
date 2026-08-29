@@ -80,28 +80,28 @@ public sealed class RingOffsetBuilder : CssBuilderBase<RingOffsetBuilder>
     /// </summary>
     public RingOffsetBuilder Transparent => Chain(RingOffsetColorEnum.Transparent.Value);
     /// <summary>
-    /// Executes the width operation.
+    /// Adds the width Ring Offset utility to the class list.
     /// </summary>
-    /// <param name="value">The value.</param>
-    /// <returns>The result of the operation.</returns>
+    /// <param name="value">CSS value used to construct the utility class.</param>
+    /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public RingOffsetBuilder Width(int value) => Chain($"ring-offset-{value}");
     /// <summary>
-    /// Executes the width operation.
+    /// Adds the width Ring Offset utility to the class list.
     /// </summary>
-    /// <param name="value">The value.</param>
-    /// <returns>The result of the operation.</returns>
+    /// <param name="value">CSS value used to construct the utility class.</param>
+    /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public RingOffsetBuilder Width(string value) => Chain($"ring-offset-{value}");
     /// <summary>
-    /// Executes the color operation.
+    /// Adds the color Ring Offset utility to the class list.
     /// </summary>
-    /// <param name="value">The value.</param>
-    /// <returns>The result of the operation.</returns>
+    /// <param name="value">CSS value used to construct the utility class.</param>
+    /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public RingOffsetBuilder Color(string value) => Chain(ColorUtility.CreateClass("ring-offset-", value));
     /// <summary>
-    /// Executes the utility operation.
+    /// Adds the utility Ring Offset utility to the class list.
     /// </summary>
-    /// <param name="utility">The utility.</param>
-    /// <returns>The result of the operation.</returns>
+    /// <param name="utility">Utility name to append to the generated class list.</param>
+    /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public RingOffsetBuilder Utility(string utility) => Chain(ColorUtility.CreateUtilityClass("ring-offset-", utility));
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]

@@ -27,15 +27,15 @@ public static partial class Order
     /// </summary>
     public static OrderBuilder Is12 => new(OrderEnum.Is12);
     /// <summary>
-    /// Executes the at operation.
+    /// Adds the at Order utility to the class list.
     /// </summary>
-    /// <param name="value">The value.</param>
-    /// <returns>The result of the operation.</returns>
+    /// <param name="value">CSS value used to construct the utility class.</param>
+    /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public static OrderBuilder At(int value) => new($"order-{value}");
     /// <summary>
-    /// Executes the token operation.
+    /// Adds an arbitrary order utility token to the class list.
     /// </summary>
-    /// <param name="value">The value.</param>
-    /// <returns>The result of the operation.</returns>
+    /// <param name="value">Arbitrary utility value to append without predefined validation.</param>
+    /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public static OrderBuilder Token(string value) => new(value.StartsWith("order-") ? value : $"order-{value}");
 }

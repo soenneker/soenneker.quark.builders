@@ -19,9 +19,9 @@ public static partial class OverflowWrap
     /// </summary>
     public static OverflowWrapBuilder BreakWord => new(OverflowWrapEnum.BreakWord);
     /// <summary>
-    /// Executes the token operation.
+    /// Adds an arbitrary overflow wrap utility token to the class list.
     /// </summary>
-    /// <param name="value">The value.</param>
-    /// <returns>The result of the operation.</returns>
+    /// <param name="value">Arbitrary utility value to append without predefined validation.</param>
+    /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public static OverflowWrapBuilder Token(string value) => new(value.StartsWith("wrap-") ? value : $"wrap-{value}");
 }

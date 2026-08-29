@@ -6,92 +6,92 @@ namespace Soenneker.Quark;
 public abstract class CssBuilderBase : ICssBuilder
 {
     /// <summary>
-    /// Executes the data operation.
+    /// Adds a Tailwind data-attribute variant for the specified attribute and value.
     /// </summary>
-    /// <param name="attribute">The attribute.</param>
-    /// <param name="value">The value.</param>
-    /// <returns>The result of the operation.</returns>
+    /// <param name="attribute">HTML attribute used by the variant.</param>
+    /// <param name="value">CSS value used to construct the utility class.</param>
+    /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public VariantBuilder Data(string attribute, string value) => Variant.Of(this).Data(attribute, value);
     /// <summary>
-    /// Executes the data state operation.
+    /// Adds a Tailwind data-state variant for the specified state value.
     /// </summary>
-    /// <param name="value">The value.</param>
-    /// <returns>The result of the operation.</returns>
+    /// <param name="value">CSS value used to construct the utility class.</param>
+    /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public VariantBuilder DataState(string value) => Variant.Of(this).DataState(value);
     /// <summary>
-    /// Executes the aria operation.
+    /// Adds a Tailwind ARIA variant for the specified attribute and value.
     /// </summary>
-    /// <param name="attribute">The attribute.</param>
-    /// <returns>The result of the operation.</returns>
+    /// <param name="attribute">HTML attribute used by the variant.</param>
+    /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public VariantBuilder Aria(string attribute) => Variant.Of(this).Aria(attribute);
     /// <summary>
-    /// Executes the aria operation.
+    /// Adds a Tailwind ARIA variant for the specified attribute and value.
     /// </summary>
-    /// <param name="attribute">The attribute.</param>
-    /// <param name="value">The value.</param>
-    /// <returns>The result of the operation.</returns>
+    /// <param name="attribute">HTML attribute used by the variant.</param>
+    /// <param name="value">CSS value used to construct the utility class.</param>
+    /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public VariantBuilder Aria(string attribute, string value) => Variant.Of(this).Aria(attribute, value);
     /// <summary>
-    /// Executes the group operation.
+    /// Adds a Tailwind group variant, optionally scoped to a named group.
     /// </summary>
-    /// <param name="modifier">The modifier.</param>
-    /// <returns>The result of the operation.</returns>
+    /// <param name="modifier">Modifier to append to the pending utility.</param>
+    /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public VariantBuilder Group(string modifier) => Variant.Of(this).Group(modifier);
     /// <summary>
-    /// Executes the group operation.
+    /// Adds a Tailwind group variant, optionally scoped to a named group.
     /// </summary>
-    /// <param name="modifier">The modifier.</param>
-    /// <param name="name">The name.</param>
-    /// <returns>The result of the operation.</returns>
+    /// <param name="modifier">Modifier to append to the pending utility.</param>
+    /// <param name="name">Optional name used to scope the generated variant.</param>
+    /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public VariantBuilder Group(string modifier, string name) => Variant.Of(this).Group(modifier, name);
     /// <summary>
-    /// Executes the peer operation.
+    /// Adds a Tailwind peer variant, optionally scoped to a named peer.
     /// </summary>
-    /// <param name="modifier">The modifier.</param>
-    /// <returns>The result of the operation.</returns>
+    /// <param name="modifier">Modifier to append to the pending utility.</param>
+    /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public VariantBuilder Peer(string modifier) => Variant.Of(this).Peer(modifier);
     /// <summary>
-    /// Executes the peer operation.
+    /// Adds a Tailwind peer variant, optionally scoped to a named peer.
     /// </summary>
-    /// <param name="modifier">The modifier.</param>
-    /// <param name="name">The name.</param>
-    /// <returns>The result of the operation.</returns>
+    /// <param name="modifier">Modifier to append to the pending utility.</param>
+    /// <param name="name">Optional name used to scope the generated variant.</param>
+    /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public VariantBuilder Peer(string modifier, string name) => Variant.Of(this).Peer(modifier, name);
     /// <summary>
-    /// Executes the has operation.
+    /// Adds a Tailwind variant that applies when the element contains the specified selector.
     /// </summary>
-    /// <param name="selector">The selector.</param>
-    /// <returns>The result of the operation.</returns>
+    /// <param name="selector">CSS selector used by the variant.</param>
+    /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public VariantBuilder Has(string selector) => Variant.Of(this).Has(selector);
     /// <summary>
-    /// Executes the not operation.
+    /// Adds a Tailwind variant that excludes the specified selector.
     /// </summary>
-    /// <param name="selector">The selector.</param>
-    /// <returns>The result of the operation.</returns>
+    /// <param name="selector">CSS selector used by the variant.</param>
+    /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public VariantBuilder Not(string selector) => Variant.Of(this).Not(selector);
     /// <summary>
-    /// Executes the supports operation.
+    /// Adds a Tailwind variant guarded by the specified CSS feature query.
     /// </summary>
-    /// <param name="condition">The condition.</param>
-    /// <returns>The result of the operation.</returns>
+    /// <param name="condition">CSS feature condition used by the variant.</param>
+    /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public VariantBuilder Supports(string condition) => Variant.Of(this).Supports(condition);
     /// <summary>
-    /// Executes the modifier operation.
+    /// Adds the specified modifier to the pending utility.
     /// </summary>
-    /// <param name="modifier">The modifier.</param>
-    /// <returns>The result of the operation.</returns>
+    /// <param name="modifier">Modifier to append to the pending utility.</param>
+    /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public VariantBuilder Modifier(string modifier) => Variant.Of(this).Modifier(modifier);
     /// <summary>
-    /// Executes the modifiers operation.
+    /// Adds each specified modifier to the pending utility.
     /// </summary>
-    /// <param name="modifiers">The modifiers.</param>
-    /// <returns>The result of the operation.</returns>
+    /// <param name="modifiers">Modifiers to append to the pending utility, in order.</param>
+    /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public VariantBuilder Modifiers(params string[] modifiers) => Variant.Of(this).Modifiers(modifiers);
     /// <summary>
-    /// Executes the custom operation.
+    /// Adds the supplied custom utility token without interpreting its value.
     /// </summary>
-    /// <param name="modifier">The modifier.</param>
-    /// <returns>The result of the operation.</returns>
+    /// <param name="modifier">Modifier to append to the pending utility.</param>
+    /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public VariantBuilder Custom(string modifier) => Variant.Of(this).Custom(modifier);
 
     public abstract string ToClass();
@@ -114,23 +114,23 @@ public abstract class CssBuilderBase<TBuilder> : CssBuilderBase where TBuilder :
     private string? _pendingModifierChain;
 
     /// <summary>
-    /// Executes the modifier operation.
+    /// Adds the specified modifier to the pending utility.
     /// </summary>
-    /// <param name="modifier">The modifier.</param>
-    /// <returns>The result of the operation.</returns>
+    /// <param name="modifier">Modifier to append to the pending utility.</param>
+    /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public new TBuilder Modifier(string modifier) => SetPendingModifier(modifier);
     /// <summary>
-    /// Executes the custom operation.
+    /// Adds the supplied custom utility token without interpreting its value.
     /// </summary>
-    /// <param name="modifier">The modifier.</param>
-    /// <returns>The result of the operation.</returns>
+    /// <param name="modifier">Modifier to append to the pending utility.</param>
+    /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public new TBuilder Custom(string modifier) => SetPendingModifier(modifier);
 
     /// <summary>
-    /// Executes the modifiers operation.
+    /// Adds each specified modifier to the pending utility.
     /// </summary>
-    /// <param name="modifiers">The modifiers.</param>
-    /// <returns>The result of the operation.</returns>
+    /// <param name="modifiers">Modifiers to append to the pending utility, in order.</param>
+    /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public new TBuilder Modifiers(params string[] modifiers)
     {
         for (var i = 0; i < modifiers.Length; i++)

@@ -44,5 +44,7 @@ public static partial class Transition
     /// <summary>
     /// Applies an exact Tailwind transition utility token, e.g. "transition-[color,shadow]".
     /// </summary>
+    /// <param name="token">Arbitrary utility token to append.</param>
+    /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public static TransitionBuilder Token(string token) => new(token.StartsWith("transition") ? token : $"transition-{token}");
 }

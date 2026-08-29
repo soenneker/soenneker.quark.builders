@@ -11,15 +11,15 @@ public static partial class RowEnd
     /// </summary>
     public static RowEndBuilder Auto => new("row-end-auto");
     /// <summary>
-    /// Executes the at operation.
+    /// Adds the at Row End utility to the class list.
     /// </summary>
-    /// <param name="value">The value.</param>
-    /// <returns>The result of the operation.</returns>
+    /// <param name="value">CSS value used to construct the utility class.</param>
+    /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public static RowEndBuilder At(int value) => new(value.ToString());
     /// <summary>
-    /// Executes the token operation.
+    /// Adds an arbitrary row end utility token to the class list.
     /// </summary>
-    /// <param name="value">The value.</param>
-    /// <returns>The result of the operation.</returns>
+    /// <param name="value">Arbitrary utility value to append without predefined validation.</param>
+    /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public static RowEndBuilder Token(string value) => new("row-end-" + value);
 }

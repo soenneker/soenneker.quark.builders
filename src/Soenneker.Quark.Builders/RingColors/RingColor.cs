@@ -110,10 +110,14 @@ public static partial class RingColor
     /// <summary>
     /// Creates a ring color builder from a Tailwind color token suffix such as <c>foreground/10</c>, <c>zinc-900</c>, or <c>[var(--brand)]</c>.
     /// </summary>
+    /// <param name="token">Arbitrary utility token to append.</param>
+    /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public static RingColorBuilder Token(string token) => new(ColorUtility.CreateClass("ring-", token));
 
     /// <summary>
     /// Passes through a fully-prefixed Tailwind utility such as <c>ring-foreground/10</c>.
     /// </summary>
+    /// <param name="utility">Utility name to append to the generated class list.</param>
+    /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public static RingColorBuilder Utility(string utility) => new(ColorUtility.CreateUtilityClass("ring-", utility));
 }

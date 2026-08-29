@@ -31,9 +31,9 @@ public static partial class BorderStyle
     /// </summary>
     public static BorderStyleBuilder None => new(BorderStyleEnum.None);
     /// <summary>
-    /// Executes the token operation.
+    /// Adds an arbitrary border style utility token to the class list.
     /// </summary>
-    /// <param name="value">The value.</param>
-    /// <returns>The result of the operation.</returns>
+    /// <param name="value">Arbitrary utility value to append without predefined validation.</param>
+    /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public static BorderStyleBuilder Token(string value) => new(value.StartsWith("border-") ? value : $"border-{value}");
 }

@@ -299,6 +299,8 @@ public sealed class WidthBuilder : CssBuilderBase<WidthBuilder>
     /// <summary>
     /// Applies an arbitrary Tailwind width token (e.g. "72", "[18rem]", "full").
     /// </summary>
+    /// <param name="token">Arbitrary utility token to append.</param>
+    /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public WidthBuilder Token(string token) => ChainWithSize(NormalizeWidthClass(token));
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]

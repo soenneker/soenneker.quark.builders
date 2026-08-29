@@ -62,10 +62,10 @@ public sealed class MinHeightBuilder : CssBuilderBase<MinHeightBuilder>
     /// </summary>
     public MinHeightBuilder IsFit => Chain("min-h-fit");
     /// <summary>
-    /// Executes the token operation.
+    /// Adds an arbitrary min height utility token to the class list.
     /// </summary>
-    /// <param name="value">The value.</param>
-    /// <returns>The result of the operation.</returns>
+    /// <param name="value">Arbitrary utility value to append without predefined validation.</param>
+    /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public MinHeightBuilder Token(string value) => Chain(Normalize(value));
 
 

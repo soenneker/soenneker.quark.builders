@@ -117,5 +117,7 @@ public static class Size
     /// <summary>
     /// Create from an arbitrary Tailwind size token (e.g. "5", "full", "[18px]").
     /// </summary>
+    /// <param name="value">Arbitrary utility value to append without predefined validation.</param>
+    /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public static SizeBuilder Token(string value) => new(value.StartsWith("size-") ? value : "size-" + value);
 }

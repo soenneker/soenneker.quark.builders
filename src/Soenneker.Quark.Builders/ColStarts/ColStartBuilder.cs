@@ -27,16 +27,16 @@ public sealed class ColStartBuilder : ResponsiveUtilityBuilder<ColStartBuilder>
     /// </summary>
     public ColStartBuilder Auto => ChainValue("auto");
     /// <summary>
-    /// Executes the at operation.
+    /// Adds the at Col Start utility to the class list.
     /// </summary>
-    /// <param name="value">The value.</param>
-    /// <returns>The result of the operation.</returns>
+    /// <param name="value">CSS value used to construct the utility class.</param>
+    /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public ColStartBuilder At(int value) => ChainValue(value.ToString());
     /// <summary>
-    /// Executes the token operation.
+    /// Adds an arbitrary col start utility token to the class list.
     /// </summary>
-    /// <param name="value">The value.</param>
-    /// <returns>The result of the operation.</returns>
+    /// <param name="value">Arbitrary utility value to append without predefined validation.</param>
+    /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public ColStartBuilder Token(string value) => ChainValue("col-start-" + value);
 
 }

@@ -42,10 +42,10 @@ public sealed class ToggleSizeBuilder : CssBuilderBase<ToggleSizeBuilder>
     public ToggleSizeBuilder Lg => Chain("h-10 min-w-10 px-2.5");
 
     /// <summary>
-    /// Executes the token operation.
+    /// Adds an arbitrary toggle size utility token to the class list.
     /// </summary>
-    /// <param name="value">The value.</param>
-    /// <returns>The result of the operation.</returns>
+    /// <param name="value">Arbitrary utility value to append without predefined validation.</param>
+    /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public ToggleSizeBuilder Token(string value) => Chain(value);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]

@@ -35,9 +35,9 @@ public static partial class LineClamp
     /// </summary>
     public static LineClampBuilder Is6 => new(LineClampEnum.Is6);
     /// <summary>
-    /// Executes the token operation.
+    /// Adds an arbitrary line clamp utility token to the class list.
     /// </summary>
-    /// <param name="value">The value.</param>
-    /// <returns>The result of the operation.</returns>
+    /// <param name="value">Arbitrary utility value to append without predefined validation.</param>
+    /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public static LineClampBuilder Token(string value) => new(value.StartsWith("line-clamp-") ? value : "line-clamp-" + value);
 }

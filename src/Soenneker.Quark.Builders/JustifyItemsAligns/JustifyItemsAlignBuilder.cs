@@ -39,10 +39,10 @@ public sealed class JustifyItemsAlignBuilder : ResponsiveUtilityBuilder<JustifyI
     /// </summary>
     public JustifyItemsAlignBuilder Stretch => ChainValue(JustifyItemsAlignEnum.StretchValue);
     /// <summary>
-    /// Executes the token operation.
+    /// Adds an arbitrary justify items align utility token to the class list.
     /// </summary>
-    /// <param name="value">The value.</param>
-    /// <returns>The result of the operation.</returns>
+    /// <param name="value">Arbitrary utility value to append without predefined validation.</param>
+    /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public JustifyItemsAlignBuilder Token(string value) => ChainValue("justify-items-" + value);
 
 }

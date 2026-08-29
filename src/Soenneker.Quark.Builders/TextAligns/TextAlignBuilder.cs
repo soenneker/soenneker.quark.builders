@@ -39,10 +39,10 @@ public sealed class TextAlignBuilder : ResponsiveUtilityBuilder<TextAlignBuilder
     /// </summary>
     public TextAlignBuilder End => ChainValue(TextAlignmentEnum.EndValue);
     /// <summary>
-    /// Executes the token operation.
+    /// Adds an arbitrary text align utility token to the class list.
     /// </summary>
-    /// <param name="value">The value.</param>
-    /// <returns>The result of the operation.</returns>
+    /// <param name="value">Arbitrary utility value to append without predefined validation.</param>
+    /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public TextAlignBuilder Token(string value) => ChainValue("text-" + value);
 
 }

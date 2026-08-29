@@ -19,9 +19,9 @@ public static partial class Hyphen
     /// </summary>
     public static HyphenBuilder Auto => new(HyphenEnum.Auto);
     /// <summary>
-    /// Executes the token operation.
+    /// Adds an arbitrary hyphen utility token to the class list.
     /// </summary>
-    /// <param name="value">The value.</param>
-    /// <returns>The result of the operation.</returns>
+    /// <param name="value">Arbitrary utility value to append without predefined validation.</param>
+    /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public static HyphenBuilder Token(string value) => new(value.StartsWith("hyphens-") ? value : $"hyphens-{value}");
 }

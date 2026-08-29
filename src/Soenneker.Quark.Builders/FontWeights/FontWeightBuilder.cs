@@ -64,6 +64,8 @@ public sealed class FontWeightBuilder : CssBuilderBase<FontWeightBuilder>
     /// <summary>
     /// Sets an arbitrary font weight token such as [450] or font-[450].
     /// </summary>
+    /// <param name="value">Arbitrary utility value to append without predefined validation.</param>
+    /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public FontWeightBuilder Token(string value) => Chain(NormalizeFontWeightClass(value));
 
 

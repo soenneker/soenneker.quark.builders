@@ -97,9 +97,9 @@ public abstract class ColorBuilderBase<TBuilder> : CssBuilderBase<TBuilder>
     public ColorPaletteBuilder<TBuilder> Rose => new(ColorPaletteEnum.Rose, Token);
 
     /// <summary>
-    /// Executes the token operation.
+    /// Adds an arbitrary color utility token to the class list.
     /// </summary>
-    /// <param name="token">The token.</param>
-    /// <returns>The result of the operation.</returns>
+    /// <param name="token">Arbitrary utility token to append.</param>
+    /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public abstract TBuilder Token(string token);
 }

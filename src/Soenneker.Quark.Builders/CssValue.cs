@@ -40,26 +40,36 @@ public readonly struct CssValue<TBuilder> : IEquatable<CssValue<TBuilder>> where
     /// Creates a single CssValue from multiple CSS contributors while keeping the target slot typed to <typeparamref name="TBuilder"/>.
     /// This supports scenarios such as combining a base utility and a variant-decorated utility in one component property.
     /// </summary>
+    /// <param name="values">CSS value contributors to combine, in order.</param>
+    /// <returns>A CSS value containing the combined contributors.</returns>
     public static CssValue<TBuilder> For(params object?[] values) => Combine(values);
 
     /// <summary>
     /// Implicitly converts a CSS builder to a CssValue.
     /// </summary>
+    /// <param name="builder">Builder to configure.</param>
+    /// <returns>A CSS value containing the combined contributors.</returns>
     public static implicit operator CssValue<TBuilder>(TBuilder builder) => new(builder.ToClass(), builder.ToStyle());
 
     /// <summary>
     /// Implicitly converts a variant-wrapped builder to a CssValue for typed component slots.
     /// </summary>
+    /// <param name="builder">Builder to configure.</param>
+    /// <returns>A CSS value containing the combined contributors.</returns>
     public static implicit operator CssValue<TBuilder>(VariantBuilder builder) => new(builder.ToClass(), builder.ToStyle());
 
     /// <summary>
     /// Implicitly converts a string to a CssValue.
     /// </summary>
+    /// <param name="value">CSS value used to construct the utility class.</param>
+    /// <returns>A CSS value containing the combined contributors.</returns>
     public static implicit operator CssValue<TBuilder>(string value) => new(value);
 
     /// <summary>
     /// Implicitly converts an integer to a CssValue. For HeightBuilder and WidthBuilder, converts to pixel values.
     /// </summary>
+    /// <param name="value">CSS value used to construct the utility class.</param>
+    /// <returns>A CSS value containing the combined contributors.</returns>
     public static implicit operator CssValue<TBuilder>(int value)
     {
         if (!_isHeight && !_isWidth)
@@ -70,8 +80,10 @@ public readonly struct CssValue<TBuilder> : IEquatable<CssValue<TBuilder>> where
     }
 
     /// <summary>
-    /// Implicitly converts a CssValue to a string.
+    /// Converts the CSS Value to its string representation.
     /// </summary>
+    /// <param name="v">CSS value to convert to text.</param>
+    /// <returns>The text produced by operator string.</returns>
     public static implicit operator string(CssValue<TBuilder> v) => v._value;
 
     /// <summary>
@@ -134,6 +146,8 @@ public readonly struct CssValue<TBuilder> : IEquatable<CssValue<TBuilder>> where
     /// <summary>
     /// Returns a new CssValue with additional CSS contributors appended.
     /// </summary>
+    /// <param name="values">CSS value contributors to combine, in order.</param>
+    /// <returns>A CSS value containing the combined contributors.</returns>
     public CssValue<TBuilder> Add(params object?[] values)
     {
         if (values is not { Length: > 0 })
@@ -150,6 +164,8 @@ public readonly struct CssValue<TBuilder> : IEquatable<CssValue<TBuilder>> where
     /// <summary>
     /// Determines whether this CssValue is equal to another CssValue.
     /// </summary>
+    /// <param name="other">Value to compare with this instance.</param>
+    /// <returns>true if this CssValue is equal to another CssValue; otherwise, false.</returns>
     public bool Equals(CssValue<TBuilder> other) => _value == other._value;
 
     /// <summary>
@@ -165,11 +181,17 @@ public readonly struct CssValue<TBuilder> : IEquatable<CssValue<TBuilder>> where
     /// <summary>
     /// Determines whether two CssValue instances are equal.
     /// </summary>
+    /// <param name="a">First character sequence to compare.</param>
+    /// <param name="b">Second character sequence to compare.</param>
+    /// <returns>true if two CssValue instances are equal; otherwise, false.</returns>
     public static bool operator ==(CssValue<TBuilder> a, CssValue<TBuilder> b) => a.Equals(b);
 
     /// <summary>
     /// Determines whether two CssValue instances are not equal.
     /// </summary>
+    /// <param name="a">First character sequence to compare.</param>
+    /// <param name="b">Second character sequence to compare.</param>
+    /// <returns>true if two CssValue instances are not equal; otherwise, false.</returns>
     public static bool operator !=(CssValue<TBuilder> a, CssValue<TBuilder> b) => !a.Equals(b);
 
     private static CssValue<TBuilder> Combine(IReadOnlyList<object?> values) => Combine(null, values);

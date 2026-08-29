@@ -70,10 +70,14 @@ public static partial class BorderColor
     /// <summary>
     /// Creates a border color builder from a Tailwind color token suffix such as <c>primary/30</c>, <c>zinc-300</c>, or <c>[var(--brand)]</c>.
     /// </summary>
+    /// <param name="token">Arbitrary utility token to append.</param>
+    /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public static BorderColorBuilder Token(string token) => new(ColorUtility.CreateClass("border-", token));
 
     /// <summary>
     /// Passes through a fully-prefixed Tailwind utility such as <c>border-primary/30</c>.
     /// </summary>
+    /// <param name="utility">Utility name to append to the generated class list.</param>
+    /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public static BorderColorBuilder Utility(string utility) => new(ColorUtility.CreateUtilityClass("border-", utility));
 }

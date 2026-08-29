@@ -26,10 +26,14 @@ public static partial class AccentColor
     /// <summary>
     /// Creates an accent color builder from a Tailwind color token suffix such as <c>blue-500</c> or <c>[var(--brand)]</c>.
     /// </summary>
+    /// <param name="token">Arbitrary utility token to append.</param>
+    /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public static AccentColorBuilder Token(string token) => new(ColorUtility.CreateClass("accent-", token));
 
     /// <summary>
     /// Passes through a fully-prefixed Tailwind utility such as <c>accent-blue-500</c>.
     /// </summary>
+    /// <param name="utility">Utility name to append to the generated class list.</param>
+    /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public static AccentColorBuilder Utility(string utility) => new(ColorUtility.CreateUtilityClass("accent-", utility));
 }

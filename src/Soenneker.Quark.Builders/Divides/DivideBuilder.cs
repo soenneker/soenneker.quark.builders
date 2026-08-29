@@ -101,10 +101,10 @@ public sealed class DivideBuilder : CssBuilderBase<DivideBuilder>
     /// </summary>
     public DivideBuilder Transparent => Chain(DivideEnum.Transparent);
     /// <summary>
-    /// Executes the color operation.
+    /// Adds the color Divide utility to the class list.
     /// </summary>
-    /// <param name="value">The value.</param>
-    /// <returns>The result of the operation.</returns>
+    /// <param name="value">CSS value used to construct the utility class.</param>
+    /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public DivideBuilder Color(string value) => ChainClass($"divide-{value}");
     /// <summary>
     /// Fluent step for `Solid` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
@@ -130,11 +130,15 @@ public sealed class DivideBuilder : CssBuilderBase<DivideBuilder>
     /// <summary>
     /// Creates a divide utility from a Tailwind token or fully-prefixed utility.
     /// </summary>
+    /// <param name="value">Arbitrary utility value to append without predefined validation.</param>
+    /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public DivideBuilder Token(string value) => Color(value);
 
     /// <summary>
     /// Passes through a fully-prefixed divide utility such as <c>divide-border</c>.
     /// </summary>
+    /// <param name="utility">Utility name to append to the generated class list.</param>
+    /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public DivideBuilder Utility(string utility) => ChainClass(ColorUtility.CreateUtilityClass("divide-", utility));
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private DivideBuilder Chain(DivideEnum value)
@@ -195,4 +199,3 @@ public sealed class DivideBuilder : CssBuilderBase<DivideBuilder>
     /// <returns>The result of the operation.</returns>
     public override string ToString() => ToClass();
 }
-

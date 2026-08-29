@@ -57,5 +57,7 @@ public static class MinWidth
     /// <summary>
     /// Create from an arbitrary Tailwind min-width token (e.g. "24", "[8rem]", "[12rem]").
     /// </summary>
+    /// <param name="token">Arbitrary utility token to append.</param>
+    /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public static MinWidthBuilder Token(string token) => new(token.StartsWith("min-w-") ? token : "min-w-" + token);
 }

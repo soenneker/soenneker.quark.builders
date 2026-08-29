@@ -43,9 +43,9 @@ public static partial class Rotate
     /// </summary>
     public static RotateBuilder Is180 => new(RotateEnum.Is180);
     /// <summary>
-    /// Executes the token operation.
+    /// Adds an arbitrary rotate utility token to the class list.
     /// </summary>
-    /// <param name="value">The value.</param>
-    /// <returns>The result of the operation.</returns>
+    /// <param name="value">Arbitrary utility value to append without predefined validation.</param>
+    /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public static RotateBuilder Token(string value) => new("rotate-" + value);
 }

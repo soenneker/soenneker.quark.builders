@@ -182,6 +182,8 @@ public sealed class CursorBuilder : CssBuilderBase<CursorBuilder>
     /// <summary>
     /// Applies an exact Tailwind cursor utility token suffix, including arbitrary values.
     /// </summary>
+    /// <param name="token">Arbitrary utility token to append.</param>
+    /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public CursorBuilder Token(string token) => Chain(Prefix + token);
 
 

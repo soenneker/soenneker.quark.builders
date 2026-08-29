@@ -19,9 +19,9 @@ public static class PaginationSizes
     public static PaginationSizeBuilder Lg => new(PaginationSizeEnum.Lg);
 
     /// <summary>
-    /// Executes the token operation.
+    /// Adds an arbitrary pagination sizes utility token to the class list.
     /// </summary>
-    /// <param name="value">The value.</param>
-    /// <returns>The result of the operation.</returns>
+    /// <param name="value">Arbitrary utility value to append without predefined validation.</param>
+    /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public static PaginationSizeBuilder Token(string value) => new(value);
 }

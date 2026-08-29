@@ -112,6 +112,7 @@ public sealed class RoundedBuilder : CssBuilderBase<RoundedBuilder>
     /// Custom <c>rounded-*</c> suffix: theme scale key, arbitrary length (for example <c>[2vw]</c>), or CSS variable reference aligned with shadcn’s <c>--radius</c> pattern.
     /// </summary>
     /// <param name="value">The segment after <c>rounded-</c> (and any corner prefix such as <c>tl-</c>).</param>
+    /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public RoundedBuilder Token(string value) => Add(value);
 
     // ----- Core -----

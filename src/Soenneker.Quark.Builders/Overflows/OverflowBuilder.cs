@@ -26,6 +26,7 @@ public sealed class OverflowBuilder : CssBuilderBase
     /// <summary>
     /// Creates a new OverflowBuilder with no initial value.
     /// </summary>
+    /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public static OverflowBuilder Create()
     {
         return new OverflowBuilder([]);

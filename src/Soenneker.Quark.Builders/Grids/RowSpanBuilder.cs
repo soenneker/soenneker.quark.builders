@@ -64,10 +64,10 @@ public sealed class RowSpanBuilder : CssBuilderBase<RowSpanBuilder>
     public RowSpanBuilder Full => Chain(RowSpanEnum.Full);
 
     /// <summary>
-    /// Executes the span operation.
+    /// Adds the span Row Span utility to the class list.
     /// </summary>
-    /// <param name="value">The value.</param>
-    /// <returns>The result of the operation.</returns>
+    /// <param name="value">CSS value used to construct the utility class.</param>
+    /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public RowSpanBuilder Span(int value) => ChainClass($"row-span-{value}");
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]

@@ -62,10 +62,10 @@ public sealed class LineClampBuilder : CssBuilderBase<LineClampBuilder>
     /// </summary>
     public LineClampBuilder Is6 => Chain(LineClampEnum.Is6);
     /// <summary>
-    /// Executes the token operation.
+    /// Adds an arbitrary line clamp utility token to the class list.
     /// </summary>
-    /// <param name="value">The value.</param>
-    /// <returns>The result of the operation.</returns>
+    /// <param name="value">Arbitrary utility value to append without predefined validation.</param>
+    /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public LineClampBuilder Token(string value) => Chain(NormalizeLineClampClass(value));
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]

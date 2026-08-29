@@ -79,6 +79,8 @@ public sealed class BackdropFilterBuilder : CssBuilderBase<BackdropFilterBuilder
     /// <summary>
     /// Applies an exact Tailwind backdrop-filter utility token, e.g. "blur-xl" or "backdrop-blur-xl".
     /// </summary>
+    /// <param name="token">Arbitrary utility token to append.</param>
+    /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public BackdropFilterBuilder Token(string token) => ChainWithFilter(BackdropFilter.NormalizeToken(token));
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]

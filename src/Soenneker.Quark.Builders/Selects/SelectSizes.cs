@@ -15,9 +15,9 @@ public static class SelectSizes
     public static SelectSizeBuilder Sm => new(SelectSizeEnum.Sm);
 
     /// <summary>
-    /// Executes the token operation.
+    /// Adds an arbitrary select sizes utility token to the class list.
     /// </summary>
-    /// <param name="value">The value.</param>
-    /// <returns>The result of the operation.</returns>
+    /// <param name="value">Arbitrary utility value to append without predefined validation.</param>
+    /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public static SelectSizeBuilder Token(string value) => new(value);
 }

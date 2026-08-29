@@ -136,6 +136,8 @@ public sealed class MarginBuilder : CssBuilderBase<MarginBuilder>
 	/// <summary>
 	/// Sets the margin size from an arbitrary Tailwind spacing token.
 	/// </summary>
+	/// <param name="value">Arbitrary utility value to append without predefined validation.</param>
+	/// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public MarginBuilder Token(string value) => ChainWithSize(NormalizeMarginClass(value));
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]

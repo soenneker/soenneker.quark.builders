@@ -106,10 +106,10 @@ public sealed class BorderColorBuilder : ColorBuilderBase<BorderColorBuilder>
     public override BorderColorBuilder Token(string token) => ChainClass(ColorUtility.CreateClass(Prefix, token));
 
     /// <summary>
-    /// Executes the utility operation.
+    /// Adds the utility Border Color utility to the class list.
     /// </summary>
-    /// <param name="utility">The utility.</param>
-    /// <returns>The result of the operation.</returns>
+    /// <param name="utility">Utility name to append to the generated class list.</param>
+    /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public BorderColorBuilder Utility(string utility) => ChainClass(ColorUtility.CreateUtilityClass(Prefix, utility));
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]

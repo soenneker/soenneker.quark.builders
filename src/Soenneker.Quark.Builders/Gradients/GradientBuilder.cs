@@ -13,27 +13,27 @@ public sealed class GradientBuilder : FinalClassUtilityBuilder<GradientBuilder>
     internal GradientBuilder(string value, BreakpointType? breakpoint = null) : base(value, breakpoint) {}
 
     /// <summary>
-    /// Executes the to operation.
+    /// Adds the to Gradient utility to the class list.
     /// </summary>
-    /// <param name="value">The value.</param>
-    /// <returns>The result of the operation.</returns>
+    /// <param name="value">CSS value used to construct the utility class.</param>
+    /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public GradientBuilder To(string value) => ChainClass($"bg-gradient-to-{value}");
     /// <summary>
-    /// Executes the from operation.
+    /// Adds the from Gradient utility to the class list.
     /// </summary>
-    /// <param name="value">The value.</param>
-    /// <returns>The result of the operation.</returns>
+    /// <param name="value">CSS value used to construct the utility class.</param>
+    /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public GradientBuilder From(string value) => ChainClass($"from-{value}");
     /// <summary>
-    /// Executes the via operation.
+    /// Adds the via Gradient utility to the class list.
     /// </summary>
-    /// <param name="value">The value.</param>
-    /// <returns>The result of the operation.</returns>
+    /// <param name="value">CSS value used to construct the utility class.</param>
+    /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public GradientBuilder Via(string value) => ChainClass($"via-{value}");
     /// <summary>
-    /// Executes the end operation.
+    /// Adds the end Gradient utility to the class list.
     /// </summary>
-    /// <param name="value">The value.</param>
-    /// <returns>The result of the operation.</returns>
+    /// <param name="value">CSS value used to construct the utility class.</param>
+    /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public GradientBuilder End(string value) => ChainClass($"to-{value}");
 }

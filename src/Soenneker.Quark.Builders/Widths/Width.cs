@@ -225,5 +225,7 @@ public static partial class Width
     /// <summary>
     /// Create from an arbitrary Tailwind width token (e.g. "72", "[18rem]", "full").
     /// </summary>
+    /// <param name="token">Arbitrary utility token to append.</param>
+    /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public static WidthBuilder Token(string token) => new(token.StartsWith("w-") ? token : "w-" + token);
 }

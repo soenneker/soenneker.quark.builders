@@ -27,9 +27,9 @@ public static partial class GridAutoFlow
     /// </summary>
     public static GridAutoFlowBuilder ColDense => new(GridAutoFlowEnum.ColDense);
     /// <summary>
-    /// Executes the token operation.
+    /// Adds an arbitrary grid auto flow utility token to the class list.
     /// </summary>
-    /// <param name="value">The value.</param>
-    /// <returns>The result of the operation.</returns>
+    /// <param name="value">Arbitrary utility value to append without predefined validation.</param>
+    /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public static GridAutoFlowBuilder Token(string value) => new(value.StartsWith("grid-flow-") ? value : $"grid-flow-{value}");
 }
