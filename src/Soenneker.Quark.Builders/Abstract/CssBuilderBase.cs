@@ -2,7 +2,6 @@ using System;
 
 namespace Soenneker.Quark;
 
-/// <inheritdoc cref="ICssBuilder"/>
 public abstract class CssBuilderBase : ICssBuilder
 {
     /// <summary>
