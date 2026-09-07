@@ -182,6 +182,9 @@ public sealed class BorderBuilder : CssBuilderBase<BorderBuilder>
             else
                 first = false;
 
+            if (_rules.Count == 1)
+                return cls ?? string.Empty;
+
             sb.Append(cls);
         }
 

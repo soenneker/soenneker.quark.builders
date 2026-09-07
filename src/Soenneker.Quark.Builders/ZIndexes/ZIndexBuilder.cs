@@ -101,6 +101,9 @@ public sealed class ZIndexBuilder : CssBuilderBase<ZIndexBuilder>
             if (!first) sb.Append(' ');
             else first = false;
 
+            if (_rules.Count == 1)
+                return cls ?? string.Empty;
+
             sb.Append(cls);
         }
         return sb.ToString();

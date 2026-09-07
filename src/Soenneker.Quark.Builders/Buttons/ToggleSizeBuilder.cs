@@ -88,6 +88,9 @@ public sealed class ToggleSizeBuilder : CssBuilderBase<ToggleSizeBuilder>
             else
                 first = false;
 
+            if (_rules.Count == 1)
+                return cls ?? string.Empty;
+
             sb.Append(cls);
         }
 

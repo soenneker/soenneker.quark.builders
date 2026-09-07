@@ -69,6 +69,9 @@ public sealed class GrowBuilder : CssBuilderBase<GrowBuilder>
             else
                 first = false;
 
+            if (_rules.Count == 1)
+                return cls ?? string.Empty;
+
             sb.Append(cls);
         }
 

@@ -78,6 +78,9 @@ public sealed class OutlineStyleBuilder : CssBuilderBase<OutlineStyleBuilder>
             if (rule.ModifierChain is { Length: > 0 }) cls = BreakpointUtil.ApplyTailwindModifiers(cls, rule.ModifierChain);
             if (!first) sb.Append(' ');
             else first = false;
+            if (_rules.Count == 1)
+                return cls ?? string.Empty;
+
             sb.Append(cls);
         }
         return sb.ToString();

@@ -185,6 +185,9 @@ public sealed class RoundedBuilder : CssBuilderBase<RoundedBuilder>
             if (rule.ModifierChain is { Length: > 0 })
                 cls = BreakpointUtil.ApplyTailwindModifiers(cls, rule.ModifierChain);
 
+            if (_rules.Count == 1)
+                return cls ?? string.Empty;
+
             sb.Append(cls);
         }
 

@@ -181,6 +181,9 @@ public sealed class DivideBuilder : CssBuilderBase<DivideBuilder>
                 sb.Append(' ');
             else
                 first = false;
+            if (_rules.Count == 1)
+                return cls ?? string.Empty;
+
             sb.Append(cls);
         }
 

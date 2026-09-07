@@ -77,6 +77,9 @@ public abstract class FinalClassUtilityBuilder<TBuilder> : CssBuilderBase<TBuild
             else
                 first = false;
 
+            if (_rules.Count == 1)
+                return cls ?? string.Empty;
+
             sb.Append(cls);
         }
 

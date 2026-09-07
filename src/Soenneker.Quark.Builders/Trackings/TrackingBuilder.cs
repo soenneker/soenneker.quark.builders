@@ -108,6 +108,9 @@ public sealed class TrackingBuilder : CssBuilderBase<TrackingBuilder>
             else
                 first = false;
 
+            if (_rules.Count == 1)
+                return cls ?? string.Empty;
+
             sb.Append(cls);
         }
 

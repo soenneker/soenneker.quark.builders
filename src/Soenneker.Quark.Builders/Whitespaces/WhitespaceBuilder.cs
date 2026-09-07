@@ -113,6 +113,9 @@ public sealed class WhitespaceBuilder : CssBuilderBase<WhitespaceBuilder>
             else
                 first = false;
 
+            if (_rules.Count == 1)
+                return cls ?? string.Empty;
+
             sb.Append(cls);
         }
 

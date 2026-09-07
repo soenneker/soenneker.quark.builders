@@ -138,6 +138,9 @@ public sealed class ColumnSpanBuilder : CssBuilderBase<ColumnSpanBuilder>
             else
                 first = false;
 
+            if (_rules.Count == 1)
+                return cls ?? string.Empty;
+
             sb.Append(cls);
         }
 

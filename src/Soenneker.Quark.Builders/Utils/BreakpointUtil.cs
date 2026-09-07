@@ -205,8 +205,7 @@ public static class BreakpointUtil
 
     private static void AppendSpan(ref PooledStringBuilder sb, ReadOnlySpan<char> value)
     {
-        for (var i = 0; i < value.Length; i++)
-            sb.Append(value[i]);
+        sb.Append(value);
     }
 
     private static int EstimateModifierLength(IReadOnlyList<string> modifiers)

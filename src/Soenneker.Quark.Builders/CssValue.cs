@@ -318,7 +318,6 @@ public readonly struct CssValue<TBuilder> : IEquatable<CssValue<TBuilder>> where
 
     private static void AppendSpan(ref PooledStringBuilder builder, ReadOnlySpan<char> value)
     {
-        for (var i = 0; i < value.Length; i++)
-            builder.Append(value[i]);
+        builder.Append(value);
     }
 }

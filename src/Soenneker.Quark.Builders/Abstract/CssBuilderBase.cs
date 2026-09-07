@@ -557,7 +557,7 @@ public abstract class CssBuilderBase<TBuilder> : CssBuilderBase where TBuilder :
         if (insertIndex >= existingModifierChain.Length)
             return $"{existingModifierChain}:{modifier}";
 
-        return $"{existingModifierChain[..insertIndex]}:{modifier}:{existingModifierChain[(insertIndex + 1)..]}";
+        return $"{existingModifierChain.AsSpan(0, insertIndex)}:{modifier}:{existingModifierChain.AsSpan(insertIndex + 1)}";
     }
 
     private static int GetBreakpointPrefixLength(string modifierChain)

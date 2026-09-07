@@ -80,6 +80,9 @@ public abstract class ResponsiveUtilityBuilder<TBuilder> : CssBuilderBase<TBuild
             else
                 first = false;
 
+            if (Rules.Count == 1)
+                return cls ?? string.Empty;
+
             sb.Append(cls);
         }
 

@@ -120,6 +120,9 @@ public sealed class ButtonSizeBuilder : CssBuilderBase<ButtonSizeBuilder>
             else
                 first = false;
 
+            if (_rules.Count == 1)
+                return cls ?? string.Empty;
+
             sb.Append(cls);
         }
 

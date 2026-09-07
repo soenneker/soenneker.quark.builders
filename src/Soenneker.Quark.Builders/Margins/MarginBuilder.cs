@@ -200,6 +200,9 @@ public sealed class MarginBuilder : CssBuilderBase<MarginBuilder>
             else
                 first = false;
 
+            if (_rules.Count == 1)
+                return cls ?? string.Empty;
+
             sb.Append(cls);
         }
 

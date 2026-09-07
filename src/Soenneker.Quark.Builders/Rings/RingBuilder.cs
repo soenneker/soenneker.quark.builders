@@ -107,6 +107,9 @@ public sealed class RingBuilder : CssBuilderBase<RingBuilder>
             else
                 first = false;
 
+            if (_rules.Count == 1)
+                return cls ?? string.Empty;
+
             sb.Append(cls);
         }
 

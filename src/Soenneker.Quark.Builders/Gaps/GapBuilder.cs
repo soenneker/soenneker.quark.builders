@@ -182,6 +182,9 @@ public sealed class GapBuilder : CssBuilderBase<GapBuilder>
                 sb.Append(' ');
             else first = false;
 
+            if (_rules.Count == 1)
+                return cls ?? string.Empty;
+
             sb.Append(cls);
         }
 

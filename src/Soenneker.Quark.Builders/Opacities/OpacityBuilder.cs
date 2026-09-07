@@ -178,6 +178,9 @@ public sealed class OpacityBuilder : CssBuilderBase<OpacityBuilder>
             if (!first) sb.Append(' ');
             else first = false;
 
+            if (_rules.Count == 1)
+                return cls ?? string.Empty;
+
             sb.Append(cls);
         }
         return sb.ToString();

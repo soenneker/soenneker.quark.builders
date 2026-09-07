@@ -113,6 +113,9 @@ public sealed class FontWeightBuilder : CssBuilderBase<FontWeightBuilder>
             if (!first) sb.Append(' ');
             else first = false;
 
+            if (_rules.Count == 1)
+                return cls ?? string.Empty;
+
             sb.Append(cls);
         }
         return sb.ToString();

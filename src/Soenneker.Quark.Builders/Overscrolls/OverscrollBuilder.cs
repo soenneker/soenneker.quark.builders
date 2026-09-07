@@ -123,6 +123,9 @@ public sealed class OverscrollBuilder : CssBuilderBase<OverscrollBuilder>
             else
                 first = false;
 
+            if (_rules.Count == 1)
+                return cls ?? string.Empty;
+
             sb.Append(cls);
         }
 

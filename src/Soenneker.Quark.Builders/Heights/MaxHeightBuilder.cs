@@ -111,6 +111,9 @@ public sealed class MaxHeightBuilder : CssBuilderBase<MaxHeightBuilder>
             else
                 first = false;
 
+            if (_rules.Count == 1)
+                return cls ?? string.Empty;
+
             sb.Append(cls);
         }
 
