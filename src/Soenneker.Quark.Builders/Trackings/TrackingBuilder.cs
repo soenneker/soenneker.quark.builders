@@ -56,7 +56,7 @@ public sealed class TrackingBuilder : CssBuilderBase<TrackingBuilder>
     /// </summary>
     /// <param name="value">Arbitrary utility value to append without predefined validation.</param>
     /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
-    public TrackingBuilder Token(string value) => Chain(Prefix + value);
+    public TrackingBuilder Token(string value) => Chain(UtilityToken.WithPrefix(value, Prefix));
 
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]

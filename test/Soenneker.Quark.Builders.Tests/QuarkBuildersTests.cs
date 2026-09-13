@@ -11,6 +11,52 @@ public sealed class QuarkBuildersTests : HostedUnitTest
     }
 
     [Test]
+    public void Prefixed_tokens_accept_suffixes_and_complete_utilities()
+    {
+        (System.Type Type, string Suffix, string Full)[] cases =
+        [
+            (typeof(AutoCols), "min", "auto-cols-min"), (typeof(AutoRows), "min", "auto-rows-min"),
+            (typeof(Gap), "2", "gap-2"), (typeof(Fill), "red-500", "fill-red-500"), (typeof(Stroke), "2", "stroke-2"), (typeof(ColStart), "3", "col-start-3"), (typeof(ColEnd), "4", "col-end-4"),
+            (typeof(RowStart), "2", "row-start-2"), (typeof(RowEnd), "5", "row-end-5"),
+            (typeof(ContentAlign), "center", "content-center"),
+            (typeof(DecorationStyle), "wavy", "decoration-wavy"),
+            (typeof(DecorationThickness), "2", "decoration-2"),
+            (typeof(Delay), "150", "delay-150"), (typeof(Ease), "linear", "ease-linear"),
+            (typeof(Flex), "1", "flex-1"), (typeof(FlexDirection), "row", "flex-row"), (typeof(FlexWrap), "wrap", "flex-wrap"),
+            (typeof(GridCols), "3", "grid-cols-3"), (typeof(GridRows), "2", "grid-rows-2"),
+            (typeof(Items), "center", "items-center"), (typeof(Justify), "between", "justify-between"),
+            (typeof(JustifyItemsAlign), "center", "justify-items-center"),
+            (typeof(JustifySelfAlign), "end", "justify-self-end"),
+            (typeof(Leading), "tight", "leading-tight"), (typeof(Tracking), "wide", "tracking-wide"),
+            (typeof(Origin), "center", "origin-center"), (typeof(OutlineOffset), "2", "outline-offset-2"),
+            (typeof(Rotate), "45", "rotate-45"), (typeof(Self), "end", "self-end"),
+            (typeof(TextAlign), "center", "text-center"), (typeof(Transform), "gpu", "transform-gpu"),
+            (typeof(UnderlineOffset), "4", "underline-offset-4")
+        ];
+
+        foreach (var (type, suffix, full) in cases)
+        {
+            var token = type.GetMethod("Token", [typeof(string)])!;
+            var shortBuilder = (ICssBuilder)token.Invoke(null, [suffix])!;
+            var fullBuilder = (ICssBuilder)token.Invoke(null, [full])!;
+            shortBuilder.ToClass().Should().Be(full);
+            fullBuilder.ToClass().Should().Be(full);
+
+            var chain = shortBuilder.GetType().GetMethod("Token", [typeof(string)])!;
+            ((ICssBuilder)chain.Invoke(shortBuilder, [full])!).ToClass().Should().Be($"{full} {full}");
+        }
+
+        GridCols.OnMd.Token("grid-cols-[1fr_2fr]").ToClass().Should().Be("md:grid-cols-[1fr_2fr]");
+        FlexDirection.OnHover.Token("flex-col").ToClass().Should().Be("hover:flex-col");
+    }
+
+    [Test]
+    public void FlexDirection_preserves_explicit_inline_display()
+    {
+        $"{Display.InlineFlex.ToClass()} {FlexDirection.Col.OnMd.Row.ToClass()}"
+            .Should().Be("inline-flex flex-col md:flex-row");
+    }
+    [Test]
     public void ButtonSizeBuilder_builds_responsive_size_classes()
     {
         string result = ButtonSize.Default.OnMd.IconSm.ToClass();
@@ -452,21 +498,31 @@ public sealed class QuarkBuildersTests : HostedUnitTest
     }
 
     [Test]
-    public void FlexDirectionBuilder_includes_flex_display_for_tailwind_container_utilities()
+    public void FlexDirectionBuilder_only_emits_direction_utilities()
     {
         string result = FlexDirection.Col.OnMd.Row.ToClass();
 
-        result.Should().Be("flex flex-col md:flex md:flex-row");
+        result.Should().Be("flex-col md:flex-row");
     }
 
     [Test]
-    public void FlexWrapBuilder_includes_flex_display_for_tailwind_container_utilities()
+    public void FlexWrapBuilder_only_emits_wrapping_utilities()
     {
         string result = FlexWrap.Wrap.OnLg.NoWrap.ToClass();
 
-        result.Should().Be("flex flex-wrap lg:flex lg:flex-nowrap");
+        result.Should().Be("flex-wrap lg:flex-nowrap");
     }
 
+    [Test]
+    public void FlexWrapBuilder_preserves_state_modifiers_without_changing_display()
+    {
+        FlexWrap.OnHover.OnMd.Wrap.OnFocus.NoWrap.ToClass()
+            .Should().Be("md:hover:flex-wrap focus:flex-nowrap");
+        FlexWrap.WrapReverse.ToClass().Should().Be("flex-wrap-reverse");
+        FlexWrap.Token("wrap").ToClass().Should().Be("flex-wrap");
+        $"{Display.InlineFlex.ToClass()} {FlexWrap.Wrap.ToClass()}"
+            .Should().Be("inline-flex flex-wrap");
+    }
     [Test]
     public void GridTrackBuilders_emit_prefixed_responsive_classes()
     {

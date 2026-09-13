@@ -1,11 +1,7 @@
-using System;
-using System.Collections.Generic;
-using Soenneker.Utils.PooledStringBuilders;
-
 namespace Soenneker.Quark;
 
 /// <summary>
-/// Represents the flex wrap builder.
+/// Builds flex-wrap utilities without changing display. Set Display.Flex or Display.InlineFlex separately.
 /// </summary>
 [TailwindPrefix("flex-", Responsive = true)]
 public sealed class FlexWrapBuilder : ResponsiveUtilityBuilder<FlexWrapBuilder>
@@ -23,89 +19,21 @@ public sealed class FlexWrapBuilder : ResponsiveUtilityBuilder<FlexWrapBuilder>
     }
 
     /// <summary>
-    /// Gets or sets wrap.
+    /// Adds flex-wrap. Does not enable flex display.
     /// </summary>
     public FlexWrapBuilder Wrap => ChainValue(FlexWrapEnum.WrapValue);
     /// <summary>
-    /// Gets or sets wrap reverse.
+    /// Adds flex-wrap-reverse. Does not enable flex display.
     /// </summary>
     public FlexWrapBuilder WrapReverse => ChainValue(FlexWrapEnum.WrapReverseValue);
     /// <summary>
-    /// Gets or sets no wrap.
+    /// Adds flex-nowrap. Does not enable flex display.
     /// </summary>
     public FlexWrapBuilder NoWrap => ChainValue(FlexWrapEnum.NoWrapValue);
     /// <summary>
     /// Adds an arbitrary flex wrap utility token to the class list.
     /// </summary>
-    /// <param name="value">Arbitrary utility value to append without predefined validation.</param>
+    /// <param name="value">Utility suffix or complete utility with this builder's prefix. Apply variants with fluent modifiers.</param>
     /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
-    public FlexWrapBuilder Token(string value) => ChainValue("flex-" + value);
-
-
-    /// <summary>
-    /// Executes the to class operation.
-    /// </summary>
-    /// <returns>The result of the operation.</returns>
-    public override string ToClass()
-    {
-        if (Rules.Count == 0)
-            return string.Empty;
-
-        using var sb = new PooledStringBuilder();
-        var first = true;
-
-        for (var i = 0; i < Rules.Count; i++)
-        {
-            UtilityRule rule = Rules[i];
-
-            if (rule.Value.Length == 0)
-                continue;
-
-            string modifierChain = GetModifierChain(rule);
-
-            if (!HasPreviousModifierChain(i, modifierChain))
-            {
-                string flexClass = modifierChain.Length == 0 ? "flex" : BreakpointUtil.ApplyTailwindModifiers("flex", modifierChain);
-
-                if (!first)
-                    sb.Append(' ');
-                else
-                    first = false;
-
-                sb.Append(flexClass);
-            }
-
-            string cls = modifierChain.Length == 0 ? rule.Value : BreakpointUtil.ApplyTailwindModifiers(rule.Value, modifierChain);
-
-            if (!first)
-                sb.Append(' ');
-            else
-                first = false;
-
-            sb.Append(cls);
-        }
-
-        return sb.ToString();
-    }
-
-    private bool HasPreviousModifierChain(int ruleIndex, string modifierChain)
-    {
-        for (var i = 0; i < ruleIndex; i++)
-        {
-            if (string.Equals(GetModifierChain(Rules[i]), modifierChain, StringComparison.Ordinal))
-                return true;
-        }
-
-        return false;
-    }
-
-    private static string GetModifierChain(UtilityRule rule)
-    {
-        string breakpoint = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
-
-        if (breakpoint.Length == 0)
-            return rule.ModifierChain ?? string.Empty;
-
-        return rule.ModifierChain is { Length: > 0 } ? $"{breakpoint}:{rule.ModifierChain}" : breakpoint;
-    }
+    public FlexWrapBuilder Token(string value) => ChainValue(UtilityToken.WithPrefix(value, "flex-"));
 }

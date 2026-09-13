@@ -90,3 +90,32 @@ string display = Display.Token("inline-grid").ToClass();
 ```
 
 Token, selector, and custom-modifier methods intentionally do not validate arbitrary Tailwind syntax. Use them with developer-controlled values, not raw user input. Builders are mutable fluent values; create a builder per expression rather than sharing one across threads or requests.
+
+## Flex display migration
+
+`FlexWrap` now controls wrapping only: `FlexWrap.Wrap.ToClass()` returns `flex-wrap`.
+It no longer adds `flex`, including at responsive breakpoints or under state variants.
+Set `Display.Flex` or `Display.InlineFlex` explicitly on containers that previously relied on that behavior:
+
+```razor
+<Div Display="Display.Flex" FlexWrap="FlexWrap.Wrap">
+    ...
+</Div>
+```
+
+For responsive display changes, configure the matching modifier on `Display` explicitly.
+`FlexDirection` also emits direction utilities only. For example, `FlexDirection.Col.OnMd.Row` emits `flex-col md:flex-row`; it does not enable flex display at either breakpoint.
+
+To verify Suite against the updated local Builders project before publishing the package,
+pass `-p:UseLocalQuarkBuildersProject=true` when building or testing Suite.
+Package consumers must upgrade to a release containing this change and migrate implicit display usage together.
+## Arbitrary utility tokens
+
+Prefixed Token methods accept a suffix or a complete utility with that prefix:
+`GridCols.Token("3")` and `GridCols.Token("grid-cols-3")` both emit `grid-cols-3`.
+Use fluent modifiers for variants: `GridCols.OnMd.Token("grid-cols-3")` emits `md:grid-cols-3`.
+
+Layout properties such as direction and wrapping are independent of display.
+Composite presets are different: `ListVariant.Inline` deliberately applies
+`flex flex-wrap items-center gap-2 list-none p-0`, while `ListVariant.None`
+applies `list-none p-0`. Their XML documentation lists these effects.

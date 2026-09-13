@@ -85,7 +85,7 @@ public static partial class Leading
     /// <summary>
     /// Adds an arbitrary leading utility token to the class list.
     /// </summary>
-    /// <param name="value">Arbitrary utility value to append without predefined validation.</param>
+    /// <param name="value">Utility suffix or complete utility with this builder's prefix. Apply variants with fluent modifiers.</param>
     /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
-    public static LeadingBuilder Token(string value) => new("leading-" + value);
+    public static LeadingBuilder Token(string value) => new(UtilityToken.WithPrefix(value, "leading-"));
 }

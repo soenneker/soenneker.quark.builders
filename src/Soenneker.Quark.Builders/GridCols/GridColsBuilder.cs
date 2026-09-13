@@ -79,8 +79,8 @@ public sealed class GridColsBuilder : ResponsiveUtilityBuilder<GridColsBuilder>
     /// <summary>
     /// Adds an arbitrary grid cols utility token to the class list.
     /// </summary>
-    /// <param name="value">Arbitrary utility value to append without predefined validation.</param>
+    /// <param name="value">Utility suffix or complete utility with this builder's prefix. Apply variants with fluent modifiers.</param>
     /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
-    public GridColsBuilder Token(string value) => ChainValue("grid-cols-" + value);
+    public GridColsBuilder Token(string value) => ChainValue(UtilityToken.WithPrefix(value, "grid-cols-"));
 
 }

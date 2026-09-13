@@ -23,7 +23,7 @@ public sealed class FillBuilder : FinalClassUtilityBuilder<FillBuilder>
     /// </summary>
     /// <param name="value">Suffix/token after the utility prefix (see Tailwind docs for this family).</param>
     /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
-    public FillBuilder Token(string value) => ChainClass($"fill-{value}");
+    public FillBuilder Token(string value) => ChainClass(UtilityToken.WithPrefix(value, "fill-"));
 
     /// <summary>
     /// Disables the effect (`none` token) or sets size to zero, depending on the utility.

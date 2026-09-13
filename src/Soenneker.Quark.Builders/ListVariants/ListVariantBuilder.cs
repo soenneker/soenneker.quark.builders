@@ -30,15 +30,15 @@ public sealed class ListVariantBuilder : CssBuilderBase<ListVariantBuilder>
     }
 
     /// <summary>
-    /// Removes default list styling.
+    /// Removes list markers and resets padding (list-none p-0).
     /// </summary>
     public ListVariantBuilder None => Chain(ListVariantType.None);
     /// <summary>
-    /// Sets the list variant to inline.
+    /// Applies a wrapping flex row, centered items, gap-2, no list markers, and zero padding.
     /// </summary>
     public ListVariantBuilder Inline => Chain(ListVariantType.Inline);
     /// <summary>
-    /// Sets the list variant to inline-item.
+    /// Sets the list item display to inline-block.
     /// </summary>
     public ListVariantBuilder InlineItem => Chain(ListVariantType.InlineItem);
 

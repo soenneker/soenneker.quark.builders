@@ -81,5 +81,5 @@ public static partial class Gap
     /// </summary>
     /// <param name="value">Arbitrary utility value to append without predefined validation.</param>
     /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
-    public static GapBuilder Token(string value) => new($"gap-{value}");
+    public static GapBuilder Token(string value) => new(UtilityToken.WithPrefix(value, "gap-"));
 }

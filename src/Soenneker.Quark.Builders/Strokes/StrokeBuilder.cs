@@ -18,7 +18,7 @@ public sealed class StrokeBuilder : FinalClassUtilityBuilder<StrokeBuilder>
     /// </summary>
     /// <param name="value">Suffix/token after the utility prefix (see Tailwind docs for this family).</param>
     /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
-    public StrokeBuilder Token(string value) => ChainClass($"stroke-{value}");
+    public StrokeBuilder Token(string value) => ChainClass(UtilityToken.WithPrefix(value, "stroke-"));
     /// <summary>
     /// Disables the effect (`none` token) or sets size to zero, depending on the utility.
     /// </summary>

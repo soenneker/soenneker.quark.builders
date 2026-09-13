@@ -57,8 +57,8 @@ public sealed class OriginBuilder : ResponsiveUtilityBuilder<OriginBuilder>
     /// <summary>
     /// Adds an arbitrary origin utility token to the class list.
     /// </summary>
-    /// <param name="value">Arbitrary utility value to append without predefined validation.</param>
+    /// <param name="value">Utility suffix or complete utility with this builder's prefix. Apply variants with fluent modifiers.</param>
     /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
-    public OriginBuilder Token(string value) => ChainValue("origin-" + value);
+    public OriginBuilder Token(string value) => ChainValue(UtilityToken.WithPrefix(value, "origin-"));
 
 }

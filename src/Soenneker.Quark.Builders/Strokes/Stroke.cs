@@ -11,7 +11,7 @@ public static partial class Stroke
     /// </summary>
     /// <param name="value">Suffix/token after the utility prefix (see Tailwind docs for this family).</param>
     /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
-    public static StrokeBuilder Token(string value) => new($"stroke-{value}");
+    public static StrokeBuilder Token(string value) => new(UtilityToken.WithPrefix(value, "stroke-"));
     /// <summary>
     /// Disables the effect (`none` token) or sets size to zero, depending on the utility.
     /// </summary>

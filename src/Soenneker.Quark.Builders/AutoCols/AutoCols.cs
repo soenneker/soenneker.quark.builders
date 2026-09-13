@@ -27,5 +27,5 @@ public static partial class AutoCols
     /// </summary>
     /// <param name="value">Arbitrary utility value to append without predefined validation.</param>
     /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
-    public static AutoColsBuilder Token(string value) => new($"auto-cols-{value}");
+    public static AutoColsBuilder Token(string value) => new(UtilityToken.WithPrefix(value, "auto-cols-"));
 }

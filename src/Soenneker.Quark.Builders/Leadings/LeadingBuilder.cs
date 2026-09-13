@@ -108,7 +108,7 @@ public sealed class LeadingBuilder : CssBuilderBase<LeadingBuilder>
     /// </summary>
     /// <param name="value">Arbitrary utility value to append without predefined validation.</param>
     /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
-    public LeadingBuilder Token(string value) => Chain(Prefix + value);
+    public LeadingBuilder Token(string value) => Chain(UtilityToken.WithPrefix(value, Prefix));
 
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]

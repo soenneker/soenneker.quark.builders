@@ -65,7 +65,7 @@ public sealed class FlexBuilder : ResponsiveUtilityBuilder<FlexBuilder>
     /// <summary>
     /// Adds an arbitrary flex utility token to the class list.
     /// </summary>
-    /// <param name="value">Arbitrary utility value to append without predefined validation.</param>
+    /// <param name="value">Utility suffix or complete flex utility. Apply variants with fluent modifiers.</param>
     /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
-    public FlexBuilder Token(string value) => ChainValue($"flex-{value}");
+    public FlexBuilder Token(string value) => ChainValue(UtilityToken.WithPrefix(value, "flex-"));
 }

@@ -32,8 +32,8 @@ public sealed class AutoRowsBuilder : FinalClassUtilityBuilder<AutoRowsBuilder>
     /// <summary>
     /// Adds an arbitrary auto rows utility token to the class list.
     /// </summary>
-    /// <param name="value">Arbitrary utility value to append without predefined validation.</param>
+    /// <param name="value">Utility suffix or complete utility with this builder's prefix. Apply variants with fluent modifiers.</param>
     /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
-    public AutoRowsBuilder Token(string value) => ChainClass("auto-rows-" + value);
+    public AutoRowsBuilder Token(string value) => ChainClass(UtilityToken.WithPrefix(value, "auto-rows-"));
 
 }

@@ -1,7 +1,7 @@
 namespace Soenneker.Quark;
 
 /// <summary>
-/// Represents the flex direction.
+/// Creates flex-direction utilities without changing display. Set Display.Flex or Display.InlineFlex separately.
 /// </summary>
 [TailwindModifiers(typeof(FlexDirectionBuilder))]
 public static partial class FlexDirection
@@ -25,7 +25,7 @@ public static partial class FlexDirection
     /// <summary>
     /// Adds an arbitrary flex direction utility token to the class list.
     /// </summary>
-    /// <param name="value">Arbitrary utility value to append without predefined validation.</param>
+    /// <param name="value">Utility suffix or complete utility with this builder's prefix. Apply variants with fluent modifiers.</param>
     /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
-    public static FlexDirectionBuilder Token(string value) => new("flex-" + value);
+    public static FlexDirectionBuilder Token(string value) => new(UtilityToken.WithPrefix(value, "flex-"));
 }

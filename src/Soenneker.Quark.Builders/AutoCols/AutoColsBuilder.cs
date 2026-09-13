@@ -32,8 +32,8 @@ public sealed class AutoColsBuilder : FinalClassUtilityBuilder<AutoColsBuilder>
     /// <summary>
     /// Adds an arbitrary auto cols utility token to the class list.
     /// </summary>
-    /// <param name="value">Arbitrary utility value to append without predefined validation.</param>
+    /// <param name="value">Utility suffix or complete utility with this builder's prefix. Apply variants with fluent modifiers.</param>
     /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
-    public AutoColsBuilder Token(string value) => ChainClass("auto-cols-" + value);
+    public AutoColsBuilder Token(string value) => ChainClass(UtilityToken.WithPrefix(value, "auto-cols-"));
 
 }
