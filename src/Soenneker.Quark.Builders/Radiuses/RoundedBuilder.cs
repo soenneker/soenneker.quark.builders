@@ -1,4 +1,4 @@
-using Soenneker.Utils.PooledStringBuilders;
+using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
@@ -9,7 +9,7 @@ namespace Soenneker.Quark;
 /// </summary>
 public sealed class RoundedBuilder : CssBuilderBase<RoundedBuilder>
 {
-    private readonly List<RoundedRule> _rules = new(4);
+    private RuleList<RoundedRule> _rules;
 
     private RoundedPositionEnum _pendingPosition = RoundedPositionEnum.All;
     private string? _pendingCtorModifier;
@@ -141,57 +141,50 @@ public sealed class RoundedBuilder : CssBuilderBase<RoundedBuilder>
 
     // ----- Output -----
 
-    /// <summary>
-    /// Executes the to class operation.
-    /// </summary>
-    /// <returns>The result of the operation.</returns>
     public override string ToClass()
     {
         if (_rules.Count == 0)
             return string.Empty;
-
-        using var sb = new PooledStringBuilder();
-        bool first = true;
-
-        foreach (RoundedRule rule in _rules)
+        if (_rules.Count == 1)
         {
-            string bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
-
-            if (!first)
-                sb.Append(' ');
-            else
-                first = false;
-
-            using var classBuilder = new PooledStringBuilder();
-            classBuilder.Append(_base);
-
-            if (rule.Position.Value.Length > 0)
-            {
-                classBuilder.Append('-');
-                classBuilder.Append(rule.Position.Value);
-            }
-
-            if (rule.SizeToken is { Length: > 0 })
-            {
-                classBuilder.Append('-');
-                classBuilder.Append(rule.SizeToken);
-            }
-
-            string cls = classBuilder.ToString();
-
-            if (bp.Length > 0)
-                cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, bp);
-
-            if (rule.ModifierChain is { Length: > 0 })
-                cls = BreakpointUtil.ApplyTailwindModifiers(cls, rule.ModifierChain);
-
-            if (_rules.Count == 1)
-                return cls ?? string.Empty;
-
-            sb.Append(cls);
+            RoundedRule rule = _rules[0];
+            return ClassWriter.Render(BuildClass(rule), BreakpointUtil.GetBreakpointToken(rule.Breakpoint), rule.ModifierChain);
         }
 
-        return sb.ToString();
+        var writer = new ClassWriter();
+        try
+        {
+            for (var i = 0; i < _rules.Count; i++)
+            {
+                RoundedRule rule = _rules[i];
+                writer.Add(BuildClass(rule), BreakpointUtil.GetBreakpointToken(rule.Breakpoint), rule.ModifierChain);
+            }
+            return writer.ToString();
+        }
+        finally
+        {
+            writer.Dispose();
+        }
+    }
+
+    private static string BuildClass(RoundedRule rule)
+    {
+        string position = rule.Position.Value;
+        string? size = rule.SizeToken;
+        if (position.Length == 0)
+            return string.IsNullOrEmpty(size) ? _base : string.Concat(_base, "-", size);
+        if (string.IsNullOrEmpty(size))
+            return string.Concat(_base, "-", position);
+
+        return string.Create(checked(_base.Length + 2 + position.Length + size.Length), (position, size), static (destination, state) =>
+        {
+            "rounded-".AsSpan().CopyTo(destination);
+            int offset = _base.Length + 1;
+            state.position.AsSpan().CopyTo(destination[offset..]);
+            offset += state.position.Length;
+            destination[offset++] = '-';
+            state.size.AsSpan().CopyTo(destination[offset..]);
+        });
     }
 
     /// <summary>

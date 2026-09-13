@@ -9,55 +9,55 @@ public static partial class Left
     /// <summary>
     /// Gets or sets is0.
     /// </summary>
-    public static LeftBuilder Is0 => new(LeftEnum.Is0);
+    public static LeftBuilder Is0 => new(LeftEnum.Is0Value);
     /// <summary>
     /// Gets or sets is1.
     /// </summary>
-    public static LeftBuilder Is1 => new(LeftEnum.Is1);
+    public static LeftBuilder Is1 => new(LeftEnum.Is1Value);
     /// <summary>
     /// Gets or sets is1 5.
     /// </summary>
-    public static LeftBuilder Is1_5 => new(LeftEnum.Is1_5);
+    public static LeftBuilder Is1_5 => new(LeftEnum.Is1_5Value);
     /// <summary>
     /// Gets or sets is2.
     /// </summary>
-    public static LeftBuilder Is2 => new(LeftEnum.Is2);
+    public static LeftBuilder Is2 => new(LeftEnum.Is2Value);
     /// <summary>
     /// Gets or sets is3.
     /// </summary>
-    public static LeftBuilder Is3 => new(LeftEnum.Is3);
+    public static LeftBuilder Is3 => new(LeftEnum.Is3Value);
     /// <summary>
     /// Gets or sets is4.
     /// </summary>
-    public static LeftBuilder Is4 => new(LeftEnum.Is4);
+    public static LeftBuilder Is4 => new(LeftEnum.Is4Value);
     /// <summary>
     /// Gets or sets is5.
     /// </summary>
-    public static LeftBuilder Is5 => new(LeftEnum.Is5);
+    public static LeftBuilder Is5 => new(LeftEnum.Is5Value);
     /// <summary>
     /// Gets or sets is8.
     /// </summary>
-    public static LeftBuilder Is8 => new(LeftEnum.Is8);
+    public static LeftBuilder Is8 => new(LeftEnum.Is8Value);
     /// <summary>
     /// Gets or sets is12.
     /// </summary>
-    public static LeftBuilder Is12 => new(LeftEnum.Is12);
+    public static LeftBuilder Is12 => new(LeftEnum.Is12Value);
     /// <summary>
     /// Gets or sets is16.
     /// </summary>
-    public static LeftBuilder Is16 => new(LeftEnum.Is16);
+    public static LeftBuilder Is16 => new(LeftEnum.Is16Value);
     /// <summary>
     /// Gets or sets is24.
     /// </summary>
-    public static LeftBuilder Is24 => new(LeftEnum.Is24);
+    public static LeftBuilder Is24 => new(LeftEnum.Is24Value);
     /// <summary>
     /// Gets or sets auto.
     /// </summary>
-    public static LeftBuilder Auto => new(LeftEnum.Auto);
+    public static LeftBuilder Auto => new(LeftEnum.AutoValue);
     /// <summary>
     /// Gets or sets px.
     /// </summary>
-    public static LeftBuilder Px => new(LeftEnum.Px);
+    public static LeftBuilder Px => new(LeftEnum.PxValue);
     /// <summary>
     /// Adds an arbitrary left utility token to the class list.
     /// </summary>

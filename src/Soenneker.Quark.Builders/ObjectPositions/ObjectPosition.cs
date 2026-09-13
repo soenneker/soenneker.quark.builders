@@ -10,45 +10,45 @@ public static partial class ObjectPosition
     /// <summary>
     /// `object-center`
     /// </summary>
-    public static ObjectPositionBuilder Center => new(ObjectPositionEnum.Center);
+    public static ObjectPositionBuilder Center => new(ObjectPositionEnum.CenterValue);
 
     /// <summary>
     /// `object-top`
     /// </summary>
-    public static ObjectPositionBuilder Top => new(ObjectPositionEnum.Top);
+    public static ObjectPositionBuilder Top => new(ObjectPositionEnum.TopValue);
 
     /// <summary>
     /// `object-right`
     /// </summary>
-    public static ObjectPositionBuilder Right => new(ObjectPositionEnum.Right);
+    public static ObjectPositionBuilder Right => new(ObjectPositionEnum.RightValue);
 
     /// <summary>
     /// `object-bottom`
     /// </summary>
-    public static ObjectPositionBuilder Bottom => new(ObjectPositionEnum.Bottom);
+    public static ObjectPositionBuilder Bottom => new(ObjectPositionEnum.BottomValue);
 
     /// <summary>
     /// `object-left`
     /// </summary>
-    public static ObjectPositionBuilder Left => new(ObjectPositionEnum.Left);
+    public static ObjectPositionBuilder Left => new(ObjectPositionEnum.LeftValue);
 
     /// <summary>
     /// `object-top-left`
     /// </summary>
-    public static ObjectPositionBuilder TopLeft => new(ObjectPositionEnum.TopLeft);
+    public static ObjectPositionBuilder TopLeft => new(ObjectPositionEnum.TopLeftValue);
 
     /// <summary>
     /// `object-top-right`
     /// </summary>
-    public static ObjectPositionBuilder TopRight => new(ObjectPositionEnum.TopRight);
+    public static ObjectPositionBuilder TopRight => new(ObjectPositionEnum.TopRightValue);
 
     /// <summary>
     /// `object-bottom-left`
     /// </summary>
-    public static ObjectPositionBuilder BottomLeft => new(ObjectPositionEnum.BottomLeft);
+    public static ObjectPositionBuilder BottomLeft => new(ObjectPositionEnum.BottomLeftValue);
 
     /// <summary>
     /// `object-bottom-right`
     /// </summary>
-    public static ObjectPositionBuilder BottomRight => new(ObjectPositionEnum.BottomRight);
+    public static ObjectPositionBuilder BottomRight => new(ObjectPositionEnum.BottomRightValue);
 }

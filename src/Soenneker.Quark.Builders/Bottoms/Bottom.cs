@@ -9,63 +9,63 @@ public static partial class Bottom
     /// <summary>
     /// Gets or sets is0.
     /// </summary>
-    public static BottomBuilder Is0 => new(BottomEnum.Is0);
+    public static BottomBuilder Is0 => new(BottomEnum.Is0Value);
     /// <summary>
     /// Gets or sets is1.
     /// </summary>
-    public static BottomBuilder Is1 => new(BottomEnum.Is1);
+    public static BottomBuilder Is1 => new(BottomEnum.Is1Value);
     /// <summary>
     /// Gets or sets is1 5.
     /// </summary>
-    public static BottomBuilder Is1_5 => new(BottomEnum.Is1_5);
+    public static BottomBuilder Is1_5 => new(BottomEnum.Is1_5Value);
     /// <summary>
     /// Gets or sets is2.
     /// </summary>
-    public static BottomBuilder Is2 => new(BottomEnum.Is2);
+    public static BottomBuilder Is2 => new(BottomEnum.Is2Value);
     /// <summary>
     /// Gets or sets is3.
     /// </summary>
-    public static BottomBuilder Is3 => new(BottomEnum.Is3);
+    public static BottomBuilder Is3 => new(BottomEnum.Is3Value);
     /// <summary>
     /// Gets or sets is4.
     /// </summary>
-    public static BottomBuilder Is4 => new(BottomEnum.Is4);
+    public static BottomBuilder Is4 => new(BottomEnum.Is4Value);
     /// <summary>
     /// Gets or sets is5.
     /// </summary>
-    public static BottomBuilder Is5 => new(BottomEnum.Is5);
+    public static BottomBuilder Is5 => new(BottomEnum.Is5Value);
     /// <summary>
     /// Gets or sets is6.
     /// </summary>
-    public static BottomBuilder Is6 => new(BottomEnum.Is6);
+    public static BottomBuilder Is6 => new(BottomEnum.Is6Value);
     /// <summary>
     /// Gets or sets is8.
     /// </summary>
-    public static BottomBuilder Is8 => new(BottomEnum.Is8);
+    public static BottomBuilder Is8 => new(BottomEnum.Is8Value);
     /// <summary>
     /// Gets or sets is12.
     /// </summary>
-    public static BottomBuilder Is12 => new(BottomEnum.Is12);
+    public static BottomBuilder Is12 => new(BottomEnum.Is12Value);
     /// <summary>
     /// Gets or sets is16.
     /// </summary>
-    public static BottomBuilder Is16 => new(BottomEnum.Is16);
+    public static BottomBuilder Is16 => new(BottomEnum.Is16Value);
     /// <summary>
     /// Gets or sets is24.
     /// </summary>
-    public static BottomBuilder Is24 => new(BottomEnum.Is24);
+    public static BottomBuilder Is24 => new(BottomEnum.Is24Value);
     /// <summary>
     /// Gets or sets auto.
     /// </summary>
-    public static BottomBuilder Auto => new(BottomEnum.Auto);
+    public static BottomBuilder Auto => new(BottomEnum.AutoValue);
     /// <summary>
     /// Gets or sets px.
     /// </summary>
-    public static BottomBuilder Px => new(BottomEnum.Px);
+    public static BottomBuilder Px => new(BottomEnum.PxValue);
     /// <summary>
     /// Gets or sets negative1.
     /// </summary>
-    public static BottomBuilder Negative1 => new(BottomEnum.Negative1);
+    public static BottomBuilder Negative1 => new(BottomEnum.Negative1Value);
     /// <summary>
     /// Adds an arbitrary bottom utility token to the class list.
     /// </summary>

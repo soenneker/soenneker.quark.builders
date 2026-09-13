@@ -27,12 +27,12 @@ public static partial class Space
     /// <summary>
     /// Fluent step for `XReverse` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public static SpaceBuilder XReverse => new(SpaceEnum.XReverse);
+    public static SpaceBuilder XReverse => new(SpaceEnum.XReverseValue);
 
     /// <summary>
     /// Fluent step for `YReverse` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public static SpaceBuilder YReverse => new(SpaceEnum.YReverse);
+    public static SpaceBuilder YReverse => new(SpaceEnum.YReverseValue);
 
     /// <summary>
     /// Represents the x.
@@ -42,52 +42,52 @@ public static partial class Space
         /// <summary>
         /// Spacing/sizing scale step `0` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 0` for integer spacing utilities unless overridden).
         /// </summary>
-        public static SpaceBuilder Is0 => new(SpaceEnum.X0);
+        public static SpaceBuilder Is0 => new(SpaceEnum.X0Value);
 
         /// <summary>
         /// Spacing/sizing scale step `1` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 1` for integer spacing utilities unless overridden).
         /// </summary>
-        public static SpaceBuilder Is1 => new(SpaceEnum.X1);
+        public static SpaceBuilder Is1 => new(SpaceEnum.X1Value);
 
         /// <summary>
         /// Spacing/sizing scale step `1.5` — uses Tailwind’s default spacing scale.
         /// </summary>
-        public static SpaceBuilder Is1_5 => new(SpaceEnum.X1_5);
+        public static SpaceBuilder Is1_5 => new(SpaceEnum.X1_5Value);
 
         /// <summary>
         /// Spacing/sizing scale step `2` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 2` for integer spacing utilities unless overridden).
         /// </summary>
-        public static SpaceBuilder Is2 => new(SpaceEnum.X2);
+        public static SpaceBuilder Is2 => new(SpaceEnum.X2Value);
 
         /// <summary>
         /// Spacing/sizing scale step `3` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 3` for integer spacing utilities unless overridden).
         /// </summary>
-        public static SpaceBuilder Is3 => new(SpaceEnum.X3);
+        public static SpaceBuilder Is3 => new(SpaceEnum.X3Value);
 
         /// <summary>
         /// Spacing/sizing scale step `4` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 4` for integer spacing utilities unless overridden).
         /// </summary>
-        public static SpaceBuilder Is4 => new(SpaceEnum.X4);
+        public static SpaceBuilder Is4 => new(SpaceEnum.X4Value);
 
         /// <summary>
         /// Spacing/sizing scale step `5` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 5` for integer spacing utilities unless overridden).
         /// </summary>
-        public static SpaceBuilder Is5 => new(SpaceEnum.X5);
+        public static SpaceBuilder Is5 => new(SpaceEnum.X5Value);
 
         /// <summary>
         /// Spacing/sizing scale step `6` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 6` for integer spacing utilities unless overridden).
         /// </summary>
-        public static SpaceBuilder Is6 => new(SpaceEnum.X6);
+        public static SpaceBuilder Is6 => new(SpaceEnum.X6Value);
 
         /// <summary>
         /// Spacing/sizing scale step `7` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 7` for integer spacing utilities unless overridden).
         /// </summary>
-        public static SpaceBuilder Is7 => new(SpaceEnum.X7);
+        public static SpaceBuilder Is7 => new(SpaceEnum.X7Value);
 
         /// <summary>
         /// Spacing/sizing scale step `8` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 8` for integer spacing utilities unless overridden).
         /// </summary>
-        public static SpaceBuilder Is8 => new(SpaceEnum.X8);
+        public static SpaceBuilder Is8 => new(SpaceEnum.X8Value);
 
         /// <summary>
         /// Tailwind token segment (spacing scale step, arbitrary value like `[17rem]`, or theme key). Builds the matching utility class for this builder.
@@ -105,52 +105,52 @@ public static partial class Space
         /// <summary>
         /// Spacing/sizing scale step `0` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 0` for integer spacing utilities unless overridden).
         /// </summary>
-        public static SpaceBuilder Is0 => new(SpaceEnum.Y0);
+        public static SpaceBuilder Is0 => new(SpaceEnum.Y0Value);
 
         /// <summary>
         /// Spacing/sizing scale step `1` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 1` for integer spacing utilities unless overridden).
         /// </summary>
-        public static SpaceBuilder Is1 => new(SpaceEnum.Y1);
+        public static SpaceBuilder Is1 => new(SpaceEnum.Y1Value);
 
         /// <summary>
         /// Spacing/sizing scale step `1.5` — uses Tailwind’s default spacing scale.
         /// </summary>
-        public static SpaceBuilder Is1_5 => new(SpaceEnum.Y1_5);
+        public static SpaceBuilder Is1_5 => new(SpaceEnum.Y1_5Value);
 
         /// <summary>
         /// Spacing/sizing scale step `2` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 2` for integer spacing utilities unless overridden).
         /// </summary>
-        public static SpaceBuilder Is2 => new(SpaceEnum.Y2);
+        public static SpaceBuilder Is2 => new(SpaceEnum.Y2Value);
 
         /// <summary>
         /// Spacing/sizing scale step `3` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 3` for integer spacing utilities unless overridden).
         /// </summary>
-        public static SpaceBuilder Is3 => new(SpaceEnum.Y3);
+        public static SpaceBuilder Is3 => new(SpaceEnum.Y3Value);
 
         /// <summary>
         /// Spacing/sizing scale step `4` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 4` for integer spacing utilities unless overridden).
         /// </summary>
-        public static SpaceBuilder Is4 => new(SpaceEnum.Y4);
+        public static SpaceBuilder Is4 => new(SpaceEnum.Y4Value);
 
         /// <summary>
         /// Spacing/sizing scale step `5` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 5` for integer spacing utilities unless overridden).
         /// </summary>
-        public static SpaceBuilder Is5 => new(SpaceEnum.Y5);
+        public static SpaceBuilder Is5 => new(SpaceEnum.Y5Value);
 
         /// <summary>
         /// Spacing/sizing scale step `6` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 6` for integer spacing utilities unless overridden).
         /// </summary>
-        public static SpaceBuilder Is6 => new(SpaceEnum.Y6);
+        public static SpaceBuilder Is6 => new(SpaceEnum.Y6Value);
 
         /// <summary>
         /// Spacing/sizing scale step `7` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 7` for integer spacing utilities unless overridden).
         /// </summary>
-        public static SpaceBuilder Is7 => new(SpaceEnum.Y7);
+        public static SpaceBuilder Is7 => new(SpaceEnum.Y7Value);
 
         /// <summary>
         /// Spacing/sizing scale step `8` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 8` for integer spacing utilities unless overridden).
         /// </summary>
-        public static SpaceBuilder Is8 => new(SpaceEnum.Y8);
+        public static SpaceBuilder Is8 => new(SpaceEnum.Y8Value);
 
         /// <summary>
         /// Tailwind token segment (spacing scale step, arbitrary value like `[17rem]`, or theme key). Builds the matching utility class for this builder.

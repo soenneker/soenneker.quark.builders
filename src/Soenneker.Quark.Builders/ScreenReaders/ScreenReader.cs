@@ -10,5 +10,5 @@ public static partial class ScreenReader
     /// <summary>
     /// Screen reader only (sr-only).
     /// </summary>
-    public static ScreenReaderBuilder Only => new(ScreenReaderEnum.Only);
+    public static ScreenReaderBuilder Only => new(ScreenReaderEnum.OnlyValue);
 }

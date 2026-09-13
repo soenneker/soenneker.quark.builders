@@ -8,9 +8,15 @@ namespace Soenneker.Quark;
 public sealed class ColorPaletteBuilder<TBuilder>
 {
     private readonly ColorPaletteEnum _palette;
-    private readonly Func<string, TBuilder> _create;
+    private readonly object _create;
 
     internal ColorPaletteBuilder(ColorPaletteEnum palette, Func<string, TBuilder> create)
+    {
+        _palette = palette;
+        _create = create;
+    }
+
+    internal ColorPaletteBuilder(ColorPaletteEnum palette, IColorTokenFactory<TBuilder> create)
     {
         _palette = palette;
         _create = create;
@@ -63,6 +69,9 @@ public sealed class ColorPaletteBuilder<TBuilder>
 
     private TBuilder Shade(string shade)
     {
-        return _create($"{_palette.Value}-{shade}");
+        string token = $"{_palette.Value}-{shade}";
+        return _create is Func<string, TBuilder> create
+            ? create(token)
+            : ((IColorTokenFactory<TBuilder>)_create).Token(token);
     }
 }

@@ -9,25 +9,25 @@ public static partial class Whitespace
     /// <summary>
     /// Fluent step for `Normal` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public static WhitespaceBuilder Normal => new(WhitespaceEnum.Normal);
+    public static WhitespaceBuilder Normal => new(WhitespaceEnum.NormalValue);
     /// <summary>
     /// Fluent step for `Nowrap` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public static WhitespaceBuilder Nowrap => new(WhitespaceEnum.Nowrap);
+    public static WhitespaceBuilder Nowrap => new(WhitespaceEnum.NowrapValue);
     /// <summary>
     /// Fluent step for `Pre` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public static WhitespaceBuilder Pre => new(WhitespaceEnum.Pre);
+    public static WhitespaceBuilder Pre => new(WhitespaceEnum.PreValue);
     /// <summary>
     /// Fluent step for `Pre Line` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public static WhitespaceBuilder PreLine => new(WhitespaceEnum.PreLine);
+    public static WhitespaceBuilder PreLine => new(WhitespaceEnum.PreLineValue);
     /// <summary>
     /// Fluent step for `Pre Wrap` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public static WhitespaceBuilder PreWrap => new(WhitespaceEnum.PreWrap);
+    public static WhitespaceBuilder PreWrap => new(WhitespaceEnum.PreWrapValue);
     /// <summary>
     /// Fluent step for `Break Spaces` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public static WhitespaceBuilder BreakSpaces => new(WhitespaceEnum.BreakSpaces);
+    public static WhitespaceBuilder BreakSpaces => new(WhitespaceEnum.BreakSpacesValue);
 }

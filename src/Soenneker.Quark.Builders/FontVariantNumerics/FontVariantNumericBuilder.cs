@@ -11,7 +11,7 @@ namespace Soenneker.Quark;
 [TailwindPrefix("normal-nums", Responsive = true)]
 public sealed class FontVariantNumericBuilder : CssBuilderBase<FontVariantNumericBuilder>
 {
-    private readonly List<FontVariantNumericRule> _rules = new(6);
+    private RuleList<FontVariantNumericRule> _rules;
 
     internal FontVariantNumericBuilder()
     {
@@ -36,39 +36,39 @@ public sealed class FontVariantNumericBuilder : CssBuilderBase<FontVariantNumeri
     /// <summary>
     /// Fluent step for `Normal Nums` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public FontVariantNumericBuilder NormalNums => Chain(FontVariantNumericEnum.NormalNums);
+    public FontVariantNumericBuilder NormalNums => Chain(FontVariantNumericEnum.NormalNumsValue);
     /// <summary>
     /// Fluent step for `Ordinal` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public FontVariantNumericBuilder Ordinal => Chain(FontVariantNumericEnum.Ordinal);
+    public FontVariantNumericBuilder Ordinal => Chain(FontVariantNumericEnum.OrdinalValue);
     /// <summary>
     /// Fluent step for `Slashed Zero` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public FontVariantNumericBuilder SlashedZero => Chain(FontVariantNumericEnum.SlashedZero);
+    public FontVariantNumericBuilder SlashedZero => Chain(FontVariantNumericEnum.SlashedZeroValue);
     /// <summary>
     /// Fluent step for `Lining Nums` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public FontVariantNumericBuilder LiningNums => Chain(FontVariantNumericEnum.LiningNums);
+    public FontVariantNumericBuilder LiningNums => Chain(FontVariantNumericEnum.LiningNumsValue);
     /// <summary>
     /// Fluent step for `Oldstyle Nums` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public FontVariantNumericBuilder OldstyleNums => Chain(FontVariantNumericEnum.OldstyleNums);
+    public FontVariantNumericBuilder OldstyleNums => Chain(FontVariantNumericEnum.OldstyleNumsValue);
     /// <summary>
     /// Fluent step for `Proportional Nums` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public FontVariantNumericBuilder ProportionalNums => Chain(FontVariantNumericEnum.ProportionalNums);
+    public FontVariantNumericBuilder ProportionalNums => Chain(FontVariantNumericEnum.ProportionalNumsValue);
     /// <summary>
     /// Fluent step for `Tabular Nums` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public FontVariantNumericBuilder TabularNums => Chain(FontVariantNumericEnum.TabularNums);
+    public FontVariantNumericBuilder TabularNums => Chain(FontVariantNumericEnum.TabularNumsValue);
     /// <summary>
     /// Fluent step for `Diagonal Fractions` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public FontVariantNumericBuilder DiagonalFractions => Chain(FontVariantNumericEnum.DiagonalFractions);
+    public FontVariantNumericBuilder DiagonalFractions => Chain(FontVariantNumericEnum.DiagonalFractionsValue);
     /// <summary>
     /// Fluent step for `Stacked Fractions` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public FontVariantNumericBuilder StackedFractions => Chain(FontVariantNumericEnum.StackedFractions);
+    public FontVariantNumericBuilder StackedFractions => Chain(FontVariantNumericEnum.StackedFractionsValue);
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private FontVariantNumericBuilder Chain(string value)
     {
@@ -82,45 +82,30 @@ public sealed class FontVariantNumericBuilder : CssBuilderBase<FontVariantNumeri
         _rules.Add(new FontVariantNumericRule(value.Value, null, ConsumePendingModifierChain()));
         return this;
     }
-    /// <summary>
-    /// Executes the to class operation.
-    /// </summary>
-    /// <returns>The result of the operation.</returns>
     public override string ToClass()
     {
         if (_rules.Count == 0)
             return string.Empty;
-
-        using var sb = new PooledStringBuilder();
-        var first = true;
-
-        for (var i = 0; i < _rules.Count; i++)
+        if (_rules.Count == 1)
         {
-            FontVariantNumericRule rule = _rules[i];
-            string cls = rule.Value;
-
-            if (cls.Length == 0)
-                continue;
-
-            string bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
-            if (bp.Length != 0)
-                cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, bp);
-
-            if (rule.ModifierChain is { Length: > 0 })
-                cls = BreakpointUtil.ApplyTailwindModifiers(cls, rule.ModifierChain);
-
-            if (!first)
-                sb.Append(' ');
-            else
-                first = false;
-
-            if (_rules.Count == 1)
-                return cls ?? string.Empty;
-
-            sb.Append(cls);
+            FontVariantNumericRule rule = _rules[0];
+            return ClassWriter.Render(rule.Value, BreakpointUtil.GetBreakpointToken(rule.Breakpoint), rule.ModifierChain);
         }
 
-        return sb.ToString();
+        var writer = new ClassWriter();
+        try
+        {
+            for (var i = 0; i < _rules.Count; i++)
+            {
+                FontVariantNumericRule rule = _rules[i];
+                writer.Add(rule.Value, BreakpointUtil.GetBreakpointToken(rule.Breakpoint), rule.ModifierChain);
+            }
+            return writer.ToString();
+        }
+        finally
+        {
+            writer.Dispose();
+        }
     }
 
     /// <summary>

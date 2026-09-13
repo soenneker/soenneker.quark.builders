@@ -9,7 +9,7 @@ namespace Soenneker.Quark;
 /// </summary>
 public sealed class OverflowBuilder : CssBuilderBase
 {
-    private readonly List<OverflowRule> _rules = new(4);
+    private RuleList<OverflowRule> _rules;
     private string _axis = "";
 
     internal OverflowBuilder(string overflow)
@@ -84,30 +84,30 @@ public sealed class OverflowBuilder : CssBuilderBase
         return this;
     }
 
-    /// <summary>Gets the CSS class string for the current configuration.</summary>
     public override string ToClass()
     {
         if (_rules.Count == 0)
             return string.Empty;
-
-        using var sb = new PooledStringBuilder();
-        var first = true;
-
-        for (var i = 0; i < _rules.Count; i++)
+        if (_rules.Count == 1)
         {
-            OverflowRule rule = _rules[i];
-
-            string baseClass = GetOverflowClass(rule.Overflow);
-            if (baseClass.Length == 0)
-                continue;
-
-            if (!first) sb.Append(' ');
-            else first = false;
-
-            sb.Append(baseClass);
+            OverflowRule rule = _rules[0];
+            return ClassWriter.Render(GetOverflowClass(rule.Overflow));
         }
 
-        return sb.ToString();
+        var writer = new ClassWriter();
+        try
+        {
+            for (var i = 0; i < _rules.Count; i++)
+            {
+                OverflowRule rule = _rules[i];
+                writer.Add(GetOverflowClass(rule.Overflow));
+            }
+            return writer.ToString();
+        }
+        finally
+        {
+            writer.Dispose();
+        }
     }
 
     /// <summary>Gets the CSS style string for the current configuration.</summary>

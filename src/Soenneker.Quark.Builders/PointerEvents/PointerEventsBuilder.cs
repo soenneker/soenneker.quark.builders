@@ -10,7 +10,7 @@ namespace Soenneker.Quark;
 [TailwindPrefix("pointer-events-", Responsive = true)]
 public sealed class PointerEventsBuilder : CssBuilderBase<PointerEventsBuilder>
 {
-    private readonly List<PointerEventsRule> _rules = new(4);
+    private RuleList<PointerEventsRule> _rules;
 
     internal PointerEventsBuilder()
     {
@@ -50,41 +50,30 @@ public sealed class PointerEventsBuilder : CssBuilderBase<PointerEventsBuilder>
         return this;
     }
 
-    /// <summary>
-    /// Gets the CSS class string for the current configuration.
-    /// </summary>
-    /// <returns>The CSS class string.</returns>
     public override string ToClass()
     {
         if (_rules.Count == 0)
             return string.Empty;
-
-        using var sb = new PooledStringBuilder();
-        var first = true;
-
-        for (var i = 0; i < _rules.Count; i++)
+        if (_rules.Count == 1)
         {
-            PointerEventsRule rule = _rules[i];
-            string baseClass = rule.Value.Value;
-            string? modifierChain = rule.ModifierChain ?? (i == _rules.Count - 1 ? PendingModifierChain : null);
-
-            if (baseClass.Length == 0)
-                continue;
-
-            string bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
-            if (bp.Length != 0)
-                baseClass = BreakpointUtil.ApplyTailwindBreakpoint(baseClass, bp);
-
-            if (modifierChain is { Length: > 0 })
-                baseClass = BreakpointUtil.ApplyTailwindModifiers(baseClass, modifierChain);
-
-            if (!first) sb.Append(' ');
-            else first = false;
-
-            sb.Append(baseClass);
+            PointerEventsRule rule = _rules[0];
+            return ClassWriter.Render(rule.Value.Value, BreakpointUtil.GetBreakpointToken(rule.Breakpoint), rule.ModifierChain ?? PendingModifierChain);
         }
 
-        return sb.ToString();
+        var writer = new ClassWriter();
+        try
+        {
+            for (var i = 0; i < _rules.Count; i++)
+            {
+                PointerEventsRule rule = _rules[i];
+                writer.Add(rule.Value.Value, BreakpointUtil.GetBreakpointToken(rule.Breakpoint), rule.ModifierChain ?? (i == _rules.Count - 1 ? PendingModifierChain : null));
+            }
+            return writer.ToString();
+        }
+        finally
+        {
+            writer.Dispose();
+        }
     }
 
     /// <summary>

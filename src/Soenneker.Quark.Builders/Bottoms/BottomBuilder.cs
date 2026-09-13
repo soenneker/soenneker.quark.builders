@@ -10,7 +10,7 @@ namespace Soenneker.Quark;
 [TailwindPrefix("bottom-", Responsive = true)]
 public sealed class BottomBuilder : CssBuilderBase<BottomBuilder>
 {
-    private readonly List<BottomRule> _rules = new(4);
+    private RuleList<BottomRule> _rules;
 
     internal BottomBuilder()
     {
@@ -35,63 +35,63 @@ public sealed class BottomBuilder : CssBuilderBase<BottomBuilder>
     /// <summary>
     /// Gets or sets is0.
     /// </summary>
-    public BottomBuilder Is0 => Chain(BottomEnum.Is0);
+    public BottomBuilder Is0 => Chain(BottomEnum.Is0Value);
     /// <summary>
     /// Gets or sets is1.
     /// </summary>
-    public BottomBuilder Is1 => Chain(BottomEnum.Is1);
+    public BottomBuilder Is1 => Chain(BottomEnum.Is1Value);
     /// <summary>
     /// Gets or sets is1 5.
     /// </summary>
-    public BottomBuilder Is1_5 => Chain(BottomEnum.Is1_5);
+    public BottomBuilder Is1_5 => Chain(BottomEnum.Is1_5Value);
     /// <summary>
     /// Gets or sets is2.
     /// </summary>
-    public BottomBuilder Is2 => Chain(BottomEnum.Is2);
+    public BottomBuilder Is2 => Chain(BottomEnum.Is2Value);
     /// <summary>
     /// Gets or sets is3.
     /// </summary>
-    public BottomBuilder Is3 => Chain(BottomEnum.Is3);
+    public BottomBuilder Is3 => Chain(BottomEnum.Is3Value);
     /// <summary>
     /// Gets or sets is4.
     /// </summary>
-    public BottomBuilder Is4 => Chain(BottomEnum.Is4);
+    public BottomBuilder Is4 => Chain(BottomEnum.Is4Value);
     /// <summary>
     /// Gets or sets is5.
     /// </summary>
-    public BottomBuilder Is5 => Chain(BottomEnum.Is5);
+    public BottomBuilder Is5 => Chain(BottomEnum.Is5Value);
     /// <summary>
     /// Gets or sets is6.
     /// </summary>
-    public BottomBuilder Is6 => Chain(BottomEnum.Is6);
+    public BottomBuilder Is6 => Chain(BottomEnum.Is6Value);
     /// <summary>
     /// Gets or sets is8.
     /// </summary>
-    public BottomBuilder Is8 => Chain(BottomEnum.Is8);
+    public BottomBuilder Is8 => Chain(BottomEnum.Is8Value);
     /// <summary>
     /// Gets or sets is12.
     /// </summary>
-    public BottomBuilder Is12 => Chain(BottomEnum.Is12);
+    public BottomBuilder Is12 => Chain(BottomEnum.Is12Value);
     /// <summary>
     /// Gets or sets is16.
     /// </summary>
-    public BottomBuilder Is16 => Chain(BottomEnum.Is16);
+    public BottomBuilder Is16 => Chain(BottomEnum.Is16Value);
     /// <summary>
     /// Gets or sets is24.
     /// </summary>
-    public BottomBuilder Is24 => Chain(BottomEnum.Is24);
+    public BottomBuilder Is24 => Chain(BottomEnum.Is24Value);
     /// <summary>
     /// Gets or sets auto.
     /// </summary>
-    public BottomBuilder Auto => Chain(BottomEnum.Auto);
+    public BottomBuilder Auto => Chain(BottomEnum.AutoValue);
     /// <summary>
     /// Gets or sets px.
     /// </summary>
-    public BottomBuilder Px => Chain(BottomEnum.Px);
+    public BottomBuilder Px => Chain(BottomEnum.PxValue);
     /// <summary>
     /// Gets or sets negative1.
     /// </summary>
-    public BottomBuilder Negative1 => Chain(BottomEnum.Negative1);
+    public BottomBuilder Negative1 => Chain(BottomEnum.Negative1Value);
     /// <summary>
     /// Adds an arbitrary bottom utility token to the class list.
     /// </summary>
@@ -116,30 +116,30 @@ public sealed class BottomBuilder : CssBuilderBase<BottomBuilder>
 
 
 
-    /// <summary>
-    /// Executes the to class operation.
-    /// </summary>
-    /// <returns>The result of the operation.</returns>
     public override string ToClass()
     {
-        if (_rules.Count == 0) return string.Empty;
-        using var sb = new PooledStringBuilder();
-        var first = true;
-        foreach (BottomRule rule in _rules)
+        if (_rules.Count == 0)
+            return string.Empty;
+        if (_rules.Count == 1)
         {
-            string cls = rule.Value;
-            if (cls.Length == 0) continue;
-            string breakpoint = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
-            if (breakpoint.Length != 0) cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, breakpoint);
-            if (rule.ModifierChain is { Length: > 0 }) cls = BreakpointUtil.ApplyTailwindModifiers(cls, rule.ModifierChain);
-            if (!first) sb.Append(' ');
-            else first = false;
-            if (_rules.Count == 1)
-                return cls ?? string.Empty;
-
-            sb.Append(cls);
+            BottomRule rule = _rules[0];
+            return ClassWriter.Render(rule.Value, BreakpointUtil.GetBreakpointToken(rule.Breakpoint), rule.ModifierChain);
         }
-        return sb.ToString();
+
+        var writer = new ClassWriter();
+        try
+        {
+            for (var i = 0; i < _rules.Count; i++)
+            {
+                BottomRule rule = _rules[i];
+                writer.Add(rule.Value, BreakpointUtil.GetBreakpointToken(rule.Breakpoint), rule.ModifierChain);
+            }
+            return writer.ToString();
+        }
+        finally
+        {
+            writer.Dispose();
+        }
     }
 
     /// <summary>

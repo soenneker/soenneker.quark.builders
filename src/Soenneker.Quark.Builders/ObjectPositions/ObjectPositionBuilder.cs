@@ -12,7 +12,7 @@ namespace Soenneker.Quark;
 public sealed class ObjectPositionBuilder : CssBuilderBase<ObjectPositionBuilder>
 {
     private const string Prefix = "object-";
-    private readonly List<ObjectPositionRule> _rules = new(4);
+    private RuleList<ObjectPositionRule> _rules;
 
     internal ObjectPositionBuilder()
     {
@@ -91,42 +91,30 @@ public sealed class ObjectPositionBuilder : CssBuilderBase<ObjectPositionBuilder
         return this;
     }
 
-    /// <summary>
-    /// Gets the CSS class string for the current configuration.
-    /// </summary>
-    /// <returns>The CSS class string.</returns>
     public override string ToClass()
     {
         if (_rules.Count == 0)
             return string.Empty;
-
-        using var sb = new PooledStringBuilder();
-        var first = true;
-
-        for (var i = 0; i < _rules.Count; i++)
+        if (_rules.Count == 1)
         {
-            ObjectPositionRule rule = _rules[i];
-            string cls = rule.Position;
-            if (cls.Length == 0)
-                continue;
-
-            string bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
-            if (bp.Length != 0)
-                cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, bp);
-
-            if (rule.ModifierChain is { Length: > 0 })
-                cls = BreakpointUtil.ApplyTailwindModifiers(cls, rule.ModifierChain);
-
-            if (!first) sb.Append(' ');
-            else first = false;
-
-            if (_rules.Count == 1)
-                return cls ?? string.Empty;
-
-            sb.Append(cls);
+            ObjectPositionRule rule = _rules[0];
+            return ClassWriter.Render(rule.Position, BreakpointUtil.GetBreakpointToken(rule.Breakpoint), rule.ModifierChain);
         }
 
-        return sb.ToString();
+        var writer = new ClassWriter();
+        try
+        {
+            for (var i = 0; i < _rules.Count; i++)
+            {
+                ObjectPositionRule rule = _rules[i];
+                writer.Add(rule.Position, BreakpointUtil.GetBreakpointToken(rule.Breakpoint), rule.ModifierChain);
+            }
+            return writer.ToString();
+        }
+        finally
+        {
+            writer.Dispose();
+        }
     }
 
     /// <summary>

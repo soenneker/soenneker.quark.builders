@@ -12,7 +12,7 @@ namespace Soenneker.Quark;
 [TailwindPrefix("resize-", Responsive = true)]
 public sealed class ResizeBuilder : CssBuilderBase<ResizeBuilder>
 {
-    private readonly List<ResizeRule> _rules = new(4);
+    private RuleList<ResizeRule> _rules;
 
     internal ResizeBuilder()
     {
@@ -37,19 +37,19 @@ public sealed class ResizeBuilder : CssBuilderBase<ResizeBuilder>
     /// <summary>
     /// Sets the resize to none.
     /// </summary>
-    public ResizeBuilder None => ChainWithResize(ResizeEnum.None);
+    public ResizeBuilder None => ChainWithResize(ResizeEnum.NoneValue);
     /// <summary>
     /// Sets the resize to both.
     /// </summary>
-    public ResizeBuilder Both => ChainWithResize(ResizeEnum.Both);
+    public ResizeBuilder Both => ChainWithResize(ResizeEnum.BothValue);
     /// <summary>
     /// Sets the resize to horizontal.
     /// </summary>
-    public ResizeBuilder Horizontal => ChainWithResize(ResizeEnum.Horizontal);
+    public ResizeBuilder Horizontal => ChainWithResize(ResizeEnum.HorizontalValue);
     /// <summary>
     /// Sets the resize to vertical.
     /// </summary>
-    public ResizeBuilder Vertical => ChainWithResize(ResizeEnum.Vertical);
+    public ResizeBuilder Vertical => ChainWithResize(ResizeEnum.VerticalValue);
 
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -81,42 +81,30 @@ public sealed class ResizeBuilder : CssBuilderBase<ResizeBuilder>
         return this;
     }
 
-    /// <summary>
-    /// Gets the CSS class string for the current configuration.
-    /// </summary>
-    /// <returns>The CSS class string.</returns>
     public override string ToClass()
     {
         if (_rules.Count == 0)
             return string.Empty;
-
-        using var sb = new PooledStringBuilder();
-        var first = true;
-
-        for (var i = 0; i < _rules.Count; i++)
+        if (_rules.Count == 1)
         {
-            ResizeRule rule = _rules[i];
-            string cls = rule.Resize;
-            if (cls.Length == 0)
-                continue;
-
-            string bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
-            if (bp.Length != 0)
-                cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, bp);
-
-            if (rule.ModifierChain is { Length: > 0 })
-                cls = BreakpointUtil.ApplyTailwindModifiers(cls, rule.ModifierChain);
-
-            if (!first) sb.Append(' ');
-            else first = false;
-
-            if (_rules.Count == 1)
-                return cls ?? string.Empty;
-
-            sb.Append(cls);
+            ResizeRule rule = _rules[0];
+            return ClassWriter.Render(rule.Resize, BreakpointUtil.GetBreakpointToken(rule.Breakpoint), rule.ModifierChain);
         }
 
-        return sb.ToString();
+        var writer = new ClassWriter();
+        try
+        {
+            for (var i = 0; i < _rules.Count; i++)
+            {
+                ResizeRule rule = _rules[i];
+                writer.Add(rule.Resize, BreakpointUtil.GetBreakpointToken(rule.Breakpoint), rule.ModifierChain);
+            }
+            return writer.ToString();
+        }
+        finally
+        {
+            writer.Dispose();
+        }
     }
 
     /// <summary>

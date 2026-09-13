@@ -3,5 +3,5 @@ namespace Soenneker.Quark;
 /// <summary>
 /// Represents a single transition rule with optional BreakpointType.
 /// </summary>
-internal record TransitionRule(string Transition, BreakpointType? Breakpoint = null, string? ModifierChain = null);
+internal readonly record struct TransitionRule(string Transition, BreakpointType? Breakpoint = null, string? ModifierChain = null);
 

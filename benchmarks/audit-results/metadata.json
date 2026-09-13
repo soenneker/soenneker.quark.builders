@@ -1,0 +1,21 @@
+{
+  "source_files": 535,
+  "runtime": "Windows x64; .NET SDK 10.0.401",
+  "cpu": "AMD Ryzen Threadripper PRO 9995WX (96 cores, 192 logical processors)",
+  "baseline": "Local second optimization pass, before this full audit",
+  "baseline_assembly_sha256": "d3e3a314257d554eb74bcad31b5c93c82d2d4afe70ddc9b5889f0201e24e567a",
+  "after_assembly_sha256": "2983210a4252ddfee00601f84ae3058a765995d415ac492e9fab1306530f7ec6",
+  "compatibility_cases": 1473448,
+  "compatibility_differences": 0,
+  "original_api_entries": 38821,
+  "removed_api_entries": 0,
+  "added_api_entries": [
+    "Soenneker.Quark.CssValue`1[TBuilder] | Method | Soenneker.Quark.CssValue`1[TBuilder] Add(System.Object)",
+    "Soenneker.Quark.CssValue`1[TBuilder] | Method | Soenneker.Quark.CssValue`1[TBuilder] For()",
+    "Soenneker.Quark.CssValue`1[TBuilder] | Method | Soenneker.Quark.CssValue`1[TBuilder] For(System.Object)",
+    "Soenneker.Quark.CssValue`1[TBuilder] | Method | Soenneker.Quark.CssValue`1[TBuilder] For(System.Object, System.Object)"
+  ],
+  "tests_passed": 95,
+  "preset_factories_using_constants": 361,
+  "chaining_properties_using_constants": 258
+}

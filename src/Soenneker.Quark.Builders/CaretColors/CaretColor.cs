@@ -9,15 +9,15 @@ public static partial class CaretColor
     /// <summary>
     /// Fluent step for `Primary` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public static CaretColorBuilder Primary => new(CaretColorEnum.Primary);
+    public static CaretColorBuilder Primary => new(CaretColorEnum.PrimaryValue);
     /// <summary>
     /// Fully transparent color (`transparent`).
     /// </summary>
-    public static CaretColorBuilder Transparent => new(CaretColorEnum.Transparent);
+    public static CaretColorBuilder Transparent => new(CaretColorEnum.TransparentValue);
     /// <summary>
     /// `currentColor` — uses the element’s computed `color` (common for icons and rings).
     /// </summary>
-    public static CaretColorBuilder Current => new(CaretColorEnum.Current);
+    public static CaretColorBuilder Current => new(CaretColorEnum.CurrentValue);
 
     /// <summary>
     /// Creates a caret color builder from a Tailwind color token suffix such as <c>blue-500</c> or <c>[var(--brand)]</c>.

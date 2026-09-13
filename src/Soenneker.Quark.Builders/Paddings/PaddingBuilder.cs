@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
@@ -11,7 +12,7 @@ namespace Soenneker.Quark;
 [TailwindPrefix("p-", Responsive = true)]
 public sealed class PaddingBuilder : CssBuilderBase<PaddingBuilder>
 {
-    private readonly List<PaddingRule> _rules = new(4);
+    private RuleList<PaddingRule> _rules;
     private ElementSideEnum? _pendingSide;
 
     internal PaddingBuilder()
@@ -74,83 +75,83 @@ public sealed class PaddingBuilder : CssBuilderBase<PaddingBuilder>
 	/// <summary>
 	/// Sets the padding size from an arbitrary Tailwind spacing token.
     /// </summary>
-    public PaddingBuilder Is0 => ChainWithSize(PaddingScaleEnum.Is0);
+    public PaddingBuilder Is0 => ChainWithSize(PaddingScaleEnum.Is0Value);
     /// <summary>
     /// Gets or sets is0 5.
     /// </summary>
-    public PaddingBuilder Is0_5 => ChainWithSize(PaddingScaleEnum.Is0_5);
+    public PaddingBuilder Is0_5 => ChainWithSize(PaddingScaleEnum.Is0_5Value);
     /// <summary>
     /// Spacing/sizing scale step `1` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 1` for integer spacing utilities unless overridden).
     /// </summary>
-    public PaddingBuilder Is1 => ChainWithSize(PaddingScaleEnum.Is1);
+    public PaddingBuilder Is1 => ChainWithSize(PaddingScaleEnum.Is1Value);
     /// <summary>
     /// Gets or sets is1 5.
     /// </summary>
-    public PaddingBuilder Is1_5 => ChainWithSize(PaddingScaleEnum.Is1_5);
+    public PaddingBuilder Is1_5 => ChainWithSize(PaddingScaleEnum.Is1_5Value);
     /// <summary>
     /// Spacing/sizing scale step `2` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 2` for integer spacing utilities unless overridden).
     /// </summary>
-    public PaddingBuilder Is2 => ChainWithSize(PaddingScaleEnum.Is2);
+    public PaddingBuilder Is2 => ChainWithSize(PaddingScaleEnum.Is2Value);
     /// <summary>
     /// Gets or sets is2 5.
     /// </summary>
-    public PaddingBuilder Is2_5 => ChainWithSize(PaddingScaleEnum.Is2_5);
+    public PaddingBuilder Is2_5 => ChainWithSize(PaddingScaleEnum.Is2_5Value);
     /// <summary>
     /// Spacing/sizing scale step `3` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 3` for integer spacing utilities unless overridden).
     /// </summary>
-    public PaddingBuilder Is3 => ChainWithSize(PaddingScaleEnum.Is3);
+    public PaddingBuilder Is3 => ChainWithSize(PaddingScaleEnum.Is3Value);
     /// <summary>
     /// Gets or sets is3 5.
     /// </summary>
-    public PaddingBuilder Is3_5 => ChainWithSize(PaddingScaleEnum.Is3_5);
+    public PaddingBuilder Is3_5 => ChainWithSize(PaddingScaleEnum.Is3_5Value);
     /// <summary>
     /// Spacing/sizing scale step `4` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 4` for integer spacing utilities unless overridden).
     /// </summary>
-    public PaddingBuilder Is4 => ChainWithSize(PaddingScaleEnum.Is4);
+    public PaddingBuilder Is4 => ChainWithSize(PaddingScaleEnum.Is4Value);
     /// <summary>
     /// Spacing/sizing scale step `5` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 5` for integer spacing utilities unless overridden).
     /// </summary>
-    public PaddingBuilder Is5 => ChainWithSize(PaddingScaleEnum.Is5);
+    public PaddingBuilder Is5 => ChainWithSize(PaddingScaleEnum.Is5Value);
     /// <summary>
     /// Spacing/sizing scale step `6` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 6` for integer spacing utilities unless overridden).
     /// </summary>
-    public PaddingBuilder Is6 => ChainWithSize(PaddingScaleEnum.Is6);
+    public PaddingBuilder Is6 => ChainWithSize(PaddingScaleEnum.Is6Value);
     /// <summary>
     /// Gets or sets is7.
     /// </summary>
-    public PaddingBuilder Is7 => ChainWithSize(PaddingScaleEnum.Is7);
+    public PaddingBuilder Is7 => ChainWithSize(PaddingScaleEnum.Is7Value);
     /// <summary>
     /// Spacing/sizing scale step `8` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 8` for integer spacing utilities unless overridden).
     /// </summary>
-    public PaddingBuilder Is8 => ChainWithSize(PaddingScaleEnum.Is8);
+    public PaddingBuilder Is8 => ChainWithSize(PaddingScaleEnum.Is8Value);
     /// <summary>
     /// Gets or sets is9.
     /// </summary>
-    public PaddingBuilder Is9 => ChainWithSize(PaddingScaleEnum.Is9);
+    public PaddingBuilder Is9 => ChainWithSize(PaddingScaleEnum.Is9Value);
     /// <summary>
     /// Gets or sets is10.
     /// </summary>
-    public PaddingBuilder Is10 => ChainWithSize(PaddingScaleEnum.Is10);
+    public PaddingBuilder Is10 => ChainWithSize(PaddingScaleEnum.Is10Value);
     /// <summary>
     /// Gets or sets is12.
     /// </summary>
-    public PaddingBuilder Is12 => ChainWithSize(PaddingScaleEnum.Is12);
+    public PaddingBuilder Is12 => ChainWithSize(PaddingScaleEnum.Is12Value);
     /// <summary>
     /// Gets or sets is14.
     /// </summary>
-    public PaddingBuilder Is14 => ChainWithSize(PaddingScaleEnum.Is14);
+    public PaddingBuilder Is14 => ChainWithSize(PaddingScaleEnum.Is14Value);
     /// <summary>
     /// Spacing/sizing scale step `16` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 16` for integer spacing utilities unless overridden).
     /// </summary>
-    public PaddingBuilder Is16 => ChainWithSize(PaddingScaleEnum.Is16);
+    public PaddingBuilder Is16 => ChainWithSize(PaddingScaleEnum.Is16Value);
     /// <summary>
     /// Gets or sets is20.
     /// </summary>
-    public PaddingBuilder Is20 => ChainWithSize(PaddingScaleEnum.Is20);
+    public PaddingBuilder Is20 => ChainWithSize(PaddingScaleEnum.Is20Value);
     /// <summary>
     /// Gets or sets is px.
     /// </summary>
-    public PaddingBuilder IsPx => ChainWithSize(PaddingScaleEnum.IsPx);
+    public PaddingBuilder IsPx => ChainWithSize(PaddingScaleEnum.IsPxValue);
 
     /// <summary>
     /// Tailwind token segment (spacing scale step, arbitrary value like `[17rem]`, or theme key). Builds the matching utility class for this builder.
@@ -198,48 +199,30 @@ public sealed class PaddingBuilder : CssBuilderBase<PaddingBuilder>
         return this;
     }
 
-    /// <summary>Gets the CSS class string for the current configuration.</summary>
     public override string ToClass()
     {
         if (_rules.Count == 0)
             return string.Empty;
-
-        using var sb = new PooledStringBuilder();
-        var first = true;
-
-        for (var i = 0; i < _rules.Count; i++)
+        if (_rules.Count == 1)
         {
-            PaddingRule rule = _rules[i];
-            string cls = BuildClass(rule);
-            if (cls.Length == 0)
-                continue;
-
-            if (!first) sb.Append(' ');
-            else first = false;
-
-            if (_rules.Count == 1)
-                return cls ?? string.Empty;
-
-            sb.Append(cls);
+            PaddingRule rule = _rules[0];
+            return ClassWriter.Render(ApplySide(rule.Size, rule.Side), BreakpointUtil.GetBreakpointToken(rule.Breakpoint), rule.ModifierChain);
         }
 
-        return sb.ToString();
-    }
-
-    private static string BuildClass(PaddingRule rule)
-    {
-        string cls = ApplySide(rule.Size, rule.Side);
-        if (cls.Length == 0)
-            return string.Empty;
-
-        string bpTok = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
-        if (bpTok.Length != 0)
-            cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, bpTok);
-
-        if (rule.ModifierChain is { Length: > 0 })
-            cls = BreakpointUtil.ApplyTailwindModifiers(cls, rule.ModifierChain);
-
-        return cls;
+        var writer = new ClassWriter();
+        try
+        {
+            for (var i = 0; i < _rules.Count; i++)
+            {
+                PaddingRule rule = _rules[i];
+                writer.Add(ApplySide(rule.Size, rule.Side), BreakpointUtil.GetBreakpointToken(rule.Breakpoint), rule.ModifierChain);
+            }
+            return writer.ToString();
+        }
+        finally
+        {
+            writer.Dispose();
+        }
     }
 
     /// <summary>Gets the CSS style string for the current configuration.</summary>
@@ -263,6 +246,6 @@ public sealed class PaddingBuilder : CssBuilderBase<PaddingBuilder>
         if (ReferenceEquals(side, ElementSideEnum.All))
             return sizeClass;
 
-        return sizeClass.StartsWith("p-") ? "p" + side.Value + sizeClass[1..] : sizeClass;
+        return sizeClass.StartsWith("p-") ? string.Concat("p", side.Value, sizeClass.AsSpan(1)) : sizeClass;
     }
 }

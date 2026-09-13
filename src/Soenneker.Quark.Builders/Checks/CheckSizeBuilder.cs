@@ -1,6 +1,4 @@
-using System.Collections.Generic;
 using System.Runtime.CompilerServices;
-using Soenneker.Utils.PooledStringBuilders;
 
 namespace Soenneker.Quark;
 
@@ -9,7 +7,7 @@ namespace Soenneker.Quark;
 /// </summary>
 public sealed class CheckSizeBuilder : CssBuilderBase
 {
-    private readonly List<string> _tokens = new(4);
+    private RuleList<string> _tokens;
 
     internal CheckSizeBuilder(CheckSizeEnum value)
     {
@@ -24,31 +22,31 @@ public sealed class CheckSizeBuilder : CssBuilderBase
     /// <summary>
     /// Gets or sets default.
     /// </summary>
-    public CheckSizeBuilder Default => Chain(CheckSizeEnum.Default);
+    public CheckSizeBuilder Default => Chain(CheckSizeEnum.DefaultValue);
     /// <summary>
     /// Gets or sets xs.
     /// </summary>
-    public CheckSizeBuilder Xs => Chain(CheckSizeEnum.Xs);
+    public CheckSizeBuilder Xs => Chain(CheckSizeEnum.XsValue);
     /// <summary>
     /// Gets or sets sm.
     /// </summary>
-    public CheckSizeBuilder Sm => Chain(CheckSizeEnum.Sm);
+    public CheckSizeBuilder Sm => Chain(CheckSizeEnum.SmValue);
     /// <summary>
     /// Gets or sets md.
     /// </summary>
-    public CheckSizeBuilder Md => Chain(CheckSizeEnum.Md);
+    public CheckSizeBuilder Md => Chain(CheckSizeEnum.MdValue);
     /// <summary>
     /// Gets or sets lg.
     /// </summary>
-    public CheckSizeBuilder Lg => Chain(CheckSizeEnum.Lg);
+    public CheckSizeBuilder Lg => Chain(CheckSizeEnum.LgValue);
     /// <summary>
     /// Gets or sets xl.
     /// </summary>
-    public CheckSizeBuilder Xl => Chain(CheckSizeEnum.Xl);
+    public CheckSizeBuilder Xl => Chain(CheckSizeEnum.XlValue);
     /// <summary>
     /// Gets or sets xxl.
     /// </summary>
-    public CheckSizeBuilder Xxl => Chain(CheckSizeEnum.Xxl);
+    public CheckSizeBuilder Xxl => Chain(CheckSizeEnum.XxlValue);
 
     /// <summary>
     /// Adds an arbitrary check size utility token to the class list.
@@ -71,27 +69,7 @@ public sealed class CheckSizeBuilder : CssBuilderBase
         return this;
     }
 
-    /// <summary>
-    /// Executes the to class operation.
-    /// </summary>
-    /// <returns>The result of the operation.</returns>
-    public override string ToClass()
-    {
-        if (_tokens.Count == 0)
-            return string.Empty;
-
-        using var sb = new PooledStringBuilder();
-
-        for (var i = 0; i < _tokens.Count; i++)
-        {
-            if (i > 0)
-                sb.Append(' ');
-
-            sb.Append(_tokens[i]);
-        }
-
-        return sb.ToString();
-    }
+    public override string ToClass() => TokenRenderer.Render(_tokens, skipEmpty: false);
 
     /// <summary>
     /// Executes the to style operation.

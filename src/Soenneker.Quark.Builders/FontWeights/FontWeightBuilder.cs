@@ -11,7 +11,7 @@ namespace Soenneker.Quark;
 [TailwindPrefix("font-", Responsive = true)]
 public sealed class FontWeightBuilder : CssBuilderBase<FontWeightBuilder>
 {
-    private readonly List<FontWeightRule> _rules = new(6);
+    private RuleList<FontWeightRule> _rules;
 
     internal FontWeightBuilder()
     {
@@ -36,31 +36,31 @@ public sealed class FontWeightBuilder : CssBuilderBase<FontWeightBuilder>
     /// <summary>
     /// Sets the font weight to extralight.
     /// </summary>
-    public FontWeightBuilder Extralight => Chain(FontWeightEnum.Extralight);
+    public FontWeightBuilder Extralight => Chain(FontWeightEnum.ExtralightValue);
     /// <summary>
     /// Sets the font weight to light.
     /// </summary>
-    public FontWeightBuilder Light => Chain(FontWeightEnum.Light);
+    public FontWeightBuilder Light => Chain(FontWeightEnum.LightValue);
     /// <summary>
     /// Sets the font weight to normal.
     /// </summary>
-    public FontWeightBuilder Normal => Chain(FontWeightEnum.Normal);
+    public FontWeightBuilder Normal => Chain(FontWeightEnum.NormalValue);
     /// <summary>
     /// Sets the font weight to medium.
     /// </summary>
-    public FontWeightBuilder Medium => Chain(FontWeightEnum.Medium);
+    public FontWeightBuilder Medium => Chain(FontWeightEnum.MediumValue);
     /// <summary>
     /// Sets the font weight to semibold.
     /// </summary>
-    public FontWeightBuilder Semibold => Chain(FontWeightEnum.Semibold);
+    public FontWeightBuilder Semibold => Chain(FontWeightEnum.SemiboldValue);
     /// <summary>
     /// Sets the font weight to bold.
     /// </summary>
-    public FontWeightBuilder Bold => Chain(FontWeightEnum.Bold);
+    public FontWeightBuilder Bold => Chain(FontWeightEnum.BoldValue);
     /// <summary>
     /// Sets the font weight to extrabold.
     /// </summary>
-    public FontWeightBuilder Extrabold => Chain(FontWeightEnum.Extrabold);
+    public FontWeightBuilder Extrabold => Chain(FontWeightEnum.ExtraboldValue);
     /// <summary>
     /// Sets an arbitrary font weight token such as [450] or font-[450].
     /// </summary>
@@ -86,39 +86,30 @@ public sealed class FontWeightBuilder : CssBuilderBase<FontWeightBuilder>
     }
 
 
-    /// <summary>
-    /// Gets the CSS class string for the current configuration.
-    /// </summary>
-    /// <returns>The CSS class string.</returns>
     public override string ToClass()
     {
-        if (_rules.Count == 0) return string.Empty;
-
-        using var sb = new PooledStringBuilder();
-        var first = true;
-        for (var i = 0; i < _rules.Count; i++)
+        if (_rules.Count == 0)
+            return string.Empty;
+        if (_rules.Count == 1)
         {
-            FontWeightRule rule = _rules[i];
-            string cls = rule.Value;
-            if (cls.Length == 0)
-                continue;
-
-            string bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
-            if (bp.Length != 0)
-                cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, bp);
-
-            if (rule.ModifierChain is { Length: > 0 })
-                cls = BreakpointUtil.ApplyTailwindModifiers(cls, rule.ModifierChain);
-
-            if (!first) sb.Append(' ');
-            else first = false;
-
-            if (_rules.Count == 1)
-                return cls ?? string.Empty;
-
-            sb.Append(cls);
+            FontWeightRule rule = _rules[0];
+            return ClassWriter.Render(rule.Value, BreakpointUtil.GetBreakpointToken(rule.Breakpoint), rule.ModifierChain);
         }
-        return sb.ToString();
+
+        var writer = new ClassWriter();
+        try
+        {
+            for (var i = 0; i < _rules.Count; i++)
+            {
+                FontWeightRule rule = _rules[i];
+                writer.Add(rule.Value, BreakpointUtil.GetBreakpointToken(rule.Breakpoint), rule.ModifierChain);
+            }
+            return writer.ToString();
+        }
+        finally
+        {
+            writer.Dispose();
+        }
     }
 
     /// <summary>

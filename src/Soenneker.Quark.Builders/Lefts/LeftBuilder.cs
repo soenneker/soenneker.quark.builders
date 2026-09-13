@@ -10,7 +10,7 @@ namespace Soenneker.Quark;
 [TailwindPrefix("left-", Responsive = true)]
 public sealed class LeftBuilder : CssBuilderBase<LeftBuilder>
 {
-    private readonly List<LeftRule> _rules = new(4);
+    private RuleList<LeftRule> _rules;
 
     internal LeftBuilder()
     {
@@ -35,55 +35,55 @@ public sealed class LeftBuilder : CssBuilderBase<LeftBuilder>
     /// <summary>
     /// Gets or sets is0.
     /// </summary>
-    public LeftBuilder Is0 => Chain(LeftEnum.Is0);
+    public LeftBuilder Is0 => Chain(LeftEnum.Is0Value);
     /// <summary>
     /// Gets or sets is1.
     /// </summary>
-    public LeftBuilder Is1 => Chain(LeftEnum.Is1);
+    public LeftBuilder Is1 => Chain(LeftEnum.Is1Value);
     /// <summary>
     /// Gets or sets is1 5.
     /// </summary>
-    public LeftBuilder Is1_5 => Chain(LeftEnum.Is1_5);
+    public LeftBuilder Is1_5 => Chain(LeftEnum.Is1_5Value);
     /// <summary>
     /// Gets or sets is2.
     /// </summary>
-    public LeftBuilder Is2 => Chain(LeftEnum.Is2);
+    public LeftBuilder Is2 => Chain(LeftEnum.Is2Value);
     /// <summary>
     /// Gets or sets is3.
     /// </summary>
-    public LeftBuilder Is3 => Chain(LeftEnum.Is3);
+    public LeftBuilder Is3 => Chain(LeftEnum.Is3Value);
     /// <summary>
     /// Gets or sets is4.
     /// </summary>
-    public LeftBuilder Is4 => Chain(LeftEnum.Is4);
+    public LeftBuilder Is4 => Chain(LeftEnum.Is4Value);
     /// <summary>
     /// Gets or sets is5.
     /// </summary>
-    public LeftBuilder Is5 => Chain(LeftEnum.Is5);
+    public LeftBuilder Is5 => Chain(LeftEnum.Is5Value);
     /// <summary>
     /// Gets or sets is8.
     /// </summary>
-    public LeftBuilder Is8 => Chain(LeftEnum.Is8);
+    public LeftBuilder Is8 => Chain(LeftEnum.Is8Value);
     /// <summary>
     /// Gets or sets is12.
     /// </summary>
-    public LeftBuilder Is12 => Chain(LeftEnum.Is12);
+    public LeftBuilder Is12 => Chain(LeftEnum.Is12Value);
     /// <summary>
     /// Gets or sets is16.
     /// </summary>
-    public LeftBuilder Is16 => Chain(LeftEnum.Is16);
+    public LeftBuilder Is16 => Chain(LeftEnum.Is16Value);
     /// <summary>
     /// Gets or sets is24.
     /// </summary>
-    public LeftBuilder Is24 => Chain(LeftEnum.Is24);
+    public LeftBuilder Is24 => Chain(LeftEnum.Is24Value);
     /// <summary>
     /// Gets or sets auto.
     /// </summary>
-    public LeftBuilder Auto => Chain(LeftEnum.Auto);
+    public LeftBuilder Auto => Chain(LeftEnum.AutoValue);
     /// <summary>
     /// Gets or sets px.
     /// </summary>
-    public LeftBuilder Px => Chain(LeftEnum.Px);
+    public LeftBuilder Px => Chain(LeftEnum.PxValue);
     /// <summary>
     /// Adds an arbitrary left utility token to the class list.
     /// </summary>
@@ -108,30 +108,30 @@ public sealed class LeftBuilder : CssBuilderBase<LeftBuilder>
 
 
 
-    /// <summary>
-    /// Executes the to class operation.
-    /// </summary>
-    /// <returns>The result of the operation.</returns>
     public override string ToClass()
     {
-        if (_rules.Count == 0) return string.Empty;
-        using var sb = new PooledStringBuilder();
-        var first = true;
-        foreach (LeftRule rule in _rules)
+        if (_rules.Count == 0)
+            return string.Empty;
+        if (_rules.Count == 1)
         {
-            string cls = rule.Value;
-            if (cls.Length == 0) continue;
-            string breakpoint = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
-            if (breakpoint.Length != 0) cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, breakpoint);
-            if (rule.ModifierChain is { Length: > 0 }) cls = BreakpointUtil.ApplyTailwindModifiers(cls, rule.ModifierChain);
-            if (!first) sb.Append(' ');
-            else first = false;
-            if (_rules.Count == 1)
-                return cls ?? string.Empty;
-
-            sb.Append(cls);
+            LeftRule rule = _rules[0];
+            return ClassWriter.Render(rule.Value, BreakpointUtil.GetBreakpointToken(rule.Breakpoint), rule.ModifierChain);
         }
-        return sb.ToString();
+
+        var writer = new ClassWriter();
+        try
+        {
+            for (var i = 0; i < _rules.Count; i++)
+            {
+                LeftRule rule = _rules[i];
+                writer.Add(rule.Value, BreakpointUtil.GetBreakpointToken(rule.Breakpoint), rule.ModifierChain);
+            }
+            return writer.ToString();
+        }
+        finally
+        {
+            writer.Dispose();
+        }
     }
 
     /// <summary>

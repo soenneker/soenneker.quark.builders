@@ -12,7 +12,7 @@ namespace Soenneker.Quark;
 [TailwindPrefix("", Responsive = true)]
 public sealed class PositionBuilder : CssBuilderBase<PositionBuilder>
 {
-    private readonly List<PositionRule> _rules = new(4);
+    private RuleList<PositionRule> _rules;
 
     internal PositionBuilder()
     {
@@ -50,39 +50,30 @@ public sealed class PositionBuilder : CssBuilderBase<PositionBuilder>
 
 
 
-    /// <summary>Gets the CSS class string for the current configuration.</summary>
     public override string ToClass()
     {
         if (_rules.Count == 0)
             return string.Empty;
-
-        using var sb = new PooledStringBuilder();
-        var first = true;
-
-        for (var i = 0; i < _rules.Count; i++)
+        if (_rules.Count == 1)
         {
-            PositionRule rule = _rules[i];
-
-            string baseClass = rule.Position;
-            if (baseClass.Length == 0)
-                continue;
-
-            string bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
-            if (bp.Length != 0)
-                baseClass = BreakpointUtil.ApplyTailwindBreakpoint(baseClass, bp);
-
-            if (rule.ModifierChain is { Length: > 0 })
-                baseClass = BreakpointUtil.ApplyTailwindModifiers(baseClass, rule.ModifierChain);
-
-            if (!first)
-                sb.Append(' ');
-            else
-                first = false;
-
-            sb.Append(baseClass);
+            PositionRule rule = _rules[0];
+            return ClassWriter.Render(rule.Position, BreakpointUtil.GetBreakpointToken(rule.Breakpoint), rule.ModifierChain);
         }
 
-        return sb.ToString();
+        var writer = new ClassWriter();
+        try
+        {
+            for (var i = 0; i < _rules.Count; i++)
+            {
+                PositionRule rule = _rules[i];
+                writer.Add(rule.Position, BreakpointUtil.GetBreakpointToken(rule.Breakpoint), rule.ModifierChain);
+            }
+            return writer.ToString();
+        }
+        finally
+        {
+            writer.Dispose();
+        }
     }
 
     /// <summary>Gets the CSS style string for the current configuration.</summary>

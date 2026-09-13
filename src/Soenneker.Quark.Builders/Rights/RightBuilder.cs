@@ -10,7 +10,7 @@ namespace Soenneker.Quark;
 [TailwindPrefix("right-", Responsive = true)]
 public sealed class RightBuilder : CssBuilderBase<RightBuilder>
 {
-    private readonly List<RightRule> _rules = new(4);
+    private RuleList<RightRule> _rules;
 
     internal RightBuilder()
     {
@@ -35,55 +35,55 @@ public sealed class RightBuilder : CssBuilderBase<RightBuilder>
     /// <summary>
     /// Gets or sets is0.
     /// </summary>
-    public RightBuilder Is0 => Chain(RightEnum.Is0);
+    public RightBuilder Is0 => Chain(RightEnum.Is0Value);
     /// <summary>
     /// Gets or sets is1.
     /// </summary>
-    public RightBuilder Is1 => Chain(RightEnum.Is1);
+    public RightBuilder Is1 => Chain(RightEnum.Is1Value);
     /// <summary>
     /// Gets or sets is1 5.
     /// </summary>
-    public RightBuilder Is1_5 => Chain(RightEnum.Is1_5);
+    public RightBuilder Is1_5 => Chain(RightEnum.Is1_5Value);
     /// <summary>
     /// Gets or sets is2.
     /// </summary>
-    public RightBuilder Is2 => Chain(RightEnum.Is2);
+    public RightBuilder Is2 => Chain(RightEnum.Is2Value);
     /// <summary>
     /// Gets or sets is3.
     /// </summary>
-    public RightBuilder Is3 => Chain(RightEnum.Is3);
+    public RightBuilder Is3 => Chain(RightEnum.Is3Value);
     /// <summary>
     /// Gets or sets is4.
     /// </summary>
-    public RightBuilder Is4 => Chain(RightEnum.Is4);
+    public RightBuilder Is4 => Chain(RightEnum.Is4Value);
     /// <summary>
     /// Gets or sets is5.
     /// </summary>
-    public RightBuilder Is5 => Chain(RightEnum.Is5);
+    public RightBuilder Is5 => Chain(RightEnum.Is5Value);
     /// <summary>
     /// Gets or sets is8.
     /// </summary>
-    public RightBuilder Is8 => Chain(RightEnum.Is8);
+    public RightBuilder Is8 => Chain(RightEnum.Is8Value);
     /// <summary>
     /// Gets or sets is12.
     /// </summary>
-    public RightBuilder Is12 => Chain(RightEnum.Is12);
+    public RightBuilder Is12 => Chain(RightEnum.Is12Value);
     /// <summary>
     /// Gets or sets is16.
     /// </summary>
-    public RightBuilder Is16 => Chain(RightEnum.Is16);
+    public RightBuilder Is16 => Chain(RightEnum.Is16Value);
     /// <summary>
     /// Gets or sets is24.
     /// </summary>
-    public RightBuilder Is24 => Chain(RightEnum.Is24);
+    public RightBuilder Is24 => Chain(RightEnum.Is24Value);
     /// <summary>
     /// Gets or sets auto.
     /// </summary>
-    public RightBuilder Auto => Chain(RightEnum.Auto);
+    public RightBuilder Auto => Chain(RightEnum.AutoValue);
     /// <summary>
     /// Gets or sets px.
     /// </summary>
-    public RightBuilder Px => Chain(RightEnum.Px);
+    public RightBuilder Px => Chain(RightEnum.PxValue);
     /// <summary>
     /// Adds an arbitrary right utility token to the class list.
     /// </summary>
@@ -108,30 +108,30 @@ public sealed class RightBuilder : CssBuilderBase<RightBuilder>
 
 
 
-    /// <summary>
-    /// Executes the to class operation.
-    /// </summary>
-    /// <returns>The result of the operation.</returns>
     public override string ToClass()
     {
-        if (_rules.Count == 0) return string.Empty;
-        using var sb = new PooledStringBuilder();
-        var first = true;
-        foreach (RightRule rule in _rules)
+        if (_rules.Count == 0)
+            return string.Empty;
+        if (_rules.Count == 1)
         {
-            string cls = rule.Value;
-            if (cls.Length == 0) continue;
-            string breakpoint = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
-            if (breakpoint.Length != 0) cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, breakpoint);
-            if (rule.ModifierChain is { Length: > 0 }) cls = BreakpointUtil.ApplyTailwindModifiers(cls, rule.ModifierChain);
-            if (!first) sb.Append(' ');
-            else first = false;
-            if (_rules.Count == 1)
-                return cls ?? string.Empty;
-
-            sb.Append(cls);
+            RightRule rule = _rules[0];
+            return ClassWriter.Render(rule.Value, BreakpointUtil.GetBreakpointToken(rule.Breakpoint), rule.ModifierChain);
         }
-        return sb.ToString();
+
+        var writer = new ClassWriter();
+        try
+        {
+            for (var i = 0; i < _rules.Count; i++)
+            {
+                RightRule rule = _rules[i];
+                writer.Add(rule.Value, BreakpointUtil.GetBreakpointToken(rule.Breakpoint), rule.ModifierChain);
+            }
+            return writer.ToString();
+        }
+        finally
+        {
+            writer.Dispose();
+        }
     }
 
     /// <summary>

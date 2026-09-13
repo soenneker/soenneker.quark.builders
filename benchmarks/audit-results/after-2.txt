@@ -1,0 +1,28 @@
+Scenario | ns/op | bytes/op
+Single width | 10.6 | 64
+Single gap | 6.9 | 72
+Responsive width | 102.0 | 312
+Responsive button | 172.0 | 576
+Long chain | 204.5 | 672
+Repeated render | 50.6 | 80
+Modifier group | 38.1 | 112
+Variant group | 143.9 | 464
+Single check size | 8.0 | 40
+Check size chain | 25.1 | 168
+Single input size | 12.5 | 40
+Rounded default | 10.0 | 88
+Rounded chain | 110.2 | 464
+Margin side | 33.9 | 120
+Margin responsive | 102.1 | 344
+Padding responsive | 104.0 | 344
+Gap axis | 16.6 | 112
+Color palette | 36.1 | 184
+Color palette chain | 129.6 | 456
+Variant empty | 11.5 | 152
+Variant modifiers | 62.8 | 248
+CssValue empty | 1.3 | 0
+CssValue single | 9.9 | 0
+CssValue mixed | 138.3 | 264
+CssValue add | 20.0 | 48
+Numeric factory | 18.1 | 224
+Pending chain | 81.4 | 352

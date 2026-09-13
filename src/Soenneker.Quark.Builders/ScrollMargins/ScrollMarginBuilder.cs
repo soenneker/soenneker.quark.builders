@@ -1,3 +1,4 @@
+using System;
 
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
@@ -11,7 +12,7 @@ namespace Soenneker.Quark;
 [TailwindPrefix("scroll-m", Responsive = true)]
 public sealed class ScrollMarginBuilder : CssBuilderBase<ScrollMarginBuilder>
 {
-    private readonly List<ScrollMarginRule> _rules = new(4);
+    private RuleList<ScrollMarginRule> _rules;
     private ElementSideEnum? _pendingSide;
 
     internal ScrollMarginBuilder()
@@ -74,39 +75,39 @@ public sealed class ScrollMarginBuilder : CssBuilderBase<ScrollMarginBuilder>
     /// <summary>
     /// Spacing/sizing scale step `0` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 0` for integer spacing utilities unless overridden).
     /// </summary>
-    public ScrollMarginBuilder Is0 => ChainWithSize(ScrollMarginScaleEnum.Is0);
+    public ScrollMarginBuilder Is0 => ChainWithSize(ScrollMarginScaleEnum.Is0Value);
     /// <summary>
     /// Spacing/sizing scale step `1` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 1` for integer spacing utilities unless overridden).
     /// </summary>
-    public ScrollMarginBuilder Is1 => ChainWithSize(ScrollMarginScaleEnum.Is1);
+    public ScrollMarginBuilder Is1 => ChainWithSize(ScrollMarginScaleEnum.Is1Value);
     /// <summary>
     /// Spacing/sizing scale step `1.5` — uses Tailwind’s default spacing scale.
     /// </summary>
-    public ScrollMarginBuilder Is1_5 => ChainWithSize(ScrollMarginScaleEnum.Is1_5);
+    public ScrollMarginBuilder Is1_5 => ChainWithSize(ScrollMarginScaleEnum.Is1_5Value);
     /// <summary>
     /// Spacing/sizing scale step `2` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 2` for integer spacing utilities unless overridden).
     /// </summary>
-    public ScrollMarginBuilder Is2 => ChainWithSize(ScrollMarginScaleEnum.Is2);
+    public ScrollMarginBuilder Is2 => ChainWithSize(ScrollMarginScaleEnum.Is2Value);
     /// <summary>
     /// Spacing/sizing scale step `3` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 3` for integer spacing utilities unless overridden).
     /// </summary>
-    public ScrollMarginBuilder Is3 => ChainWithSize(ScrollMarginScaleEnum.Is3);
+    public ScrollMarginBuilder Is3 => ChainWithSize(ScrollMarginScaleEnum.Is3Value);
     /// <summary>
     /// Spacing/sizing scale step `4` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 4` for integer spacing utilities unless overridden).
     /// </summary>
-    public ScrollMarginBuilder Is4 => ChainWithSize(ScrollMarginScaleEnum.Is4);
+    public ScrollMarginBuilder Is4 => ChainWithSize(ScrollMarginScaleEnum.Is4Value);
     /// <summary>
     /// Spacing/sizing scale step `5` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 5` for integer spacing utilities unless overridden).
     /// </summary>
-    public ScrollMarginBuilder Is5 => ChainWithSize(ScrollMarginScaleEnum.Is5);
+    public ScrollMarginBuilder Is5 => ChainWithSize(ScrollMarginScaleEnum.Is5Value);
     /// <summary>
     /// Spacing/sizing scale step `24` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 24` for integer spacing utilities unless overridden).
     /// </summary>
-    public ScrollMarginBuilder Is24 => ChainWithSize(ScrollMarginScaleEnum.Is24);
+    public ScrollMarginBuilder Is24 => ChainWithSize(ScrollMarginScaleEnum.Is24Value);
     /// <summary>
     /// One pixel (`px` unit) — hairline borders, fixed 1px tracks, etc.
     /// </summary>
-    public ScrollMarginBuilder Px => ChainWithSize(ScrollMarginScaleEnum.Px);
+    public ScrollMarginBuilder Px => ChainWithSize(ScrollMarginScaleEnum.PxValue);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private ScrollMarginBuilder AddRule(ElementSideEnum side)
@@ -133,25 +134,30 @@ public sealed class ScrollMarginBuilder : CssBuilderBase<ScrollMarginBuilder>
         return this;
     }
 
-    /// <summary>
-    /// Executes the to class operation.
-    /// </summary>
-    /// <returns>The result of the operation.</returns>
     public override string ToClass()
     {
-        if (_rules.Count == 0) return string.Empty;
-        using var sb = new PooledStringBuilder();
-        var first = true;
-        for (var i = 0; i < _rules.Count; i++)
+        if (_rules.Count == 0)
+            return string.Empty;
+        if (_rules.Count == 1)
         {
-            ScrollMarginRule rule = _rules[i];
-            string baseClass = BuildClass(rule);
-            if (baseClass.Length == 0) continue;
-            if (!first) sb.Append(' ');
-            else first = false;
-            sb.Append(baseClass);
+            ScrollMarginRule rule = _rules[0];
+            return ClassWriter.Render(ApplySide(rule.Size, rule.Side), BreakpointUtil.GetBreakpointToken(rule.Breakpoint), rule.ModifierChain);
         }
-        return sb.ToString();
+
+        var writer = new ClassWriter();
+        try
+        {
+            for (var i = 0; i < _rules.Count; i++)
+            {
+                ScrollMarginRule rule = _rules[i];
+                writer.Add(ApplySide(rule.Size, rule.Side), BreakpointUtil.GetBreakpointToken(rule.Breakpoint), rule.ModifierChain);
+            }
+            return writer.ToString();
+        }
+        finally
+        {
+            writer.Dispose();
+        }
     }
 
     /// <summary>
@@ -166,22 +172,6 @@ public sealed class ScrollMarginBuilder : CssBuilderBase<ScrollMarginBuilder>
     /// <returns>The result of the operation.</returns>
     public override string ToString() => ToClass();
 
-    private static string BuildClass(ScrollMarginRule rule)
-    {
-        string cls = ApplySide(rule.Size, rule.Side);
-        if (cls.Length == 0)
-            return string.Empty;
-
-        string bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
-        if (bp.Length != 0)
-            cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, bp);
-
-        if (rule.ModifierChain is { Length: > 0 })
-            cls = BreakpointUtil.ApplyTailwindModifiers(cls, rule.ModifierChain);
-
-        return cls;
-    }
-
     private static string ApplySide(string sizeClass, ElementSideEnum side)
     {
         if (sizeClass.Length == 0)
@@ -190,7 +180,7 @@ public sealed class ScrollMarginBuilder : CssBuilderBase<ScrollMarginBuilder>
         if (ReferenceEquals(side, ElementSideEnum.All))
             return sizeClass;
 
-        return sizeClass.StartsWith("scroll-m-") ? "scroll-m" + side.Value + sizeClass["scroll-m".Length..] : sizeClass;
+        return sizeClass.StartsWith("scroll-m-") ? string.Concat("scroll-m", side.Value, sizeClass.AsSpan("scroll-m".Length)) : sizeClass;
     }
 
 }

@@ -11,7 +11,7 @@ namespace Soenneker.Quark;
 [TailwindPrefix("clip-", Responsive = true)]
 public sealed class ClipPathBuilder : CssBuilderBase<ClipPathBuilder>
 {
-    private readonly List<ClipPathRule> _rules = new(4);
+    private RuleList<ClipPathRule> _rules;
 
     internal ClipPathBuilder()
     {
@@ -36,23 +36,23 @@ public sealed class ClipPathBuilder : CssBuilderBase<ClipPathBuilder>
     /// <summary>
     /// Sets the clip path to none.
     /// </summary>
-    public ClipPathBuilder None => ChainWithPath(ClipPathEnum.None);
+    public ClipPathBuilder None => ChainWithPath(ClipPathEnum.NoneValue);
     /// <summary>
     /// Sets the clip path to circle.
     /// </summary>
-    public ClipPathBuilder Circle => ChainWithPath(ClipPathEnum.Circle);
+    public ClipPathBuilder Circle => ChainWithPath(ClipPathEnum.CircleValue);
     /// <summary>
     /// Sets the clip path to ellipse.
     /// </summary>
-    public ClipPathBuilder Ellipse => ChainWithPath(ClipPathEnum.Ellipse);
+    public ClipPathBuilder Ellipse => ChainWithPath(ClipPathEnum.EllipseValue);
     /// <summary>
     /// Sets the clip path to inset.
     /// </summary>
-    public ClipPathBuilder Inset => ChainWithPath(ClipPathEnum.Inset);
+    public ClipPathBuilder Inset => ChainWithPath(ClipPathEnum.InsetValue);
     /// <summary>
     /// Sets the clip path to polygon.
     /// </summary>
-    public ClipPathBuilder Polygon => ChainWithPath(ClipPathEnum.Polygon);
+    public ClipPathBuilder Polygon => ChainWithPath(ClipPathEnum.PolygonValue);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private ClipPathBuilder ChainWithPath(string path)
@@ -68,42 +68,30 @@ public sealed class ClipPathBuilder : CssBuilderBase<ClipPathBuilder>
         return this;
     }
 
-    /// <summary>
-    /// Gets the CSS class string for the current configuration.
-    /// </summary>
-    /// <returns>The CSS class string.</returns>
     public override string ToClass()
     {
         if (_rules.Count == 0)
             return string.Empty;
-
-        using var sb = new PooledStringBuilder();
-        var first = true;
-
-        for (var i = 0; i < _rules.Count; i++)
+        if (_rules.Count == 1)
         {
-            ClipPathRule rule = _rules[i];
-            string cls = rule.Path;
-            if (cls.Length == 0)
-                continue;
-
-            string bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
-            if (bp.Length != 0)
-                cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, bp);
-
-            if (rule.ModifierChain is { Length: > 0 })
-                cls = BreakpointUtil.ApplyTailwindModifiers(cls, rule.ModifierChain);
-
-            if (!first) sb.Append(' ');
-            else first = false;
-
-            if (_rules.Count == 1)
-                return cls ?? string.Empty;
-
-            sb.Append(cls);
+            ClipPathRule rule = _rules[0];
+            return ClassWriter.Render(rule.Path, BreakpointUtil.GetBreakpointToken(rule.Breakpoint), rule.ModifierChain);
         }
 
-        return sb.ToString();
+        var writer = new ClassWriter();
+        try
+        {
+            for (var i = 0; i < _rules.Count; i++)
+            {
+                ClipPathRule rule = _rules[i];
+                writer.Add(rule.Path, BreakpointUtil.GetBreakpointToken(rule.Breakpoint), rule.ModifierChain);
+            }
+            return writer.ToString();
+        }
+        finally
+        {
+            writer.Dispose();
+        }
     }
 
     /// <summary>

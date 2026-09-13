@@ -9,79 +9,79 @@ public static partial class Leading
     /// <summary>
     /// Gets or sets none.
     /// </summary>
-    public static LeadingBuilder None => new(LeadingEnum.None);
+    public static LeadingBuilder None => new(LeadingEnum.NoneValue);
     /// <summary>
     /// Gets or sets tight.
     /// </summary>
-    public static LeadingBuilder Tight => new(LeadingEnum.Tight);
+    public static LeadingBuilder Tight => new(LeadingEnum.TightValue);
     /// <summary>
     /// Gets or sets snug.
     /// </summary>
-    public static LeadingBuilder Snug => new(LeadingEnum.Snug);
+    public static LeadingBuilder Snug => new(LeadingEnum.SnugValue);
     /// <summary>
     /// Gets or sets normal.
     /// </summary>
-    public static LeadingBuilder Normal => new(LeadingEnum.Normal);
+    public static LeadingBuilder Normal => new(LeadingEnum.NormalValue);
     /// <summary>
     /// Gets or sets relaxed.
     /// </summary>
-    public static LeadingBuilder Relaxed => new(LeadingEnum.Relaxed);
+    public static LeadingBuilder Relaxed => new(LeadingEnum.RelaxedValue);
     /// <summary>
     /// Gets or sets loose.
     /// </summary>
-    public static LeadingBuilder Loose => new(LeadingEnum.Loose);
+    public static LeadingBuilder Loose => new(LeadingEnum.LooseValue);
     /// <summary>
     /// Gets or sets is0.
     /// </summary>
-    public static LeadingBuilder Is0 => new(LeadingEnum.Is0);
+    public static LeadingBuilder Is0 => new(LeadingEnum.Is0Value);
     /// <summary>
     /// Gets or sets is1.
     /// </summary>
-    public static LeadingBuilder Is1 => new(LeadingEnum.Is1);
+    public static LeadingBuilder Is1 => new(LeadingEnum.Is1Value);
     /// <summary>
     /// Gets or sets is2.
     /// </summary>
-    public static LeadingBuilder Is2 => new(LeadingEnum.Is2);
+    public static LeadingBuilder Is2 => new(LeadingEnum.Is2Value);
     /// <summary>
     /// Gets or sets is3.
     /// </summary>
-    public static LeadingBuilder Is3 => new(LeadingEnum.Is3);
+    public static LeadingBuilder Is3 => new(LeadingEnum.Is3Value);
     /// <summary>
     /// Gets or sets is4.
     /// </summary>
-    public static LeadingBuilder Is4 => new(LeadingEnum.Is4);
+    public static LeadingBuilder Is4 => new(LeadingEnum.Is4Value);
     /// <summary>
     /// Gets or sets is4 5.
     /// </summary>
-    public static LeadingBuilder Is4_5 => new(LeadingEnum.Is4_5);
+    public static LeadingBuilder Is4_5 => new(LeadingEnum.Is4_5Value);
     /// <summary>
     /// Gets or sets is5.
     /// </summary>
-    public static LeadingBuilder Is5 => new(LeadingEnum.Is5);
+    public static LeadingBuilder Is5 => new(LeadingEnum.Is5Value);
     /// <summary>
     /// Gets or sets is6.
     /// </summary>
-    public static LeadingBuilder Is6 => new(LeadingEnum.Is6);
+    public static LeadingBuilder Is6 => new(LeadingEnum.Is6Value);
     /// <summary>
     /// Gets or sets is6 5.
     /// </summary>
-    public static LeadingBuilder Is6_5 => new(LeadingEnum.Is6_5);
+    public static LeadingBuilder Is6_5 => new(LeadingEnum.Is6_5Value);
     /// <summary>
     /// Gets or sets is7.
     /// </summary>
-    public static LeadingBuilder Is7 => new(LeadingEnum.Is7);
+    public static LeadingBuilder Is7 => new(LeadingEnum.Is7Value);
     /// <summary>
     /// Gets or sets is8.
     /// </summary>
-    public static LeadingBuilder Is8 => new(LeadingEnum.Is8);
+    public static LeadingBuilder Is8 => new(LeadingEnum.Is8Value);
     /// <summary>
     /// Gets or sets is9.
     /// </summary>
-    public static LeadingBuilder Is9 => new(LeadingEnum.Is9);
+    public static LeadingBuilder Is9 => new(LeadingEnum.Is9Value);
     /// <summary>
     /// Gets or sets is10.
     /// </summary>
-    public static LeadingBuilder Is10 => new(LeadingEnum.Is10);
+    public static LeadingBuilder Is10 => new(LeadingEnum.Is10Value);
     /// <summary>
     /// Adds an arbitrary leading utility token to the class list.
     /// </summary>

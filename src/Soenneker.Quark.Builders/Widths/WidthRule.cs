@@ -3,5 +3,5 @@ namespace Soenneker.Quark;
 /// <summary>
 /// Represents a single width rule with optional BreakpointType.
 /// </summary>
-internal record WidthRule(string Size, BreakpointType? Breakpoint = null, string? ModifierChain = null);
+internal readonly record struct WidthRule(string Size, BreakpointType? Breakpoint = null, string? ModifierChain = null);
 

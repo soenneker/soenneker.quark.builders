@@ -11,7 +11,7 @@ namespace Soenneker.Quark;
 [TailwindPrefix("isolation-", Responsive = true)]
 public sealed class IsolationBuilder : CssBuilderBase<IsolationBuilder>
 {
-    private readonly List<IsolationRule> _rules = new(4);
+    private RuleList<IsolationRule> _rules;
 
     internal IsolationBuilder()
     {
@@ -36,11 +36,11 @@ public sealed class IsolationBuilder : CssBuilderBase<IsolationBuilder>
     /// <summary>
     /// `auto` — browser-default sizing/behavior for the underlying utility.
     /// </summary>
-    public IsolationBuilder Auto => Chain(IsolationEnum.Auto);
+    public IsolationBuilder Auto => Chain(IsolationEnum.AutoValue);
     /// <summary>
     /// Fluent step for `Isolate` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public IsolationBuilder Isolate => Chain(IsolationEnum.Isolate);
+    public IsolationBuilder Isolate => Chain(IsolationEnum.IsolateValue);
 
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -59,32 +59,30 @@ public sealed class IsolationBuilder : CssBuilderBase<IsolationBuilder>
 
 
 
-    /// <summary>
-    /// Executes the to class operation.
-    /// </summary>
-    /// <returns>The result of the operation.</returns>
     public override string ToClass()
     {
-        if (_rules.Count == 0) return string.Empty;
-        using var sb = new PooledStringBuilder();
-        var first = true;
-        foreach (IsolationRule rule in _rules)
+        if (_rules.Count == 0)
+            return string.Empty;
+        if (_rules.Count == 1)
         {
-            if (rule.Value.Length == 0)
-                continue;
-
-            string cls = rule.Value;
-            string b = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
-            if (b.Length != 0) cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, b);
-            if (rule.ModifierChain is { Length: > 0 }) cls = BreakpointUtil.ApplyTailwindModifiers(cls, rule.ModifierChain);
-            if (!first) sb.Append(' ');
-            else first = false;
-            if (_rules.Count == 1)
-                return cls ?? string.Empty;
-
-            sb.Append(cls);
+            IsolationRule rule = _rules[0];
+            return ClassWriter.Render(rule.Value, BreakpointUtil.GetBreakpointToken(rule.Breakpoint), rule.ModifierChain);
         }
-        return sb.ToString();
+
+        var writer = new ClassWriter();
+        try
+        {
+            for (var i = 0; i < _rules.Count; i++)
+            {
+                IsolationRule rule = _rules[i];
+                writer.Add(rule.Value, BreakpointUtil.GetBreakpointToken(rule.Breakpoint), rule.ModifierChain);
+            }
+            return writer.ToString();
+        }
+        finally
+        {
+            writer.Dispose();
+        }
     }
 
     /// <summary>

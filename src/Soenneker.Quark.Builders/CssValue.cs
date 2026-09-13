@@ -44,6 +44,23 @@ public readonly struct CssValue<TBuilder> : IEquatable<CssValue<TBuilder>> where
     /// <returns>A CSS value containing the combined contributors.</returns>
     public static CssValue<TBuilder> For(params object?[] values) => Combine(values);
 
+    /// <summary>Creates an empty typed CSS value.</summary>
+    /// <returns>An empty CSS value.</returns>
+    public static CssValue<TBuilder> For() => new(string.Empty);
+
+    /// <summary>Creates a typed CSS value from one contributor without a parameter array.</summary>
+    /// <param name="value">The CSS contributor to convert.</param>
+    /// <returns>The normalized CSS value.</returns>
+    public static CssValue<TBuilder> For(object? value) => CombinePair(default, ReadContributor(value));
+
+    /// <summary>Combines two contributors without a parameter array.</summary>
+    /// <param name="first">The first CSS contributor.</param>
+    /// <param name="second">The second CSS contributor.</param>
+    /// <returns>The combined CSS value.</returns>
+    public static CssValue<TBuilder> For(object? first, object? second) => CombinePair(ReadContributor(first), ReadContributor(second));
+
+
+
     /// <summary>
     /// Implicitly converts a CSS builder to a CssValue.
     /// </summary>
@@ -156,6 +173,11 @@ public readonly struct CssValue<TBuilder> : IEquatable<CssValue<TBuilder>> where
         return Combine(this, values);
     }
 
+    /// <summary>Appends one contributor without boxing this value or allocating a parameter array.</summary>
+    /// <param name="value">The CSS contributor to append.</param>
+    /// <returns>The combined CSS value.</returns>
+    public CssValue<TBuilder> Add(object? value) => CombinePair(this, ReadContributor(value));
+
     /// <summary>
     /// Gets whether this non-empty value affects the generated markup (class or style).
     /// </summary>
@@ -193,6 +215,42 @@ public readonly struct CssValue<TBuilder> : IEquatable<CssValue<TBuilder>> where
     /// <param name="b">Second character sequence to compare.</param>
     /// <returns>true if two CssValue instances are not equal; otherwise, false.</returns>
     public static bool operator !=(CssValue<TBuilder> a, CssValue<TBuilder> b) => !a.Equals(b);
+
+    private static CssValue<TBuilder> ReadContributor(object? value) => value switch
+    {
+        null => default,
+        CssValue<TBuilder> css => css,
+        ICssBuilder builder => new CssValue<TBuilder>(builder.ToClass(), builder.ToStyle()),
+        string text => new CssValue<TBuilder>(text),
+        int number => number,
+        _ => new CssValue<TBuilder>(value.ToString() ?? string.Empty)
+    };
+
+    private static CssValue<TBuilder> CombinePair(CssValue<TBuilder> first, CssValue<TBuilder> second)
+    {
+        string? selector = null;
+        bool absolute = false;
+        MergeSelector(ref selector, ref absolute, first._cssSelector, first._selectorIsAbsolute);
+        MergeSelector(ref selector, ref absolute, second._cssSelector, second._selectorIsAbsolute);
+        return new CssValue<TBuilder>(JoinSegments(first._value, second._value, false),
+            JoinSegments(first._styleValue, second._styleValue, true), selector, absolute);
+    }
+
+    private static string JoinSegments(string? first, string? second, bool style)
+    {
+        ReadOnlySpan<char> left = first.AsSpan().Trim();
+        ReadOnlySpan<char> right = second.AsSpan().Trim();
+        if (style)
+        {
+            left = left.TrimEnd(';');
+            right = right.TrimEnd(';');
+        }
+        if (left.IsEmpty)
+            return right.IsEmpty ? string.Empty : right.Length == second!.Length ? second : right.ToString();
+        if (right.IsEmpty)
+            return left.Length == first!.Length ? first : left.ToString();
+        return string.Concat(left, style ? "; " : " ", right);
+    }
 
     private static CssValue<TBuilder> Combine(IReadOnlyList<object?> values) => Combine(null, values);
 

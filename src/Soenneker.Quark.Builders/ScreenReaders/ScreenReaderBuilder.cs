@@ -12,7 +12,7 @@ namespace Soenneker.Quark;
 [TailwindPrefix("sr-", Responsive = true)]
 public sealed class ScreenReaderBuilder : CssBuilderBase<ScreenReaderBuilder>
 {
-    private readonly List<ScreenReaderRule> _rules = new(4);
+    private RuleList<ScreenReaderRule> _rules;
 
     internal ScreenReaderBuilder()
     {
@@ -37,7 +37,7 @@ public sealed class ScreenReaderBuilder : CssBuilderBase<ScreenReaderBuilder>
     /// <summary>
     /// Sets the screen reader to only (sr-only).
     /// </summary>
-    public ScreenReaderBuilder Only => ChainWithType(ScreenReaderEnum.Only);
+    public ScreenReaderBuilder Only => ChainWithType(ScreenReaderEnum.OnlyValue);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private ScreenReaderBuilder ChainWithType(string type)
@@ -53,42 +53,30 @@ public sealed class ScreenReaderBuilder : CssBuilderBase<ScreenReaderBuilder>
         return this;
     }
 
-    /// <summary>
-    /// Gets the CSS class string for the current configuration.
-    /// </summary>
-    /// <returns>The CSS class string.</returns>
     public override string ToClass()
     {
         if (_rules.Count == 0)
             return string.Empty;
-
-        using var sb = new PooledStringBuilder();
-        var first = true;
-
-        for (var i = 0; i < _rules.Count; i++)
+        if (_rules.Count == 1)
         {
-            ScreenReaderRule rule = _rules[i];
-            string cls = rule.Type;
-            if (cls.Length == 0)
-                continue;
-
-            string bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
-            if (bp.Length != 0)
-                cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, bp);
-
-            if (rule.ModifierChain is { Length: > 0 })
-                cls = BreakpointUtil.ApplyTailwindModifiers(cls, rule.ModifierChain);
-
-            if (!first) sb.Append(' ');
-            else first = false;
-
-            if (_rules.Count == 1)
-                return cls ?? string.Empty;
-
-            sb.Append(cls);
+            ScreenReaderRule rule = _rules[0];
+            return ClassWriter.Render(rule.Type, BreakpointUtil.GetBreakpointToken(rule.Breakpoint), rule.ModifierChain);
         }
 
-        return sb.ToString();
+        var writer = new ClassWriter();
+        try
+        {
+            for (var i = 0; i < _rules.Count; i++)
+            {
+                ScreenReaderRule rule = _rules[i];
+                writer.Add(rule.Type, BreakpointUtil.GetBreakpointToken(rule.Breakpoint), rule.ModifierChain);
+            }
+            return writer.ToString();
+        }
+        finally
+        {
+            writer.Dispose();
+        }
     }
 
     /// <summary>

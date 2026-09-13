@@ -9,55 +9,55 @@ public static partial class BackgroundColor
     /// <summary>
     /// Gets or sets primary.
     /// </summary>
-    public static BackgroundColorBuilder Primary => new(BackgroundColorEnum.Primary);
+    public static BackgroundColorBuilder Primary => new(BackgroundColorEnum.PrimaryValue);
     /// <summary>
     /// Gets or sets secondary.
     /// </summary>
-    public static BackgroundColorBuilder Secondary => new(BackgroundColorEnum.Secondary);
+    public static BackgroundColorBuilder Secondary => new(BackgroundColorEnum.SecondaryValue);
     /// <summary>
     /// Gets or sets destructive.
     /// </summary>
-    public static BackgroundColorBuilder Destructive => new(BackgroundColorEnum.Destructive);
+    public static BackgroundColorBuilder Destructive => new(BackgroundColorEnum.DestructiveValue);
     /// <summary>
     /// Gets or sets muted.
     /// </summary>
-    public static BackgroundColorBuilder Muted => new(BackgroundColorEnum.Muted);
+    public static BackgroundColorBuilder Muted => new(BackgroundColorEnum.MutedValue);
     /// <summary>
     /// Gets or sets accent.
     /// </summary>
-    public static BackgroundColorBuilder Accent => new(BackgroundColorEnum.Accent);
+    public static BackgroundColorBuilder Accent => new(BackgroundColorEnum.AccentValue);
     /// <summary>
     /// Gets or sets popover.
     /// </summary>
-    public static BackgroundColorBuilder Popover => new(BackgroundColorEnum.Popover);
+    public static BackgroundColorBuilder Popover => new(BackgroundColorEnum.PopoverValue);
     /// <summary>
     /// Gets or sets card.
     /// </summary>
-    public static BackgroundColorBuilder Card => new(BackgroundColorEnum.Card);
+    public static BackgroundColorBuilder Card => new(BackgroundColorEnum.CardValue);
     /// <summary>
     /// Gets or sets background.
     /// </summary>
-    public static BackgroundColorBuilder Background => new(BackgroundColorEnum.Background);
+    public static BackgroundColorBuilder Background => new(BackgroundColorEnum.BackgroundValue);
     /// <summary>
     /// Gets or sets foreground.
     /// </summary>
-    public static BackgroundColorBuilder Foreground => new(BackgroundColorEnum.Foreground);
+    public static BackgroundColorBuilder Foreground => new(BackgroundColorEnum.ForegroundValue);
     /// <summary>
     /// Gets or sets border.
     /// </summary>
-    public static BackgroundColorBuilder Border => new(BackgroundColorEnum.Border);
+    public static BackgroundColorBuilder Border => new(BackgroundColorEnum.BorderValue);
     /// <summary>
     /// Gets or sets white.
     /// </summary>
-    public static BackgroundColorBuilder White => new(BackgroundColorEnum.White);
+    public static BackgroundColorBuilder White => new(BackgroundColorEnum.WhiteValue);
     /// <summary>
     /// Gets or sets black.
     /// </summary>
-    public static BackgroundColorBuilder Black => new(BackgroundColorEnum.Black);
+    public static BackgroundColorBuilder Black => new(BackgroundColorEnum.BlackValue);
     /// <summary>
     /// Gets or sets transparent.
     /// </summary>
-    public static BackgroundColorBuilder Transparent => new(BackgroundColorEnum.Transparent);
+    public static BackgroundColorBuilder Transparent => new(BackgroundColorEnum.TransparentValue);
 
     /// <summary>
     /// Creates a background color builder from a Tailwind color token suffix such as <c>primary/20</c>, <c>zinc-900</c>, or <c>[var(--brand)]</c>.

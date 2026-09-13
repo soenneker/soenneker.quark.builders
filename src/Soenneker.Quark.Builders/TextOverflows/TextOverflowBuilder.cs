@@ -11,7 +11,7 @@ namespace Soenneker.Quark;
 [TailwindPrefix("text-", Responsive = true)]
 public sealed class TextOverflowBuilder : CssBuilderBase<TextOverflowBuilder>
 {
-    private readonly List<TextOverflowRule> _rules = new(4);
+    private RuleList<TextOverflowRule> _rules;
 
     internal TextOverflowBuilder()
     {
@@ -48,38 +48,30 @@ public sealed class TextOverflowBuilder : CssBuilderBase<TextOverflowBuilder>
         return this;
     }
 
-    /// <summary>Gets the CSS class string for the current configuration.</summary>
     public override string ToClass()
     {
         if (_rules.Count == 0)
             return string.Empty;
-
-        using var sb = new PooledStringBuilder();
-        var first = true;
-
-        for (var i = 0; i < _rules.Count; i++)
+        if (_rules.Count == 1)
         {
-            TextOverflowRule rule = _rules[i];
-
-            // Only Clip/Ellipsis map to utility classes; keywords don't.
-            string baseClass = rule.Value;
-            if (baseClass.Length == 0)
-                continue;
-
-            string bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
-            if (bp.Length != 0)
-                baseClass = BreakpointUtil.ApplyTailwindBreakpoint(baseClass, bp);
-
-            if (rule.ModifierChain is { Length: > 0 })
-                baseClass = BreakpointUtil.ApplyTailwindModifiers(baseClass, rule.ModifierChain);
-
-            if (!first) sb.Append(' ');
-            else first = false;
-
-            sb.Append(baseClass);
+            TextOverflowRule rule = _rules[0];
+            return ClassWriter.Render(rule.Value, BreakpointUtil.GetBreakpointToken(rule.Breakpoint), rule.ModifierChain);
         }
 
-        return sb.ToString();
+        var writer = new ClassWriter();
+        try
+        {
+            for (var i = 0; i < _rules.Count; i++)
+            {
+                TextOverflowRule rule = _rules[i];
+                writer.Add(rule.Value, BreakpointUtil.GetBreakpointToken(rule.Breakpoint), rule.ModifierChain);
+            }
+            return writer.ToString();
+        }
+        finally
+        {
+            writer.Dispose();
+        }
     }
 
     /// <summary>Gets the CSS style string for the current configuration.</summary>

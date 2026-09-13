@@ -11,7 +11,7 @@ namespace Soenneker.Quark;
 [TailwindPrefix("opacity-", Responsive = true)]
 public sealed class OpacityBuilder : CssBuilderBase<OpacityBuilder>
 {
-    private readonly List<OpacityRule> _rules = new(4);
+    private RuleList<OpacityRule> _rules;
 
     internal OpacityBuilder()
     {
@@ -150,40 +150,30 @@ public sealed class OpacityBuilder : CssBuilderBase<OpacityBuilder>
         return this;
     }
 
-    /// <summary>
-    /// Gets the CSS class string for the current configuration.
-    /// </summary>
-    /// <returns>The CSS class string.</returns>
     public override string ToClass()
     {
-        if (_rules.Count == 0) return string.Empty;
-
-        using var sb = new PooledStringBuilder();
-        var first = true;
-        for (var i = 0; i < _rules.Count; i++)
+        if (_rules.Count == 0)
+            return string.Empty;
+        if (_rules.Count == 1)
         {
-            OpacityRule rule = _rules[i];
-            string cls = rule.Value;
-            string? modifierChain = rule.ModifierChain ?? (i == _rules.Count - 1 ? PendingModifierChain : null);
-            if (cls.Length == 0)
-                continue;
-
-            string bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
-            if (bp.Length != 0)
-                cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, bp);
-
-            if (modifierChain is { Length: > 0 })
-                cls = BreakpointUtil.ApplyTailwindModifiers(cls, modifierChain);
-
-            if (!first) sb.Append(' ');
-            else first = false;
-
-            if (_rules.Count == 1)
-                return cls ?? string.Empty;
-
-            sb.Append(cls);
+            OpacityRule rule = _rules[0];
+            return ClassWriter.Render(rule.Value, BreakpointUtil.GetBreakpointToken(rule.Breakpoint), rule.ModifierChain ?? PendingModifierChain);
         }
-        return sb.ToString();
+
+        var writer = new ClassWriter();
+        try
+        {
+            for (var i = 0; i < _rules.Count; i++)
+            {
+                OpacityRule rule = _rules[i];
+                writer.Add(rule.Value, BreakpointUtil.GetBreakpointToken(rule.Breakpoint), rule.ModifierChain ?? (i == _rules.Count - 1 ? PendingModifierChain : null));
+            }
+            return writer.ToString();
+        }
+        finally
+        {
+            writer.Dispose();
+        }
     }
 
     /// <summary>

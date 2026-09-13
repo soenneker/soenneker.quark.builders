@@ -11,7 +11,7 @@ namespace Soenneker.Quark;
 [TailwindPrefix("float-", Responsive = true)]
 public sealed class FloatBuilder : CssBuilderBase<FloatBuilder>
 {
-    private readonly List<FloatRule> _rules = new(4);
+    private RuleList<FloatRule> _rules;
 
     internal FloatBuilder()
     {
@@ -36,27 +36,27 @@ public sealed class FloatBuilder : CssBuilderBase<FloatBuilder>
     /// <summary>
     /// Sets the float to none.
     /// </summary>
-    public FloatBuilder None => ChainWithValue(FloatEnum.None);
+    public FloatBuilder None => ChainWithValue(FloatEnum.NoneValue);
 
     /// <summary>
     /// Sets the float to left.
     /// </summary>
-    public FloatBuilder Left => ChainWithValue(FloatEnum.Left);
+    public FloatBuilder Left => ChainWithValue(FloatEnum.LeftValue);
 
     /// <summary>
     /// Sets the float to right.
     /// </summary>
-    public FloatBuilder Right => ChainWithValue(FloatEnum.Right);
+    public FloatBuilder Right => ChainWithValue(FloatEnum.RightValue);
 
     /// <summary>
     /// Sets the float to start (inline-start).
     /// </summary>
-    public FloatBuilder Start => ChainWithValue(FloatEnum.Start);
+    public FloatBuilder Start => ChainWithValue(FloatEnum.StartValue);
 
     /// <summary>
     /// Sets the float to end (inline-end).
     /// </summary>
-    public FloatBuilder End => ChainWithValue(FloatEnum.End);
+    public FloatBuilder End => ChainWithValue(FloatEnum.EndValue);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private FloatBuilder ChainWithValue(string value)
@@ -72,46 +72,30 @@ public sealed class FloatBuilder : CssBuilderBase<FloatBuilder>
         return this;
     }
 
-    /// <summary>
-    /// Gets the CSS class string for the current configuration.
-    /// </summary>
-    /// <returns>The CSS class string.</returns>
     public override string ToClass()
     {
         if (_rules.Count == 0)
             return string.Empty;
-
-        using var sb = new PooledStringBuilder();
-        var first = true;
-
-        for (var i = 0; i < _rules.Count; i++)
+        if (_rules.Count == 1)
         {
-            FloatRule rule = _rules[i];
-
-            string cls = rule.Value;
-
-            if (cls.Length == 0)
-                continue;
-
-            string bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
-            if (bp.Length != 0)
-                cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, bp);
-
-            if (rule.ModifierChain is { Length: > 0 })
-                cls = BreakpointUtil.ApplyTailwindModifiers(cls, rule.ModifierChain);
-
-            if (!first)
-                sb.Append(' ');
-            else
-                first = false;
-
-            if (_rules.Count == 1)
-                return cls ?? string.Empty;
-
-            sb.Append(cls);
+            FloatRule rule = _rules[0];
+            return ClassWriter.Render(rule.Value, BreakpointUtil.GetBreakpointToken(rule.Breakpoint), rule.ModifierChain);
         }
 
-        return sb.ToString();
+        var writer = new ClassWriter();
+        try
+        {
+            for (var i = 0; i < _rules.Count; i++)
+            {
+                FloatRule rule = _rules[i];
+                writer.Add(rule.Value, BreakpointUtil.GetBreakpointToken(rule.Breakpoint), rule.ModifierChain);
+            }
+            return writer.ToString();
+        }
+        finally
+        {
+            writer.Dispose();
+        }
     }
 
     /// <summary>

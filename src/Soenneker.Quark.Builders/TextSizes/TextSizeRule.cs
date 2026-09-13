@@ -3,5 +3,5 @@ namespace Soenneker.Quark;
 /// <summary>
 /// Represents a single text size rule with optional BreakpointType.
 /// </summary>
-internal record TextSizeRule(string Size, BreakpointType? Breakpoint = null, string? ModifierChain = null);
+internal readonly record struct TextSizeRule(string Size, BreakpointType? Breakpoint = null, string? ModifierChain = null);
 

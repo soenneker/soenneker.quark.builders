@@ -1,3 +1,4 @@
+using System;
 
 using Soenneker.Extensions.String;
 
@@ -14,7 +15,7 @@ namespace Soenneker.Quark;
 [TailwindPrefix("border-", Responsive = true)]
 public sealed class BorderBuilder : CssBuilderBase<BorderBuilder>
 {
-    private readonly List<BorderRule> _rules = new(4);
+    private RuleList<BorderRule> _rules;
     private ElementSideEnum? _pendingSide;
 
     internal BorderBuilder()
@@ -161,50 +162,30 @@ public sealed class BorderBuilder : CssBuilderBase<BorderBuilder>
 
 
 
-    /// <summary>Gets the CSS class string for the current configuration.</summary>
     public override string ToClass()
     {
         if (_rules.Count == 0)
             return string.Empty;
-
-        using var sb = new PooledStringBuilder();
-        var first = true;
-
-        for (var i = 0; i < _rules.Count; i++)
+        if (_rules.Count == 1)
         {
-            BorderRule rule = _rules[i];
-            string cls = BuildClass(rule);
-            if (cls.Length == 0)
-                continue;
-
-            if (!first)
-                sb.Append(' ');
-            else
-                first = false;
-
-            if (_rules.Count == 1)
-                return cls ?? string.Empty;
-
-            sb.Append(cls);
+            BorderRule rule = _rules[0];
+            return ClassWriter.Render(ApplySide(rule.Size, rule.Side), BreakpointUtil.GetBreakpointToken(rule.Breakpoint), rule.ModifierChain);
         }
 
-        return sb.ToString();
-    }
-
-    private static string BuildClass(BorderRule rule)
-    {
-        string cls = ApplySide(rule.Size, rule.Side);
-        if (cls.Length == 0)
-            return string.Empty;
-
-        string bpTok = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
-        if (bpTok.Length != 0)
-            cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, bpTok);
-
-        if (rule.ModifierChain is { Length: > 0 })
-            cls = BreakpointUtil.ApplyTailwindModifiers(cls, rule.ModifierChain);
-
-        return cls;
+        var writer = new ClassWriter();
+        try
+        {
+            for (var i = 0; i < _rules.Count; i++)
+            {
+                BorderRule rule = _rules[i];
+                writer.Add(ApplySide(rule.Size, rule.Side), BreakpointUtil.GetBreakpointToken(rule.Breakpoint), rule.ModifierChain);
+            }
+            return writer.ToString();
+        }
+        finally
+        {
+            writer.Dispose();
+        }
     }
 
     /// <summary>Gets the CSS style string for the current configuration.</summary>
@@ -237,6 +218,6 @@ public sealed class BorderBuilder : CssBuilderBase<BorderBuilder>
         if (!sizeClass.StartsWith("border-"))
             return sizeClass;
 
-        return "border-" + side.Value + sizeClass["border".Length..];
+        return string.Concat("border-", side.Value, sizeClass.AsSpan("border".Length));
     }
 }

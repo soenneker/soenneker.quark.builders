@@ -11,7 +11,7 @@ namespace Soenneker.Quark;
 [TailwindPrefix("object-", Responsive = true)]
 public sealed class ObjectFitBuilder : CssBuilderBase<ObjectFitBuilder>
 {
-    private readonly List<ObjectFitRule> _rules = new(4);
+    private RuleList<ObjectFitRule> _rules;
 
     internal ObjectFitBuilder()
     {
@@ -36,27 +36,27 @@ public sealed class ObjectFitBuilder : CssBuilderBase<ObjectFitBuilder>
     /// <summary>
     /// Chain with contain for the next rule.
     /// </summary>
-    public ObjectFitBuilder Contain => ChainWithFit(ObjectFitEnum.Contain);
+    public ObjectFitBuilder Contain => ChainWithFit(ObjectFitEnum.ContainValue);
 
     /// <summary>
     /// Chain with cover for the next rule.
     /// </summary>
-    public ObjectFitBuilder Cover => ChainWithFit(ObjectFitEnum.Cover);
+    public ObjectFitBuilder Cover => ChainWithFit(ObjectFitEnum.CoverValue);
 
     /// <summary>
     /// Chain with fill for the next rule.
     /// </summary>
-    public ObjectFitBuilder Fill => ChainWithFit(ObjectFitEnum.Fill);
+    public ObjectFitBuilder Fill => ChainWithFit(ObjectFitEnum.FillValue);
 
     /// <summary>
     /// Chain with scale-down for the next rule.
     /// </summary>
-    public ObjectFitBuilder ScaleDown => ChainWithFit(ObjectFitEnum.ScaleDown);
+    public ObjectFitBuilder ScaleDown => ChainWithFit(ObjectFitEnum.ScaleDownValue);
 
     /// <summary>
     /// Chain with none for the next rule.
     /// </summary>
-    public ObjectFitBuilder None => ChainWithFit(ObjectFitEnum.None);
+    public ObjectFitBuilder None => ChainWithFit(ObjectFitEnum.NoneValue);
 
 
 
@@ -81,41 +81,30 @@ public sealed class ObjectFitBuilder : CssBuilderBase<ObjectFitBuilder>
     }
 
 
-    /// <summary>
-    /// Gets the CSS class string for the current configuration.
-    /// </summary>
     public override string ToClass()
     {
         if (_rules.Count == 0)
             return string.Empty;
-
-        using var sb = new PooledStringBuilder();
-        var first = true;
-
-        for (var i = 0; i < _rules.Count; i++)
+        if (_rules.Count == 1)
         {
-            ObjectFitRule rule = _rules[i];
-            string cls = rule.Fit;
-            if (cls.Length == 0)
-                continue;
-
-            string bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
-            if (bp.Length != 0)
-                cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, bp);
-
-            if (rule.ModifierChain is { Length: > 0 })
-                cls = BreakpointUtil.ApplyTailwindModifiers(cls, rule.ModifierChain);
-
-            if (!first) sb.Append(' ');
-            else first = false;
-
-            if (_rules.Count == 1)
-                return cls ?? string.Empty;
-
-            sb.Append(cls);
+            ObjectFitRule rule = _rules[0];
+            return ClassWriter.Render(rule.Fit, BreakpointUtil.GetBreakpointToken(rule.Breakpoint), rule.ModifierChain);
         }
 
-        return sb.ToString();
+        var writer = new ClassWriter();
+        try
+        {
+            for (var i = 0; i < _rules.Count; i++)
+            {
+                ObjectFitRule rule = _rules[i];
+                writer.Add(rule.Fit, BreakpointUtil.GetBreakpointToken(rule.Breakpoint), rule.ModifierChain);
+            }
+            return writer.ToString();
+        }
+        finally
+        {
+            writer.Dispose();
+        }
     }
 
     /// <summary>

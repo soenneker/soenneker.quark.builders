@@ -12,7 +12,7 @@ namespace Soenneker.Quark;
 [TailwindPrefix("scroll-", Responsive = true)]
 public sealed class ScrollBehaviorBuilder : CssBuilderBase<ScrollBehaviorBuilder>
 {
-    private readonly List<ScrollBehaviorRule> _rules = new(4);
+    private RuleList<ScrollBehaviorRule> _rules;
 
     internal ScrollBehaviorBuilder()
     {
@@ -37,11 +37,11 @@ public sealed class ScrollBehaviorBuilder : CssBuilderBase<ScrollBehaviorBuilder
     /// <summary>
     /// Sets the scroll behavior to auto.
     /// </summary>
-    public ScrollBehaviorBuilder Auto => ChainWithBehavior(ScrollBehaviorEnum.Auto);
+    public ScrollBehaviorBuilder Auto => ChainWithBehavior(ScrollBehaviorEnum.AutoValue);
     /// <summary>
     /// Sets the scroll behavior to smooth.
     /// </summary>
-    public ScrollBehaviorBuilder Smooth => ChainWithBehavior(ScrollBehaviorEnum.Smooth);
+    public ScrollBehaviorBuilder Smooth => ChainWithBehavior(ScrollBehaviorEnum.SmoothValue);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private ScrollBehaviorBuilder ChainWithBehavior(string behavior)
@@ -57,42 +57,30 @@ public sealed class ScrollBehaviorBuilder : CssBuilderBase<ScrollBehaviorBuilder
         return this;
     }
 
-    /// <summary>
-    /// Gets the CSS class string for the current configuration.
-    /// </summary>
-    /// <returns>The CSS class string.</returns>
     public override string ToClass()
     {
         if (_rules.Count == 0)
             return string.Empty;
-
-        using var sb = new PooledStringBuilder();
-        var first = true;
-
-        for (var i = 0; i < _rules.Count; i++)
+        if (_rules.Count == 1)
         {
-            ScrollBehaviorRule rule = _rules[i];
-            string cls = rule.Behavior;
-            if (cls.Length == 0)
-                continue;
-
-            string bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
-            if (bp.Length != 0)
-                cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, bp);
-
-            if (rule.ModifierChain is { Length: > 0 })
-                cls = BreakpointUtil.ApplyTailwindModifiers(cls, rule.ModifierChain);
-
-            if (!first) sb.Append(' ');
-            else first = false;
-
-            if (_rules.Count == 1)
-                return cls ?? string.Empty;
-
-            sb.Append(cls);
+            ScrollBehaviorRule rule = _rules[0];
+            return ClassWriter.Render(rule.Behavior, BreakpointUtil.GetBreakpointToken(rule.Breakpoint), rule.ModifierChain);
         }
 
-        return sb.ToString();
+        var writer = new ClassWriter();
+        try
+        {
+            for (var i = 0; i < _rules.Count; i++)
+            {
+                ScrollBehaviorRule rule = _rules[i];
+                writer.Add(rule.Behavior, BreakpointUtil.GetBreakpointToken(rule.Breakpoint), rule.ModifierChain);
+            }
+            return writer.ToString();
+        }
+        finally
+        {
+            writer.Dispose();
+        }
     }
 
     /// <summary>

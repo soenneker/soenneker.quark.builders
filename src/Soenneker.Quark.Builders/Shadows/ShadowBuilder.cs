@@ -11,7 +11,7 @@ namespace Soenneker.Quark;
 [TailwindPrefix("shadow-", Responsive = true)]
 public sealed class ShadowBuilder : CssBuilderBase<ShadowBuilder>
 {
-    private readonly List<ShadowRule> _rules = new(4);
+    private RuleList<ShadowRule> _rules;
 
     internal ShadowBuilder()
     {
@@ -80,42 +80,30 @@ public sealed class ShadowBuilder : CssBuilderBase<ShadowBuilder>
         return this;
     }
 
-    /// <summary>
-    /// Gets the CSS class string for the current configuration.
-    /// </summary>
-    /// <returns>The CSS class string.</returns>
     public override string ToClass()
     {
         if (_rules.Count == 0)
             return string.Empty;
-
-        using var sb = new PooledStringBuilder();
-        var first = true;
-
-        for (var i = 0; i < _rules.Count; i++)
+        if (_rules.Count == 1)
         {
-            ShadowRule rule = _rules[i];
-            string cssClass = rule.Value;
-
-            if (cssClass.Length == 0)
-                continue;
-
-            string bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
-            if (bp.Length != 0)
-                cssClass = BreakpointUtil.ApplyTailwindBreakpoint(cssClass, bp);
-
-            if (rule.ModifierChain is { Length: > 0 })
-                cssClass = BreakpointUtil.ApplyTailwindModifiers(cssClass, rule.ModifierChain);
-
-            if (!first)
-                sb.Append(' ');
-            else
-                first = false;
-
-            sb.Append(cssClass);
+            ShadowRule rule = _rules[0];
+            return ClassWriter.Render(rule.Value, BreakpointUtil.GetBreakpointToken(rule.Breakpoint), rule.ModifierChain);
         }
 
-        return sb.ToString();
+        var writer = new ClassWriter();
+        try
+        {
+            for (var i = 0; i < _rules.Count; i++)
+            {
+                ShadowRule rule = _rules[i];
+                writer.Add(rule.Value, BreakpointUtil.GetBreakpointToken(rule.Breakpoint), rule.ModifierChain);
+            }
+            return writer.ToString();
+        }
+        finally
+        {
+            writer.Dispose();
+        }
     }
 
     /// <summary>

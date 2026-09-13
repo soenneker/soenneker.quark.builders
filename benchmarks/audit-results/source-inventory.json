@@ -1,0 +1,2677 @@
+[
+  {
+    "path": "src/Soenneker.Quark.Builders/Abstract/ColorBuilderBase.cs",
+    "category": "helper/abstraction",
+    "sha256": "a6539be81dfc7637dc1ee80f227d6df8b65980b647a7adbd3300fc77424e274a"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Abstract/CssBuilderBase.cs",
+    "category": "helper/abstraction",
+    "sha256": "53eef4be55ab6fcce19efe9dcbe8f4d696b70daa9a8ee4dd5428d5fbb20de6e7"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Abstract/FinalClassUtilityBuilder.cs",
+    "category": "builder",
+    "sha256": "b03db01e04f5fe996fdbd408c36f46dfb7c8a60317ce5ac0f60bc560e7b5d44d"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Abstract/ICssBuilder.cs",
+    "category": "builder",
+    "sha256": "ea16d8038a006639edf195850f0b64bb4679d54906eb79d76593ce299570aca7"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Abstract/ResponsiveUtilityBuilder.cs",
+    "category": "builder",
+    "sha256": "4cea1c5c1dfecf01b2121d08bd88dd65a9f0459661577913f58019cf9c8a1573"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/AccentColors/AccentColor.cs",
+    "category": "factory/other",
+    "sha256": "29785787545db7367156f19a790def098b56d7083035000dfcfc64839fe5f050"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/AccentColors/AccentColorBuilder.cs",
+    "category": "builder",
+    "sha256": "9cb8244f781088a75f3d37632b5552e64ed737e45b073193f82b7a26fa5d3856"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/AccentColors/AccentColorEnum.cs",
+    "category": "enum/preset",
+    "sha256": "2595ddc649d661f6551f988f164f40c1c4d560aa5419b289f7a6b7863fe8ef26"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/AccentColors/AccentColorRule.cs",
+    "category": "rule",
+    "sha256": "5c6c2e8b4d314a0cd8aa4b375e758b08ea8b7b35129931ddab93cc778eef5b79"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Animations/Animation.cs",
+    "category": "factory/other",
+    "sha256": "e2700de2421c1d31312d0a83ce352821723c5a6e3319b5121491e70b94726a8a"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Animations/AnimationBuilder.cs",
+    "category": "builder",
+    "sha256": "dc6e163c815a68e4105ce601554bc9fbf67ae79307ac4097aa134c802ae84d7f"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Animations/AnimationEnum.cs",
+    "category": "enum/preset",
+    "sha256": "80a2466d37778093d1200392473d98aa39c9c8512af7ba14ef2f99ea643c622d"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Animations/AnimationRule.cs",
+    "category": "rule",
+    "sha256": "2ce0c98bf39a95140c378ecaf2491772d98304c157b1f42832598430c412330e"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Appearances/Appearance.cs",
+    "category": "factory/other",
+    "sha256": "85390e648afe312894e3da7279201bb86dff21cadb5307197d1d3ec16d2bfc94"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Appearances/AppearanceBuilder.cs",
+    "category": "builder",
+    "sha256": "2c14a12a170a0636dae1bf2ed5114882c2d2471873962e166a12021f8f9bda6a"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Appearances/AppearanceEnum.cs",
+    "category": "enum/preset",
+    "sha256": "1f24cb1601c0b0e6fe50de63c49d48a0112331de8e6eb4a318bff8739b2801f6"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/AspectRatios/AspectRatio.cs",
+    "category": "factory/other",
+    "sha256": "6ca89ab7feafd2c65181160313a1d7323527ae0291f96faeca6933fd7e74cd96"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/AspectRatios/AspectRatioBuilder.cs",
+    "category": "builder",
+    "sha256": "9f1beefdb95e38c16ea909ebaaa85e7303cb9fbe366483eda7ec212e6eb56e2b"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/AspectRatios/AspectRatioEnum.cs",
+    "category": "enum/preset",
+    "sha256": "542c18b1b58d8fefae157191afdaee1f9a19f295edd380be4858c00f1b234109"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/AspectRatios/AspectRatioRule.cs",
+    "category": "rule",
+    "sha256": "957dbdadd4eaf1eb9d523e1d2bbaeb892390ca9152555e9bb7962d3c39bb7b23"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Attributes/TailwindPrefixAttribute.cs",
+    "category": "factory/other",
+    "sha256": "4fe44e360d935ed33b75674408a849bcec97a191556e523901802df1597a5e56"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/AutoCols/AutoCols.cs",
+    "category": "factory/other",
+    "sha256": "a036c29b9318bba6553399c37a3a9dced22447dc62e07c949c052063fd76ae4a"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/AutoCols/AutoColsBuilder.cs",
+    "category": "builder",
+    "sha256": "e7ee3daaebeba27344f1e20a9a65942bc0e740c68c027c7e9bfb27a44d9f19aa"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/AutoCols/AutoColsEnum.cs",
+    "category": "enum/preset",
+    "sha256": "9af60c227d60b3ae9eceb4ee1b725b772092b0017be4f37fde7dc85962a6ff1f"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/AutoRows/AutoRows.cs",
+    "category": "factory/other",
+    "sha256": "761b126c1d2aec19ab71b01ee909d5ba41a0d195042be97d1ddce82e391bff09"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/AutoRows/AutoRowsBuilder.cs",
+    "category": "builder",
+    "sha256": "f9c1296627dcb79de682f227679cd963393844ccdcc6bc4a75879ecac6b4677a"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/AutoRows/AutoRowsEnum.cs",
+    "category": "enum/preset",
+    "sha256": "835c62851eed7006ed237b1869fdbd3a7c640896db7d907be667c66070390f1d"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/BackdropFilters/BackdropFilter.cs",
+    "category": "factory/other",
+    "sha256": "f0d66b4084ac2f29a2a308fe083a3dbb00956b89726648e379f98e3b627d300e"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/BackdropFilters/BackdropFilterBuilder.cs",
+    "category": "builder",
+    "sha256": "a731314795cd281dc87be7df5d650c6845e3df5839b92fb2364a19d3569fec3a"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/BackdropFilters/BackdropFilterEnum.cs",
+    "category": "enum/preset",
+    "sha256": "1cb7cac843e2310882a8e6c4160d96f73c964c1069e957069abdb1f01256f8d0"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/BackdropFilters/BackdropFilterRule.cs",
+    "category": "rule",
+    "sha256": "304141c9613419d2cad07dd9df10402ca96fece354668d5433983167fabecfe6"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/BackgroundBlendModes/BackgroundBlendMode.cs",
+    "category": "factory/other",
+    "sha256": "34f867b67a79d5081ca25e672cbbe2232d08e103727e740e049626d946c89092"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/BackgroundBlendModes/BackgroundBlendModeBuilder.cs",
+    "category": "builder",
+    "sha256": "aea03a0c65753a12b787fb01eb8b9b71bfca76cd431d1a2c64b20d67b90bdee0"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/BackgroundBlendModes/BackgroundBlendModeRule.cs",
+    "category": "rule",
+    "sha256": "a094a81105b7d75b7b804759e661e3584815341a39c0343715cac2053c30acd5"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/BackgroundColors/BackgroundColor.cs",
+    "category": "factory/other",
+    "sha256": "f688533ae6be123d68ac514e86ebd3a6d9360cc123115b596a7a2f109a272474"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/BackgroundColors/BackgroundColorBuilder.cs",
+    "category": "builder",
+    "sha256": "cbb984ee304bd053ef59f03e770aad48df66bd11972725a6b9618146b77ea214"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/BackgroundColors/BackgroundColorEnum.cs",
+    "category": "enum/preset",
+    "sha256": "c90975779ac28df861772e257043d6ea7f608b31d749a55b99783cdf9350fff4"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/BackgroundColors/BackgroundColorRule.cs",
+    "category": "rule",
+    "sha256": "9a88df9e82d7fb6b387920112c12fc57a2206a026f6cb2368e755fa6ddd499be"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/BackgroundImages/BackgroundImage.cs",
+    "category": "factory/other",
+    "sha256": "fed1092bf91d7ce8ed6590fd2b6792d146fa2ad137d16e0a217fb6cd0bc14af4"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/BackgroundImages/BackgroundImageBuilder.cs",
+    "category": "builder",
+    "sha256": "92fee00730f26b55ba90ce0c4ce06d6d78e50732519e7c01adbae45bc9df4bb0"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/BackgroundImages/BackgroundImageEnum.cs",
+    "category": "enum/preset",
+    "sha256": "c686348cf9e934f2d9d814f1c837e409cf511bd6201e29ceefff438f609ec600"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/BackgroundPositions/BackgroundPosition.cs",
+    "category": "factory/other",
+    "sha256": "480e4d802a754060c1009ec7d623d71927d61f0903fe68fa486b6e84ec1dcdf5"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/BackgroundPositions/BackgroundPositionBuilder.cs",
+    "category": "builder",
+    "sha256": "2c00567a4289347595d460bf59e11cfa68b488a5f8fe1473e2f4e06515d084d0"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/BackgroundPositions/BackgroundPositionEnum.cs",
+    "category": "enum/preset",
+    "sha256": "7c63f6f55d6f5829a73571fc4f59916421f4ceb834fd5f5688fbe3025157f831"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/BackgroundRepeats/BackgroundRepeat.cs",
+    "category": "factory/other",
+    "sha256": "61c4edb778f4c934fc069a16b270e3b57f534c6acc7478f7e50ebbb6703e4afb"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/BackgroundRepeats/BackgroundRepeatBuilder.cs",
+    "category": "builder",
+    "sha256": "1a667bb333deaea5a6d026ad2503f24372d43fe9cd103d52d26f94e060a344e5"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/BackgroundRepeats/BackgroundRepeatEnum.cs",
+    "category": "enum/preset",
+    "sha256": "562019f12ce7a7275237426b75d6b2af15af16ef4e91d970fe9cdf864f395112"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/BackgroundSizes/BackgroundSize.cs",
+    "category": "factory/other",
+    "sha256": "c9ae96e1ec1523f23c10322ffbd81de6ce9b033106426f74ffa3bd0afd568ca5"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/BackgroundSizes/BackgroundSizeBuilder.cs",
+    "category": "builder",
+    "sha256": "bc981114336390695d219fdb568b8bf98e2a0ce79a467debaf8b6ada490cbfe0"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/BackgroundSizes/BackgroundSizeEnum.cs",
+    "category": "enum/preset",
+    "sha256": "c68a84b8c7735dde97e64f34cf4b890402d8d3a63ba97aabf2861c6648b98fb0"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/BorderColors/BorderColor.cs",
+    "category": "factory/other",
+    "sha256": "7022987b4fd05e7658a72828f4e44d57fd8c86bf5ad74705b424a5b9c80aeffc"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/BorderColors/BorderColorBuilder.cs",
+    "category": "builder",
+    "sha256": "5d54133231f4a98d5e481747402ece5b4e59c7c6ef1d789bdbce6bcc0a247a47"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/BorderColors/BorderColorEnum.cs",
+    "category": "enum/preset",
+    "sha256": "eeceddf8b6fc54617bfa8545b1764b6db838abb4a7528988ffd4560c509ebed1"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/BorderColors/BorderColorRule.cs",
+    "category": "rule",
+    "sha256": "d43256b78c8a179c0782c7f5a4ba83c3a45f7c1868f26b75a13db6f287fe3360"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Borders/Border.cs",
+    "category": "factory/other",
+    "sha256": "57a8d75fe4f86b0026150722df3ff1702b6c6f5418fec28ddcf9c27289642072"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Borders/BorderBuilder.cs",
+    "category": "builder",
+    "sha256": "271be4c0c40501b00415db113794b3e1203d6c451e5c842e121c8c890c49429f"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Borders/BorderRule.cs",
+    "category": "rule",
+    "sha256": "86eecb364f441080a86d39e37142701e94b2b4d347a45a4a942742e4a8746fa5"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Borders/BorderScaleEnum.cs",
+    "category": "enum/preset",
+    "sha256": "ac20f7cd14b4c4c27abd1802b5049f5501da8988cf99f8df42a1f62673ead9f0"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/BorderStyles/BorderStyle.cs",
+    "category": "factory/other",
+    "sha256": "2d4c66125889a7b36954d6e6cf98f27e9c5e96d750a664d42d6185c535b1f394"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/BorderStyles/BorderStyleBuilder.cs",
+    "category": "builder",
+    "sha256": "80fa89ada9f82b1cbb0d1f701a579ad3ea2eda8af5a3a58fd40a7004d9d575cf"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/BorderStyles/BorderStyleEnum.cs",
+    "category": "enum/preset",
+    "sha256": "996e39c87e7612ed054b451485fa080f1eba4706b73eb3f30ffd318f92d29c4f"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Bottoms/Bottom.cs",
+    "category": "factory/other",
+    "sha256": "0eb57838045174cb4205ca8e599b6b93684343af63e0e1f4804f6dfa2058a044"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Bottoms/BottomBuilder.cs",
+    "category": "builder",
+    "sha256": "5cefd8cc9184fbdcdeeed2446f0cfd1f9bf164ebcc82dac4baed6d544ec61d26"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Bottoms/BottomEnum.cs",
+    "category": "enum/preset",
+    "sha256": "538d1ae44390eb9efb7ba9d789be78c349f80956241035dec228de196db43c7a"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Bottoms/BottomRule.cs",
+    "category": "rule",
+    "sha256": "70968357d60f8d8cef8aa485e96ec82b5a06f4143b0c64149c3282dd0e16b1dd"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/BoxSizings/BoxSizing.cs",
+    "category": "factory/other",
+    "sha256": "e39606c1d984e902a79a8c8b1890127ed799873c0696fbdc6fc51371e184735d"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/BoxSizings/BoxSizingBuilder.cs",
+    "category": "builder",
+    "sha256": "6ad21ed681ba9be0290262f65999dcdd554c9875eb72c2bcec9f4932987e31a3"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/BoxSizings/BoxSizingEnum.cs",
+    "category": "enum/preset",
+    "sha256": "490ab4fd8712d0eda0226ad2f40a409fd1f4e44a2df6a7fd3b29dfcf6758fcee"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Buttons/ButtonSize.cs",
+    "category": "factory/other",
+    "sha256": "a4c495db3f6d5914d4c8e726d718b86e4037f72c554a4a5031608d32e7795871"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Buttons/ButtonSizeBuilder.cs",
+    "category": "builder",
+    "sha256": "9f9a5bc4e4b4ee611e4c488cd48ca28f0d4aeb0f4c6e25c461c4adf057fa2ad4"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Buttons/ButtonSizeRule.cs",
+    "category": "rule",
+    "sha256": "6f831477fae45732e332012d0c88e16db8d0a1dec26323aa9e8188735d1cfbd2"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Buttons/Enums/ButtonSizeEnum.cs",
+    "category": "enum/preset",
+    "sha256": "e7bf4cf5466927bedd66243d60a7a660e88b3e559dfc6c7a5c8dae1496630715"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Buttons/Enums/ButtonType.cs",
+    "category": "factory/other",
+    "sha256": "af82f562ad323d377bc75dbe96f0475270a9139ee8b6ff253ed34257e38dd4aa"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Buttons/Enums/ButtonVariant.cs",
+    "category": "factory/other",
+    "sha256": "a20910444af69fbb73cff5cefb32f48d01f21febc6dcf788eb70961e7e786735"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Buttons/ToggleSizeBuilder.cs",
+    "category": "builder",
+    "sha256": "9f69b47c242be340143d862be4c72c3d712db6493d163ef7f3a52e48ad292e97"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Buttons/ToggleSizeRule.cs",
+    "category": "rule",
+    "sha256": "2996ea8a41f54c3f43a997f278121aeeba43cd63918c99690b53bbfc7cb9e7aa"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Buttons/ToggleSizes.cs",
+    "category": "factory/other",
+    "sha256": "dd4145226eee8e7218d7b54fc733a3111e70b14a3fffd85a255dd71c615a9dac"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/CaretColors/CaretColor.cs",
+    "category": "factory/other",
+    "sha256": "51d10b44cd19ce36f4b628e00c10a8321b232ca962711b323b03581dec768186"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/CaretColors/CaretColorBuilder.cs",
+    "category": "builder",
+    "sha256": "3802f036da1109d4a6a1e1fa02aa68c463769ffbbb0d2e86dadf6f3c72fcc4fe"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/CaretColors/CaretColorEnum.cs",
+    "category": "enum/preset",
+    "sha256": "775ae8c8c6fcea98d7658d07dc046fd60dcbe80f129d6e16031f42b24591b3ed"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/CaretColors/CaretColorRule.cs",
+    "category": "rule",
+    "sha256": "5344f1a065481e4d841c03dd1f62b2fdb57fe03e7829bd4bf7ccb383149ec105"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Checks/CheckSizeBuilder.cs",
+    "category": "builder",
+    "sha256": "b36fa28353eb560d2734f9e780343d4b40057415a4a9615498db863f4472c785"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Checks/CheckSizeEnum.cs",
+    "category": "enum/preset",
+    "sha256": "fe2e251d26855998d467c9c4c1a08f27e7f70cbbd6fc7446e5d6ab3ff8991325"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Checks/CheckSizes.cs",
+    "category": "factory/other",
+    "sha256": "1c20ad3806c8f559be4a4daca1e8347baed9123e42103dda0dff6828106b548f"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Clears/Clear.cs",
+    "category": "factory/other",
+    "sha256": "21672f1d56a58fd057fd643a78f607b19090678b68caf76316206f88b8d1edc3"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Clears/ClearBuilder.cs",
+    "category": "builder",
+    "sha256": "08d0626805d5256ad8bb09dc7ab4746a02f8fe7e78cfced38ea6d0504d17b7e6"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Clears/ClearEnum.cs",
+    "category": "enum/preset",
+    "sha256": "2d6d96ca9567c070224847b48c5a2ea7c0e7e5c947651b533b8ab480cb799193"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/ClipPaths/ClipPath.cs",
+    "category": "factory/other",
+    "sha256": "4d30dd5544be5eb4b9ff5110689602933b92cc7dcb48189a68a3213db738660a"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/ClipPaths/ClipPathBuilder.cs",
+    "category": "builder",
+    "sha256": "39746c486029d2f1fc9620cd659598ed505a1c69568b035c1c2aade595cc63b6"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/ClipPaths/ClipPathEnum.cs",
+    "category": "enum/preset",
+    "sha256": "2ba1d49d054f43f66f85d64ca37b5118d9f75093ee12f9f362a76c22c710c129"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/ClipPaths/ClipPathRule.cs",
+    "category": "rule",
+    "sha256": "d7d66575485e6a6c9e3aef05aa6d34832e34d5f34c78b4499e4d69455ecdb508"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/ColEnds/ColEnd.cs",
+    "category": "factory/other",
+    "sha256": "a5956b4ca8b076643190b78e7014aa4a1a59ec993f8506e66f3b447c2beb73c0"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/ColEnds/ColEndBuilder.cs",
+    "category": "builder",
+    "sha256": "7217644ef591cd9081543020d9d29b3a46354c36956b54b58643c092c00f5c6a"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Colors/ColorPaletteBuilder.cs",
+    "category": "builder",
+    "sha256": "01904367ff901beabae2e3aa599fa021b5f14eb552aa1c63e6adeee3e49ab9c1"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Colors/ColorUtility.cs",
+    "category": "helper/abstraction",
+    "sha256": "89a30600681e3cf5686f367ca1ddecf7e7a588c4bca3137caaca7302117431a6"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Colors/IColorTokenFactory.cs",
+    "category": "helper/abstraction",
+    "sha256": "388b56561c0980e3de7e1cc7678c6ea394880f5b7d4a8f793fdbf104cf227f26"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/ColStarts/ColStart.cs",
+    "category": "factory/other",
+    "sha256": "bf69294a97b8e245c04e82f05452b7a83e8015d947656bba457de697acbce169"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/ColStarts/ColStartBuilder.cs",
+    "category": "builder",
+    "sha256": "2f551ce670aa2fe18bafb9ad1abf5b14c12c303704cd7787530d8c2e74cb6dcb"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Contains/Contain.cs",
+    "category": "factory/other",
+    "sha256": "a5ad328398eb04afed388a20efe25db0a01ca57d13c0c77c8e5d24dc07f72cf7"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Contains/ContainBuilder.cs",
+    "category": "builder",
+    "sha256": "612e7e60e19b8a8bd2f134a2ef26573648042c8b743d5ea4f366e39c8e20de55"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Contains/ContainEnum.cs",
+    "category": "enum/preset",
+    "sha256": "9ad21b43631f9101f9d5736d3d254446425352430735a13746f93420825fae58"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Contains/ContainRule.cs",
+    "category": "rule",
+    "sha256": "6b5fdea7260f22da2e83ad66011dd33c428ddb33e000296d0e3b4abe612e4864"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/ContentAligns/ContentAlign.cs",
+    "category": "factory/other",
+    "sha256": "4bc30303fa88090c48fa76e3f55367acab99fd14ed655530051048358230a7af"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/ContentAligns/ContentAlignBuilder.cs",
+    "category": "builder",
+    "sha256": "35ed9acf7e9a04bac86b0a84876bb043f83a8a72815f9c684f85c67ed147b291"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Contents/ContentEnum.cs",
+    "category": "enum/preset",
+    "sha256": "96b05e28cb0890257165fe1f8d27b8e41b64d028cc37a7e6805376f30350e437"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/CssValue.cs",
+    "category": "helper/abstraction",
+    "sha256": "cd56d90e29bf1ce881ed4cb45c7b22f77ba9162bf3f28932fc4c234c0804b18c"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Cursors/Cursor.cs",
+    "category": "factory/other",
+    "sha256": "7776699dddbc204d9cd7de508652d3b34462a02c0f4384429bbd8a850de8430a"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Cursors/CursorBuilder.cs",
+    "category": "builder",
+    "sha256": "fb13d4884716d451b7a83788d7146258df6418d23345fb5d1ac51ae9547c0c0a"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Cursors/CursorEnum.cs",
+    "category": "enum/preset",
+    "sha256": "caf249c8585ef32372dd7ea2d7bae15fda6987f006e7a49ba452af70f4acc21a"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Cursors/CursorRule.cs",
+    "category": "rule",
+    "sha256": "d8e16aa1e699556e21f0792b50d9fd6554376d44c041882e1e85ad0f773493ed"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/DecorationLines/DecorationLine.cs",
+    "category": "factory/other",
+    "sha256": "c8becdcd71e7c7d0d431eb104d8b8a9cd3e0bbabf5249af1ed7bb22f0cfc71cc"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/DecorationLines/DecorationLineBuilder.cs",
+    "category": "builder",
+    "sha256": "21aa1f405346f74e2a698e1d6ac633ee9aaf08d30a606064dfe4c0132d29c0ce"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/DecorationLines/DecorationLineEnum.cs",
+    "category": "enum/preset",
+    "sha256": "ed37bba22762a67ad8c8125b82437ae90dbea9a14683c0c928c4fe98ce4b9d76"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/DecorationStyles/DecorationStyle.cs",
+    "category": "factory/other",
+    "sha256": "7ce2edd874328423e5ce15b449ec2e0fa6c2f87735a2399f1ddbc96d5dcc0dae"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/DecorationStyles/DecorationStyleBuilder.cs",
+    "category": "builder",
+    "sha256": "5a61b8fa0f85d22cba7002f53b3c4af60805d887a11c375ff5a1c093f7581a24"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/DecorationStyles/DecorationStyleEnum.cs",
+    "category": "enum/preset",
+    "sha256": "ae2fa287fd3fc92f3bee3fba4cc3c9d35eedd0d4969b5e7b18db95c25cdb53af"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/DecorationThicknesses/DecorationThickness.cs",
+    "category": "factory/other",
+    "sha256": "76873c3f6c74bd2b467f0a602c15f358dabd2acf8dd704caab4b070d3910379c"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/DecorationThicknesses/DecorationThicknessBuilder.cs",
+    "category": "builder",
+    "sha256": "e2626999a3e27859134fcb7a027ad0408e4ff5c163c2b09f93b55c954d3c9b2b"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/DecorationThicknesses/DecorationThicknessEnum.cs",
+    "category": "enum/preset",
+    "sha256": "e90bb3b6b97ba26fa664f5c4a902e05dbbd73b55328e3db62623bc22b3f11602"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Delays/Delay.cs",
+    "category": "factory/other",
+    "sha256": "cd4e05419a11deef2f4979f7330746db8032c66fc26a36df4840d6b7f2891e4c"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Delays/DelayBuilder.cs",
+    "category": "builder",
+    "sha256": "1264efa4f61ed4e284723942e24171c0431564f150d8ae664ffdb4b9a0cef9b5"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Delays/DelayEnum.cs",
+    "category": "enum/preset",
+    "sha256": "c69306f0fe34559392c38d264bbc0863ba48ff5e2a8658a6c5d68c3a2043bd65"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Displays/Display.cs",
+    "category": "factory/other",
+    "sha256": "5ebdbfbba366e30faf35145f9e94ff2657b74c98c9402b3765a33ec66a6940a9"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Displays/DisplayBuilder.cs",
+    "category": "builder",
+    "sha256": "87d1357f822f559611dfc32642e8707ba922d7fc8a8fadebedebcbb752a4a24f"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Displays/DisplayRule.cs",
+    "category": "rule",
+    "sha256": "49d8ed9b2cbd71255bac4a52582b69413343d2724ee1469b5c50ca3e4ee48969"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Divides/Divide.cs",
+    "category": "factory/other",
+    "sha256": "7e3a61bdc230f36aa8981481420dc25b85c6b6df79e7f59a7782cfa581e47740"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Divides/DivideBuilder.cs",
+    "category": "builder",
+    "sha256": "420a04d1292835a81f1db59fc9532bf291e318539c040cf45a3b03eb185c183e"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Divides/DivideEnum.cs",
+    "category": "enum/preset",
+    "sha256": "32f0b56c4fe03e323b06f4044dacc7ed900388cb844d58b4112dde34edd809ec"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Divides/DivideRule.cs",
+    "category": "rule",
+    "sha256": "67a8b3a5beadcc169f22db43b91a9a88738b8caf870867b8e2cecf86737a94f9"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Durations/Duration.cs",
+    "category": "factory/other",
+    "sha256": "afe0af0c05212a3a436b90c17846e41cf259794a9d3cee5ed6bc98e8bc693897"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Durations/DurationBuilder.cs",
+    "category": "builder",
+    "sha256": "0e818f8db30d8b246659db61d79056eea13ef15d20a0fe9bc7b213ac36ca9779"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Durations/DurationEnum.cs",
+    "category": "enum/preset",
+    "sha256": "6b6be47de36fc124aea6cd772dcc4ec055569f95dd6a9171871ea7507ee7568a"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Eases/Ease.cs",
+    "category": "factory/other",
+    "sha256": "815534cde3c782e7e373d7e01de2f6bae34daea2193ef8c9418c6e505dd6d479"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Eases/EaseBuilder.cs",
+    "category": "builder",
+    "sha256": "04ef51d2271011283d426b66539a458c9c6d9d42cad97513bf2dbe72e0981550"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Eases/EaseEnum.cs",
+    "category": "enum/preset",
+    "sha256": "0be574a1d24946e43b3e1f265155785f74d7733aa34f69ec8ac4298ebd3f9a6b"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Ends/End.cs",
+    "category": "factory/other",
+    "sha256": "954eb82d3b4872b9ee1055395ebedfe58c6ec26144f3429fcef46466b92946f3"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Ends/EndBuilder.cs",
+    "category": "builder",
+    "sha256": "0bf7e409d219435b2c680ff62b748f920d246a0f1a2e60c01ea0178ceb9c2064"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Ends/EndEnum.cs",
+    "category": "enum/preset",
+    "sha256": "c179d31375539e63dae5e411623262e1a2498102fc8ef20a54bccc9f8e8559a5"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Ends/EndRule.cs",
+    "category": "rule",
+    "sha256": "56a50d3a1d50e6a545155d3d2c2cc52fe24373f72df7576c7027c673bc6da460"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Ends/EndScaleEnum.cs",
+    "category": "enum/preset",
+    "sha256": "4d9c65653b65680e72de5e63884435f9c7d1403a0955d52213f6501a6ff1f7a6"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Enums/ElementSideEnum.cs",
+    "category": "enum/preset",
+    "sha256": "8d9251d0c9cb52e4a92bffafe76f5ecfa5389f9345c08908fe48b0c832bf287e"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Enums/ListStyleTypeValue.cs",
+    "category": "factory/other",
+    "sha256": "f77eee7c8ffa197a1c3808d0e047e70531b4b54b4396cba8d23a95028bd77df4"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Enums/ListVariantType.cs",
+    "category": "factory/other",
+    "sha256": "dca7f8ddd5d427097ad1b51a7c49941ec0a12599ac2688c29d6f80a6c7539c87"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/FillRules/FillRuleBuilder.cs",
+    "category": "builder",
+    "sha256": "6652b4472e70fc779bdab5d2dcad17390295746ba0141bce0798356cc15317ab"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/FillRules/FillRuleEnum.cs",
+    "category": "enum/preset",
+    "sha256": "702da19a88eb03dac3ad546512362a50583021f3a19cb54c29284afff5921fd4"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/FillRules/FillRuleRule.cs",
+    "category": "rule",
+    "sha256": "750742e6e90085cb385a63027c45fd3e4229fbd122b0cc951b1f5c57b9fb518e"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/FillRules/SvgFillRule.cs",
+    "category": "rule",
+    "sha256": "4cca78a6eef7fa8af8b332a8f0ae9cebfdf0c191fd62b6230efbcf922c06f68f"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Fills/Fill.cs",
+    "category": "factory/other",
+    "sha256": "00e042672f2af0888dac861207d0e987970b0e9325cadf5c326e7fd0cae54954"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Fills/FillBuilder.cs",
+    "category": "builder",
+    "sha256": "21413cbd6eb9c750c5c78d0d4a5bca4d97defffa96781ff59b5ab11f1b50fa95"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Fills/FillEnum.cs",
+    "category": "enum/preset",
+    "sha256": "057bfd0c48a4d6c82737b76c1057b75294721af70ada375d336b3dce534957dc"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Filters/Filter.cs",
+    "category": "factory/other",
+    "sha256": "3013036e1f4c60ebe047d40a0b2cff6dc572d8e5e41ef69b2ba16a09f34defd4"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Filters/FilterBuilder.cs",
+    "category": "builder",
+    "sha256": "82f04bc54c11ff75a8a5fb2267498f2343b85f7d2ded55d1cde9223eff5d3817"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Filters/FilterEnum.cs",
+    "category": "enum/preset",
+    "sha256": "3d0c3d7ba5c452a3208d179ec746d2f9f5d9c1fd788dce0abbf99987344bd1a5"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Filters/FilterRule.cs",
+    "category": "rule",
+    "sha256": "f757ed886485ae0ef97175289d387f42934e1778758c69297c291cc8ec16cff4"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/FlexBases/FlexBasis.cs",
+    "category": "factory/other",
+    "sha256": "1f09f1ae1aa0f2b6bb7e0cb2269261e4803e7ff589396fdb4ca2e58983699222"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/FlexBases/FlexBasisBuilder.cs",
+    "category": "builder",
+    "sha256": "ca7c4839eb9fbcb6261ef1716ab3641b8328023d2543dd77212b159bd09dd533"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/FlexBases/FlexBasisEnum.cs",
+    "category": "enum/preset",
+    "sha256": "1bc43d3749c112d661f139822477b36fb49e22586d83a7e6cd02bc25a59f91f9"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/FlexDirections/FlexDirection.cs",
+    "category": "factory/other",
+    "sha256": "6da87632195676844afc7d26a6039cd00f24596ec52febcfb4b6c4eebdb23630"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/FlexDirections/FlexDirectionBuilder.cs",
+    "category": "builder",
+    "sha256": "626e0693c76a97f1dae5cbf8182223f668efdc4bca72c9105a3e2cf9ec0b4628"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/FlexDirections/FlexDirectionEnum.cs",
+    "category": "enum/preset",
+    "sha256": "ad69d1891bc659716a35ab418a9bc5149469307ad8e100f514af6ea720a0451b"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Flexes/Flex.cs",
+    "category": "factory/other",
+    "sha256": "667517ff2daccc2455bb2302bc0c1bfa05b3e13101b296dd85649d6eb3bc7487"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Flexes/FlexBuilder.cs",
+    "category": "builder",
+    "sha256": "c0f9661a414795ad77bf1219621e1a7c9130bc2bea169a7ef7ec82f553a51034"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Flexes/FlexEnum.cs",
+    "category": "enum/preset",
+    "sha256": "695c9d939f623a6f7b5b4b5a347fc99ef4d1e69240ae98a04315ba378a374e18"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/FlexWraps/FlexWrap.cs",
+    "category": "factory/other",
+    "sha256": "697031700ece2b0fa546d15f0acb1eefaf5900ba3063b8f00e2c01e7451fa35f"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/FlexWraps/FlexWrapBuilder.cs",
+    "category": "builder",
+    "sha256": "d0ff73f6c1dbc9259e9e0607785984e1098df3fea0a91868b4fd4b5fbc7251c9"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/FlexWraps/FlexWrapEnum.cs",
+    "category": "enum/preset",
+    "sha256": "e6bd0d110998c66996275919e7350919f15c77159d76bb87959e571faa42cb9e"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Floats/Float.cs",
+    "category": "factory/other",
+    "sha256": "d5c41fea3b42c2a856823b7b9d6e4e96232d60fccfe8bf731895ca224195f980"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Floats/FloatBuilder.cs",
+    "category": "builder",
+    "sha256": "c04d717206700601fb2451b1bbe677e729e1d238ceb9a62db4b7a4446d5db430"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Floats/FloatEnum.cs",
+    "category": "enum/preset",
+    "sha256": "a6c5217cdf0fc44dcb912fd6d0cc300a58beccafdad090f3886cf5cf9b969c07"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Floats/FloatRule.cs",
+    "category": "rule",
+    "sha256": "e291f37cd760f3af78fcc9ad3c81c85d5f0f3054585b70d5a5d0bf2982644a84"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/FontFamilies/FontFamily.cs",
+    "category": "factory/other",
+    "sha256": "4ca691dc53063a668c992a4c5b101c7c893fcd61484d8ebba5e3d0603f0d43eb"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/FontFamilies/FontFamilyBuilder.cs",
+    "category": "builder",
+    "sha256": "2b8f9fc4a005f9c0b85a1e99c25dd87285233ce6c08ebff658beff0ce105ff10"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/FontFamilies/FontFamilyEnum.cs",
+    "category": "enum/preset",
+    "sha256": "9e1e170b507a4b383cacbca68cece3478a19d59bac6a722b9db25c5aae2ee894"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/FontFamilies/FontFamilyRule.cs",
+    "category": "rule",
+    "sha256": "96fd0d6d9a0010ce356976153545b79ce6a37d334e9b8a3039edc5cc83167d7b"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/FontSmoothings/FontSmoothing.cs",
+    "category": "factory/other",
+    "sha256": "0003a5d210d90f798e34a6dae480c0099b151f5b8cc80ec93434cf18c7ac6ad5"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/FontSmoothings/FontSmoothingBuilder.cs",
+    "category": "builder",
+    "sha256": "3ae4a752a4a0b967864d2cdfb960a141c98835a4a264fa1be2b72d830ec394ab"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/FontSmoothings/FontSmoothingEnum.cs",
+    "category": "enum/preset",
+    "sha256": "27d55a4aff53f3bfcf4952f90cd4c25afad2c9da4d2248071a6b622c4a1dcbd3"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/FontStyles/FontStyle.cs",
+    "category": "factory/other",
+    "sha256": "fdf2b275c7b699fbebeb9a944fcd546464fc07b402b3eae4074d318de661266a"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/FontStyles/FontStyleBuilder.cs",
+    "category": "builder",
+    "sha256": "642c4fa82523f20019af17a857f7ed97fa5eb97a4d9226cba890247fcc137d8a"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/FontStyles/FontStyleEnum.cs",
+    "category": "enum/preset",
+    "sha256": "91466c562014aa18542bfbc11d89bdc61977ec6fa3dd5a407fee9164fee06c40"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/FontStyles/FontStyleRule.cs",
+    "category": "rule",
+    "sha256": "01c30e525c3e4752a6ee835fc5cf455a5c0c4227dd62f8d7ec4d9dd851aa7f51"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/FontVariantNumerics/FontVariantNumeric.cs",
+    "category": "factory/other",
+    "sha256": "599c1e9d62e0041ae10835b1bab84be8efd08daca3bddbe7e90f2dc0549339e7"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/FontVariantNumerics/FontVariantNumericBuilder.cs",
+    "category": "builder",
+    "sha256": "9c4b6224038c1286615aaaba774e663e95e4ea65c7ec3b57912d11b2aa4cba6a"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/FontVariantNumerics/FontVariantNumericEnum.cs",
+    "category": "enum/preset",
+    "sha256": "4c337dea39128db5f40503a6af021d5d5aa78b56a01d4bad0d62491e5ff89652"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/FontVariantNumerics/FontVariantNumericRule.cs",
+    "category": "rule",
+    "sha256": "d7fb2837aba0591a19ec99675383e2e2a0f5f12569c834bb37646e6c10e7b40c"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/FontWeights/FontWeight.cs",
+    "category": "factory/other",
+    "sha256": "f1035a21aac6094d92f4fec49560162613dcfd0b317976b75207908336659e45"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/FontWeights/FontWeightBuilder.cs",
+    "category": "builder",
+    "sha256": "03a7c1df31e73f93e6c28532f92f35bd90d18ed42a41594001ca5a897717dc9d"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/FontWeights/FontWeightEnum.cs",
+    "category": "enum/preset",
+    "sha256": "19176e83109718f68f5f5fa1d556176458351d52bb4e2378e28c5616f0f8b306"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/FontWeights/FontWeightRule.cs",
+    "category": "rule",
+    "sha256": "72ed52c3a456f9b8a1301b82d8dec63a1953fbc3963d5703ce851ad7fedd99e5"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/ForcedColorAdjusts/ForcedColorAdjust.cs",
+    "category": "factory/other",
+    "sha256": "e6ed37920e1074f3a1fcea28a49be0e8ff0bdb35a4736c4b7d541024c396a2fb"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/ForcedColorAdjusts/ForcedColorAdjustBuilder.cs",
+    "category": "builder",
+    "sha256": "e6f2680dd1d9173684bcc6a10a2b8a2a969fe22344a08dacdd412c7c63889215"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/ForcedColorAdjusts/ForcedColorAdjustEnum.cs",
+    "category": "enum/preset",
+    "sha256": "cf100323b2e03a6309839dfda0d4b62b3c71b75180c81d6f1d5ab0ef50447ce9"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Gaps/Gap.cs",
+    "category": "factory/other",
+    "sha256": "9d7675281786b7864aafc663051e57d8c62321c3f81c72665cdc63f3f96cc513"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Gaps/GapAxisEnum.cs",
+    "category": "enum/preset",
+    "sha256": "df383922a647178c0a7f49da04cbc2d12b534cc8cddd740808187b5468da3716"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Gaps/GapBuilder.cs",
+    "category": "builder",
+    "sha256": "de9e46298bf0e9ca2b781b399d8c553a877e5f0dc7774af482dc5f5e345dbed3"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Gaps/GapRule.cs",
+    "category": "rule",
+    "sha256": "200155b06e8be07f6301c14a90796bfe4d2d1e21e073b2697464f3c4d9c58f91"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Gaps/GapScaleEnum.cs",
+    "category": "enum/preset",
+    "sha256": "54fdb8adde33ccfde7d4458d1152e5d45d3f0dc8b5665e6059cf46041978204b"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Gradients/Gradient.cs",
+    "category": "factory/other",
+    "sha256": "28b28b9dea087a58dfb79cc8bdf0d1dce119b5ee889abff34455a53271a29a76"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Gradients/GradientBuilder.cs",
+    "category": "builder",
+    "sha256": "b5e0b30d559ba3fa1840225e8a520ab5956f5b1901dcc732384e35c58d801096"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/GridAutoFlows/GridAutoFlow.cs",
+    "category": "factory/other",
+    "sha256": "4df62afa8adc2af6d8001462be581166eca2bdae19d1044a0e647ce1393a6064"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/GridAutoFlows/GridAutoFlowBuilder.cs",
+    "category": "builder",
+    "sha256": "c064a97c944b55a3cb22284f4041ac0a13f8fc74fcbce5bad68e1613de5785ea"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/GridAutoFlows/GridAutoFlowEnum.cs",
+    "category": "enum/preset",
+    "sha256": "8ea23721a04d45c260eca94f38ad414a4fb57ed9a73894e294864002e15cf99b"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/GridCols/GridCols.cs",
+    "category": "factory/other",
+    "sha256": "385a6f151663e8b3378c3b041af42c7dc5bb783a5fc53dd9c8b3eea487dcca52"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/GridCols/GridColsBuilder.cs",
+    "category": "builder",
+    "sha256": "f448f374c59c9d12c03409d23df080ae6401b664c80b32f006e603906738b91b"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/GridRows/GridRows.cs",
+    "category": "factory/other",
+    "sha256": "48c9fe3c612a25915eb94602b4d3cc466262f09e707f2bd9c2dd0c1c4bae7c99"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/GridRows/GridRowsBuilder.cs",
+    "category": "builder",
+    "sha256": "8be2b47b66eb75a28e4c08996394880f82ed7a07bd645e2383d7fad201b30a27"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Grids/ColumnSpan.cs",
+    "category": "factory/other",
+    "sha256": "903ab20c6bb16a3b53bea532b315db496372f2f9747eb1cb88087ba8cd714a2f"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Grids/ColumnSpanBuilder.cs",
+    "category": "builder",
+    "sha256": "68a737d85a2bf84335e6e3a1eafdf460b563e74f52e82f0ce6132280f7ee60cb"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Grids/ColumnSpanEnum.cs",
+    "category": "enum/preset",
+    "sha256": "05e100f389ef025c8c8904d3d964ca8432bc5e8f32cb461f6e9918a8eef1ddcb"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Grids/GridRule.cs",
+    "category": "rule",
+    "sha256": "7cc5576095a450c3ce2fdf576a77ff58899de8a01f78c3041572e8a1ed4b7068"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Grids/RowSpan.cs",
+    "category": "factory/other",
+    "sha256": "5df9064c38ac73a5c5af549e540acc1435d0850fa6992e2827c00fea9a1a3b92"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Grids/RowSpanBuilder.cs",
+    "category": "builder",
+    "sha256": "64422f910b6c977a3db7b0f0d48c585649366afbee368e628fa3c33f746768cd"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Grids/RowSpanEnum.cs",
+    "category": "enum/preset",
+    "sha256": "8f2783da90b7e63c58bfaea00beaacf96db66291224f8477c1a54611bbd89592"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Grows/Grow.cs",
+    "category": "factory/other",
+    "sha256": "a5765c7afed76f1d9e2c84fe2eeba1a325b16d3b45af8ec9009042fedbfd6462"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Grows/GrowBuilder.cs",
+    "category": "builder",
+    "sha256": "cf63926549574dcb5da12507a9f3c434acf6f8b34059b1881f4954991db444e9"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Grows/GrowEnum.cs",
+    "category": "enum/preset",
+    "sha256": "d7d7c9e5d8c051ff3fbb3a09dc1723efe25181887bf75bd052a66eafa13f9b35"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Grows/GrowRule.cs",
+    "category": "rule",
+    "sha256": "eb5de1e44ee00f9d8e4213d9c2ebdeeda3d8d3cf3427720aa818deca8ac12eca"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Heights/Height.cs",
+    "category": "factory/other",
+    "sha256": "d85b5ac3483fd8a35f3af7764505d15b60a35ffff9280ad0b592c2a2b5c6ed0b"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Heights/HeightBuilder.cs",
+    "category": "builder",
+    "sha256": "40bf7da9bbab9222b2c4b225dfee65e3318f0896ffcf7b9e62157b8b38a4e655"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Heights/HeightRule.cs",
+    "category": "rule",
+    "sha256": "af8615e6c28ed9b501fc62ba3a3738f996c82dcb561f604cabe314c5d23d84e1"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Heights/MaxHeight.cs",
+    "category": "factory/other",
+    "sha256": "a0237225a79a94fa34eb967653128aa4edcf80e5cacc948fc7be551adf0890b7"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Heights/MaxHeightBuilder.cs",
+    "category": "builder",
+    "sha256": "1aaee4495abf8161389c76b60eda56f5ed2c012911c64f377145957d3f9b2061"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Heights/MinHeight.cs",
+    "category": "factory/other",
+    "sha256": "597d4567bab653f8f14195b5f8aa1cd0e3bd93b9d61100c224fcf81482ec3bfe"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Heights/MinHeightBuilder.cs",
+    "category": "builder",
+    "sha256": "f50d352e78e4c9e0197bcac08f60b3c2179b431d668c010aa65fa134edabf6d3"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Hyphens/Hyphen.cs",
+    "category": "factory/other",
+    "sha256": "b39dbf4f40a334d229bc6ee7fdccc09fce37f2e95ee583138ea55084d5398e68"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Hyphens/HyphenBuilder.cs",
+    "category": "builder",
+    "sha256": "839d736903187db0fa0c207b0da9efecc0918f9f21554cb72c175a7e058b84cb"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Hyphens/HyphenEnum.cs",
+    "category": "enum/preset",
+    "sha256": "48aebf0a4c4598e03a669024549e35a36298cde678c27cb98a56c99b0b207259"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Inputs/InputSizeBuilder.cs",
+    "category": "builder",
+    "sha256": "d36b8ce893d2134ae59473bf7db0553065139139719eac8e90879fffb129a461"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Inputs/InputSizeEnum.cs",
+    "category": "enum/preset",
+    "sha256": "d718e49a6edc7eb2c4a9db4e8614e1c0c8f126238a96ff6653c25beaa42293e9"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Inputs/InputSizes.cs",
+    "category": "factory/other",
+    "sha256": "697f21be70909bf9c43de3691ac1ae015198d186dcc401e941889d87fe0af99c"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Insets/Inset.cs",
+    "category": "factory/other",
+    "sha256": "7470fef9a20ed4a30470ca19c2431b9f05402cbd0f4ad2e42fa2905f75094729"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Insets/InsetBuilder.cs",
+    "category": "builder",
+    "sha256": "deaa60b243ea2653c4291ee4f9b0a08b818de9a3382e8bb5abec2478cba04aa3"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Insets/InsetRule.cs",
+    "category": "rule",
+    "sha256": "cb7c3963077d6716e83d0b0d1905eea411e6fa85dde42e36a94840b9d78c8692"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Insets/InsetScaleEnum.cs",
+    "category": "enum/preset",
+    "sha256": "6875d84e0fd6fff1fab7d97f2f488761874903974e8d25bc6d0ed62d0d4cc041"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Isolations/Isolation.cs",
+    "category": "factory/other",
+    "sha256": "c67482912cac158e449114201c3db92de1c2523b5a8f7c9b3ce0942d4fba7bce"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Isolations/IsolationBuilder.cs",
+    "category": "builder",
+    "sha256": "5f42cd1eb3c9a8dab982dc60a7fe3d1ca5688b026e8c91515f236214a21c15db"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Isolations/IsolationEnum.cs",
+    "category": "enum/preset",
+    "sha256": "91383a11b2d6bae62e553a643df203daf182e84b9d38968a9afc4f1d293472b0"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Isolations/IsolationRule.cs",
+    "category": "rule",
+    "sha256": "a8d6dab7b0997b3a6161463deba2a965ef898cc8e31bebc03ddfe8b92f54a015"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Items/Items.cs",
+    "category": "factory/other",
+    "sha256": "38663c900a77e837d4aecf70d1ddb39c0afa024a215cab7754e67f2ee5ae068d"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Items/ItemsBuilder.cs",
+    "category": "builder",
+    "sha256": "dcde1760c1415fce448f73491a46320a55d3cc34f17b7b3cc1874a6cf3ad1242"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Items/ItemsEnum.cs",
+    "category": "enum/preset",
+    "sha256": "1c7b24a0ed3160fb9d1af27228946e9677373fa61527bade3bc1cd80e9a128eb"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Justifies/Justify.cs",
+    "category": "factory/other",
+    "sha256": "0926c6effc380d9e6cbc3db6bfe0f6a8684f6072d953b9fe11221c59c9f7cbf4"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Justifies/JustifyBuilder.cs",
+    "category": "builder",
+    "sha256": "5c22f0ef8b5ecea31f0b66cb642f37db1f18f0341568831f6033bcb3b426b1e7"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Justifies/JustifyEnum.cs",
+    "category": "enum/preset",
+    "sha256": "7ed83d76da10b0837e51af8b97e48ac81e5c4aa69d17bcaabb10445081bcdf96"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/JustifyItemsAligns/JustifyItemsAlign.cs",
+    "category": "factory/other",
+    "sha256": "8740a22ca9318413136da1c74637c8e7d299183baf12b5ef787b6ef676972509"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/JustifyItemsAligns/JustifyItemsAlignBuilder.cs",
+    "category": "builder",
+    "sha256": "664f58e05a7ae2a4a0477800ae4e52864ab460bac4ac8760b41ca1fb69ca7c2d"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/JustifyItemsAligns/JustifyItemsAlignEnum.cs",
+    "category": "enum/preset",
+    "sha256": "ab39b804fecec46355e16b87befcadfb592ad0eb7e4ff49c3f17c59a9289410b"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/JustifySelfAligns/JustifySelfAlign.cs",
+    "category": "factory/other",
+    "sha256": "d76c7c9f45de2a20a2ddb182999b645bda1156a04ba097386b439e857278c23d"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/JustifySelfAligns/JustifySelfAlignBuilder.cs",
+    "category": "builder",
+    "sha256": "b4beb87527f8d8571efba345c0cdf2a8bb05794fb594bd774d9288a8588badca"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/JustifySelfAligns/JustifySelfAlignEnum.cs",
+    "category": "enum/preset",
+    "sha256": "12716177045fec15629b754e188a4281728ffc38e201da10438d402e6dc29185"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Leadings/Leading.cs",
+    "category": "factory/other",
+    "sha256": "88fd64400e1867a929ec2a6e4defc9c7a3dd32a8257b18fd7b93c1a64e05c651"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Leadings/LeadingBuilder.cs",
+    "category": "builder",
+    "sha256": "7f46381a0164073784ed9efdc4cf17227418f41d65512e98e32354cac193f970"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Leadings/LeadingEnum.cs",
+    "category": "enum/preset",
+    "sha256": "ac04bfc4655bdc696c379a8681b5ab2564f57d66e890c23ba58f9befdb706b36"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Leadings/LeadingRule.cs",
+    "category": "rule",
+    "sha256": "a105c0b75956d8f8abebde9d734e3d2ee46a130828258eb6dfde9bb189410036"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Lefts/Left.cs",
+    "category": "factory/other",
+    "sha256": "91e349d1c2697de6e7b1b2c15eec15b7b699d4e60235f9fdf144d868993bb2f9"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Lefts/LeftBuilder.cs",
+    "category": "builder",
+    "sha256": "38a066b8d1eda499b8f48d3b8eb95c7a35f67bb36bf8b1d2ceb9a649521545ff"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Lefts/LeftEnum.cs",
+    "category": "enum/preset",
+    "sha256": "51e0f491841a1f0b4ecad6ccf948bbb17b8de54898e3e02d6526f7b97b0e478a"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Lefts/LeftRule.cs",
+    "category": "rule",
+    "sha256": "cf489af85317e830a9dde2b03e535bbb69e71e86505fc435fd49ed7c7a054ce6"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/LineClamps/LineClamp.cs",
+    "category": "factory/other",
+    "sha256": "d62886c4a3d7fd82707a3c6e299c09a49985d466a9932dca8b7f89419826af5e"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/LineClamps/LineClampBuilder.cs",
+    "category": "builder",
+    "sha256": "045cfbde5251d9aa35ee5aa58ca0537f18de8ceb6aef819185bd2c74771de2c7"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/LineClamps/LineClampEnum.cs",
+    "category": "enum/preset",
+    "sha256": "a6f8593ab3973320a4eef3d1a060f7937b023a355a87923e33ae4249dedf2753"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/LineClamps/LineClampRule.cs",
+    "category": "rule",
+    "sha256": "687159c281e7142e07cd187b2d58b1007700f6c09361f73aee37baee4839cc22"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/ListStyleTypes/ListStyleType.cs",
+    "category": "factory/other",
+    "sha256": "cb5122bb6ce92263aaaa3a9a1515ac152cce0843b4ad33c6c9e3292802738698"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/ListStyleTypes/ListStyleTypeBuilder.cs",
+    "category": "builder",
+    "sha256": "4de56f981615739318258829904e615dcf0408f34c9fda030817f9ebb7b008c7"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/ListStyleTypes/ListStyleTypeRule.cs",
+    "category": "rule",
+    "sha256": "7dd265c45c9769477e0f4c55b1fc33a1490cc4cfba5b3cdd31bc03c335d2546a"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/ListVariants/ListVariant.cs",
+    "category": "factory/other",
+    "sha256": "424997a5e5cd1d0d00dd457fe4b156f8b64473f4f63996b501edd391643c671b"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/ListVariants/ListVariantBuilder.cs",
+    "category": "builder",
+    "sha256": "784c05b40544c859b7e7f9bd66a9d00d457fe5b39c87f2c4dffbca9267c54d2b"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/ListVariants/ListVariantRule.cs",
+    "category": "rule",
+    "sha256": "ee6a1ab3a8a50cbf20cd3c7c84c175033c5f1e964d986229d54e21389a315f49"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Margins/Margin.cs",
+    "category": "factory/other",
+    "sha256": "735639d5ecff69070a37e90a70d521422313cbb2c7ba3100bb964b91a0913507"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Margins/MarginBuilder.cs",
+    "category": "builder",
+    "sha256": "e33420ac1504df2cf16b62b69dc24397a2339d37656525adb6d869cff39b31a6"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Margins/MarginRule.cs",
+    "category": "rule",
+    "sha256": "b2c2e4cbb87e3a6a8163f83c6d13f1709ce861c93bfcd11f03285ab0b86688c0"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Margins/MarginScaleEnum.cs",
+    "category": "enum/preset",
+    "sha256": "54e6ae220969890ee250748c18ff490a6e8c32b3947a462fe985bdf10aea5ab0"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/MixBlendModes/MixBlendMode.cs",
+    "category": "factory/other",
+    "sha256": "dd8ed1fd6cb93afc5cc57d3e87b2277b851843fdd6992af133f10992802464ee"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/MixBlendModes/MixBlendModeBuilder.cs",
+    "category": "builder",
+    "sha256": "2399e42825e83b9c50caa9d9bfa18b25cdc342160bdb79a6774cc1c47ad2c41c"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/MixBlendModes/MixBlendModeEnum.cs",
+    "category": "enum/preset",
+    "sha256": "9c93e434c09554fe9afd1121cd837e10a833a0e0521ed64473296c86b23e4682"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/MixBlendModes/MixBlendModeRule.cs",
+    "category": "rule",
+    "sha256": "9e33e45c6168a90e25141b30550bf56b7b1bec8e0e715a8e3a031948c7423ca8"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/ObjectFits/ObjectFit.cs",
+    "category": "factory/other",
+    "sha256": "2bc0a4f43314ae2de0b00bfcdfdd6527cdb65758d45928d6fe72bfbcd2b92cfa"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/ObjectFits/ObjectFitBuilder.cs",
+    "category": "builder",
+    "sha256": "44cf4ec8d4921dbba672c1f4a5920e42c81226397cc3bccaa51c9965a0a005cf"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/ObjectFits/ObjectFitEnum.cs",
+    "category": "enum/preset",
+    "sha256": "a6e5f87adf7ef04d3765dddfd17329e5d64b43023950be51ddf7589a1dc52fab"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/ObjectFits/ObjectFitRule.cs",
+    "category": "rule",
+    "sha256": "02be8dd404876cd83347ec5b69facd9429c49dc7364eecdec059a7ab4cc70ff6"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/ObjectPositions/ObjectPosition.cs",
+    "category": "factory/other",
+    "sha256": "3e1f155c7cbbafd990d2f99f2468ccd924a889eabc7a4aba6cc1eec3c5884c00"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/ObjectPositions/ObjectPositionBuilder.cs",
+    "category": "builder",
+    "sha256": "d6a7c619c6f7fa5edd55bf0d41e8e5902b66b5be452671f7b2bf52a6068ced3e"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/ObjectPositions/ObjectPositionEnum.cs",
+    "category": "enum/preset",
+    "sha256": "e4a736cc9d6c85d833153c1862e3f73688b0aa3e34607e80059b9be2cff335ad"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/ObjectPositions/ObjectPositionRule.cs",
+    "category": "rule",
+    "sha256": "cb84f88099cd5d9daea1bf06e5a63ca6c50688aca980f53303a5e9c5acfd4780"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Opacities/Opacity.cs",
+    "category": "factory/other",
+    "sha256": "ca4966d487a7494eb8d70499d55b151a9a423f05a9c332021add36405a025515"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Opacities/OpacityBuilder.cs",
+    "category": "builder",
+    "sha256": "9d0469dfda4f3ba44a51c6d6b35a866a741f860493ffd8924936af3584a96ee5"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Opacities/OpacityEnum.cs",
+    "category": "enum/preset",
+    "sha256": "bff078b411706d6952311177162cea3265b5ed09b68b0c72514b6020d6286baf"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Opacities/OpacityRule.cs",
+    "category": "rule",
+    "sha256": "f6254df804433e869eded8a95dc44bb6db66c8bb48dcec0fd8fb898f01ec0d38"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Orders/Order.cs",
+    "category": "factory/other",
+    "sha256": "38ffa055d3582049c9bd10df85a572d1aad3f4f43f8e55ed014422e65389157e"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Orders/OrderBuilder.cs",
+    "category": "builder",
+    "sha256": "25cac2520472989e99f1683e5f54a3e64f3bf71bc91baad87a6dfac6560d90dc"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Orders/OrderEnum.cs",
+    "category": "enum/preset",
+    "sha256": "543d1410629abc96fcc302b3754868632606c4cb3429a83379024a9c87efd5e0"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Origins/Origin.cs",
+    "category": "factory/other",
+    "sha256": "81a73b9199cb56be667752cebb0f2b02fdf2d3f47dc9892c9340bfc65f324f6d"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Origins/OriginBuilder.cs",
+    "category": "builder",
+    "sha256": "6e14c0fb7a9a96f53bc7a4417f9eaecf7baf65b95994bf183ed7716f38ddaf0f"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Origins/OriginEnum.cs",
+    "category": "enum/preset",
+    "sha256": "ab79aca9955a60092751e3182fe5446b8ad2cc288971756fe255b663e54fff94"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/OutlineOffsets/OutlineOffset.cs",
+    "category": "factory/other",
+    "sha256": "9bdb8d2c97d47acbc04e991101548d09182534fb205dd2ca3248c3c640c0a590"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/OutlineOffsets/OutlineOffsetBuilder.cs",
+    "category": "builder",
+    "sha256": "ba4e42d3eff09d70dcfea51013157b2f15065b2ef6b928121fbb6a1c5d9236ae"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/OutlineOffsets/OutlineOffsetEnum.cs",
+    "category": "enum/preset",
+    "sha256": "20d7488e6954168d58b9ade7138bdd1e110ac233682ce1158257c990a17f8652"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/OutlineStyles/OutlineStyle.cs",
+    "category": "factory/other",
+    "sha256": "e27a2166df39b77cd495fa74f9d0aa25ee5717afc8ca4e253b070574cc04ef02"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/OutlineStyles/OutlineStyleBuilder.cs",
+    "category": "builder",
+    "sha256": "61985250bb2fe7bcf8f907551dcc089abf701345402d93b0e20e563cff064da7"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/OutlineStyles/OutlineStyleEnum.cs",
+    "category": "enum/preset",
+    "sha256": "cacda1766de0804bb0b27960b251e2dc0c665edfefa5c5d8f05c4c1de9eaf54d"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/OutlineStyles/OutlineStyleRule.cs",
+    "category": "rule",
+    "sha256": "203d8ffa751068f22909749b6d03bf4ad50b8b45ab1325399bd0ad7901dc8454"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Overflows/Overflow.cs",
+    "category": "factory/other",
+    "sha256": "7b18ec88b44eec4aea3d27a55625d86dae45a21c947c5a5185d7953e3e590fce"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Overflows/OverflowBuilder.cs",
+    "category": "builder",
+    "sha256": "affb0d03d3bff6a7a086e8773339f80f88ea19d7dde124542be62f044f22b804"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Overflows/OverflowRule.cs",
+    "category": "rule",
+    "sha256": "4fee3682f7dec195f5ac7ac6f381b3f4ea1b2f0af076df88b2cfc42387e337e3"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/OverflowWraps/OverflowWrap.cs",
+    "category": "factory/other",
+    "sha256": "2e35b8bb8f428a7a9e656d022290dd2e8508cc07f8e5391f1e36d969f62ce126"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/OverflowWraps/OverflowWrapBuilder.cs",
+    "category": "builder",
+    "sha256": "dd1721921d1db9a510d5c18b9d16c6e43442b369dd237dede91fcadfc0632d18"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/OverflowWraps/OverflowWrapEnum.cs",
+    "category": "enum/preset",
+    "sha256": "7b30acdf51ad32a8ca82220e8de99b12f2ffe89e13c0113757e5e081960f4630"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Overscrolls/Overscroll.cs",
+    "category": "factory/other",
+    "sha256": "fcf3430ef347c01b3194dbffc398a9fa2e6dae17b3bb7c53e1d62e6ebff21770"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Overscrolls/OverscrollBuilder.cs",
+    "category": "builder",
+    "sha256": "9f78167567afae9523747c132c0153a38f64f9132171ee1775c472c7ea7fc8a1"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Overscrolls/OverscrollEnum.cs",
+    "category": "enum/preset",
+    "sha256": "b45f4545d48ee8a9859049440314539ffeadb3a202ef3ca498adafe0bae337e0"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Overscrolls/OverscrollRule.cs",
+    "category": "rule",
+    "sha256": "5aa1ab0726683da6014e4c79753b6328c5d6000d2defe4c472795cf62d52c879"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Paddings/Padding.cs",
+    "category": "factory/other",
+    "sha256": "98725bf91db21eede8c9c8d0c7d55a9e44ee6b909a744a2e66ed4f58ee6d0b36"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Paddings/PaddingBuilder.cs",
+    "category": "builder",
+    "sha256": "4a0752febd786d87f122b8de86b826b26d5e48d5b151e955f81c0c7604568692"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Paddings/PaddingRule.cs",
+    "category": "rule",
+    "sha256": "490a7b5dca079caff91a028e5d1564648fe75e8c82203e6505413fcace62a364"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Paddings/PaddingScaleEnum.cs",
+    "category": "enum/preset",
+    "sha256": "6201da57e6b381bf768ea24090d8aabb3c141b3997549161230d342f2398176f"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Paginations/PaginationSizeBuilder.cs",
+    "category": "builder",
+    "sha256": "246571465ebbb6a55255e1513e3d166eda53d27dcd8a3dffeb8233028def6534"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Paginations/PaginationSizeEnum.cs",
+    "category": "enum/preset",
+    "sha256": "b87281a0a9fd2d5acc113056f57135d100ccbb5bc592daa5c5e711d8a92190e6"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Paginations/PaginationSizes.cs",
+    "category": "factory/other",
+    "sha256": "617e43ff0d199fe07491f01367fbd03ad974537f2db5cb198cde8a58d811173b"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/PlaceContentAligns/PlaceContentAlign.cs",
+    "category": "factory/other",
+    "sha256": "a8b9cb1d3afa8ffc40325d708f4bc76f82579908e7bf819e22e0d3446a7b9e59"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/PlaceContentAligns/PlaceContentAlignBuilder.cs",
+    "category": "builder",
+    "sha256": "47f437d8f3850218983d175861545b89a1683ba1695141e41624d3c15d7b0311"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/PlaceContentAligns/PlaceContentAlignEnum.cs",
+    "category": "enum/preset",
+    "sha256": "c9e2002ca21b919b6897cb13e4d07aa40d69f1eb11ea52c7c646d410f1860af0"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/PlaceItemsAligns/PlaceItemsAlign.cs",
+    "category": "factory/other",
+    "sha256": "5c788e1862f1f9d66a4b01f412ddc9120c3ca5f826b09bbf244ed1446e4c6112"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/PlaceItemsAligns/PlaceItemsAlignBuilder.cs",
+    "category": "builder",
+    "sha256": "65e3614fb029cc10a469d95749267c95ea038506f3c32678e0afc409d5e0ab3c"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/PlaceItemsAligns/PlaceItemsAlignEnum.cs",
+    "category": "enum/preset",
+    "sha256": "d7ac7af042bca8152d2631abc92c8b6455941899741b2d36decc65ef2c1586e2"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/PlaceSelfAligns/PlaceSelfAlign.cs",
+    "category": "factory/other",
+    "sha256": "65cf3a3b74d22fc26b4ba0bb60515f2cf8fa7a27b867247ce56f17fd73073c76"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/PlaceSelfAligns/PlaceSelfAlignBuilder.cs",
+    "category": "builder",
+    "sha256": "59f4e6408b28f413922e75edfb369e1634852a4d6f44bae13840985c1cfc824b"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/PlaceSelfAligns/PlaceSelfAlignEnum.cs",
+    "category": "enum/preset",
+    "sha256": "9c0e05927d37bbd3c19f4a2089ff2aac55f3dc168752d184b268ae0f98ba17f6"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/PointerEvents/PointerEvents.cs",
+    "category": "factory/other",
+    "sha256": "2d7ef8723abfd1831a2f7c1a612a71aecf71a7fae95ab97f8ef7fd322807b59f"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/PointerEvents/PointerEventsBuilder.cs",
+    "category": "builder",
+    "sha256": "bbde052bae599468caac7eed4a6134a523b0958f35524130d035cdcc2d6b6b58"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/PointerEvents/PointerEventsEnum.cs",
+    "category": "enum/preset",
+    "sha256": "cdf2625c44439be112010527e79848504acc3587dad8c87f46209290f46420ec"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/PointerEvents/PointerEventsRule.cs",
+    "category": "rule",
+    "sha256": "26409fb2e9d66762b0937fc7c65490a136c32a81a59e16dbb455638855c9c4d7"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Positions/Position.cs",
+    "category": "factory/other",
+    "sha256": "d9da37e4863643673f57da275c3ea3124a1649f4c0cdad653f61f8651a67279d"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Positions/PositionBuilder.cs",
+    "category": "builder",
+    "sha256": "baf1c60ad6b477f9a9566688f6912bb1bc9e60ff4fcabed3e28807cb4451cf6e"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Positions/PositionRule.cs",
+    "category": "rule",
+    "sha256": "586240fde270c70acb3ae9edf4ab2cfa9ddf824689106746125f73e115a2e3fc"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Radios/RadioSizeBuilder.cs",
+    "category": "builder",
+    "sha256": "3a7e329376488998b025744adc029f928c38e099d3d27e475fea60e1a511a928"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Radios/RadioSizeEnum.cs",
+    "category": "enum/preset",
+    "sha256": "083fd610511659561ed148ef0b50cf7a4e4551a6d340c15f95b9e2ad5311edbd"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Radios/RadioSizes.cs",
+    "category": "factory/other",
+    "sha256": "88d9f692fddb433cbba3ce20630080352d3ebe1ce0d92dff0a54d493d758eb45"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Radiuses/Rounded.cs",
+    "category": "factory/other",
+    "sha256": "7e06c28d2e655f0c12f03dcebe221ab3b2db665d29c6c98a6f73a54d4691df10"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Radiuses/RoundedBuilder.cs",
+    "category": "builder",
+    "sha256": "591e69355b382e519846d10e756f12e25157165b3dffebde2a8c282361723c1b"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Radiuses/RoundedPositionEnum.cs",
+    "category": "enum/preset",
+    "sha256": "652a340b0d29a104f3fa1b2252bad4d417feca3069bcd3dc4692c11cc92d29ad"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Radiuses/RoundedRule.cs",
+    "category": "rule",
+    "sha256": "7a2807b750932af3c6c9c98eb0a74081b927c7badd28e0c2e754a2cc0b7946d2"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Resizes/Resize.cs",
+    "category": "factory/other",
+    "sha256": "c7e38f16404cd5c6794f2a8cd5a1684fc21702c2c3f7548e855e071164f892ea"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Resizes/ResizeBuilder.cs",
+    "category": "builder",
+    "sha256": "4bf2d5e89479944e7a9c698502773f3afac60d1ef3a7491f7f04c6442d060d98"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Resizes/ResizeEnum.cs",
+    "category": "enum/preset",
+    "sha256": "2d7dcce13179fc904b2c00b5a9d604c5368cc7340c7c435e277b52dda5da1a05"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Resizes/ResizeRule.cs",
+    "category": "rule",
+    "sha256": "b06bbf17a082899c6bd6141225c5aec968070f110688a6d5880f798421e27b7f"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Rights/Right.cs",
+    "category": "factory/other",
+    "sha256": "0871795a816bb9d7a3cd26d8c490c9d9874a48ddcf9a3fc59a9f8c9ddc62a889"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Rights/RightBuilder.cs",
+    "category": "builder",
+    "sha256": "839fbb79d9612d1268e3e3efeb88143fc749b96b0565ab6b9957e92ef9db660f"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Rights/RightEnum.cs",
+    "category": "enum/preset",
+    "sha256": "d6c47ce0c4de6dfa428f041465c4d0eefc988bf964c1c38eabaafb9e3b7f0e46"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Rights/RightRule.cs",
+    "category": "rule",
+    "sha256": "731f88143541f1d0d9639036fbfb59340c8065c3c83237550f97b37849557903"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/RingColors/RingColor.cs",
+    "category": "factory/other",
+    "sha256": "7edb5985bdc1c6fa816845445d9eff5259dc37ca27f75870f981cf42f81d8d2c"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/RingColors/RingColorBuilder.cs",
+    "category": "builder",
+    "sha256": "02ffdcc335c346e7dfc00b558b5f2a86065abf3191c3d03b7db7613ab2441a9f"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/RingColors/RingColorEnum.cs",
+    "category": "enum/preset",
+    "sha256": "75a2b0b66a1dc0136515f8c0495a030e01b42de1a433d76423a6d06e28ffdf48"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/RingColors/RingColorRule.cs",
+    "category": "rule",
+    "sha256": "e74796473e19dddb9dbe855fa17a5cb4993c19a503621918ed75ade64d03abdc"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/RingOffsets/RingOffset.cs",
+    "category": "factory/other",
+    "sha256": "3898204993c27ca53baf60b736ba310fefbbd2bb32dd11ae16e3f52adbe3fbd4"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/RingOffsets/RingOffsetBuilder.cs",
+    "category": "builder",
+    "sha256": "8b0153c7cecf08d88cd12d301df9fe9bd80ec903fbff534fc7f62424a3258264"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/RingOffsets/RingOffsetColorEnum.cs",
+    "category": "enum/preset",
+    "sha256": "cd1d6de8c20ad31a3ea9cadfee07e0faa7dc1b659556b2f0856bb7cef33a72ad"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/RingOffsets/RingOffsetRule.cs",
+    "category": "rule",
+    "sha256": "0062f8bb29a03d0786025fb61720bfe71b6c1b6dbdd0779966bda54964f7ce72"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Rings/Ring.cs",
+    "category": "factory/other",
+    "sha256": "f67a6195f80fed3822088b82147e9a46220cc5e244fe72a8158fa7a9bb1b36c0"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Rings/RingBuilder.cs",
+    "category": "builder",
+    "sha256": "d15f32fdb5153acaa7e05ef1677d1a03c1d90d95acd4f0e59b3c678d6bdcee81"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Rings/RingEnum.cs",
+    "category": "enum/preset",
+    "sha256": "5fcb9fd579c8618ed4b914e3c9ceb9e1bfd25579d16910b2f12f81f753bacd69"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Rings/RingRule.cs",
+    "category": "rule",
+    "sha256": "2f53eb76b9ac35fe23bb721cd57431b48df78a06f193dce912482b4fe9dc164f"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Rotates/Rotate.cs",
+    "category": "factory/other",
+    "sha256": "b2cdfad3a736dece9e9a3ef6e91d142724205635731f4570cae330892ddcd5c7"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Rotates/RotateBuilder.cs",
+    "category": "builder",
+    "sha256": "f8a61162c1a2177f97e26a21daa30ba5c9f808f8e7f810846d5ddb99f056bd1f"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Rotates/RotateEnum.cs",
+    "category": "enum/preset",
+    "sha256": "f3aa68f34555fee8f205ef2005d56af1120f69279827d968b3462f139b8e25f4"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/RowEnds/RowEnd.cs",
+    "category": "factory/other",
+    "sha256": "318f48d49644a3298661f38c1277f700ce80a162aa83f4499901ea9600425791"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/RowEnds/RowEndBuilder.cs",
+    "category": "builder",
+    "sha256": "6e4aa8b773828c3f6b1634ab1ce46465f09a63c23aa6442ea2e82a134813ac40"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/RowStarts/RowStart.cs",
+    "category": "factory/other",
+    "sha256": "afd054fb1659cbff43a13d8a4dcf94dd87984ae853ed30459e280df441513c14"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/RowStarts/RowStartBuilder.cs",
+    "category": "builder",
+    "sha256": "d6b128993b8dc086e66e0092234220a6973fb4f74b55940ed6e592cd121d1ea6"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Scales/Scale.cs",
+    "category": "factory/other",
+    "sha256": "79f344bb8cdf30bbbf80986293c2e5e7649cae16480f30dc76ed02124854c13a"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Scales/ScaleBuilder.cs",
+    "category": "builder",
+    "sha256": "29d1fd83df1b467ffa580cfda09973f055696f9572b2e3f4c30a846f92457777"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Scales/ScaleEnum.cs",
+    "category": "enum/preset",
+    "sha256": "1180a69f65ebbd9f77b18f876919878f965b059ff6be4e1a90467daff32f8d2b"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Scales/ScaleRule.cs",
+    "category": "rule",
+    "sha256": "e99efd07396c473278ed9c2a2ea455b9254104735a3611e86b558ca310e53319"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/ScreenReaders/ScreenReader.cs",
+    "category": "factory/other",
+    "sha256": "6c51f22617b31b250c402ee27808240179558795f18afcf8abdbb055ccf0746f"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/ScreenReaders/ScreenReaderBuilder.cs",
+    "category": "builder",
+    "sha256": "d0314e8ac772cbbc8af5583f7b6b2ab6fe3288f27becf95f9416bcd497339823"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/ScreenReaders/ScreenReaderEnum.cs",
+    "category": "enum/preset",
+    "sha256": "e7494595e5dec64ab22ed110b0d263f6397679f75381cedcf1202a4bef9c8c80"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/ScreenReaders/ScreenReaderRule.cs",
+    "category": "rule",
+    "sha256": "3fd4d1ef7c3fdb650be416802f751f9e076d7464fe5a6e053810cb5904f9201a"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/ScrollBehaviors/ScrollBehavior.cs",
+    "category": "factory/other",
+    "sha256": "b1184ab532b47fdb848e1fd088e6b92a7b152d7fbf3da000ccf8ab527f4014ab"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/ScrollBehaviors/ScrollBehaviorBuilder.cs",
+    "category": "builder",
+    "sha256": "cd68d936fa9aa6eb57dab252295cbdc4978eaeea31233191022f9b06e6d2a8db"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/ScrollBehaviors/ScrollBehaviorEnum.cs",
+    "category": "enum/preset",
+    "sha256": "b3184afa37907c3f77db1d5a24acf1dd741dbc828c64b1ca811541f74e1fc054"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/ScrollBehaviors/ScrollBehaviorRule.cs",
+    "category": "rule",
+    "sha256": "22ec391bd46188bc60056940faca4346da91f4f6e07915d8621e6c39a3072630"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/ScrollMargins/ScrollMargin.cs",
+    "category": "factory/other",
+    "sha256": "61a3f883eba384b05bb36f1f84186ae3ea7b2e69842239f0b0f828e5f107b807"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/ScrollMargins/ScrollMarginBuilder.cs",
+    "category": "builder",
+    "sha256": "60c59d3a9234ff1f61425526921d6cb5cc7ce41f66de4372919314c72e74c93a"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/ScrollMargins/ScrollMarginRule.cs",
+    "category": "rule",
+    "sha256": "3655a2b06cf11690ce574d0b242464ab08bfb8ad06c9dc7e319e42dea4287d27"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/ScrollMargins/ScrollMarginScaleEnum.cs",
+    "category": "enum/preset",
+    "sha256": "8ddd71616ea169e589b2834e7979b9aceef7b49aee3456e9f3dfd07264c347d5"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/ScrollPaddings/ScrollPadding.cs",
+    "category": "factory/other",
+    "sha256": "cf872bc7c840ad07a160542353f1f46930e26c98fe250be1169c280e310dc27f"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/ScrollPaddings/ScrollPaddingBuilder.cs",
+    "category": "builder",
+    "sha256": "46bd5748448ec0a94c0d202d386ee76cc78fd56940d323154e6b3d764db33513"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/ScrollPaddings/ScrollPaddingRule.cs",
+    "category": "rule",
+    "sha256": "47739a7b2fdb78de7acfd7d2819dec32eb614173c30a5c92623b1acf54b2d461"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/ScrollPaddings/ScrollPaddingScaleEnum.cs",
+    "category": "enum/preset",
+    "sha256": "378e8bc4278ef3c5d6534cf36c4fd442b42ac1444aff8b63c6a716cab9072440"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/ScrollSnapAligns/ScrollSnapAlign.cs",
+    "category": "factory/other",
+    "sha256": "d0b40517a36df11941eb1881fe0650b8ab73ddd9b94316b931cef3c50ea5a9a0"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/ScrollSnapAligns/ScrollSnapAlignBuilder.cs",
+    "category": "builder",
+    "sha256": "4d6b9c057e04ea36bc5765d8350b4b9d80bd0fc74ee0cf4653b2a1096e9cd5e6"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/ScrollSnapAligns/ScrollSnapAlignEnum.cs",
+    "category": "enum/preset",
+    "sha256": "a2a603d85b1c2b5ef0288e1d6a36865cc740950a298bc9360b188c506ab2bf13"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/ScrollSnapAligns/ScrollSnapAlignRule.cs",
+    "category": "rule",
+    "sha256": "e90cac212ff78d6cda261d2a16654824e9317eb44a70203276868630955c54f6"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/ScrollSnaps/ScrollSnap.cs",
+    "category": "factory/other",
+    "sha256": "93353eace1817a56c36f636f6710fc73a5c2dd09b16617180d7e87c5af4b3ee3"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/ScrollSnaps/ScrollSnapBuilder.cs",
+    "category": "builder",
+    "sha256": "7b4d920cfe6dbdcc82941f82824de25865868e4eba5d3ad8de820e0f740853f9"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/ScrollSnaps/ScrollSnapEnum.cs",
+    "category": "enum/preset",
+    "sha256": "c838ca352416baf6662e5465802f26343e68965ca9fe1966927ae2f048b568a9"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/ScrollSnaps/ScrollSnapRule.cs",
+    "category": "rule",
+    "sha256": "8d62c38c181bbd1eb0c1f50cefbe6ad28f5c37f030d32840d2f8b05791e137b6"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/ScrollSnapStops/ScrollSnapStop.cs",
+    "category": "factory/other",
+    "sha256": "7aae1bb45df7c5f00e63d2f75f1991ba3497fcbde49d2da34366cd36a937c52c"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/ScrollSnapStops/ScrollSnapStopBuilder.cs",
+    "category": "builder",
+    "sha256": "55854447264468bac348b648aa69777a1bfd9fa9cb46e01ec226eb5555e34e81"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/ScrollSnapStops/ScrollSnapStopEnum.cs",
+    "category": "enum/preset",
+    "sha256": "a8dae8a60a07df210411146c478d3c86881f369fccc6ff63e9c365cd14880494"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/ScrollSnapStops/ScrollSnapStopRule.cs",
+    "category": "rule",
+    "sha256": "13af1768c1bdce949fbd7a0aac8ee648cb525f9804ee412b44486f107cc521ef"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Selects/SelectSizeBuilder.cs",
+    "category": "builder",
+    "sha256": "9068b6c1a1fabf827ceac238176b2f0d3a95d941f96ffc7ae5ff47f05856a26e"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Selects/SelectSizeEnum.cs",
+    "category": "enum/preset",
+    "sha256": "a530e1f500677a1691795126773fcb5e40b0840eb527305b9b6ca8f95308e95c"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Selects/SelectSizes.cs",
+    "category": "factory/other",
+    "sha256": "9238626c14b61440b09399d1c7ff2f670c5a69e3ead1ce7af303060d1badb868"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Selves/Self.cs",
+    "category": "factory/other",
+    "sha256": "70ed3a9288c854868f064ac95404a86bd1e3c13a641515d779d58aaa0f8d1853"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Selves/SelfBuilder.cs",
+    "category": "builder",
+    "sha256": "9fca083d1c4f68df51c4d2d8e51ec6cb9776c9afe2a8f117dd5ced6dd21cb91f"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Selves/SelfEnum.cs",
+    "category": "enum/preset",
+    "sha256": "8098d3ce24eb4d3b241be3e9c0b6f0ad4cccb065be86d3de1725f5c272a2aa16"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Shadows/Shadow.cs",
+    "category": "factory/other",
+    "sha256": "595f6f9015edc246fa27a9bde7469034e17fc985f1ed64f3906811f97256759a"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Shadows/ShadowBuilder.cs",
+    "category": "builder",
+    "sha256": "306962963b40355b4d31ffc42515a8bf35653380e0a5a248a92632e7ae71af03"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Shadows/ShadowKeyword.cs",
+    "category": "factory/other",
+    "sha256": "6ba7dc2d4a7bd9560a970c53f2710cf6ddac1cd010ebd6337b2873c1f4adc1df"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Shadows/ShadowRule.cs",
+    "category": "rule",
+    "sha256": "7892c2e884bb5e5ce592e6bb80463fa7d08767df5d24a9947661ab07285f2949"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Shrinks/Shrink.cs",
+    "category": "factory/other",
+    "sha256": "83392fe033f666b6c7d37194a5bbd97a4a91f2b51cc6678a4ab621e84ce9dbf2"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Shrinks/ShrinkBuilder.cs",
+    "category": "builder",
+    "sha256": "85cc99364a01dc51aa18e199b8bc9d1a7fd7496d50f3a74970c56453fb8a75b3"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Shrinks/ShrinkEnum.cs",
+    "category": "enum/preset",
+    "sha256": "a37be00156154223df45c1f5c7fc7770fbb50a92e7af32796d7490c7566c4795"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Shrinks/ShrinkRule.cs",
+    "category": "rule",
+    "sha256": "7b7c1b96f6152668fdafe0181eb657fd808c3cca42fb432860761dd8eeab2c0e"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Sizes/Size.cs",
+    "category": "factory/other",
+    "sha256": "73dec1abacfd23f46d2e11ed2cacaba8372f3af1b1ab62a2ea3d5dfcdb22dad2"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Sizes/SizeBuilder.cs",
+    "category": "builder",
+    "sha256": "6a0798fa3fc2fbbef70aa53aab6d5fbdd1bc02b55ab878a889b782ec2a6e5a50"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Sizes/SizeRule.cs",
+    "category": "rule",
+    "sha256": "a553d2c1d70e4e747b561da95ec0ee4ac13a5f0951a5d1726f6b5a5b154b30bb"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Sliders/SliderSizeBuilder.cs",
+    "category": "builder",
+    "sha256": "654b4d8766bcb1919e7d34e833aff13c5239b6757da1a8f04c316609bc8198cf"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Sliders/SliderSizeEnum.cs",
+    "category": "enum/preset",
+    "sha256": "480f96a103b3ff8ba13dbe66b92a68138958ac32e95416e97d9ea65077cff0c2"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Sliders/SliderSizes.cs",
+    "category": "factory/other",
+    "sha256": "5b1c53b1086956cfe1b5edc5b150412fa71b57773bb1e785f5951544dea177cc"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Spaces/Space.cs",
+    "category": "factory/other",
+    "sha256": "5452a586cd31e67c17fb82eec95c45d94d96a21133c22e5d4abc32ac3eb708c4"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Spaces/SpaceBuilder.cs",
+    "category": "builder",
+    "sha256": "1ff738845338549ac8b03889021c33dead1f960a4fe27957c152d921ad37c4df"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Spaces/SpaceEnum.cs",
+    "category": "enum/preset",
+    "sha256": "fcafb3127935f17837ba5326804ecb676bf1e43aa55c1ddcb1449428d3792f67"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Spaces/SpaceRule.cs",
+    "category": "rule",
+    "sha256": "5c9fc29f0d83a2f7e6d967458ae377de7368f67ff8b8331bafcd3deafee24ce3"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Starts/Start.cs",
+    "category": "factory/other",
+    "sha256": "8c1b39e054507ac09045d0a58a2ef99f533f9528d8dd200c66f0f0a6dea617cf"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Starts/StartBuilder.cs",
+    "category": "builder",
+    "sha256": "d81cd3d2a304b98aca5cb27afaf0b59fd7ece7cdfea48baae1fef934f45df46e"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Starts/StartEnum.cs",
+    "category": "enum/preset",
+    "sha256": "2de81a3c04cda9c25c4f8fe15f08e894caccf1429ef3f1219fb5bd79c78a50cb"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Starts/StartRule.cs",
+    "category": "rule",
+    "sha256": "6ea3a496eefda8880cc435df935c6752c39dcbe64048effffe7df6f0bc06a497"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Starts/StartScaleEnum.cs",
+    "category": "enum/preset",
+    "sha256": "323fd697b1535ad6e21c2f76e8e1e1e9f30b766a642614129e9b4a83c90a1748"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/StrokeLineCaps/StrokeLineCap.cs",
+    "category": "factory/other",
+    "sha256": "63d83e42303f94aaa1e04d62842f78def0a0333bfa9049a81f23dde79e38ca57"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/StrokeLineCaps/StrokeLineCapBuilder.cs",
+    "category": "builder",
+    "sha256": "c369be31de7cab1c47ef541054fe2ab9fd782e888aef7871bb3fef4c0e7addee"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/StrokeLineCaps/StrokeLineCapEnum.cs",
+    "category": "enum/preset",
+    "sha256": "e683eb9bfa5260554f62e2a24f9551ff54666320c7596104d7dfa85653474ed8"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/StrokeLineCaps/StrokeLineCapRule.cs",
+    "category": "rule",
+    "sha256": "a63a031d1ad4b8c14cf66c3079a8d52cc27f9a54c25d0322317a51bbd5cc3806"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/StrokeLineJoins/StrokeLineJoin.cs",
+    "category": "factory/other",
+    "sha256": "cd29afd618cc39e232ff4cee33aa502fc21a0e3b3110687b315f768ceef9e23f"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/StrokeLineJoins/StrokeLineJoinBuilder.cs",
+    "category": "builder",
+    "sha256": "d0ca1957cb6c5d930643eb82bd761fd78cce59030a1a7d6190f7866de5c4aa68"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/StrokeLineJoins/StrokeLineJoinEnum.cs",
+    "category": "enum/preset",
+    "sha256": "69668de8bfaac8deb7d1b3be1475923b78b70d02324ad683bfc8561638e94d25"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/StrokeLineJoins/StrokeLineJoinRule.cs",
+    "category": "rule",
+    "sha256": "e31285deb0b67a06ffa71acf4097f9c940251b3884c4eb328e6727364bb2048e"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Strokes/Stroke.cs",
+    "category": "factory/other",
+    "sha256": "2efa862ccd1f4bd682a418664b0423334485fe207d5a25a6f296213b38a93bd8"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Strokes/StrokeBuilder.cs",
+    "category": "builder",
+    "sha256": "d05e527f6d5f9c7a64b2d96f640c690c80a601a1b6aba0a788dece63a6ff1e61"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Strokes/StrokeEnum.cs",
+    "category": "enum/preset",
+    "sha256": "065fcbb1a09fde7fc29110cc4e5b0c1af58392f3be25979b22e06d893ec04368"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/StrokeWidths/StrokeWidth.cs",
+    "category": "factory/other",
+    "sha256": "affa609c833b3b4cd59f73ca2775fac7d9594808f81e8cca79b6f71f18824182"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/StrokeWidths/StrokeWidthBuilder.cs",
+    "category": "builder",
+    "sha256": "76373b42bad5160316a8062ffec15d316a6295183b986eee2038523c5d012e1d"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/StrokeWidths/StrokeWidthEnum.cs",
+    "category": "enum/preset",
+    "sha256": "d743b36ff5fddc12357d680ad38d5f6f4255249ad6dc7c5ef07403d3cd9fea85"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/StrokeWidths/StrokeWidthRule.cs",
+    "category": "rule",
+    "sha256": "270f440b46a9aef21c548960a84713c4d64240f5f1e59759ba0b980339c8ba44"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Switches/SwitchSizeBuilder.cs",
+    "category": "builder",
+    "sha256": "5772369ff2c030506aba47339bd0a0740efd353601d744387e00b489d9049d3c"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Switches/SwitchSizeEnum.cs",
+    "category": "enum/preset",
+    "sha256": "25832795a156dc52701c29caadeddc4e63ce44c692a7753587ad1472c1b897b1"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Switches/SwitchSizes.cs",
+    "category": "factory/other",
+    "sha256": "fe679c6ae6662c565a6164a3bbe23c3f8ec05a25fde8d098c47bb38d827e8413"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/TextAligns/TextAlign.cs",
+    "category": "factory/other",
+    "sha256": "64ab1b047334c998a914657fc233ecd6783af5f28ae836a53c17a3e359a36094"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/TextAligns/TextAlignBuilder.cs",
+    "category": "builder",
+    "sha256": "4d68ff0bb5f837e2bc138fe4087d79d744cdc4e034f84ad974049216d98afc13"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/TextBreaks/TextBreak.cs",
+    "category": "factory/other",
+    "sha256": "af621ce531fb65b69252f7d035b35cb6361f62fa162f690407f43e033a7d869a"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/TextBreaks/TextBreakBuilder.cs",
+    "category": "builder",
+    "sha256": "57ceb0a7ddd7dfba40240506ef7e9f7168ae42b2ce75acb334a0a25bba7e53bf"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/TextBreaks/TextBreakEnum.cs",
+    "category": "enum/preset",
+    "sha256": "136b2ae45dceb9e6e720913e728184598a279a5b7cfbe6ea4acfeb8a06a25b0f"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/TextBreaks/TextBreakRule.cs",
+    "category": "rule",
+    "sha256": "25d2a6152325bc369e66d3c2047315e2f8614235a9ef9a6cda811a314e663318"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/TextColors/TextColor.cs",
+    "category": "factory/other",
+    "sha256": "aa0e1f6e76ec34d560a2d4e95b343b5f79364ad3a53ba4a43779810ed4a3c6da"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/TextColors/TextColorBuilder.cs",
+    "category": "builder",
+    "sha256": "e264605dd4a1734dcd481693ddec01f420649642d5dd796eb42f44a55caec84e"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/TextColors/TextColorEnum.cs",
+    "category": "enum/preset",
+    "sha256": "25d798ff3e85bbb70e731c1570fa6c592f900c226babbcdc9166d9835fe5674b"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/TextColors/TextColorRule.cs",
+    "category": "rule",
+    "sha256": "af038d9d51987bd19732d5fa0b7b46b293888598323ad0061204961e2a9288e5"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/TextOverflows/TextOverflow.cs",
+    "category": "factory/other",
+    "sha256": "f7bdbac6463cf3d42c75e3e030015c2a8d51caa00ea195a9506fff44dba7d03d"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/TextOverflows/TextOverflowBuilder.cs",
+    "category": "builder",
+    "sha256": "71f34dc06d18eeb688f669e51196f5e016fe7f1c0d2fa17d661ea6f46a06566c"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/TextOverflows/TextOverflowEnum.cs",
+    "category": "enum/preset",
+    "sha256": "74c54bbe5eae8342ea00e012a359550877c0fb07c17917d6a425cba6f1793f68"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/TextOverflows/TextOverflowRule.cs",
+    "category": "rule",
+    "sha256": "1c091d551100f51fe2597de0ffaaaaa82eb824826f109d847f642968d44fd853"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/TextSizes/TextSize.cs",
+    "category": "factory/other",
+    "sha256": "d47f27123051677e1f7f3f54816f6c7e8d7aa2f787ca8c72780f6be8a6fab41a"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/TextSizes/TextSizeBuilder.cs",
+    "category": "builder",
+    "sha256": "11ef55e810415abd948209b99fe01a9975f430ea029f4518322a325b936c08f0"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/TextSizes/TextSizeRule.cs",
+    "category": "rule",
+    "sha256": "59e785f9f01e95f76b3bf17d991d3b548fc29f80f30927c54076ed707cf92c72"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/TextTransforms/TextTransform.cs",
+    "category": "factory/other",
+    "sha256": "d6111ceaf595044e62f9e4b1b1f08b0b646ae2dafe00e2503ec0ff3ae41a6984"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/TextTransforms/TextTransformBuilder.cs",
+    "category": "builder",
+    "sha256": "2d0b88b6d76ef044b3aaa678c9f5f6da0af14d1a08ec2ffa9e8bd6d9737846cd"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/TextTransforms/TextTransformRule.cs",
+    "category": "rule",
+    "sha256": "7595ab99b7e70cb800c2f4d716b77caec8801fce460d6bb76ac8323dce9f2ea5"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/TextWraps/TextWrap.cs",
+    "category": "factory/other",
+    "sha256": "5a3bb65bc1d6077ef8ec7452b222bb77440bc203fbb876b69f6ead693081fdbd"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/TextWraps/TextWrapBuilder.cs",
+    "category": "builder",
+    "sha256": "c6b276660eb7e04478d459f737c1f7bdb298910023c02d10e277751ea677e766"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/TextWraps/TextWrapEnum.cs",
+    "category": "enum/preset",
+    "sha256": "236aa78a898d8c01225bad651e86d579dc9e20b913f3e1f2daaa5b90de48eb06"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/TextWraps/TextWrapRule.cs",
+    "category": "rule",
+    "sha256": "c690f0d1019221c4247b16c8a7785ac49bd8dfc4e82942ea72f48db02544e5cd"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Tops/Top.cs",
+    "category": "factory/other",
+    "sha256": "b85d3d9998903c854ba1e90b93bc65b934eefe00134fcdf9f3a5bfaff1baf46d"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Tops/TopBuilder.cs",
+    "category": "builder",
+    "sha256": "0154d4f638aa94d6ee9052904597ddcbdf58356f26410ad355c56f65cd45e292"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Tops/TopEnum.cs",
+    "category": "enum/preset",
+    "sha256": "6210f3f13498a63430f2f4b3af226da074af9bee23697290e719ab8a0a31e26a"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Tops/TopRule.cs",
+    "category": "rule",
+    "sha256": "59d3fe410a8ea55a5df393108613a4c3bc35fbb475668905cdc2a2c62807a30c"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/TouchActions/TouchAction.cs",
+    "category": "factory/other",
+    "sha256": "8db67a128728ea83367cc6d288fefc1de57d5ad8f9c3b1fd0c3df9d6485e03e9"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/TouchActions/TouchActionBuilder.cs",
+    "category": "builder",
+    "sha256": "e2dc390390a91288afdfb1f48c8586a9dea479daa41dfc0753b9e5823cb16094"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/TouchActions/TouchActionEnum.cs",
+    "category": "enum/preset",
+    "sha256": "1602c6482bf5f7c44a187e608f91e29a8c623400c61d6487d51c420745e7df9a"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Trackings/Tracking.cs",
+    "category": "factory/other",
+    "sha256": "634e4b0d3af2efdf807ab2725f8feb5d3ae875e494d7e6ed8c7f31fbc3c40a22"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Trackings/TrackingBuilder.cs",
+    "category": "builder",
+    "sha256": "f54447fa27156c5d1403ba4db9398cc80ec908b14055f1e3096050cdc06e37c8"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Trackings/TrackingEnum.cs",
+    "category": "enum/preset",
+    "sha256": "53bd9a25c27dbd32259e922ce53109c61d088a1bc8e6fda80314d514e14627b3"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Trackings/TrackingRule.cs",
+    "category": "rule",
+    "sha256": "6c685ae941193b1afde25d8fbe7a760715719914d827b268b88760bc81e6d572"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Transforms/Transform.cs",
+    "category": "factory/other",
+    "sha256": "4f1dbe7d57a82a2247f861c57758535eeedd7399dd52fad2f6f6a99ccb305e1b"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Transforms/TransformBuilder.cs",
+    "category": "builder",
+    "sha256": "bd460f7a1ccd9e5c10be96c8556cec38660782e79ebcb51347eab50cb5d90f6b"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Transforms/TransformEnum.cs",
+    "category": "enum/preset",
+    "sha256": "7fd7139d1b2fe9ddf9125ed078d8216a44976279908ec57650f59f6acf307cfa"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Transitions/Transition.cs",
+    "category": "factory/other",
+    "sha256": "252820a8d769aed3cffa8459e392178e3a13278c707c871210607641cea917e8"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Transitions/TransitionBuilder.cs",
+    "category": "builder",
+    "sha256": "d8bc728f8b553e48b034edea1c11d986a51a56dce59fc2e154ab156b1c323f50"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Transitions/TransitionEnum.cs",
+    "category": "enum/preset",
+    "sha256": "2c3980c99bf684833ebbbcb18ba2007f7fc8d567f813eb300107e90d274d97a6"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Transitions/TransitionRule.cs",
+    "category": "rule",
+    "sha256": "9db00869a11cf5fdea38ae724669a4efd6b74f73681ede8ea6c33b4e9d15292c"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Truncates/Truncate.cs",
+    "category": "factory/other",
+    "sha256": "a3277a242a1bce66628e0ca223bb624bf98eae874a01ed113c5d86d034059df4"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Truncates/TruncateBuilder.cs",
+    "category": "builder",
+    "sha256": "5322fbde7d3bcdd6f119c5e633d5a562b2e29718bf89523340b8832a809d2819"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Truncates/TruncateEnum.cs",
+    "category": "enum/preset",
+    "sha256": "31b837cbe72bf64873f1a29e0b9549614300cd3cecae999a6a7bc809de940610"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Truncates/TruncateRule.cs",
+    "category": "rule",
+    "sha256": "b827af12023f8df73047cca1e9a9e309d599ae06fc85fe744be1c20a4e82de76"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/UnderlineOffsets/UnderlineOffset.cs",
+    "category": "factory/other",
+    "sha256": "704f397259c69afcf774cb28e8277738ca8436461f5427a190219d3087b97d15"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/UnderlineOffsets/UnderlineOffsetBuilder.cs",
+    "category": "builder",
+    "sha256": "1386030852c272dc91b99f33628e4e03113bdf436b7bd811f3623dfb3e5b83ca"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/UnderlineOffsets/UnderlineOffsetEnum.cs",
+    "category": "enum/preset",
+    "sha256": "bf4078cad3ee7657339f53c705c0bae1dea8cf380639632eaed6ded79fb2e578"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/UserSelects/UserSelect.cs",
+    "category": "factory/other",
+    "sha256": "8173eeebb464e13d95a6a14d0a6304f630d5c37ea647792312e0848ba7e282c8"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/UserSelects/UserSelectBuilder.cs",
+    "category": "builder",
+    "sha256": "1a0bd097f3c8c6c221f9a274b1b06de21a0dec4f8f7bc3e998205b83e249a5c6"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/UserSelects/UserSelectEnum.cs",
+    "category": "enum/preset",
+    "sha256": "9f3c21c836a9a722cc9fd2e23a64636b67b55a526b3afa49887a33da360da563"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/UserSelects/UserSelectRule.cs",
+    "category": "rule",
+    "sha256": "55fb2ffd8ed9ca11af57ff66e7ce1346eebc032102f7e57190e2c3cc71641b52"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Utils/BreakpointUtil.cs",
+    "category": "helper/abstraction",
+    "sha256": "fff5c02541348756beca2909908b1c288c004235f884ca2f34fd8bf1beec32de"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Utils/ClassTokens.cs",
+    "category": "helper/abstraction",
+    "sha256": "1e2f24346963dbc58c0e1d43bc078017d3b7d70b7b8f57c791077805d27d87f7"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Utils/ClassWriter.cs",
+    "category": "helper/abstraction",
+    "sha256": "724298b172cacd5f2b0351074e3eb1c8e89f2acbd235e6318adc931a8bf5dd06"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Utils/CssValueBuilderExtensions.cs",
+    "category": "helper/abstraction",
+    "sha256": "57bbcf0e50a0e408e4a68565fb0e225a31a7ee9968f504c7a35dea4e8750c15c"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Utils/RuleList.cs",
+    "category": "helper/abstraction",
+    "sha256": "48578a822d5e4c3c74e763c2f65715522e0f1e557187fbc0e69d3e3a2d8a9c00"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Utils/TokenRenderer.cs",
+    "category": "helper/abstraction",
+    "sha256": "a9b2894e7f563ed88fdcfd411c97988dbf7573534b7c9e6e0797b680254f16a7"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Utils/UtilityToken.cs",
+    "category": "helper/abstraction",
+    "sha256": "cf2b3c39fbde5db6707a607d9b212dfd26e27d9ec259a4cae64443114482e84a"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Variants/Variant.cs",
+    "category": "factory/other",
+    "sha256": "c3eacb73f2590bb230818450233b017bb2c1c9e7a85943e682dd37d8d747959f"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Variants/VariantBuilder.cs",
+    "category": "builder",
+    "sha256": "9b14bc99c665d407e8bb5ccebc60498823f8716c6f7b87b87cc1a1dd8a414083"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/VerticalAligns/VerticalAlign.cs",
+    "category": "factory/other",
+    "sha256": "7acc13374924690b0be715e4dce83e5d36d65e47cff0f79a4688dd299a2182a2"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/VerticalAligns/VerticalAlignBuilder.cs",
+    "category": "builder",
+    "sha256": "9324626227bde6cfb5f6ad333b52e5fea6b0052f96caddaf27726d0538cb76f4"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/VerticalAligns/VerticalAlignEnum.cs",
+    "category": "enum/preset",
+    "sha256": "bfc453915829c5a86ac4c793c1f4035f3aacabdd496668c359fd3cdc2cf598ef"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/VerticalAligns/VerticalAlignRule.cs",
+    "category": "rule",
+    "sha256": "73a4ada63841b962a4e2cc166904970fea9076ea30775ddd931c1dacc3679816"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Visibilities/Visibility.cs",
+    "category": "factory/other",
+    "sha256": "f01262c62af56e35387e82fa8e40ba68f55b2c4c1dab23e266ca341b8f984645"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Visibilities/VisibilityBuilder.cs",
+    "category": "builder",
+    "sha256": "81641d527fefbf17bb3bc0613bddb2426264e9f4fb399709ca598fd471066293"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Visibilities/VisibilityEnum.cs",
+    "category": "enum/preset",
+    "sha256": "010347d1d3bee31a8f42dd8a6bc27d48abee5bcb47d8d994ea9557a89a1a5004"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Visibilities/VisibilityRule.cs",
+    "category": "rule",
+    "sha256": "df184f6f298b3634661c8c65a53cfe255124a89f3bdd65c3296af5bb77f84dac"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Whitespaces/Whitespace.cs",
+    "category": "factory/other",
+    "sha256": "734c4cd367e9bcb1079780f021f44865e2ce75b79409d7a69285b21bf4b97e59"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Whitespaces/WhitespaceBuilder.cs",
+    "category": "builder",
+    "sha256": "64923d332e37a21c58a46b8ed838807bb97e356ef756d1cf5a136977f8909c2f"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Whitespaces/WhitespaceEnum.cs",
+    "category": "enum/preset",
+    "sha256": "91ac8792e91de23982614fe22962cbef5a39583c4e461a4c8258ad50dc67440e"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Whitespaces/WhitespaceRule.cs",
+    "category": "rule",
+    "sha256": "553e99e7193ac55f23e49f19d4cf62f21c2b1dbf6fe8958f1d32b55f4ba46707"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Widths/MaxWidth.cs",
+    "category": "factory/other",
+    "sha256": "bc5684572dc7ba60114bd8e19a2f8f2ac94a883723dbfcdb6582c9caacca3fcd"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Widths/MaxWidthBuilder.cs",
+    "category": "builder",
+    "sha256": "ef04952cb7329abbf1a7dbca213dbe9a0d89d8a07b7d5b0ae09aa6f2b84c16f4"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Widths/MinWidth.cs",
+    "category": "factory/other",
+    "sha256": "1e54315aa222c05568ef39ecf83ccb7b9667e0f9a30fffab36065394f53b24e4"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Widths/MinWidthBuilder.cs",
+    "category": "builder",
+    "sha256": "9605dbe142b44fae121009730f5486cf07b5abb4f91122fd997a679159d7fcc4"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Widths/Width.cs",
+    "category": "factory/other",
+    "sha256": "169c567a114e68fbe0c2db4d9bd5c39f2705a4323d5e5725d7b1f6a5cb781e75"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Widths/WidthBuilder.cs",
+    "category": "builder",
+    "sha256": "495ad09452c8101761fd19af46445b6dd193cce0f39d015bb73ea436c74ebd7c"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/Widths/WidthRule.cs",
+    "category": "rule",
+    "sha256": "580260489330a51f6b6b4acecf5ad8392a4141363c7be9b7a91927aec89d4ec2"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/WillChanges/WillChange.cs",
+    "category": "factory/other",
+    "sha256": "75b397a3ac765fdd9b5e4e4c94fb0ebde33b83dd87a5ced0f42e31158c8ac81b"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/WillChanges/WillChangeBuilder.cs",
+    "category": "builder",
+    "sha256": "18323d91b67fd74d4a54505094633507c60b4a6c1241ae361aae2f12398ed6c2"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/WillChanges/WillChangeEnum.cs",
+    "category": "enum/preset",
+    "sha256": "6debf1685af6caf17602d7852d31651f50c9b7e574f96a75873c34b636f0a6cf"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/ZIndexes/ZIndex.cs",
+    "category": "factory/other",
+    "sha256": "3ed554cb468ef639bc54cd3ddb5ec8a30a03b3184dbbe5e6d9043ad166570139"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/ZIndexes/ZIndexBuilder.cs",
+    "category": "builder",
+    "sha256": "7a1dfc458f66360243e93c43ea8ac1829f924360b1b485cb7236c679dae76d60"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/ZIndexes/ZIndexEnum.cs",
+    "category": "enum/preset",
+    "sha256": "0639f47146c05f1db2e27548e5a4bede10fe802930a2772d14654157dcafbc38"
+  },
+  {
+    "path": "src/Soenneker.Quark.Builders/ZIndexes/ZIndexRule.cs",
+    "category": "rule",
+    "sha256": "305de6253d2d306a6eb507b4fdeb98d83ca652128606480adb3fdae038e65a9a"
+  }
+]

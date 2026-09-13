@@ -11,7 +11,7 @@ namespace Soenneker.Quark;
 [TailwindPrefix("line-clamp-", Responsive = true)]
 public sealed class LineClampBuilder : CssBuilderBase<LineClampBuilder>
 {
-    private readonly List<LineClampRule> _rules = new(4);
+    private RuleList<LineClampRule> _rules;
 
     internal LineClampBuilder()
     {
@@ -36,31 +36,31 @@ public sealed class LineClampBuilder : CssBuilderBase<LineClampBuilder>
     /// <summary>
     /// Gets or sets none.
     /// </summary>
-    public LineClampBuilder None => Chain(LineClampEnum.None);
+    public LineClampBuilder None => Chain(LineClampEnum.NoneValue);
     /// <summary>
     /// Gets or sets is1.
     /// </summary>
-    public LineClampBuilder Is1 => Chain(LineClampEnum.Is1);
+    public LineClampBuilder Is1 => Chain(LineClampEnum.Is1Value);
     /// <summary>
     /// Gets or sets is2.
     /// </summary>
-    public LineClampBuilder Is2 => Chain(LineClampEnum.Is2);
+    public LineClampBuilder Is2 => Chain(LineClampEnum.Is2Value);
     /// <summary>
     /// Gets or sets is3.
     /// </summary>
-    public LineClampBuilder Is3 => Chain(LineClampEnum.Is3);
+    public LineClampBuilder Is3 => Chain(LineClampEnum.Is3Value);
     /// <summary>
     /// Gets or sets is4.
     /// </summary>
-    public LineClampBuilder Is4 => Chain(LineClampEnum.Is4);
+    public LineClampBuilder Is4 => Chain(LineClampEnum.Is4Value);
     /// <summary>
     /// Gets or sets is5.
     /// </summary>
-    public LineClampBuilder Is5 => Chain(LineClampEnum.Is5);
+    public LineClampBuilder Is5 => Chain(LineClampEnum.Is5Value);
     /// <summary>
     /// Gets or sets is6.
     /// </summary>
-    public LineClampBuilder Is6 => Chain(LineClampEnum.Is6);
+    public LineClampBuilder Is6 => Chain(LineClampEnum.Is6Value);
     /// <summary>
     /// Adds an arbitrary line clamp utility token to the class list.
     /// </summary>
@@ -82,45 +82,30 @@ public sealed class LineClampBuilder : CssBuilderBase<LineClampBuilder>
         return this;
     }
 
-    /// <summary>
-    /// Executes the to class operation.
-    /// </summary>
-    /// <returns>The result of the operation.</returns>
     public override string ToClass()
     {
         if (_rules.Count == 0)
             return string.Empty;
-
-        using var sb = new PooledStringBuilder();
-        var first = true;
-
-        for (var i = 0; i < _rules.Count; i++)
+        if (_rules.Count == 1)
         {
-            string cls = _rules[i].Value;
-            if (cls.Length == 0)
-                continue;
-
-            LineClampRule rule = _rules[i];
-
-            string breakpoint = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
-            if (breakpoint.Length != 0)
-                cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, breakpoint);
-
-            if (rule.ModifierChain is { Length: > 0 })
-                cls = BreakpointUtil.ApplyTailwindModifiers(cls, rule.ModifierChain);
-
-            if (!first)
-                sb.Append(' ');
-            else
-                first = false;
-
-            if (_rules.Count == 1)
-                return cls ?? string.Empty;
-
-            sb.Append(cls);
+            LineClampRule rule = _rules[0];
+            return ClassWriter.Render(rule.Value, BreakpointUtil.GetBreakpointToken(rule.Breakpoint), rule.ModifierChain);
         }
 
-        return sb.ToString();
+        var writer = new ClassWriter();
+        try
+        {
+            for (var i = 0; i < _rules.Count; i++)
+            {
+                LineClampRule rule = _rules[i];
+                writer.Add(rule.Value, BreakpointUtil.GetBreakpointToken(rule.Breakpoint), rule.ModifierChain);
+            }
+            return writer.ToString();
+        }
+        finally
+        {
+            writer.Dispose();
+        }
     }
 
     /// <summary>

@@ -13,7 +13,7 @@ namespace Soenneker.Quark;
 [TailwindPrefix("ring-", Responsive = true)]
 public sealed class RingColorBuilder : ColorBuilderBase<RingColorBuilder>
 {
-    private readonly List<RingColorRule> _rules = new(4);
+    private RuleList<RingColorRule> _rules;
 
     internal RingColorBuilder()
     {
@@ -172,44 +172,30 @@ public sealed class RingColorBuilder : ColorBuilderBase<RingColorBuilder>
     }
 
 
-    /// <summary>
-    /// Executes the to class operation.
-    /// </summary>
-    /// <returns>The result of the operation.</returns>
     public override string ToClass()
     {
         if (_rules.Count == 0)
             return string.Empty;
-
-        using var sb = new PooledStringBuilder();
-        var first = true;
-
-        for (var i = 0; i < _rules.Count; i++)
+        if (_rules.Count == 1)
         {
-            RingColorRule rule = _rules[i];
-            string cls = rule.Value;
-            if (cls.Length == 0)
-                continue;
-
-            string breakpoint = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
-            if (breakpoint.Length != 0)
-                cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, breakpoint);
-
-            if (rule.ModifierChain is { Length: > 0 })
-                cls = BreakpointUtil.ApplyTailwindModifiers(cls, rule.ModifierChain);
-
-            if (!first)
-                sb.Append(' ');
-            else
-                first = false;
-
-            if (_rules.Count == 1)
-                return cls ?? string.Empty;
-
-            sb.Append(cls);
+            RingColorRule rule = _rules[0];
+            return ClassWriter.Render(rule.Value, BreakpointUtil.GetBreakpointToken(rule.Breakpoint), rule.ModifierChain);
         }
 
-        return sb.ToString();
+        var writer = new ClassWriter();
+        try
+        {
+            for (var i = 0; i < _rules.Count; i++)
+            {
+                RingColorRule rule = _rules[i];
+                writer.Add(rule.Value, BreakpointUtil.GetBreakpointToken(rule.Breakpoint), rule.ModifierChain);
+            }
+            return writer.ToString();
+        }
+        finally
+        {
+            writer.Dispose();
+        }
     }
 
     /// <summary>

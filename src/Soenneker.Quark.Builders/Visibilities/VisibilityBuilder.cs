@@ -12,7 +12,7 @@ namespace Soenneker.Quark;
 [TailwindPrefix("visible", Responsive = true)]
 public sealed class VisibilityBuilder : CssBuilderBase<VisibilityBuilder>
 {
-    private readonly List<VisibilityRule> _rules = new(4);
+    private RuleList<VisibilityRule> _rules;
 
     internal VisibilityBuilder()
     {
@@ -53,39 +53,28 @@ public sealed class VisibilityBuilder : CssBuilderBase<VisibilityBuilder>
 	/// <returns>The CSS class string.</returns>
     public override string ToClass()
     {
-        if (_rules.Count == 0) return string.Empty;
-
-        using var sb = new PooledStringBuilder();
-        var first = true;
-        for (var i = 0; i < _rules.Count; i++)
+        if (_rules.Count == 0)
+            return string.Empty;
+        if (_rules.Count == 1)
         {
-            VisibilityRule rule = _rules[i];
-            string cls;
-            if (ReferenceEquals(rule.Value, VisibilityEnum.Visible))
-                cls = VisibilityEnum.VisibleValue;
-            else if (ReferenceEquals(rule.Value, VisibilityEnum.Invisible))
-                cls = VisibilityEnum.InvisibleValue;
-            else
-                cls = string.Empty;
-            if (cls.Length == 0)
-                continue;
-
-            string bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
-            if (bp.Length != 0)
-                cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, bp);
-
-            if (rule.ModifierChain is { Length: > 0 })
-                cls = BreakpointUtil.ApplyTailwindModifiers(cls, rule.ModifierChain);
-
-            if (!first) sb.Append(' ');
-            else first = false;
-
-            if (_rules.Count == 1)
-                return cls ?? string.Empty;
-
-            sb.Append(cls);
+            VisibilityRule rule = _rules[0];
+            return ClassWriter.Render(ReferenceEquals(rule.Value, VisibilityEnum.Visible) ? VisibilityEnum.VisibleValue : ReferenceEquals(rule.Value, VisibilityEnum.Invisible) ? VisibilityEnum.InvisibleValue : string.Empty, BreakpointUtil.GetBreakpointToken(rule.Breakpoint), rule.ModifierChain);
         }
-        return sb.ToString();
+
+        var writer = new ClassWriter();
+        try
+        {
+            for (var i = 0; i < _rules.Count; i++)
+            {
+                VisibilityRule rule = _rules[i];
+                writer.Add(ReferenceEquals(rule.Value, VisibilityEnum.Visible) ? VisibilityEnum.VisibleValue : ReferenceEquals(rule.Value, VisibilityEnum.Invisible) ? VisibilityEnum.InvisibleValue : string.Empty, BreakpointUtil.GetBreakpointToken(rule.Breakpoint), rule.ModifierChain);
+            }
+            return writer.ToString();
+        }
+        finally
+        {
+            writer.Dispose();
+        }
     }
 
 	/// <summary>

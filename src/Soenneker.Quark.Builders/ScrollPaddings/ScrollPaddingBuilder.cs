@@ -1,3 +1,4 @@
+using System;
 
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
@@ -11,7 +12,7 @@ namespace Soenneker.Quark;
 [TailwindPrefix("scroll-p", Responsive = true)]
 public sealed class ScrollPaddingBuilder : CssBuilderBase<ScrollPaddingBuilder>
 {
-    private readonly List<ScrollPaddingRule> _rules = new(4);
+    private RuleList<ScrollPaddingRule> _rules;
     private ElementSideEnum? _pendingSide;
 
     internal ScrollPaddingBuilder()
@@ -74,35 +75,35 @@ public sealed class ScrollPaddingBuilder : CssBuilderBase<ScrollPaddingBuilder>
     /// <summary>
     /// Spacing/sizing scale step `0` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 0` for integer spacing utilities unless overridden).
     /// </summary>
-    public ScrollPaddingBuilder Is0 => ChainWithSize(ScrollPaddingScaleEnum.Is0);
+    public ScrollPaddingBuilder Is0 => ChainWithSize(ScrollPaddingScaleEnum.Is0Value);
     /// <summary>
     /// Spacing/sizing scale step `1` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 1` for integer spacing utilities unless overridden).
     /// </summary>
-    public ScrollPaddingBuilder Is1 => ChainWithSize(ScrollPaddingScaleEnum.Is1);
+    public ScrollPaddingBuilder Is1 => ChainWithSize(ScrollPaddingScaleEnum.Is1Value);
     /// <summary>
     /// Spacing/sizing scale step `1.5` — uses Tailwind’s default spacing scale.
     /// </summary>
-    public ScrollPaddingBuilder Is1_5 => ChainWithSize(ScrollPaddingScaleEnum.Is1_5);
+    public ScrollPaddingBuilder Is1_5 => ChainWithSize(ScrollPaddingScaleEnum.Is1_5Value);
     /// <summary>
     /// Spacing/sizing scale step `2` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 2` for integer spacing utilities unless overridden).
     /// </summary>
-    public ScrollPaddingBuilder Is2 => ChainWithSize(ScrollPaddingScaleEnum.Is2);
+    public ScrollPaddingBuilder Is2 => ChainWithSize(ScrollPaddingScaleEnum.Is2Value);
     /// <summary>
     /// Spacing/sizing scale step `3` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 3` for integer spacing utilities unless overridden).
     /// </summary>
-    public ScrollPaddingBuilder Is3 => ChainWithSize(ScrollPaddingScaleEnum.Is3);
+    public ScrollPaddingBuilder Is3 => ChainWithSize(ScrollPaddingScaleEnum.Is3Value);
     /// <summary>
     /// Spacing/sizing scale step `4` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 4` for integer spacing utilities unless overridden).
     /// </summary>
-    public ScrollPaddingBuilder Is4 => ChainWithSize(ScrollPaddingScaleEnum.Is4);
+    public ScrollPaddingBuilder Is4 => ChainWithSize(ScrollPaddingScaleEnum.Is4Value);
     /// <summary>
     /// Spacing/sizing scale step `5` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 5` for integer spacing utilities unless overridden).
     /// </summary>
-    public ScrollPaddingBuilder Is5 => ChainWithSize(ScrollPaddingScaleEnum.Is5);
+    public ScrollPaddingBuilder Is5 => ChainWithSize(ScrollPaddingScaleEnum.Is5Value);
     /// <summary>
     /// One pixel (`px` unit) — hairline borders, fixed 1px tracks, etc.
     /// </summary>
-    public ScrollPaddingBuilder Px => ChainWithSize(ScrollPaddingScaleEnum.Px);
+    public ScrollPaddingBuilder Px => ChainWithSize(ScrollPaddingScaleEnum.PxValue);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private ScrollPaddingBuilder AddRule(ElementSideEnum side)
@@ -129,25 +130,30 @@ public sealed class ScrollPaddingBuilder : CssBuilderBase<ScrollPaddingBuilder>
         return this;
     }
 
-    /// <summary>
-    /// Executes the to class operation.
-    /// </summary>
-    /// <returns>The result of the operation.</returns>
     public override string ToClass()
     {
-        if (_rules.Count == 0) return string.Empty;
-        using var sb = new PooledStringBuilder();
-        var first = true;
-        for (var i = 0; i < _rules.Count; i++)
+        if (_rules.Count == 0)
+            return string.Empty;
+        if (_rules.Count == 1)
         {
-            ScrollPaddingRule rule = _rules[i];
-            string baseClass = BuildClass(rule);
-            if (baseClass.Length == 0) continue;
-            if (!first) sb.Append(' ');
-            else first = false;
-            sb.Append(baseClass);
+            ScrollPaddingRule rule = _rules[0];
+            return ClassWriter.Render(ApplySide(rule.Size, rule.Side), BreakpointUtil.GetBreakpointToken(rule.Breakpoint), rule.ModifierChain);
         }
-        return sb.ToString();
+
+        var writer = new ClassWriter();
+        try
+        {
+            for (var i = 0; i < _rules.Count; i++)
+            {
+                ScrollPaddingRule rule = _rules[i];
+                writer.Add(ApplySide(rule.Size, rule.Side), BreakpointUtil.GetBreakpointToken(rule.Breakpoint), rule.ModifierChain);
+            }
+            return writer.ToString();
+        }
+        finally
+        {
+            writer.Dispose();
+        }
     }
 
     /// <summary>
@@ -162,22 +168,6 @@ public sealed class ScrollPaddingBuilder : CssBuilderBase<ScrollPaddingBuilder>
     /// <returns>The result of the operation.</returns>
     public override string ToString() => ToClass();
 
-    private static string BuildClass(ScrollPaddingRule rule)
-    {
-        string cls = ApplySide(rule.Size, rule.Side);
-        if (cls.Length == 0)
-            return string.Empty;
-
-        string bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
-        if (bp.Length != 0)
-            cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, bp);
-
-        if (rule.ModifierChain is { Length: > 0 })
-            cls = BreakpointUtil.ApplyTailwindModifiers(cls, rule.ModifierChain);
-
-        return cls;
-    }
-
     private static string ApplySide(string sizeClass, ElementSideEnum side)
     {
         if (sizeClass.Length == 0)
@@ -186,7 +176,7 @@ public sealed class ScrollPaddingBuilder : CssBuilderBase<ScrollPaddingBuilder>
         if (ReferenceEquals(side, ElementSideEnum.All))
             return sizeClass;
 
-        return sizeClass.StartsWith("scroll-p-") ? "scroll-p" + side.Value + sizeClass["scroll-p".Length..] : sizeClass;
+        return sizeClass.StartsWith("scroll-p-") ? string.Concat("scroll-p", side.Value, sizeClass.AsSpan("scroll-p".Length)) : sizeClass;
     }
 
 }

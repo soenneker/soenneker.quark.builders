@@ -11,7 +11,7 @@ namespace Soenneker.Quark;
 [TailwindPrefix("mix-blend-", Responsive = true)]
 public sealed class MixBlendModeBuilder : CssBuilderBase<MixBlendModeBuilder>
 {
-    private readonly List<MixBlendModeRule> _rules = new(4);
+    private RuleList<MixBlendModeRule> _rules;
 
     internal MixBlendModeBuilder()
     {
@@ -36,75 +36,75 @@ public sealed class MixBlendModeBuilder : CssBuilderBase<MixBlendModeBuilder>
     /// <summary>
     /// Fluent step for `Normal` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public MixBlendModeBuilder Normal => Chain(MixBlendModeEnum.Normal);
+    public MixBlendModeBuilder Normal => Chain(MixBlendModeEnum.NormalValue);
     /// <summary>
     /// Fluent step for `Multiply` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public MixBlendModeBuilder Multiply => Chain(MixBlendModeEnum.Multiply);
+    public MixBlendModeBuilder Multiply => Chain(MixBlendModeEnum.MultiplyValue);
     /// <summary>
     /// Viewport-relative size (e.g. `w-screen`, `min-h-screen`) tied to the viewport width/height.
     /// </summary>
-    public MixBlendModeBuilder Screen => Chain(MixBlendModeEnum.Screen);
+    public MixBlendModeBuilder Screen => Chain(MixBlendModeEnum.ScreenValue);
     /// <summary>
     /// Fluent step for `Overlay` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public MixBlendModeBuilder Overlay => Chain(MixBlendModeEnum.Overlay);
+    public MixBlendModeBuilder Overlay => Chain(MixBlendModeEnum.OverlayValue);
     /// <summary>
     /// Fluent step for `Darken` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public MixBlendModeBuilder Darken => Chain(MixBlendModeEnum.Darken);
+    public MixBlendModeBuilder Darken => Chain(MixBlendModeEnum.DarkenValue);
     /// <summary>
     /// Fluent step for `Lighten` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public MixBlendModeBuilder Lighten => Chain(MixBlendModeEnum.Lighten);
+    public MixBlendModeBuilder Lighten => Chain(MixBlendModeEnum.LightenValue);
     /// <summary>
     /// Fluent step for `Color Dodge` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public MixBlendModeBuilder ColorDodge => Chain(MixBlendModeEnum.ColorDodge);
+    public MixBlendModeBuilder ColorDodge => Chain(MixBlendModeEnum.ColorDodgeValue);
     /// <summary>
     /// Fluent step for `Color Burn` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public MixBlendModeBuilder ColorBurn => Chain(MixBlendModeEnum.ColorBurn);
+    public MixBlendModeBuilder ColorBurn => Chain(MixBlendModeEnum.ColorBurnValue);
     /// <summary>
     /// Fluent step for `Hard Light` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public MixBlendModeBuilder HardLight => Chain(MixBlendModeEnum.HardLight);
+    public MixBlendModeBuilder HardLight => Chain(MixBlendModeEnum.HardLightValue);
     /// <summary>
     /// Fluent step for `Soft Light` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public MixBlendModeBuilder SoftLight => Chain(MixBlendModeEnum.SoftLight);
+    public MixBlendModeBuilder SoftLight => Chain(MixBlendModeEnum.SoftLightValue);
     /// <summary>
     /// Fluent step for `Difference` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public MixBlendModeBuilder Difference => Chain(MixBlendModeEnum.Difference);
+    public MixBlendModeBuilder Difference => Chain(MixBlendModeEnum.DifferenceValue);
     /// <summary>
     /// Fluent step for `Exclusion` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public MixBlendModeBuilder Exclusion => Chain(MixBlendModeEnum.Exclusion);
+    public MixBlendModeBuilder Exclusion => Chain(MixBlendModeEnum.ExclusionValue);
     /// <summary>
     /// Fluent step for `Hue` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public MixBlendModeBuilder Hue => Chain(MixBlendModeEnum.Hue);
+    public MixBlendModeBuilder Hue => Chain(MixBlendModeEnum.HueValue);
     /// <summary>
     /// Fluent step for `Saturation` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public MixBlendModeBuilder Saturation => Chain(MixBlendModeEnum.Saturation);
+    public MixBlendModeBuilder Saturation => Chain(MixBlendModeEnum.SaturationValue);
     /// <summary>
     /// Fluent step for `Color` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public MixBlendModeBuilder Color => Chain(MixBlendModeEnum.Color);
+    public MixBlendModeBuilder Color => Chain(MixBlendModeEnum.ColorValue);
     /// <summary>
     /// Fluent step for `Luminosity` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public MixBlendModeBuilder Luminosity => Chain(MixBlendModeEnum.Luminosity);
+    public MixBlendModeBuilder Luminosity => Chain(MixBlendModeEnum.LuminosityValue);
     /// <summary>
     /// Fluent step for `Plus Darker` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public MixBlendModeBuilder PlusDarker => Chain(MixBlendModeEnum.PlusDarker);
+    public MixBlendModeBuilder PlusDarker => Chain(MixBlendModeEnum.PlusDarkerValue);
     /// <summary>
     /// Fluent step for `Plus Lighter` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>
-    public MixBlendModeBuilder PlusLighter => Chain(MixBlendModeEnum.PlusLighter);
+    public MixBlendModeBuilder PlusLighter => Chain(MixBlendModeEnum.PlusLighterValue);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private MixBlendModeBuilder Chain(string value)
@@ -120,30 +120,30 @@ public sealed class MixBlendModeBuilder : CssBuilderBase<MixBlendModeBuilder>
         return this;
     }
 
-    /// <summary>
-    /// Executes the to class operation.
-    /// </summary>
-    /// <returns>The result of the operation.</returns>
     public override string ToClass()
     {
-        if (_rules.Count == 0) return string.Empty;
-        using var sb = new PooledStringBuilder();
-        var first = true;
-        foreach (MixBlendModeRule rule in _rules)
+        if (_rules.Count == 0)
+            return string.Empty;
+        if (_rules.Count == 1)
         {
-            string cls = rule.Value;
-            if (cls.Length == 0) continue;
-            string b = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
-            if (b.Length != 0) cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, b);
-            if (rule.ModifierChain is { Length: > 0 }) cls = BreakpointUtil.ApplyTailwindModifiers(cls, rule.ModifierChain);
-            if (!first) sb.Append(' ');
-            else first = false;
-            if (_rules.Count == 1)
-                return cls ?? string.Empty;
-
-            sb.Append(cls);
+            MixBlendModeRule rule = _rules[0];
+            return ClassWriter.Render(rule.Value, BreakpointUtil.GetBreakpointToken(rule.Breakpoint), rule.ModifierChain);
         }
-        return sb.ToString();
+
+        var writer = new ClassWriter();
+        try
+        {
+            for (var i = 0; i < _rules.Count; i++)
+            {
+                MixBlendModeRule rule = _rules[i];
+                writer.Add(rule.Value, BreakpointUtil.GetBreakpointToken(rule.Breakpoint), rule.ModifierChain);
+            }
+            return writer.ToString();
+        }
+        finally
+        {
+            writer.Dispose();
+        }
     }
 
     /// <summary>

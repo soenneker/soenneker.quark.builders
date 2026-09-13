@@ -12,7 +12,7 @@ public sealed class AccentColorBuilder : ColorBuilderBase<AccentColorBuilder>
 {
     private const string Prefix = "accent-";
 
-    private readonly List<AccentColorRule> _rules = new(4);
+    private RuleList<AccentColorRule> _rules;
 
     internal AccentColorBuilder()
     {
@@ -38,19 +38,19 @@ public sealed class AccentColorBuilder : ColorBuilderBase<AccentColorBuilder>
     /// <summary>
     /// `auto` — browser-default sizing/behavior for the underlying utility.
     /// </summary>
-    public AccentColorBuilder Auto => Chain(AccentColorEnum.Auto);
+    public AccentColorBuilder Auto => ChainClass(AccentColorEnum.AutoValue);
     /// <summary>
     /// `accent-primary` — uses your theme primary (shadcn maps this to CSS variables).
     /// </summary>
-    public AccentColorBuilder Primary => Chain(AccentColorEnum.Primary);
+    public AccentColorBuilder Primary => ChainClass(AccentColorEnum.PrimaryValue);
     /// <summary>
     /// Fully transparent color (`transparent`).
     /// </summary>
-    public AccentColorBuilder Transparent => Chain(AccentColorEnum.Transparent);
+    public AccentColorBuilder Transparent => ChainClass(AccentColorEnum.TransparentValue);
     /// <summary>
     /// `currentColor` — uses the element’s computed `color` (common for icons and rings).
     /// </summary>
-    public AccentColorBuilder Current => Chain(AccentColorEnum.Current);
+    public AccentColorBuilder Current => ChainClass(AccentColorEnum.CurrentValue);
 
 
     /// <summary>
@@ -86,30 +86,30 @@ public sealed class AccentColorBuilder : ColorBuilderBase<AccentColorBuilder>
         return this;
     }
 
-    /// <summary>
-    /// Executes the to class operation.
-    /// </summary>
-    /// <returns>The result of the operation.</returns>
     public override string ToClass()
     {
-        if (_rules.Count == 0) return string.Empty;
-        using var sb = new PooledStringBuilder();
-        var first = true;
-        foreach (AccentColorRule rule in _rules)
+        if (_rules.Count == 0)
+            return string.Empty;
+        if (_rules.Count == 1)
         {
-            string cls = rule.Value;
-            if (cls.Length == 0) continue;
-            string b = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
-            if (b.Length != 0) cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, b);
-            if (rule.ModifierChain is { Length: > 0 }) cls = BreakpointUtil.ApplyTailwindModifiers(cls, rule.ModifierChain);
-            if (!first) sb.Append(' ');
-            else first = false;
-            if (_rules.Count == 1)
-                return cls ?? string.Empty;
-
-            sb.Append(cls);
+            AccentColorRule rule = _rules[0];
+            return ClassWriter.Render(rule.Value, BreakpointUtil.GetBreakpointToken(rule.Breakpoint), rule.ModifierChain);
         }
-        return sb.ToString();
+
+        var writer = new ClassWriter();
+        try
+        {
+            for (var i = 0; i < _rules.Count; i++)
+            {
+                AccentColorRule rule = _rules[i];
+                writer.Add(rule.Value, BreakpointUtil.GetBreakpointToken(rule.Breakpoint), rule.ModifierChain);
+            }
+            return writer.ToString();
+        }
+        finally
+        {
+            writer.Dispose();
+        }
     }
 
     /// <summary>

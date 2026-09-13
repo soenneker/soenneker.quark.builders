@@ -9,19 +9,19 @@ public static partial class AccentColor
     /// <summary>
     /// `auto` — browser-default sizing/behavior for the underlying utility.
     /// </summary>
-    public static AccentColorBuilder Auto => new(AccentColorEnum.Auto);
+    public static AccentColorBuilder Auto => new(AccentColorEnum.AutoValue);
     /// <summary>
     /// `accent-primary` — uses your theme primary (shadcn maps this to CSS variables).
     /// </summary>
-    public static AccentColorBuilder Primary => new(AccentColorEnum.Primary);
+    public static AccentColorBuilder Primary => new(AccentColorEnum.PrimaryValue);
     /// <summary>
     /// Fully transparent color (`transparent`).
     /// </summary>
-    public static AccentColorBuilder Transparent => new(AccentColorEnum.Transparent);
+    public static AccentColorBuilder Transparent => new(AccentColorEnum.TransparentValue);
     /// <summary>
     /// `currentColor` — uses the element’s computed `color` (common for icons and rings).
     /// </summary>
-    public static AccentColorBuilder Current => new(AccentColorEnum.Current);
+    public static AccentColorBuilder Current => new(AccentColorEnum.CurrentValue);
 
     /// <summary>
     /// Creates an accent color builder from a Tailwind color token suffix such as <c>blue-500</c> or <c>[var(--brand)]</c>.

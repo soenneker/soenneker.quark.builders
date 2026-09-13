@@ -1,6 +1,4 @@
-using System.Collections.Generic;
 using System.Runtime.CompilerServices;
-using Soenneker.Utils.PooledStringBuilders;
 
 namespace Soenneker.Quark;
 
@@ -9,7 +7,7 @@ namespace Soenneker.Quark;
 /// </summary>
 public sealed class PaginationSizeBuilder : CssBuilderBase
 {
-    private readonly List<string> _tokens = new(4);
+    private RuleList<string> _tokens;
 
     internal PaginationSizeBuilder(PaginationSizeEnum value)
     {
@@ -28,11 +26,11 @@ public sealed class PaginationSizeBuilder : CssBuilderBase
     /// <summary>
     /// Gets or sets sm.
     /// </summary>
-    public PaginationSizeBuilder Sm => Chain(PaginationSizeEnum.Sm);
+    public PaginationSizeBuilder Sm => Chain(PaginationSizeEnum.SmValue);
     /// <summary>
     /// Gets or sets lg.
     /// </summary>
-    public PaginationSizeBuilder Lg => Chain(PaginationSizeEnum.Lg);
+    public PaginationSizeBuilder Lg => Chain(PaginationSizeEnum.LgValue);
 
     /// <summary>
     /// Adds an arbitrary pagination size utility token to the class list.
@@ -55,34 +53,7 @@ public sealed class PaginationSizeBuilder : CssBuilderBase
         return this;
     }
 
-    /// <summary>
-    /// Executes the to class operation.
-    /// </summary>
-    /// <returns>The result of the operation.</returns>
-    public override string ToClass()
-    {
-        if (_tokens.Count == 0)
-            return string.Empty;
-
-        using var sb = new PooledStringBuilder();
-        var first = true;
-
-        for (var i = 0; i < _tokens.Count; i++)
-        {
-            string token = _tokens[i];
-            if (token.Length == 0)
-                continue;
-
-            if (!first)
-                sb.Append(' ');
-            else
-                first = false;
-
-            sb.Append(token);
-        }
-
-        return sb.ToString();
-    }
+    public override string ToClass() => TokenRenderer.Render(_tokens, skipEmpty: true);
 
     /// <summary>
     /// Executes the to style operation.

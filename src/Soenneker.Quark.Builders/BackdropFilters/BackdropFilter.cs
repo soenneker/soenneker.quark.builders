@@ -10,52 +10,52 @@ public static partial class BackdropFilter
     /// <summary>
     /// No backdrop filter (none).
     /// </summary>
-    public static BackdropFilterBuilder None => new(BackdropFilterEnum.None);
+    public static BackdropFilterBuilder None => new(BackdropFilterEnum.NoneValue);
 
     /// <summary>
     /// Backdrop blur filter (blur).
     /// </summary>
-    public static BackdropFilterBuilder Blur => new(BackdropFilterEnum.Blur);
+    public static BackdropFilterBuilder Blur => new(BackdropFilterEnum.BlurValue);
 
     /// <summary>
     /// Backdrop brightness filter (brightness).
     /// </summary>
-    public static BackdropFilterBuilder Brightness => new(BackdropFilterEnum.Brightness);
+    public static BackdropFilterBuilder Brightness => new(BackdropFilterEnum.BrightnessValue);
 
     /// <summary>
     /// Backdrop contrast filter (contrast).
     /// </summary>
-    public static BackdropFilterBuilder Contrast => new(BackdropFilterEnum.Contrast);
+    public static BackdropFilterBuilder Contrast => new(BackdropFilterEnum.ContrastValue);
 
     /// <summary>
     /// Backdrop grayscale filter (grayscale).
     /// </summary>
-    public static BackdropFilterBuilder Grayscale => new(BackdropFilterEnum.Grayscale);
+    public static BackdropFilterBuilder Grayscale => new(BackdropFilterEnum.GrayscaleValue);
 
     /// <summary>
     /// Backdrop hue rotate filter (hue-rotate).
     /// </summary>
-    public static BackdropFilterBuilder HueRotate => new(BackdropFilterEnum.HueRotate);
+    public static BackdropFilterBuilder HueRotate => new(BackdropFilterEnum.HueRotateValue);
 
     /// <summary>
     /// Backdrop invert filter (invert).
     /// </summary>
-    public static BackdropFilterBuilder Invert => new(BackdropFilterEnum.Invert);
+    public static BackdropFilterBuilder Invert => new(BackdropFilterEnum.InvertValue);
 
     /// <summary>
     /// Backdrop opacity filter (opacity).
     /// </summary>
-    public static BackdropFilterBuilder Opacity => new(BackdropFilterEnum.Opacity);
+    public static BackdropFilterBuilder Opacity => new(BackdropFilterEnum.OpacityValue);
 
     /// <summary>
     /// Backdrop saturate filter (saturate).
     /// </summary>
-    public static BackdropFilterBuilder Saturate => new(BackdropFilterEnum.Saturate);
+    public static BackdropFilterBuilder Saturate => new(BackdropFilterEnum.SaturateValue);
 
     /// <summary>
     /// Backdrop sepia filter (sepia).
     /// </summary>
-    public static BackdropFilterBuilder Sepia => new(BackdropFilterEnum.Sepia);
+    public static BackdropFilterBuilder Sepia => new(BackdropFilterEnum.SepiaValue);
 
     /// <summary>
     /// Applies an exact Tailwind backdrop-filter utility token, e.g. "blur-xl" or "backdrop-blur-xl".

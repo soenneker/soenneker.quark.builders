@@ -1,0 +1,18 @@
+Scenario | ns/op | bytes/op
+Margin side | 35.8 | 216
+Scenario | ns/op | bytes/op
+Margin responsive | 91.0 | 448
+Scenario | ns/op | bytes/op
+Color palette | 29.3 | 184
+Scenario | ns/op | bytes/op
+Color palette chain | 136.1 | 648
+Scenario | ns/op | bytes/op
+CssValue single | 17.2 | 40
+Scenario | ns/op | bytes/op
+CssValue add | 25.9 | 80
+Scenario | ns/op | bytes/op
+CssValue mixed | 85.3 | 216
+Scenario | ns/op | bytes/op
+Modifier group | 32.4 | 112
+Scenario | ns/op | bytes/op
+Variant modifiers | 40.1 | 216

@@ -3,4 +3,4 @@ namespace Soenneker.Quark;
 /// <summary>
 /// Represents a single scale rule.
 /// </summary>
-internal record ScaleRule(ScaleEnum Scale, string? ModifierChain = null);
+internal readonly record struct ScaleRule(ScaleEnum Scale, string? ModifierChain = null);

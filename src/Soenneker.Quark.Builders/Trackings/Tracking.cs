@@ -9,27 +9,27 @@ public static partial class Tracking
     /// <summary>
     /// Gets or sets tighter.
     /// </summary>
-    public static TrackingBuilder Tighter => new(TrackingEnum.Tighter);
+    public static TrackingBuilder Tighter => new(TrackingEnum.TighterValue);
     /// <summary>
     /// Gets or sets tight.
     /// </summary>
-    public static TrackingBuilder Tight => new(TrackingEnum.Tight);
+    public static TrackingBuilder Tight => new(TrackingEnum.TightValue);
     /// <summary>
     /// Gets or sets normal.
     /// </summary>
-    public static TrackingBuilder Normal => new(TrackingEnum.Normal);
+    public static TrackingBuilder Normal => new(TrackingEnum.NormalValue);
     /// <summary>
     /// Gets or sets wide.
     /// </summary>
-    public static TrackingBuilder Wide => new(TrackingEnum.Wide);
+    public static TrackingBuilder Wide => new(TrackingEnum.WideValue);
     /// <summary>
     /// Gets or sets wider.
     /// </summary>
-    public static TrackingBuilder Wider => new(TrackingEnum.Wider);
+    public static TrackingBuilder Wider => new(TrackingEnum.WiderValue);
     /// <summary>
     /// Gets or sets widest.
     /// </summary>
-    public static TrackingBuilder Widest => new(TrackingEnum.Widest);
+    public static TrackingBuilder Widest => new(TrackingEnum.WidestValue);
     /// <summary>
     /// Adds an arbitrary tracking utility token to the class list.
     /// </summary>

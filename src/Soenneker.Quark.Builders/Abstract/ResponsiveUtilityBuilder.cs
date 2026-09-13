@@ -47,46 +47,30 @@ public abstract class ResponsiveUtilityBuilder<TBuilder> : CssBuilderBase<TBuild
         return breakpoint;
     }
 
-    /// <summary>
-    /// Executes the to class operation.
-    /// </summary>
-    /// <returns>The result of the operation.</returns>
     public override string ToClass()
     {
         if (Rules.Count == 0)
             return string.Empty;
-
-        using var sb = new PooledStringBuilder();
-        var first = true;
-
-        for (var i = 0; i < Rules.Count; i++)
+        if (Rules.Count == 1)
         {
-            UtilityRule rule = Rules[i];
-
-            if (rule.Value.Length == 0)
-                continue;
-
-            string cls = rule.Value;
-            string breakpoint = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
-
-            if (breakpoint.Length != 0)
-                cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, breakpoint);
-
-            if (rule.ModifierChain is { Length: > 0 })
-                cls = BreakpointUtil.ApplyTailwindModifiers(cls, rule.ModifierChain);
-
-            if (!first)
-                sb.Append(' ');
-            else
-                first = false;
-
-            if (Rules.Count == 1)
-                return cls ?? string.Empty;
-
-            sb.Append(cls);
+            UtilityRule rule = Rules[0];
+            return ClassWriter.Render(rule.Value, BreakpointUtil.GetBreakpointToken(rule.Breakpoint), rule.ModifierChain);
         }
 
-        return sb.ToString();
+        var writer = new ClassWriter();
+        try
+        {
+            for (var i = 0; i < Rules.Count; i++)
+            {
+                UtilityRule rule = Rules[i];
+                writer.Add(rule.Value, BreakpointUtil.GetBreakpointToken(rule.Breakpoint), rule.ModifierChain);
+            }
+            return writer.ToString();
+        }
+        finally
+        {
+            writer.Dispose();
+        }
     }
 
     /// <summary>

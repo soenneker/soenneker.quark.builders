@@ -1,3 +1,4 @@
+using System;
 
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
@@ -11,7 +12,7 @@ namespace Soenneker.Quark;
 [TailwindPrefix("m-", Responsive = true)]
 public sealed class MarginBuilder : CssBuilderBase<MarginBuilder>
 {
-    private readonly List<MarginRule> _rules = new(4);
+    private RuleList<MarginRule> _rules;
     private ElementSideEnum? _pendingSide;
 
     internal MarginBuilder()
@@ -74,64 +75,64 @@ public sealed class MarginBuilder : CssBuilderBase<MarginBuilder>
 	/// <summary>
 	/// Sets the margin to auto.
 	/// </summary>
-    public MarginBuilder Auto => ChainWithSize(MarginScaleEnum.Auto);
+    public MarginBuilder Auto => ChainWithSize(MarginScaleEnum.AutoValue);
 
     /// <summary>
     /// Spacing/sizing scale step `0` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 0` for integer spacing utilities unless overridden).
     /// </summary>
-    public MarginBuilder Is0 => ChainWithSize(MarginScaleEnum.Is0);
+    public MarginBuilder Is0 => ChainWithSize(MarginScaleEnum.Is0Value);
     /// <summary>
     /// Gets or sets is0 5.
     /// </summary>
-    public MarginBuilder Is0_5 => ChainWithSize(MarginScaleEnum.Is0_5);
+    public MarginBuilder Is0_5 => ChainWithSize(MarginScaleEnum.Is0_5Value);
     /// <summary>
     /// Spacing/sizing scale step `1` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 1` for integer spacing utilities unless overridden).
     /// </summary>
-    public MarginBuilder Is1 => ChainWithSize(MarginScaleEnum.Is1);
+    public MarginBuilder Is1 => ChainWithSize(MarginScaleEnum.Is1Value);
     /// <summary>
     /// Gets or sets is1 5.
     /// </summary>
-    public MarginBuilder Is1_5 => ChainWithSize(MarginScaleEnum.Is1_5);
+    public MarginBuilder Is1_5 => ChainWithSize(MarginScaleEnum.Is1_5Value);
     /// <summary>
     /// Spacing/sizing scale step `2` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 2` for integer spacing utilities unless overridden).
     /// </summary>
-    public MarginBuilder Is2 => ChainWithSize(MarginScaleEnum.Is2);
+    public MarginBuilder Is2 => ChainWithSize(MarginScaleEnum.Is2Value);
     /// <summary>
     /// Spacing/sizing scale step `3` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 3` for integer spacing utilities unless overridden).
     /// </summary>
-    public MarginBuilder Is3 => ChainWithSize(MarginScaleEnum.Is3);
+    public MarginBuilder Is3 => ChainWithSize(MarginScaleEnum.Is3Value);
     /// <summary>
     /// Gets or sets is3 5.
     /// </summary>
-    public MarginBuilder Is3_5 => ChainWithSize(MarginScaleEnum.Is3_5);
+    public MarginBuilder Is3_5 => ChainWithSize(MarginScaleEnum.Is3_5Value);
     /// <summary>
     /// Spacing/sizing scale step `4` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 4` for integer spacing utilities unless overridden).
     /// </summary>
-    public MarginBuilder Is4 => ChainWithSize(MarginScaleEnum.Is4);
+    public MarginBuilder Is4 => ChainWithSize(MarginScaleEnum.Is4Value);
     /// <summary>
     /// Spacing/sizing scale step `5` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 5` for integer spacing utilities unless overridden).
     /// </summary>
-    public MarginBuilder Is5 => ChainWithSize(MarginScaleEnum.Is5);
+    public MarginBuilder Is5 => ChainWithSize(MarginScaleEnum.Is5Value);
     /// <summary>
     /// Gets or sets is6.
     /// </summary>
-    public MarginBuilder Is6 => ChainWithSize(MarginScaleEnum.Is6);
+    public MarginBuilder Is6 => ChainWithSize(MarginScaleEnum.Is6Value);
     /// <summary>
     /// Spacing/sizing scale step `8` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 8` for integer spacing utilities unless overridden).
     /// </summary>
-    public MarginBuilder Is8 => ChainWithSize(MarginScaleEnum.Is8);
+    public MarginBuilder Is8 => ChainWithSize(MarginScaleEnum.Is8Value);
     /// <summary>
     /// Gets or sets is12.
     /// </summary>
-    public MarginBuilder Is12 => ChainWithSize(MarginScaleEnum.Is12);
+    public MarginBuilder Is12 => ChainWithSize(MarginScaleEnum.Is12Value);
     /// <summary>
     /// Gets or sets negative1.
     /// </summary>
-    public MarginBuilder Negative1 => ChainWithSize(MarginScaleEnum.Negative1);
+    public MarginBuilder Negative1 => ChainWithSize(MarginScaleEnum.Negative1Value);
     /// <summary>
     /// Gets or sets negative2.
     /// </summary>
-    public MarginBuilder Negative2 => ChainWithSize(MarginScaleEnum.Negative2);
+    public MarginBuilder Negative2 => ChainWithSize(MarginScaleEnum.Negative2Value);
 
 	/// <summary>
 	/// Sets the margin size from an arbitrary Tailwind spacing token.
@@ -179,50 +180,30 @@ public sealed class MarginBuilder : CssBuilderBase<MarginBuilder>
         return this;
     }
 
-    /// <summary>Gets the CSS class string for the current configuration.</summary>
     public override string ToClass()
     {
         if (_rules.Count == 0)
             return string.Empty;
-
-        using var sb = new PooledStringBuilder();
-        var first = true;
-
-        for (var i = 0; i < _rules.Count; i++)
+        if (_rules.Count == 1)
         {
-            MarginRule rule = _rules[i];
-            string cls = BuildClass(rule);
-            if (cls.Length == 0)
-                continue;
-
-            if (!first)
-                sb.Append(' ');
-            else
-                first = false;
-
-            if (_rules.Count == 1)
-                return cls ?? string.Empty;
-
-            sb.Append(cls);
+            MarginRule rule = _rules[0];
+            return ClassWriter.Render(ApplySide(rule.Size, rule.Side), BreakpointUtil.GetBreakpointToken(rule.Breakpoint), rule.ModifierChain);
         }
 
-        return sb.ToString();
-    }
-
-    private static string BuildClass(MarginRule rule)
-    {
-        string cls = ApplySide(rule.Size, rule.Side);
-        if (cls.Length == 0)
-            return string.Empty;
-
-        string bpTok = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
-        if (bpTok.Length != 0)
-            cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, bpTok);
-
-        if (rule.ModifierChain is { Length: > 0 })
-            cls = BreakpointUtil.ApplyTailwindModifiers(cls, rule.ModifierChain);
-
-        return cls;
+        var writer = new ClassWriter();
+        try
+        {
+            for (var i = 0; i < _rules.Count; i++)
+            {
+                MarginRule rule = _rules[i];
+                writer.Add(ApplySide(rule.Size, rule.Side), BreakpointUtil.GetBreakpointToken(rule.Breakpoint), rule.ModifierChain);
+            }
+            return writer.ToString();
+        }
+        finally
+        {
+            writer.Dispose();
+        }
     }
 
     /// <summary>Gets the CSS style string for the current configuration.</summary>
@@ -237,7 +218,7 @@ public sealed class MarginBuilder : CssBuilderBase<MarginBuilder>
         if (size.StartsWith("-m-") || size.StartsWith("m-"))
             return size;
 
-        return size[0] == '-' ? "-m-" + size[1..] : "m-" + size;
+        return size[0] == '-' ? string.Concat("-m-", size.AsSpan(1)) : "m-" + size;
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -250,13 +231,12 @@ public sealed class MarginBuilder : CssBuilderBase<MarginBuilder>
             return sizeClass;
 
         bool negative = sizeClass[0] == '-';
-        string classWithoutNegative = negative ? sizeClass[1..] : sizeClass;
+        ReadOnlySpan<char> classWithoutNegative = sizeClass.AsSpan(negative ? 1 : 0);
 
-        if (!classWithoutNegative.StartsWith("m-"))
+        if (!classWithoutNegative.StartsWith("m-", StringComparison.CurrentCulture))
             return sizeClass;
 
-        string result = "m" + side.Value + classWithoutNegative[1..];
-        return negative ? "-" + result : result;
+        return string.Concat(negative ? "-m" : "m", side.Value, classWithoutNegative[1..]);
     }
 
 }

@@ -10,7 +10,7 @@ namespace Soenneker.Quark;
 [TailwindPrefix("top-", Responsive = true)]
 public sealed class TopBuilder : CssBuilderBase<TopBuilder>
 {
-    private readonly List<TopRule> _rules = new(4);
+    private RuleList<TopRule> _rules;
 
     internal TopBuilder()
     {
@@ -35,63 +35,63 @@ public sealed class TopBuilder : CssBuilderBase<TopBuilder>
     /// <summary>
     /// Gets or sets is0.
     /// </summary>
-    public TopBuilder Is0 => Chain(TopEnum.Is0);
+    public TopBuilder Is0 => Chain(TopEnum.Is0Value);
     /// <summary>
     /// Gets or sets is1.
     /// </summary>
-    public TopBuilder Is1 => Chain(TopEnum.Is1);
+    public TopBuilder Is1 => Chain(TopEnum.Is1Value);
     /// <summary>
     /// Gets or sets is1 5.
     /// </summary>
-    public TopBuilder Is1_5 => Chain(TopEnum.Is1_5);
+    public TopBuilder Is1_5 => Chain(TopEnum.Is1_5Value);
     /// <summary>
     /// Gets or sets is1of2.
     /// </summary>
-    public TopBuilder Is1of2 => Chain(TopEnum.Is1of2);
+    public TopBuilder Is1of2 => Chain(TopEnum.Is1of2Value);
     /// <summary>
     /// Gets or sets is1of3.
     /// </summary>
-    public TopBuilder Is1of3 => Chain(TopEnum.Is1of3);
+    public TopBuilder Is1of3 => Chain(TopEnum.Is1of3Value);
     /// <summary>
     /// Gets or sets is2.
     /// </summary>
-    public TopBuilder Is2 => Chain(TopEnum.Is2);
+    public TopBuilder Is2 => Chain(TopEnum.Is2Value);
     /// <summary>
     /// Gets or sets is3.
     /// </summary>
-    public TopBuilder Is3 => Chain(TopEnum.Is3);
+    public TopBuilder Is3 => Chain(TopEnum.Is3Value);
     /// <summary>
     /// Gets or sets is4.
     /// </summary>
-    public TopBuilder Is4 => Chain(TopEnum.Is4);
+    public TopBuilder Is4 => Chain(TopEnum.Is4Value);
     /// <summary>
     /// Gets or sets is5.
     /// </summary>
-    public TopBuilder Is5 => Chain(TopEnum.Is5);
+    public TopBuilder Is5 => Chain(TopEnum.Is5Value);
     /// <summary>
     /// Gets or sets is8.
     /// </summary>
-    public TopBuilder Is8 => Chain(TopEnum.Is8);
+    public TopBuilder Is8 => Chain(TopEnum.Is8Value);
     /// <summary>
     /// Gets or sets is12.
     /// </summary>
-    public TopBuilder Is12 => Chain(TopEnum.Is12);
+    public TopBuilder Is12 => Chain(TopEnum.Is12Value);
     /// <summary>
     /// Gets or sets is16.
     /// </summary>
-    public TopBuilder Is16 => Chain(TopEnum.Is16);
+    public TopBuilder Is16 => Chain(TopEnum.Is16Value);
     /// <summary>
     /// Gets or sets is24.
     /// </summary>
-    public TopBuilder Is24 => Chain(TopEnum.Is24);
+    public TopBuilder Is24 => Chain(TopEnum.Is24Value);
     /// <summary>
     /// Gets or sets auto.
     /// </summary>
-    public TopBuilder Auto => Chain(TopEnum.Auto);
+    public TopBuilder Auto => Chain(TopEnum.AutoValue);
     /// <summary>
     /// Gets or sets px.
     /// </summary>
-    public TopBuilder Px => Chain(TopEnum.Px);
+    public TopBuilder Px => Chain(TopEnum.PxValue);
     /// <summary>
     /// Adds an arbitrary top utility token to the class list.
     /// </summary>
@@ -116,30 +116,30 @@ public sealed class TopBuilder : CssBuilderBase<TopBuilder>
 
 
 
-    /// <summary>
-    /// Executes the to class operation.
-    /// </summary>
-    /// <returns>The result of the operation.</returns>
     public override string ToClass()
     {
-        if (_rules.Count == 0) return string.Empty;
-        using var sb = new PooledStringBuilder();
-        var first = true;
-        foreach (TopRule rule in _rules)
+        if (_rules.Count == 0)
+            return string.Empty;
+        if (_rules.Count == 1)
         {
-            string cls = rule.Value;
-            if (cls.Length == 0) continue;
-            string breakpoint = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
-            if (breakpoint.Length != 0) cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, breakpoint);
-            if (rule.ModifierChain is { Length: > 0 }) cls = BreakpointUtil.ApplyTailwindModifiers(cls, rule.ModifierChain);
-            if (!first) sb.Append(' ');
-            else first = false;
-            if (_rules.Count == 1)
-                return cls ?? string.Empty;
-
-            sb.Append(cls);
+            TopRule rule = _rules[0];
+            return ClassWriter.Render(rule.Value, BreakpointUtil.GetBreakpointToken(rule.Breakpoint), rule.ModifierChain);
         }
-        return sb.ToString();
+
+        var writer = new ClassWriter();
+        try
+        {
+            for (var i = 0; i < _rules.Count; i++)
+            {
+                TopRule rule = _rules[i];
+                writer.Add(rule.Value, BreakpointUtil.GetBreakpointToken(rule.Breakpoint), rule.ModifierChain);
+            }
+            return writer.ToString();
+        }
+        finally
+        {
+            writer.Dispose();
+        }
     }
 
     /// <summary>

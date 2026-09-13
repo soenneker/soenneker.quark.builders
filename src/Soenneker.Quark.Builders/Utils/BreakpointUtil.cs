@@ -75,17 +75,58 @@ public static class BreakpointUtil
         if (string.IsNullOrEmpty(classGroup) || modifiers.Count == 0)
             return classGroup;
 
-        var sb = new PooledStringBuilder(classGroup.Length + EstimateModifierLength(modifiers));
+        if (modifiers.Count == 1 && !string.IsNullOrEmpty(modifiers[0]))
+            return ApplyTailwindModifiers(classGroup, modifiers[0]);
 
-        try
+        int prefixLength = EstimateModifierLength(modifiers);
+        int length = GetModifiedLength(classGroup, prefixLength, out Range singleToken);
+        if (singleToken.Start.Value == 0 && singleToken.End.Value == classGroup.Length)
         {
-            AppendClassGroupWithModifiers(ref sb, classGroup, modifiers);
-            return sb.ToString();
+            return string.Create(length, (classGroup, modifiers), static (destination, state) =>
+            {
+                int position = 0;
+                for (var i = 0; i < state.modifiers.Count; i++)
+                {
+                    string modifier = state.modifiers[i];
+                    if (string.IsNullOrEmpty(modifier))
+                        continue;
+                    modifier.AsSpan().CopyTo(destination[position..]);
+                    position += modifier.Length;
+                    destination[position++] = ':';
+                }
+                state.classGroup.AsSpan().CopyTo(destination[position..]);
+            });
         }
-        finally
+        return string.Create(length, (classGroup, modifiers), static (destination, state) =>
         {
-            sb.Dispose();
-        }
+            int position = 0;
+            for (var i = 0; i < state.modifiers.Count; i++)
+            {
+                string modifier = state.modifiers[i];
+                if (string.IsNullOrEmpty(modifier))
+                    continue;
+                modifier.AsSpan().CopyTo(destination[position..]);
+                position += modifier.Length;
+                destination[position++] = ':';
+            }
+            int prefixLength = position;
+            bool first = true;
+            foreach (Range range in new ClassTokens(state.classGroup))
+            {
+                if (!first)
+                {
+                    destination[position++] = ' ';
+                    // The complete prefix already exists at the start of the
+                    // output. Copy it rather than traversing modifiers again.
+                    destination[..prefixLength].CopyTo(destination[position..]);
+                    position += prefixLength;
+                }
+                first = false;
+                ReadOnlySpan<char> token = state.classGroup.AsSpan()[range];
+                token.CopyTo(destination[position..]);
+                position += token.Length;
+            }
+        });
     }
 
     /// <summary>
@@ -99,20 +140,47 @@ public static class BreakpointUtil
         if (string.IsNullOrEmpty(classGroup) || string.IsNullOrEmpty(modifierChain))
             return classGroup;
 
-        var sb = new PooledStringBuilder(classGroup.Length + modifierChain.Length + 1);
-
-        try
+        int length = GetModifiedLength(classGroup, modifierChain.Length + 1);
+        return string.Create(length, (classGroup, modifierChain), static (destination, state) =>
         {
-            AppendClassGroupWithModifierChain(ref sb, classGroup, modifierChain);
-            return sb.ToString();
-        }
-        finally
-        {
-            sb.Dispose();
-        }
+            int position = 0;
+            foreach (Range range in new ClassTokens(state.classGroup))
+            {
+                if (position != 0)
+                    destination[position++] = ' ';
+                state.modifierChain.AsSpan().CopyTo(destination[position..]);
+                position += state.modifierChain.Length;
+                destination[position++] = ':';
+                ReadOnlySpan<char> token = state.classGroup.AsSpan()[range];
+                token.CopyTo(destination[position..]);
+                position += token.Length;
+            }
+        });
     }
 
-    private static void AppendClassGroupWithModifiers(ref PooledStringBuilder sb, string classGroup, IReadOnlyList<string> modifiers)
+    private static int GetModifiedLength(string classGroup, int prefixLength)
+    {
+        int length = 0;
+        foreach (Range range in new ClassTokens(classGroup))
+            length = checked(length + (length == 0 ? 0 : 1) + prefixLength + range.End.Value - range.Start.Value);
+        return length;
+    }
+
+    private static int GetModifiedLength(string classGroup, int prefixLength, out Range singleToken)
+    {
+        int length = 0;
+        singleToken = default;
+        foreach (Range range in new ClassTokens(classGroup))
+        {
+            // A nonempty range survives only when the group has one token.
+            // Its characters then need no second scan during string creation.
+            singleToken = length == 0 ? range : default;
+            length = checked(length + (length == 0 ? 0 : 1) + prefixLength + range.End.Value - range.Start.Value);
+        }
+        return length;
+    }
+
+    internal static void AppendClassGroupWithModifierChain(ref PooledStringBuilder sb, string classGroup, string? modifierChain, string? breakpoint = null)
     {
         var tokenStart = -1;
         var first = true;
@@ -137,75 +205,19 @@ public static class BreakpointUtil
             else
                 first = false;
 
-            AppendTokenWithModifiers(ref sb, classGroup.AsSpan(tokenStart, i - tokenStart), modifiers);
-            tokenStart = -1;
-        }
-    }
-
-    private static void AppendClassGroupWithModifierChain(ref PooledStringBuilder sb, string classGroup, string modifierChain)
-    {
-        var tokenStart = -1;
-        var first = true;
-
-        for (var i = 0; i <= classGroup.Length; i++)
-        {
-            bool isEnd = i == classGroup.Length;
-
-            if (!isEnd && !char.IsWhiteSpace(classGroup[i]))
+            if (!string.IsNullOrEmpty(modifierChain))
             {
-                if (tokenStart < 0)
-                    tokenStart = i;
-
-                continue;
-            }
-
-            if (tokenStart < 0)
-                continue;
-
-            if (!first)
-                sb.Append(' ');
-            else
-                first = false;
-
-            AppendTokenWithModifierChain(ref sb, classGroup.AsSpan(tokenStart, i - tokenStart), modifierChain);
-            tokenStart = -1;
-        }
-    }
-
-    private static void AppendTokenWithModifiers(ref PooledStringBuilder sb, ReadOnlySpan<char> token, IReadOnlyList<string> modifiers)
-    {
-        var wroteModifier = false;
-
-        for (var i = 0; i < modifiers.Count; i++)
-        {
-            string modifier = modifiers[i];
-
-            if (string.IsNullOrEmpty(modifier))
-                continue;
-
-            if (wroteModifier)
+                sb.Append(modifierChain);
                 sb.Append(':');
-
-            sb.Append(modifier);
-            wroteModifier = true;
+            }
+            if (!string.IsNullOrEmpty(breakpoint))
+            {
+                sb.Append(breakpoint);
+                sb.Append(':');
+            }
+            sb.Append(classGroup.AsSpan(tokenStart, i - tokenStart));
+            tokenStart = -1;
         }
-
-        if (wroteModifier)
-            sb.Append(':');
-
-        AppendSpan(ref sb, token);
-    }
-
-    private static void AppendTokenWithModifierChain(ref PooledStringBuilder sb, ReadOnlySpan<char> token, string modifierChain)
-    {
-        sb.Append(modifierChain);
-        sb.Append(':');
-        AppendSpan(ref sb, token);
-    }
-
-    private static void AppendSpan(ref PooledStringBuilder sb, ReadOnlySpan<char> value)
-    {
-        sb.Append(value);
     }
 
     private static int EstimateModifierLength(IReadOnlyList<string> modifiers)
@@ -217,7 +229,7 @@ public static class BreakpointUtil
             string modifier = modifiers[i];
 
             if (!string.IsNullOrEmpty(modifier))
-                length += modifier.Length + 1;
+                length = checked(length + modifier.Length + 1);
         }
 
         return length;

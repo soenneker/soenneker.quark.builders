@@ -1,3 +1,4 @@
+using System;
 
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
@@ -12,7 +13,7 @@ namespace Soenneker.Quark;
 [TailwindPrefix("gap-", Responsive = true)]
 public sealed class GapBuilder : CssBuilderBase<GapBuilder>
 {
-    private readonly List<GapRule> _rules = new(4);
+    private RuleList<GapRule> _rules;
 
     internal GapBuilder()
     {
@@ -152,43 +153,30 @@ public sealed class GapBuilder : CssBuilderBase<GapBuilder>
         return this;
     }
 
-    /// <summary>
-    /// Gets the CSS class string for the current configuration.
-    /// </summary>
     public override string ToClass()
     {
         if (_rules.Count == 0)
             return string.Empty;
-
-        using var sb = new PooledStringBuilder();
-        var first = true;
-
-        for (var i = 0; i < _rules.Count; i++)
+        if (_rules.Count == 1)
         {
-            GapRule rule = _rules[i];
-            string cls = BuildClass(rule);
-            if (cls.Length == 0)
-                continue;
-
-            string bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
-
-            if (bp.Length != 0)
-                cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, bp);
-
-            if (rule.ModifierChain is { Length: > 0 })
-                cls = BreakpointUtil.ApplyTailwindModifiers(cls, rule.ModifierChain);
-
-            if (!first) 
-                sb.Append(' ');
-            else first = false;
-
-            if (_rules.Count == 1)
-                return cls ?? string.Empty;
-
-            sb.Append(cls);
+            GapRule rule = _rules[0];
+            return ClassWriter.Render(BuildClass(rule), BreakpointUtil.GetBreakpointToken(rule.Breakpoint), rule.ModifierChain);
         }
 
-        return sb.ToString();
+        var writer = new ClassWriter();
+        try
+        {
+            for (var i = 0; i < _rules.Count; i++)
+            {
+                GapRule rule = _rules[i];
+                writer.Add(BuildClass(rule), BreakpointUtil.GetBreakpointToken(rule.Breakpoint), rule.ModifierChain);
+            }
+            return writer.ToString();
+        }
+        finally
+        {
+            writer.Dispose();
+        }
     }
 
     /// <summary>
@@ -209,7 +197,7 @@ public sealed class GapBuilder : CssBuilderBase<GapBuilder>
         const string defaultPrefix = "gap-";
 
         if (rule.Size.StartsWith(defaultPrefix, System.StringComparison.Ordinal))
-            return rule.Axis.Value + rule.Size[defaultPrefix.Length..];
+            return string.Concat(rule.Axis.Value, rule.Size.AsSpan(defaultPrefix.Length));
 
         return rule.Axis.Value + rule.Size;
     }

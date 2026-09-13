@@ -11,7 +11,7 @@ namespace Soenneker.Quark;
 [TailwindPrefix("aspect-", Responsive = true)]
 public sealed class AspectRatioBuilder : CssBuilderBase<AspectRatioBuilder>
 {
-    private readonly List<AspectRatioRule> _rules = new(4);
+    private RuleList<AspectRatioRule> _rules;
 
     internal AspectRatioBuilder()
     {
@@ -36,19 +36,19 @@ public sealed class AspectRatioBuilder : CssBuilderBase<AspectRatioBuilder>
     /// <summary>
     /// Sets the aspect ratio to 1:1 (square).
     /// </summary>
-    public AspectRatioBuilder R1X1 => ChainWithRatio(AspectRatioEnum.R1X1);
+    public AspectRatioBuilder R1X1 => ChainWithRatio(AspectRatioEnum.R1X1Value);
     /// <summary>
     /// Sets the aspect ratio to 4:3.
     /// </summary>
-    public AspectRatioBuilder R4X3 => ChainWithRatio(AspectRatioEnum.R4X3);
+    public AspectRatioBuilder R4X3 => ChainWithRatio(AspectRatioEnum.R4X3Value);
     /// <summary>
     /// Sets the aspect ratio to 16:9.
     /// </summary>
-    public AspectRatioBuilder R16X9 => ChainWithRatio(AspectRatioEnum.R16X9);
+    public AspectRatioBuilder R16X9 => ChainWithRatio(AspectRatioEnum.R16X9Value);
     /// <summary>
     /// Sets the aspect ratio to 21:9.
     /// </summary>
-    public AspectRatioBuilder R21X9 => ChainWithRatio(AspectRatioEnum.R21X9);
+    public AspectRatioBuilder R21X9 => ChainWithRatio(AspectRatioEnum.R21X9Value);
 
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -67,42 +67,30 @@ public sealed class AspectRatioBuilder : CssBuilderBase<AspectRatioBuilder>
 
 
 
-    /// <summary>
-    /// Gets the CSS class string for the current configuration.
-    /// </summary>
-    /// <returns>The CSS class string.</returns>
     public override string ToClass()
     {
         if (_rules.Count == 0)
             return string.Empty;
-
-        using var sb = new PooledStringBuilder();
-        var first = true;
-
-        for (var i = 0; i < _rules.Count; i++)
+        if (_rules.Count == 1)
         {
-            AspectRatioRule rule = _rules[i];
-            string cls = rule.Ratio;
-            if (cls.Length == 0)
-                continue;
-
-            string bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
-            if (bp.Length != 0)
-                cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, bp);
-
-            if (rule.ModifierChain is { Length: > 0 })
-                cls = BreakpointUtil.ApplyTailwindModifiers(cls, rule.ModifierChain);
-
-            if (!first) sb.Append(' ');
-            else first = false;
-
-            if (_rules.Count == 1)
-                return cls ?? string.Empty;
-
-            sb.Append(cls);
+            AspectRatioRule rule = _rules[0];
+            return ClassWriter.Render(rule.Ratio, BreakpointUtil.GetBreakpointToken(rule.Breakpoint), rule.ModifierChain);
         }
 
-        return sb.ToString();
+        var writer = new ClassWriter();
+        try
+        {
+            for (var i = 0; i < _rules.Count; i++)
+            {
+                AspectRatioRule rule = _rules[i];
+                writer.Add(rule.Ratio, BreakpointUtil.GetBreakpointToken(rule.Breakpoint), rule.ModifierChain);
+            }
+            return writer.ToString();
+        }
+        finally
+        {
+            writer.Dispose();
+        }
     }
 
     /// <summary>

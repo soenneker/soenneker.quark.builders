@@ -11,7 +11,7 @@ namespace Soenneker.Quark;
 public sealed class LeadingBuilder : CssBuilderBase<LeadingBuilder>
 {
     private const string Prefix = "leading-";
-    private readonly List<LeadingRule> _rules = new(4);
+    private RuleList<LeadingRule> _rules;
 
     internal LeadingBuilder()
     {
@@ -30,79 +30,79 @@ public sealed class LeadingBuilder : CssBuilderBase<LeadingBuilder>
     /// <summary>
     /// Gets or sets none.
     /// </summary>
-    public LeadingBuilder None => Chain(LeadingEnum.None);
+    public LeadingBuilder None => Chain(LeadingEnum.NoneValue);
     /// <summary>
     /// Gets or sets tight.
     /// </summary>
-    public LeadingBuilder Tight => Chain(LeadingEnum.Tight);
+    public LeadingBuilder Tight => Chain(LeadingEnum.TightValue);
     /// <summary>
     /// Gets or sets snug.
     /// </summary>
-    public LeadingBuilder Snug => Chain(LeadingEnum.Snug);
+    public LeadingBuilder Snug => Chain(LeadingEnum.SnugValue);
     /// <summary>
     /// Gets or sets normal.
     /// </summary>
-    public LeadingBuilder Normal => Chain(LeadingEnum.Normal);
+    public LeadingBuilder Normal => Chain(LeadingEnum.NormalValue);
     /// <summary>
     /// Gets or sets relaxed.
     /// </summary>
-    public LeadingBuilder Relaxed => Chain(LeadingEnum.Relaxed);
+    public LeadingBuilder Relaxed => Chain(LeadingEnum.RelaxedValue);
     /// <summary>
     /// Gets or sets loose.
     /// </summary>
-    public LeadingBuilder Loose => Chain(LeadingEnum.Loose);
+    public LeadingBuilder Loose => Chain(LeadingEnum.LooseValue);
     /// <summary>
     /// Gets or sets is0.
     /// </summary>
-    public LeadingBuilder Is0 => Chain(LeadingEnum.Is0);
+    public LeadingBuilder Is0 => Chain(LeadingEnum.Is0Value);
     /// <summary>
     /// Gets or sets is1.
     /// </summary>
-    public LeadingBuilder Is1 => Chain(LeadingEnum.Is1);
+    public LeadingBuilder Is1 => Chain(LeadingEnum.Is1Value);
     /// <summary>
     /// Gets or sets is2.
     /// </summary>
-    public LeadingBuilder Is2 => Chain(LeadingEnum.Is2);
+    public LeadingBuilder Is2 => Chain(LeadingEnum.Is2Value);
     /// <summary>
     /// Gets or sets is3.
     /// </summary>
-    public LeadingBuilder Is3 => Chain(LeadingEnum.Is3);
+    public LeadingBuilder Is3 => Chain(LeadingEnum.Is3Value);
     /// <summary>
     /// Gets or sets is4.
     /// </summary>
-    public LeadingBuilder Is4 => Chain(LeadingEnum.Is4);
+    public LeadingBuilder Is4 => Chain(LeadingEnum.Is4Value);
     /// <summary>
     /// Gets or sets is4 5.
     /// </summary>
-    public LeadingBuilder Is4_5 => Chain(LeadingEnum.Is4_5);
+    public LeadingBuilder Is4_5 => Chain(LeadingEnum.Is4_5Value);
     /// <summary>
     /// Gets or sets is5.
     /// </summary>
-    public LeadingBuilder Is5 => Chain(LeadingEnum.Is5);
+    public LeadingBuilder Is5 => Chain(LeadingEnum.Is5Value);
     /// <summary>
     /// Gets or sets is6.
     /// </summary>
-    public LeadingBuilder Is6 => Chain(LeadingEnum.Is6);
+    public LeadingBuilder Is6 => Chain(LeadingEnum.Is6Value);
     /// <summary>
     /// Gets or sets is6 5.
     /// </summary>
-    public LeadingBuilder Is6_5 => Chain(LeadingEnum.Is6_5);
+    public LeadingBuilder Is6_5 => Chain(LeadingEnum.Is6_5Value);
     /// <summary>
     /// Gets or sets is7.
     /// </summary>
-    public LeadingBuilder Is7 => Chain(LeadingEnum.Is7);
+    public LeadingBuilder Is7 => Chain(LeadingEnum.Is7Value);
     /// <summary>
     /// Gets or sets is8.
     /// </summary>
-    public LeadingBuilder Is8 => Chain(LeadingEnum.Is8);
+    public LeadingBuilder Is8 => Chain(LeadingEnum.Is8Value);
     /// <summary>
     /// Gets or sets is9.
     /// </summary>
-    public LeadingBuilder Is9 => Chain(LeadingEnum.Is9);
+    public LeadingBuilder Is9 => Chain(LeadingEnum.Is9Value);
     /// <summary>
     /// Gets or sets is10.
     /// </summary>
-    public LeadingBuilder Is10 => Chain(LeadingEnum.Is10);
+    public LeadingBuilder Is10 => Chain(LeadingEnum.Is10Value);
     /// <summary>
     /// Adds an arbitrary leading utility token to the class list.
     /// </summary>
@@ -127,46 +127,30 @@ public sealed class LeadingBuilder : CssBuilderBase<LeadingBuilder>
 
 
 
-    /// <summary>
-    /// Executes the to class operation.
-    /// </summary>
-    /// <returns>The result of the operation.</returns>
     public override string ToClass()
     {
         if (_rules.Count == 0)
             return string.Empty;
-
-        using var sb = new PooledStringBuilder();
-        var first = true;
-
-        for (var i = 0; i < _rules.Count; i++)
+        if (_rules.Count == 1)
         {
-            LeadingRule rule = _rules[i];
-
-            if (rule.Value.Length == 0)
-                continue;
-
-            string cls = rule.Value;
-            string bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
-
-            if (bp.Length != 0)
-                cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, bp);
-
-            if (rule.ModifierChain is { Length: > 0 })
-                cls = BreakpointUtil.ApplyTailwindModifiers(cls, rule.ModifierChain);
-
-            if (!first)
-                sb.Append(' ');
-            else
-                first = false;
-
-            if (_rules.Count == 1)
-                return cls ?? string.Empty;
-
-            sb.Append(cls);
+            LeadingRule rule = _rules[0];
+            return ClassWriter.Render(rule.Value, BreakpointUtil.GetBreakpointToken(rule.Breakpoint), rule.ModifierChain);
         }
 
-        return sb.ToString();
+        var writer = new ClassWriter();
+        try
+        {
+            for (var i = 0; i < _rules.Count; i++)
+            {
+                LeadingRule rule = _rules[i];
+                writer.Add(rule.Value, BreakpointUtil.GetBreakpointToken(rule.Breakpoint), rule.ModifierChain);
+            }
+            return writer.ToString();
+        }
+        finally
+        {
+            writer.Dispose();
+        }
     }
 
     /// <summary>

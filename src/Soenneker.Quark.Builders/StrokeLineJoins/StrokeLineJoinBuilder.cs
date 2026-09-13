@@ -11,7 +11,7 @@ namespace Soenneker.Quark;
 [TailwindPrefix("stroke-join-", Responsive = true)]
 public sealed class StrokeLineJoinBuilder : CssBuilderBase<StrokeLineJoinBuilder>
 {
-    private readonly List<StrokeLineJoinRule> _rules = new(4);
+    private RuleList<StrokeLineJoinRule> _rules;
 
     internal StrokeLineJoinBuilder()
     {
@@ -52,30 +52,30 @@ public sealed class StrokeLineJoinBuilder : CssBuilderBase<StrokeLineJoinBuilder
         return this;
     }
 
-    /// <summary>
-    /// Executes the to class operation.
-    /// </summary>
-    /// <returns>The result of the operation.</returns>
     public override string ToClass()
     {
-        if (_rules.Count == 0) return string.Empty;
-        using var sb = new PooledStringBuilder();
-        var first = true;
-        foreach (StrokeLineJoinRule rule in _rules)
+        if (_rules.Count == 0)
+            return string.Empty;
+        if (_rules.Count == 1)
         {
-            string cls = rule.Value.Value;
-            if (cls.Length == 0) continue;
-            string b = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
-            if (b.Length != 0) cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, b);
-            if (rule.ModifierChain is { Length: > 0 }) cls = BreakpointUtil.ApplyTailwindModifiers(cls, rule.ModifierChain);
-            if (!first) sb.Append(' ');
-            else first = false;
-            if (_rules.Count == 1)
-                return cls ?? string.Empty;
-
-            sb.Append(cls);
+            StrokeLineJoinRule rule = _rules[0];
+            return ClassWriter.Render(rule.Value.Value, BreakpointUtil.GetBreakpointToken(rule.Breakpoint), rule.ModifierChain);
         }
-        return sb.ToString();
+
+        var writer = new ClassWriter();
+        try
+        {
+            for (var i = 0; i < _rules.Count; i++)
+            {
+                StrokeLineJoinRule rule = _rules[i];
+                writer.Add(rule.Value.Value, BreakpointUtil.GetBreakpointToken(rule.Breakpoint), rule.ModifierChain);
+            }
+            return writer.ToString();
+        }
+        finally
+        {
+            writer.Dispose();
+        }
     }
 
     /// <summary>

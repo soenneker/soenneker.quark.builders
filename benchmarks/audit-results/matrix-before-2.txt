@@ -1,0 +1,28 @@
+Scenario | ns/op | bytes/op
+Width construct 1 | 17.7 | 64
+Width render 1 | 2.6 | 0
+Responsive base render 1 | 2.8 | 0
+Width construct 2 | 58.9 | 200
+Width render 2 | 25.7 | 40
+Responsive base render 2 | 24.9 | 56
+Width construct 4 | 109.5 | 216
+Width render 4 | 35.4 | 56
+Responsive base render 4 | 37.7 | 112
+Width construct 8 | 194.0 | 440
+Width render 8 | 58.5 | 88
+Responsive base render 8 | 60.0 | 224
+Width construct 16 | 437.1 | 896
+Width render 16 | 109.7 | 160
+Responsive base render 16 | 155.1 | 456
+Width construct 64 | 1671.1 | 3680
+Width render 64 | 522.5 | 640
+Responsive base render 64 | 554.9 | 1896
+Modifier matrix 1x1 | 32.6 | 48
+Modifier matrix 1x4 | 52.3 | 88
+Modifier matrix 1x16 | 164.3 | 232
+Modifier matrix 4x1 | 75.2 | 128
+Modifier matrix 4x4 | 160.0 | 272
+Modifier matrix 4x16 | 482.2 | 848
+Modifier matrix 16x1 | 300.2 | 440
+Modifier matrix 16x4 | 525.9 | 1016
+Modifier matrix 16x16 | 1585.7 | 3320

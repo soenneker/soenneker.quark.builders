@@ -9,31 +9,31 @@ public static partial class LineClamp
     /// <summary>
     /// Gets or sets none.
     /// </summary>
-    public static LineClampBuilder None => new(LineClampEnum.None);
+    public static LineClampBuilder None => new(LineClampEnum.NoneValue);
     /// <summary>
     /// Gets or sets is1.
     /// </summary>
-    public static LineClampBuilder Is1 => new(LineClampEnum.Is1);
+    public static LineClampBuilder Is1 => new(LineClampEnum.Is1Value);
     /// <summary>
     /// Gets or sets is2.
     /// </summary>
-    public static LineClampBuilder Is2 => new(LineClampEnum.Is2);
+    public static LineClampBuilder Is2 => new(LineClampEnum.Is2Value);
     /// <summary>
     /// Gets or sets is3.
     /// </summary>
-    public static LineClampBuilder Is3 => new(LineClampEnum.Is3);
+    public static LineClampBuilder Is3 => new(LineClampEnum.Is3Value);
     /// <summary>
     /// Gets or sets is4.
     /// </summary>
-    public static LineClampBuilder Is4 => new(LineClampEnum.Is4);
+    public static LineClampBuilder Is4 => new(LineClampEnum.Is4Value);
     /// <summary>
     /// Gets or sets is5.
     /// </summary>
-    public static LineClampBuilder Is5 => new(LineClampEnum.Is5);
+    public static LineClampBuilder Is5 => new(LineClampEnum.Is5Value);
     /// <summary>
     /// Gets or sets is6.
     /// </summary>
-    public static LineClampBuilder Is6 => new(LineClampEnum.Is6);
+    public static LineClampBuilder Is6 => new(LineClampEnum.Is6Value);
     /// <summary>
     /// Adds an arbitrary line clamp utility token to the class list.
     /// </summary>

@@ -12,7 +12,7 @@ namespace Soenneker.Quark;
 [TailwindPrefix("text-", Responsive = true)]
 public sealed class TextSizeBuilder : CssBuilderBase<TextSizeBuilder>
 {
-    private readonly List<TextSizeRule> _rules = new(4);
+    private RuleList<TextSizeRule> _rules;
 
     internal TextSizeBuilder()
     {
@@ -96,39 +96,30 @@ public sealed class TextSizeBuilder : CssBuilderBase<TextSizeBuilder>
         return this;
     }
 
-    /// <summary>Gets the CSS class string for the current configuration.</summary>
     public override string ToClass()
     {
         if (_rules.Count == 0)
             return string.Empty;
-
-        using var sb = new PooledStringBuilder();
-        var first = true;
-
-        for (var i = 0; i < _rules.Count; i++)
+        if (_rules.Count == 1)
         {
-            TextSizeRule rule = _rules[i];
-
-            string sizeClass = rule.Size;
-            if (sizeClass.Length == 0)
-                continue;
-
-            string bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
-            if (bp.Length != 0)
-                sizeClass = BreakpointUtil.ApplyTailwindBreakpoint(sizeClass, bp);
-
-            if (rule.ModifierChain is { Length: > 0 })
-                sizeClass = BreakpointUtil.ApplyTailwindModifiers(sizeClass, rule.ModifierChain);
-
-            if (!first)
-                sb.Append(' ');
-            else
-                first = false;
-
-            sb.Append(sizeClass);
+            TextSizeRule rule = _rules[0];
+            return ClassWriter.Render(rule.Size, BreakpointUtil.GetBreakpointToken(rule.Breakpoint), rule.ModifierChain);
         }
 
-        return sb.ToString();
+        var writer = new ClassWriter();
+        try
+        {
+            for (var i = 0; i < _rules.Count; i++)
+            {
+                TextSizeRule rule = _rules[i];
+                writer.Add(rule.Size, BreakpointUtil.GetBreakpointToken(rule.Breakpoint), rule.ModifierChain);
+            }
+            return writer.ToString();
+        }
+        finally
+        {
+            writer.Dispose();
+        }
     }
 
     /// <summary>

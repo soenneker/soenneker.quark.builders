@@ -11,7 +11,7 @@ namespace Soenneker.Quark;
 public sealed class TrackingBuilder : CssBuilderBase<TrackingBuilder>
 {
     private const string Prefix = "tracking-";
-    private readonly List<TrackingRule> _rules = new(4);
+    private RuleList<TrackingRule> _rules;
 
     internal TrackingBuilder()
     {
@@ -30,27 +30,27 @@ public sealed class TrackingBuilder : CssBuilderBase<TrackingBuilder>
     /// <summary>
     /// Gets or sets tighter.
     /// </summary>
-    public TrackingBuilder Tighter => Chain(TrackingEnum.Tighter);
+    public TrackingBuilder Tighter => Chain(TrackingEnum.TighterValue);
     /// <summary>
     /// Gets or sets tight.
     /// </summary>
-    public TrackingBuilder Tight => Chain(TrackingEnum.Tight);
+    public TrackingBuilder Tight => Chain(TrackingEnum.TightValue);
     /// <summary>
     /// Gets or sets normal.
     /// </summary>
-    public TrackingBuilder Normal => Chain(TrackingEnum.Normal);
+    public TrackingBuilder Normal => Chain(TrackingEnum.NormalValue);
     /// <summary>
     /// Gets or sets wide.
     /// </summary>
-    public TrackingBuilder Wide => Chain(TrackingEnum.Wide);
+    public TrackingBuilder Wide => Chain(TrackingEnum.WideValue);
     /// <summary>
     /// Gets or sets wider.
     /// </summary>
-    public TrackingBuilder Wider => Chain(TrackingEnum.Wider);
+    public TrackingBuilder Wider => Chain(TrackingEnum.WiderValue);
     /// <summary>
     /// Gets or sets widest.
     /// </summary>
-    public TrackingBuilder Widest => Chain(TrackingEnum.Widest);
+    public TrackingBuilder Widest => Chain(TrackingEnum.WidestValue);
     /// <summary>
     /// Adds an arbitrary tracking utility token to the class list.
     /// </summary>
@@ -75,46 +75,30 @@ public sealed class TrackingBuilder : CssBuilderBase<TrackingBuilder>
 
 
 
-    /// <summary>
-    /// Executes the to class operation.
-    /// </summary>
-    /// <returns>The result of the operation.</returns>
     public override string ToClass()
     {
         if (_rules.Count == 0)
             return string.Empty;
-
-        using var sb = new PooledStringBuilder();
-        var first = true;
-
-        for (var i = 0; i < _rules.Count; i++)
+        if (_rules.Count == 1)
         {
-            TrackingRule rule = _rules[i];
-
-            if (rule.Value.Length == 0)
-                continue;
-
-            string cls = rule.Value;
-            string bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
-
-            if (bp.Length != 0)
-                cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, bp);
-
-            if (rule.ModifierChain is { Length: > 0 })
-                cls = BreakpointUtil.ApplyTailwindModifiers(cls, rule.ModifierChain);
-
-            if (!first)
-                sb.Append(' ');
-            else
-                first = false;
-
-            if (_rules.Count == 1)
-                return cls ?? string.Empty;
-
-            sb.Append(cls);
+            TrackingRule rule = _rules[0];
+            return ClassWriter.Render(rule.Value, BreakpointUtil.GetBreakpointToken(rule.Breakpoint), rule.ModifierChain);
         }
 
-        return sb.ToString();
+        var writer = new ClassWriter();
+        try
+        {
+            for (var i = 0; i < _rules.Count; i++)
+            {
+                TrackingRule rule = _rules[i];
+                writer.Add(rule.Value, BreakpointUtil.GetBreakpointToken(rule.Breakpoint), rule.ModifierChain);
+            }
+            return writer.ToString();
+        }
+        finally
+        {
+            writer.Dispose();
+        }
     }
 
     /// <summary>

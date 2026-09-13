@@ -10,20 +10,20 @@ public static partial class Resize
     /// <summary>
     /// No resize (none).
     /// </summary>
-    public static ResizeBuilder None => new(ResizeEnum.None);
+    public static ResizeBuilder None => new(ResizeEnum.NoneValue);
 
     /// <summary>
     /// Resize both (both).
     /// </summary>
-    public static ResizeBuilder Both => new(ResizeEnum.Both);
+    public static ResizeBuilder Both => new(ResizeEnum.BothValue);
 
     /// <summary>
     /// Resize horizontally (horizontal).
     /// </summary>
-    public static ResizeBuilder Horizontal => new(ResizeEnum.Horizontal);
+    public static ResizeBuilder Horizontal => new(ResizeEnum.HorizontalValue);
 
     /// <summary>
     /// Resize vertically (vertical).
     /// </summary>
-    public static ResizeBuilder Vertical => new(ResizeEnum.Vertical);
+    public static ResizeBuilder Vertical => new(ResizeEnum.VerticalValue);
 }

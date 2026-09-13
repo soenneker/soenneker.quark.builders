@@ -1,3 +1,4 @@
+using System;
 namespace Soenneker.Quark;
 
 /// <summary>
@@ -112,5 +113,5 @@ public static partial class Margin
     /// </summary>
     /// <param name="value">Arbitrary utility value to append without predefined validation.</param>
     /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
-    public static MarginBuilder Token(string value) => new(value.StartsWith("-m-") || value.StartsWith("m-") ? value : value[0] == '-' ? "-m-" + value[1..] : "m-" + value);
+    public static MarginBuilder Token(string value) => new(value.StartsWith("-m-") || value.StartsWith("m-") ? value : value[0] == '-' ? string.Concat("-m-", value.AsSpan(1)) : "m-" + value);
 }

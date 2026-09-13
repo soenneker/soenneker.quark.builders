@@ -1,6 +1,4 @@
-using System.Collections.Generic;
 using System.Runtime.CompilerServices;
-using Soenneker.Utils.PooledStringBuilders;
 
 namespace Soenneker.Quark;
 
@@ -9,7 +7,7 @@ namespace Soenneker.Quark;
 /// </summary>
 public sealed class InputSizeBuilder : CssBuilderBase
 {
-    private readonly List<string> _tokens = new(4);
+    private RuleList<string> _tokens;
 
     internal InputSizeBuilder(InputSizeEnum value)
     {
@@ -28,11 +26,11 @@ public sealed class InputSizeBuilder : CssBuilderBase
     /// <summary>
     /// Gets or sets sm.
     /// </summary>
-    public InputSizeBuilder Sm => Chain(InputSizeEnum.Sm);
+    public InputSizeBuilder Sm => Chain(InputSizeEnum.SmValue);
     /// <summary>
     /// Gets or sets lg.
     /// </summary>
-    public InputSizeBuilder Lg => Chain(InputSizeEnum.Lg);
+    public InputSizeBuilder Lg => Chain(InputSizeEnum.LgValue);
 
     /// <summary>
     /// Adds an arbitrary input size utility token to the class list.
@@ -55,34 +53,7 @@ public sealed class InputSizeBuilder : CssBuilderBase
         return this;
     }
 
-    /// <summary>
-    /// Executes the to class operation.
-    /// </summary>
-    /// <returns>The result of the operation.</returns>
-    public override string ToClass()
-    {
-        if (_tokens.Count == 0)
-            return string.Empty;
-
-        using var sb = new PooledStringBuilder();
-        var first = true;
-
-        for (var i = 0; i < _tokens.Count; i++)
-        {
-            string token = _tokens[i];
-            if (token.Length == 0)
-                continue;
-
-            if (!first)
-                sb.Append(' ');
-            else
-                first = false;
-
-            sb.Append(token);
-        }
-
-        return sb.ToString();
-    }
+    public override string ToClass() => TokenRenderer.Render(_tokens, skipEmpty: true);
 
     /// <summary>
     /// Executes the to style operation.

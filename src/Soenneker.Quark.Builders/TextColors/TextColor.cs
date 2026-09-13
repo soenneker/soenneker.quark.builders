@@ -9,59 +9,59 @@ public static partial class TextColor
     /// <summary>
     /// Gets or sets primary.
     /// </summary>
-    public static TextColorBuilder Primary => new(TextColorEnum.Primary);
+    public static TextColorBuilder Primary => new(TextColorEnum.PrimaryValue);
     /// <summary>
     /// Gets or sets primary foreground.
     /// </summary>
-    public static TextColorBuilder PrimaryForeground => new(TextColorEnum.PrimaryForeground);
+    public static TextColorBuilder PrimaryForeground => new(TextColorEnum.PrimaryForegroundValue);
     /// <summary>
     /// Gets or sets secondary.
     /// </summary>
-    public static TextColorBuilder Secondary => new(TextColorEnum.Secondary);
+    public static TextColorBuilder Secondary => new(TextColorEnum.SecondaryValue);
     /// <summary>
     /// Gets or sets secondary foreground.
     /// </summary>
-    public static TextColorBuilder SecondaryForeground => new(TextColorEnum.SecondaryForeground);
+    public static TextColorBuilder SecondaryForeground => new(TextColorEnum.SecondaryForegroundValue);
     /// <summary>
     /// Gets or sets destructive.
     /// </summary>
-    public static TextColorBuilder Destructive => new(TextColorEnum.Destructive);
+    public static TextColorBuilder Destructive => new(TextColorEnum.DestructiveValue);
     /// <summary>
     /// Gets or sets destructive foreground.
     /// </summary>
-    public static TextColorBuilder DestructiveForeground => new(TextColorEnum.DestructiveForeground);
+    public static TextColorBuilder DestructiveForeground => new(TextColorEnum.DestructiveForegroundValue);
     /// <summary>
     /// Gets or sets muted foreground.
     /// </summary>
-    public static TextColorBuilder MutedForeground => new(TextColorEnum.MutedForeground);
+    public static TextColorBuilder MutedForeground => new(TextColorEnum.MutedForegroundValue);
     /// <summary>
     /// Gets or sets accent.
     /// </summary>
-    public static TextColorBuilder Accent => new(TextColorEnum.Accent);
+    public static TextColorBuilder Accent => new(TextColorEnum.AccentValue);
     /// <summary>
     /// Gets or sets accent foreground.
     /// </summary>
-    public static TextColorBuilder AccentForeground => new(TextColorEnum.AccentForeground);
+    public static TextColorBuilder AccentForeground => new(TextColorEnum.AccentForegroundValue);
     /// <summary>
     /// Gets or sets popover foreground.
     /// </summary>
-    public static TextColorBuilder PopoverForeground => new(TextColorEnum.PopoverForeground);
+    public static TextColorBuilder PopoverForeground => new(TextColorEnum.PopoverForegroundValue);
     /// <summary>
     /// Gets or sets card foreground.
     /// </summary>
-    public static TextColorBuilder CardForeground => new(TextColorEnum.CardForeground);
+    public static TextColorBuilder CardForeground => new(TextColorEnum.CardForegroundValue);
     /// <summary>
     /// Gets or sets foreground.
     /// </summary>
-    public static TextColorBuilder Foreground => new(TextColorEnum.Foreground);
+    public static TextColorBuilder Foreground => new(TextColorEnum.ForegroundValue);
     /// <summary>
     /// Gets or sets white.
     /// </summary>
-    public static TextColorBuilder White => new(TextColorEnum.White);
+    public static TextColorBuilder White => new(TextColorEnum.WhiteValue);
     /// <summary>
     /// Gets or sets black.
     /// </summary>
-    public static TextColorBuilder Black => new(TextColorEnum.Black);
+    public static TextColorBuilder Black => new(TextColorEnum.BlackValue);
 
     /// <summary>
     /// Creates a text color builder from a Tailwind color token suffix such as <c>primary/80</c>, <c>zinc-700</c>, or <c>[var(--brand)]</c>.

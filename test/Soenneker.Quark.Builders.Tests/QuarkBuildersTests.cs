@@ -11,6 +11,193 @@ public sealed class QuarkBuildersTests : HostedUnitTest
     }
 
     [Test]
+    public void CssValue_scalar_overloads_match_array_composition()
+    {
+        AssertCssValue(CssValue<WidthBuilder>.For(), CssValue<WidthBuilder>.For(System.Array.Empty<object?>()));
+        object?[] values = [null, "", "  ", " a ", "b", 12, -12, (CssValue<WidthBuilder>)" x ",
+            new AuditStyleBuilder(" a ", " color:red;; "), new AuditStyleBuilder("", " ; ")];
+        foreach (object? first in values)
+        {
+            AssertCssValue(CssValue<WidthBuilder>.For(first), CssValue<WidthBuilder>.For(new[] { first }));
+            foreach (object? second in values)
+            {
+                AssertCssValue(CssValue<WidthBuilder>.For(first, second), CssValue<WidthBuilder>.For(new[] { first, second }));
+                CssValue<WidthBuilder> seed = " base ";
+                AssertCssValue(seed.Add(second), CssValue<WidthBuilder>.For(new object?[] { seed, second }));
+            }
+        }
+    }
+
+    [Test]
+    public void CssValue_fast_paths_preserve_selector_conflicts_and_null_arrays()
+    {
+        CssValue<WidthBuilder> first = ((CssValue<WidthBuilder>)"a").WithSelector(".x");
+        CssValue<WidthBuilder> second = ((CssValue<WidthBuilder>)"b").WithSelector(".x");
+        AssertCssValue(CssValue<WidthBuilder>.For(first, second), CssValue<WidthBuilder>.For(new object?[] { first, second }));
+        System.Action conflict = () => CssValue<WidthBuilder>.For(first, second.WithSelector(".y"));
+        conflict.Should().Throw<System.InvalidOperationException>();
+        System.Action absoluteConflict = () => first.Add(second.WithSelector(".x", true));
+        absoluteConflict.Should().Throw<System.InvalidOperationException>();
+        System.Action nullFor = () => CssValue<WidthBuilder>.For((object?[])null!);
+        nullFor.Should().Throw<System.NullReferenceException>();
+        AssertCssValue(first.Add((object?[])null!), first);
+    }
+
+    [Test]
+    public void Palette_selectors_keep_their_original_factory_and_pending_modifiers()
+    {
+        var builder = TextColor.Primary;
+        var saved = builder.Red;
+        _ = builder.OnMd;
+        saved.Is500.Should().BeSameAs(builder);
+        saved.Is600.ToClass().Should().Be("text-primary md:text-red-500 text-red-600");
+        var independent = TextColor.Red;
+        var first = independent.Is500;
+        independent.Is600.ToClass().Should().Be("text-red-600");
+        first.ToClass().Should().Be("text-red-500");
+    }
+
+    [Test]
+    public void Variant_storage_preserves_breakpoint_replacement_after_growth()
+    {
+        var builder = Variant.Of(Width.Auto).OnSm;
+        for (var i = 0; i < 20; i++)
+            builder.Modifier("hover");
+        string chain = string.Join(":", System.Linq.Enumerable.Repeat("hover", 20));
+        builder.OnMd.ToClass().Should().Be($"md:{chain}:w-auto");
+        builder.OnBase.ToClass().Should().Be($"{chain}:w-auto");
+        builder.OnLg.OnSm.ToClass().Should().Be($"sm:{chain}:w-auto");
+        Variant.Of(Width.Auto).Modifier("").ToClass().Should().Be("w-auto");
+    }
+
+    private static void AssertCssValue(CssValue<WidthBuilder> actual, CssValue<WidthBuilder> expected)
+    {
+        actual.ToString().Should().Be(expected.ToString());
+        actual.StyleValue.Should().Be(expected.StyleValue);
+        actual.CssSelector.Should().Be(expected.CssSelector);
+        actual.SelectorIsAbsolute.Should().Be(expected.SelectorIsAbsolute);
+        actual.IsCssStyle.Should().Be(expected.IsCssStyle);
+    }
+
+    private sealed class AuditStyleBuilder(string classes, string style) : CssBuilderBase
+    {
+        public override string ToClass() => classes;
+        public override string ToStyle() => style;
+    }
+
+    [Test]
+    public void Size_token_builders_preserve_empty_tokens_and_growth_behavior()
+    {
+        (System.Type Factory, bool SkipEmpty)[] cases =
+        [
+            (typeof(CheckSizes), false), (typeof(RadioSizes), false),
+            (typeof(SelectSizes), false), (typeof(SliderSizes), false),
+            (typeof(SwitchSizes), false), (typeof(InputSizes), true),
+            (typeof(PaginationSizes), true)
+        ];
+        foreach (var (factory, skipEmpty) in cases)
+        {
+            var create = factory.GetMethod("Token", [typeof(string)])!;
+            var builder = (ICssBuilder)create.Invoke(null, [""])!;
+            builder.ToClass().Should().BeEmpty();
+            var append = builder.GetType().GetMethod("Token", [typeof(string)])!;
+            var tokens = new System.Collections.Generic.List<string> { "" };
+            for (var i = 0; i < 20; i++)
+            {
+                string token = i % 3 == 0 ? "" : $"custom-{i}";
+                append.Invoke(builder, [token]);
+                if (!skipEmpty || token.Length != 0)
+                    tokens.Add(token);
+                string expected = string.Join(" ", skipEmpty ? tokens.GetRange(1, tokens.Count - 1) : tokens);
+                builder.ToClass().Should().Be(expected);
+                builder.ToClass().Should().Be(expected);
+            }
+        }
+    }
+
+    [Test]
+    public void Rounded_rendering_preserves_positions_custom_tokens_and_mutation()
+    {
+        Rounded.Default.ToClass().Should().Be("rounded");
+        Rounded.Default.Top.Default.ToClass().Should().Be("rounded rounded-t");
+        Rounded.Lg.OnMd.Top.Sm.OnHover.Full.ToClass().Should().Be("rounded-lg md:rounded-t-sm hover:rounded-full");
+        var builder = Rounded.Default;
+        builder.ToClass().Should().Be("rounded");
+        builder.TopLeft.Token("[3px]").ToClass().Should().Be("rounded rounded-tl-[3px]");
+        builder.Token("").ToClass().Should().Be("rounded rounded-tl-[3px] rounded");
+    }
+
+    [Test]
+    public void Modifier_rendering_preserves_whitespace_and_empty_modifier_semantics()
+    {
+        const string group = " \tpx-2\r\npy-1\u00a0text-sm\u2003";
+        BreakpointUtil.ApplyTailwindModifiers(group, "md:hover").Should().Be("md:hover:px-2 md:hover:py-1 md:hover:text-sm");
+        BreakpointUtil.ApplyTailwindModifiers(group, new[] { "md", "", null!, "hover" })
+            .Should().Be("md:hover:px-2 md:hover:py-1 md:hover:text-sm");
+        BreakpointUtil.ApplyTailwindModifiers(group, new[] { "", null! }).Should().Be("px-2 py-1 text-sm");
+        BreakpointUtil.ApplyTailwindModifiers(group, System.Array.Empty<string>()).Should().Be(group);
+        BreakpointUtil.ApplyTailwindModifiers(group, "").Should().Be(group);
+        BreakpointUtil.ApplyTailwindModifiers("\t\u2003", "hover").Should().BeEmpty();
+    }
+
+    [Test]
+    public void Long_chains_preserve_order_across_storage_growth_and_repeated_renders()
+    {
+        WidthBuilder builder = Width.Auto;
+        string expected = "w-auto";
+        for (var i = 1; i <= 32; i++)
+        {
+            builder.OnMd.Token(i.ToString(System.Globalization.CultureInfo.InvariantCulture));
+            expected += $" md:w-{i}";
+            builder.ToClass().Should().Be(expected);
+            builder.ToClass().Should().Be(expected);
+        }
+        Width.Auto.ToClass().Should().Be("w-auto");
+    }
+
+    [Test]
+    public void Class_groups_keep_rule_separators_when_modified_whitespace_becomes_empty()
+    {
+        ButtonSize.OnHover.Token(" \t").Token("a b").ToClass().Should().Be(" a b");
+        ButtonSize.Token("").OnHover.Token("a b").Token("").ToClass().Should().Be("hover:a hover:b");
+        ButtonSize.Token("a b").OnMd.Token("c d").OnHover.Token("e f").ToClass()
+            .Should().Be("a b md:c md:d hover:e hover:f");
+    }
+
+    [Test]
+    public void Side_retargeting_updates_inline_and_overflow_rules_after_rendering()
+    {
+        MarginBuilder builder = Margin.Is2;
+        builder.ToClass().Should().Be("m-2");
+        builder.FromTop.ToClass().Should().Be("mt-2");
+        builder.Is4.ToClass().Should().Be("mt-2 m-4");
+        builder.FromBottom.ToClass().Should().Be("mt-2 mb-4");
+    }
+
+    [Test]
+    public void Responsive_subclasses_can_mutate_protected_rules_after_rendering()
+    {
+        var builder = new MutableResponsiveBuilder();
+        builder.Replace(new UtilityRule("a b", BreakpointType.Md, "hover"));
+        builder.ToClass().Should().Be("hover:md:a hover:b");
+        builder.Replace(new UtilityRule("c d", null, "focus"));
+        builder.ToClass().Should().Be("focus:c focus:d");
+        builder.Push("e");
+        builder.ToClass().Should().Be("focus:c focus:d e");
+    }
+
+    private sealed class MutableResponsiveBuilder : ResponsiveUtilityBuilder<MutableResponsiveBuilder>
+    {
+        public void Replace(UtilityRule rule)
+        {
+            Rules.Clear();
+            Rules.Add(rule);
+        }
+
+        public void Push(string value) => ChainValue(value);
+    }
+
+    [Test]
     public void Prefixed_tokens_accept_suffixes_and_complete_utilities()
     {
         (System.Type Type, string Suffix, string Full)[] cases =

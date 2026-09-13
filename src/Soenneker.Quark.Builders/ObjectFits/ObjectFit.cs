@@ -9,25 +9,25 @@ public static partial class ObjectFit
     /// <summary>
     /// object-fit: contain.
     /// </summary>
-    public static ObjectFitBuilder Contain => new(ObjectFitEnum.Contain);
+    public static ObjectFitBuilder Contain => new(ObjectFitEnum.ContainValue);
 
     /// <summary>
     /// object-fit: cover.
     /// </summary>
-    public static ObjectFitBuilder Cover => new(ObjectFitEnum.Cover);
+    public static ObjectFitBuilder Cover => new(ObjectFitEnum.CoverValue);
 
     /// <summary>
     /// object-fit: fill.
     /// </summary>
-    public static ObjectFitBuilder Fill => new(ObjectFitEnum.Fill);
+    public static ObjectFitBuilder Fill => new(ObjectFitEnum.FillValue);
 
     /// <summary>
     /// object-fit: scale-down.
     /// </summary>
-    public static ObjectFitBuilder ScaleDown => new(ObjectFitEnum.ScaleDown);
+    public static ObjectFitBuilder ScaleDown => new(ObjectFitEnum.ScaleDownValue);
 
     /// <summary>
     /// object-fit: none.
     /// </summary>
-    public static ObjectFitBuilder None => new(ObjectFitEnum.None);
+    public static ObjectFitBuilder None => new(ObjectFitEnum.NoneValue);
 }

@@ -9,25 +9,25 @@ public static partial class Float
     /// <summary>
     /// Gets a float builder with none value (no floating).
     /// </summary>
-    public static FloatBuilder None => new(FloatEnum.None);
+    public static FloatBuilder None => new(FloatEnum.NoneValue);
 
     /// <summary>
     /// Gets a float builder with left value (float left).
     /// </summary>
-    public static FloatBuilder Left => new(FloatEnum.Left);
+    public static FloatBuilder Left => new(FloatEnum.LeftValue);
 
     /// <summary>
     /// Gets a float builder with start value (float inline-start).
     /// </summary>
-    public static FloatBuilder Start => new(FloatEnum.Start);
+    public static FloatBuilder Start => new(FloatEnum.StartValue);
 
     /// <summary>
     /// Gets a float builder with right value (float right).
     /// </summary>
-    public static FloatBuilder Right => new(FloatEnum.Right);
+    public static FloatBuilder Right => new(FloatEnum.RightValue);
 
     /// <summary>
     /// Gets a float builder with end value (float inline-end).
     /// </summary>
-    public static FloatBuilder End => new(FloatEnum.End);
+    public static FloatBuilder End => new(FloatEnum.EndValue);
 }

@@ -1,3 +1,4 @@
+using System;
 
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
@@ -11,7 +12,7 @@ namespace Soenneker.Quark;
 [TailwindPrefix("inset-", Responsive = true)]
 public sealed class InsetBuilder : CssBuilderBase<InsetBuilder>
 {
-    private readonly List<InsetRule> _rules = new(4);
+    private RuleList<InsetRule> _rules;
     private ElementSideEnum? _pendingSide;
 
     internal InsetBuilder()
@@ -124,44 +125,30 @@ public sealed class InsetBuilder : CssBuilderBase<InsetBuilder>
         return this;
     }
 
-    /// <summary>
-    /// Executes the to class operation.
-    /// </summary>
-    /// <returns>The result of the operation.</returns>
     public override string ToClass()
     {
-        if (_rules.Count == 0) return string.Empty;
-        using var sb = new PooledStringBuilder();
-        var first = true;
-        for (var i = 0; i < _rules.Count; i++)
-        {
-            InsetRule rule = _rules[i];
-            string cls = BuildClass(rule);
-            if (cls.Length == 0) continue;
-            if (!first) sb.Append(' ');
-            else first = false;
-            if (_rules.Count == 1)
-                return cls ?? string.Empty;
-
-            sb.Append(cls);
-        }
-        return sb.ToString();
-    }
-
-    private static string BuildClass(InsetRule rule)
-    {
-        string cls = ApplySide(rule.Size.Value, rule.Side);
-        if (cls.Length == 0)
+        if (_rules.Count == 0)
             return string.Empty;
+        if (_rules.Count == 1)
+        {
+            InsetRule rule = _rules[0];
+            return ClassWriter.Render(ApplySide(rule.Size.Value, rule.Side), BreakpointUtil.GetBreakpointToken(rule.Breakpoint), rule.ModifierChain);
+        }
 
-        string bp = BreakpointUtil.GetBreakpointToken(rule.Breakpoint);
-        if (bp.Length != 0)
-            cls = BreakpointUtil.ApplyTailwindBreakpoint(cls, bp);
-
-        if (rule.ModifierChain is { Length: > 0 })
-            cls = BreakpointUtil.ApplyTailwindModifiers(cls, rule.ModifierChain);
-
-        return cls;
+        var writer = new ClassWriter();
+        try
+        {
+            for (var i = 0; i < _rules.Count; i++)
+            {
+                InsetRule rule = _rules[i];
+                writer.Add(ApplySide(rule.Size.Value, rule.Side), BreakpointUtil.GetBreakpointToken(rule.Breakpoint), rule.ModifierChain);
+            }
+            return writer.ToString();
+        }
+        finally
+        {
+            writer.Dispose();
+        }
     }
 
     /// <summary>
@@ -188,15 +175,15 @@ public sealed class InsetBuilder : CssBuilderBase<InsetBuilder>
         if (!sizeClass.StartsWith("inset-"))
             return sizeClass;
 
-        string suffix = sizeClass["inset-".Length..];
-        if (ReferenceEquals(side, ElementSideEnum.Top)) return "top-" + suffix;
-        if (ReferenceEquals(side, ElementSideEnum.Right)) return "right-" + suffix;
-        if (ReferenceEquals(side, ElementSideEnum.Bottom)) return "bottom-" + suffix;
-        if (ReferenceEquals(side, ElementSideEnum.Left)) return "left-" + suffix;
-        if (ReferenceEquals(side, ElementSideEnum.Horizontal) || ReferenceEquals(side, ElementSideEnum.LeftRight)) return "inset-x-" + suffix;
-        if (ReferenceEquals(side, ElementSideEnum.Vertical) || ReferenceEquals(side, ElementSideEnum.TopBottom)) return "inset-y-" + suffix;
-        if (ReferenceEquals(side, ElementSideEnum.InlineStart)) return "start-" + suffix;
-        if (ReferenceEquals(side, ElementSideEnum.InlineEnd)) return "end-" + suffix;
+        ReadOnlySpan<char> suffix = sizeClass.AsSpan("inset-".Length);
+        if (ReferenceEquals(side, ElementSideEnum.Top)) return string.Concat("top-", suffix);
+        if (ReferenceEquals(side, ElementSideEnum.Right)) return string.Concat("right-", suffix);
+        if (ReferenceEquals(side, ElementSideEnum.Bottom)) return string.Concat("bottom-", suffix);
+        if (ReferenceEquals(side, ElementSideEnum.Left)) return string.Concat("left-", suffix);
+        if (ReferenceEquals(side, ElementSideEnum.Horizontal) || ReferenceEquals(side, ElementSideEnum.LeftRight)) return string.Concat("inset-x-", suffix);
+        if (ReferenceEquals(side, ElementSideEnum.Vertical) || ReferenceEquals(side, ElementSideEnum.TopBottom)) return string.Concat("inset-y-", suffix);
+        if (ReferenceEquals(side, ElementSideEnum.InlineStart)) return string.Concat("start-", suffix);
+        if (ReferenceEquals(side, ElementSideEnum.InlineEnd)) return string.Concat("end-", suffix);
         return string.Empty;
     }
 
