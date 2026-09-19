@@ -119,3 +119,49 @@ Layout properties such as direction and wrapping are independent of display.
 Composite presets are different: `ListVariant.Inline` deliberately applies
 `flex flex-wrap items-center gap-2 list-none p-0`, while `ListVariant.None`
 applies `list-none p-0`. Their XML documentation lists these effects.
+
+## Additional Tailwind utility families
+
+The following builders expose named values, `Token(...)`, and responsive/state modifiers:
+
+| Area | Builders |
+| --- | --- |
+| Transforms | `Translate`, `Skew`, `Perspective`, `PerspectiveOrigin`, `BackfaceVisibility`, `TransformStyle` |
+| Outlines | `OutlineWidth`, `OutlineColor` |
+| Backgrounds | `BackgroundAttachment`, `BackgroundClip`, `BackgroundOrigin` |
+| Typography and lists | `DecorationColor`, `TextIndent`, `FontStretch`, `Content`, `ListStylePosition`, `ListStyleImage` |
+| Layout | `Columns`, `BreakBefore`, `BreakAfter`, `BreakInside`, `BoxDecorationBreak` |
+| Tables | `BorderCollapse`, `BorderSpacing`, `TableLayout`, `CaptionSide` |
+| Effects | `ShadowColor`, `TextShadow`, `TextShadowColor`, `InsetShadow`, `InsetShadowColor`, `InsetRing`, `InsetRingColor` |
+| Filters | `Blur`, `Brightness`, `Contrast`, `Saturate`, `BackdropBlur`, `BackdropBrightness`, `BackdropContrast`, `BackdropSaturate` |
+| Interaction and transitions | `FieldSizing`, `ColorScheme`, `TransitionBehavior` |
+
+```csharp
+Translate.OnX.NegativeHalf.OnMd.OnY.Is4.ToClass();
+// -translate-x-1/2 md:translate-y-4
+
+OutlineWidth.OnFocusVisible.Is2.ToClass();
+// focus-visible:outline-2
+
+OutlineColor.OnFocusVisible.Blue.Is500.OnDark.Token("white/50").ToClass();
+// focus-visible:outline-blue-500 dark:outline-white/50
+
+BackgroundClip.Text.ToClass();
+// bg-clip-text
+
+BackdropBlur.Sm.OnMd.Lg.ToClass();
+// backdrop-blur-sm md:backdrop-blur-lg
+
+Content.OnBefore.Token("[attr(data-label)]").ToClass();
+// before:content-[attr(data-label)]
+```
+
+`Translate`, `Skew`, and `BorderSpacing` support `OnX` and `OnY`. Each axis selection
+applies to the next utility only. Complete tokens preserve their explicit axis;
+suffixes use the selected axis. For example, `Translate.OnX.Token("-[13px]")`
+emits `-translate-x-[13px]`. `Translate.None` clears translation on every axis.
+
+Color builders follow the existing color API: `Token(...)` accepts a color suffix,
+while `Utility(...)` accepts a complete prefixed class. Semantic colors such as
+`Primary` require matching theme colors. The new filter builders provide strength
+values alongside the existing `Filter` and `BackdropFilter` APIs.
