@@ -6,18 +6,6 @@ namespace Soenneker.Quark;
 [TailwindModifiers(typeof(AccentColorBuilder), IncludeColorPalettes = true)]
 public static partial class AccentColor
 {
-    /// <summary>Selects the mauve palette for the next color.</summary>
-    public static ColorPaletteBuilder<AccentColorBuilder> Mauve => new("mauve", Token);
-
-    /// <summary>Selects the olive palette for the next color.</summary>
-    public static ColorPaletteBuilder<AccentColorBuilder> Olive => new("olive", Token);
-
-    /// <summary>Selects the mist palette for the next color.</summary>
-    public static ColorPaletteBuilder<AccentColorBuilder> Mist => new("mist", Token);
-
-    /// <summary>Selects the taupe palette for the next color.</summary>
-    public static ColorPaletteBuilder<AccentColorBuilder> Taupe => new("taupe", Token);
-
     /// <summary>
     /// `auto` — browser-default sizing/behavior for the underlying utility.
     /// </summary>

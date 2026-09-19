@@ -6,18 +6,6 @@ namespace Soenneker.Quark;
 [TailwindModifiers(typeof(CaretColorBuilder), IncludeColorPalettes = true)]
 public static partial class CaretColor
 {
-    /// <summary>Selects the mauve palette for the next color.</summary>
-    public static ColorPaletteBuilder<CaretColorBuilder> Mauve => new("mauve", Token);
-
-    /// <summary>Selects the olive palette for the next color.</summary>
-    public static ColorPaletteBuilder<CaretColorBuilder> Olive => new("olive", Token);
-
-    /// <summary>Selects the mist palette for the next color.</summary>
-    public static ColorPaletteBuilder<CaretColorBuilder> Mist => new("mist", Token);
-
-    /// <summary>Selects the taupe palette for the next color.</summary>
-    public static ColorPaletteBuilder<CaretColorBuilder> Taupe => new("taupe", Token);
-
     /// <summary>
     /// Fluent step for `Primary` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>

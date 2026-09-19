@@ -61,15 +61,14 @@
         <PackageReference Include="Soenneker.Quark.Enums.TextTransforms" Version="4.0.71" />
         <PackageReference Include="Soenneker.Quark.Enums.UserSelects" Version="4.0.47" />
         <PackageReference Include="Soenneker.Quark.Enums.Visibilities" Version="4.0.74" />
-        <PackageReference Include="Soenneker.Quark.Gen.Tailwind.Modifiers" Version="4.0.19">
+        <PackageReference Include="Soenneker.Quark.Gen.Tailwind.Modifiers" Version="4.0.20">
           <PrivateAssets>all</PrivateAssets>
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
     </ItemGroup>
 
     <!-- Optional verification of a coordinated generator release; normal builds use NuGet. -->
-    <Target Name="UseQuarkTailwindModifiersVerificationAnalyzer" BeforeTargets="CoreCompile"
-            Condition="'$(QuarkTailwindModifiersAnalyzerPath)' != ''">
+    <Target Name="UseQuarkTailwindModifiersVerificationAnalyzer" BeforeTargets="CoreCompile" Condition="'$(QuarkTailwindModifiersAnalyzerPath)' != ''">
         <ItemGroup>
             <Analyzer Remove="@(Analyzer)" Condition="'%(Analyzer.Filename)' == 'Soenneker.Quark.Gen.Tailwind.Modifiers'" />
             <Analyzer Include="$(QuarkTailwindModifiersAnalyzerPath)" />

@@ -4,18 +4,6 @@ namespace Soenneker.Quark;
 [TailwindModifiers(typeof(OutlineColorBuilder), IncludeColorPalettes = true)]
 public static partial class OutlineColor
 {
-    /// <summary>Selects the mauve palette for the next color.</summary>
-    public static ColorPaletteBuilder<OutlineColorBuilder> Mauve => new("mauve", Token);
-
-    /// <summary>Selects the olive palette for the next color.</summary>
-    public static ColorPaletteBuilder<OutlineColorBuilder> Olive => new("olive", Token);
-
-    /// <summary>Selects the mist palette for the next color.</summary>
-    public static ColorPaletteBuilder<OutlineColorBuilder> Mist => new("mist", Token);
-
-    /// <summary>Selects the taupe palette for the next color.</summary>
-    public static ColorPaletteBuilder<OutlineColorBuilder> Taupe => new("taupe", Token);
-
     /// <summary>Adds <c>outline-primary</c>.</summary>
     public static OutlineColorBuilder Primary => new(OutlineColorEnum.Primary);
 

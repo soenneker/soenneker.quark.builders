@@ -4,18 +4,6 @@ namespace Soenneker.Quark;
 [TailwindModifiers(typeof(TextShadowColorBuilder), IncludeColorPalettes = true)]
 public static partial class TextShadowColor
 {
-    /// <summary>Selects the mauve palette for the next color.</summary>
-    public static ColorPaletteBuilder<TextShadowColorBuilder> Mauve => new("mauve", Token);
-
-    /// <summary>Selects the olive palette for the next color.</summary>
-    public static ColorPaletteBuilder<TextShadowColorBuilder> Olive => new("olive", Token);
-
-    /// <summary>Selects the mist palette for the next color.</summary>
-    public static ColorPaletteBuilder<TextShadowColorBuilder> Mist => new("mist", Token);
-
-    /// <summary>Selects the taupe palette for the next color.</summary>
-    public static ColorPaletteBuilder<TextShadowColorBuilder> Taupe => new("taupe", Token);
-
     /// <summary>Adds <c>text-shadow-primary</c>.</summary>
     public static TextShadowColorBuilder Primary => new(TextShadowColorEnum.Primary);
 
