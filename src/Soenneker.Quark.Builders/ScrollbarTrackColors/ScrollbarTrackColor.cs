@@ -4,6 +4,18 @@ namespace Soenneker.Quark;
 [TailwindModifiers(typeof(ScrollbarTrackColorBuilder), IncludeColorPalettes = true)]
 public static partial class ScrollbarTrackColor
 {
+    /// <summary>Selects the mauve palette for the next color.</summary>
+    public static ColorPaletteBuilder<ScrollbarTrackColorBuilder> Mauve => new("mauve", Token);
+
+    /// <summary>Selects the olive palette for the next color.</summary>
+    public static ColorPaletteBuilder<ScrollbarTrackColorBuilder> Olive => new("olive", Token);
+
+    /// <summary>Selects the mist palette for the next color.</summary>
+    public static ColorPaletteBuilder<ScrollbarTrackColorBuilder> Mist => new("mist", Token);
+
+    /// <summary>Selects the taupe palette for the next color.</summary>
+    public static ColorPaletteBuilder<ScrollbarTrackColorBuilder> Taupe => new("taupe", Token);
+
     /// <summary>Adds <c>scrollbar-track-primary</c>.</summary>
     public static ScrollbarTrackColorBuilder Primary => new(ScrollbarTrackColorEnum.Primary);
 

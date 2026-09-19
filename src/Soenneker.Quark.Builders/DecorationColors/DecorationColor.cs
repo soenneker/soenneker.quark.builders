@@ -4,6 +4,18 @@ namespace Soenneker.Quark;
 [TailwindModifiers(typeof(DecorationColorBuilder), IncludeColorPalettes = true)]
 public static partial class DecorationColor
 {
+    /// <summary>Selects the mauve palette for the next color.</summary>
+    public static ColorPaletteBuilder<DecorationColorBuilder> Mauve => new("mauve", Token);
+
+    /// <summary>Selects the olive palette for the next color.</summary>
+    public static ColorPaletteBuilder<DecorationColorBuilder> Olive => new("olive", Token);
+
+    /// <summary>Selects the mist palette for the next color.</summary>
+    public static ColorPaletteBuilder<DecorationColorBuilder> Mist => new("mist", Token);
+
+    /// <summary>Selects the taupe palette for the next color.</summary>
+    public static ColorPaletteBuilder<DecorationColorBuilder> Taupe => new("taupe", Token);
+
     /// <summary>Adds <c>decoration-primary</c>.</summary>
     public static DecorationColorBuilder Primary => new(DecorationColorEnum.Primary);
 

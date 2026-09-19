@@ -4,6 +4,18 @@ namespace Soenneker.Quark;
 [TailwindModifiers(typeof(InsetShadowColorBuilder), IncludeColorPalettes = true)]
 public static partial class InsetShadowColor
 {
+    /// <summary>Selects the mauve palette for the next color.</summary>
+    public static ColorPaletteBuilder<InsetShadowColorBuilder> Mauve => new("mauve", Token);
+
+    /// <summary>Selects the olive palette for the next color.</summary>
+    public static ColorPaletteBuilder<InsetShadowColorBuilder> Olive => new("olive", Token);
+
+    /// <summary>Selects the mist palette for the next color.</summary>
+    public static ColorPaletteBuilder<InsetShadowColorBuilder> Mist => new("mist", Token);
+
+    /// <summary>Selects the taupe palette for the next color.</summary>
+    public static ColorPaletteBuilder<InsetShadowColorBuilder> Taupe => new("taupe", Token);
+
     /// <summary>Adds <c>inset-shadow-primary</c>.</summary>
     public static InsetShadowColorBuilder Primary => new(InsetShadowColorEnum.Primary);
 

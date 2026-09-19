@@ -6,6 +6,18 @@ namespace Soenneker.Quark;
 [TailwindModifiers(typeof(RingColorBuilder), IncludeColorPalettes = true)]
 public static partial class RingColor
 {
+    /// <summary>Selects the mauve palette for the next color.</summary>
+    public static ColorPaletteBuilder<RingColorBuilder> Mauve => new("mauve", Token);
+
+    /// <summary>Selects the olive palette for the next color.</summary>
+    public static ColorPaletteBuilder<RingColorBuilder> Olive => new("olive", Token);
+
+    /// <summary>Selects the mist palette for the next color.</summary>
+    public static ColorPaletteBuilder<RingColorBuilder> Mist => new("mist", Token);
+
+    /// <summary>Selects the taupe palette for the next color.</summary>
+    public static ColorPaletteBuilder<RingColorBuilder> Taupe => new("taupe", Token);
+
     /// <summary>
     /// Fluent step for `Primary` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>

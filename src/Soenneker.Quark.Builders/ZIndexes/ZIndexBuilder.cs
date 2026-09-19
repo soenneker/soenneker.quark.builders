@@ -60,6 +60,11 @@ public sealed class ZIndexBuilder : CssBuilderBase<ZIndexBuilder>
     public ZIndexBuilder Is10 => Chain(ZIndexEnum.Is10);
 
     /// <summary>
+    /// Sets the z-index to 10.
+    /// </summary>
+    public ZIndexBuilder Is30 => Chain(ZIndexEnum.Is30);
+
+    /// <summary>
     /// Sets the z-index to 50.
     /// </summary>
     public ZIndexBuilder Is50 => Chain(ZIndexEnum.Is50);

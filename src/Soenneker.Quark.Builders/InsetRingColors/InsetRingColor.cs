@@ -4,6 +4,18 @@ namespace Soenneker.Quark;
 [TailwindModifiers(typeof(InsetRingColorBuilder), IncludeColorPalettes = true)]
 public static partial class InsetRingColor
 {
+    /// <summary>Selects the mauve palette for the next color.</summary>
+    public static ColorPaletteBuilder<InsetRingColorBuilder> Mauve => new("mauve", Token);
+
+    /// <summary>Selects the olive palette for the next color.</summary>
+    public static ColorPaletteBuilder<InsetRingColorBuilder> Olive => new("olive", Token);
+
+    /// <summary>Selects the mist palette for the next color.</summary>
+    public static ColorPaletteBuilder<InsetRingColorBuilder> Mist => new("mist", Token);
+
+    /// <summary>Selects the taupe palette for the next color.</summary>
+    public static ColorPaletteBuilder<InsetRingColorBuilder> Taupe => new("taupe", Token);
+
     /// <summary>Adds <c>inset-ring-primary</c>.</summary>
     public static InsetRingColorBuilder Primary => new(InsetRingColorEnum.Primary);
 

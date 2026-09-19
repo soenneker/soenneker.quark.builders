@@ -38,6 +38,11 @@ public static partial class ZIndex
     public static ZIndexBuilder Is10 => new(ZIndexEnum.Is10);
 
     /// <summary>
+    /// Gets a Z-index builder with value 10.
+    /// </summary>
+    public static ZIndexBuilder Is30 => new(ZIndexEnum.Is30);
+
+    /// <summary>
     /// Gets a Z-index builder with value 50.
     /// </summary>
     public static ZIndexBuilder Is50 => new(ZIndexEnum.Is50);

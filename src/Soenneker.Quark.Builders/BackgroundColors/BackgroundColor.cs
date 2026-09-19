@@ -6,6 +6,18 @@ namespace Soenneker.Quark;
 [TailwindModifiers(typeof(BackgroundColorBuilder), IncludeColorPalettes = true)]
 public static partial class BackgroundColor
 {
+    /// <summary>Selects the mauve palette for the next color.</summary>
+    public static ColorPaletteBuilder<BackgroundColorBuilder> Mauve => new("mauve", Token);
+
+    /// <summary>Selects the olive palette for the next color.</summary>
+    public static ColorPaletteBuilder<BackgroundColorBuilder> Olive => new("olive", Token);
+
+    /// <summary>Selects the mist palette for the next color.</summary>
+    public static ColorPaletteBuilder<BackgroundColorBuilder> Mist => new("mist", Token);
+
+    /// <summary>Selects the taupe palette for the next color.</summary>
+    public static ColorPaletteBuilder<BackgroundColorBuilder> Taupe => new("taupe", Token);
+
     /// <summary>
     /// Gets or sets primary.
     /// </summary>

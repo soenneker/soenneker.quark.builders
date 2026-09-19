@@ -4,6 +4,18 @@ namespace Soenneker.Quark;
 [TailwindModifiers(typeof(ScrollbarThumbColorBuilder), IncludeColorPalettes = true)]
 public static partial class ScrollbarThumbColor
 {
+    /// <summary>Selects the mauve palette for the next color.</summary>
+    public static ColorPaletteBuilder<ScrollbarThumbColorBuilder> Mauve => new("mauve", Token);
+
+    /// <summary>Selects the olive palette for the next color.</summary>
+    public static ColorPaletteBuilder<ScrollbarThumbColorBuilder> Olive => new("olive", Token);
+
+    /// <summary>Selects the mist palette for the next color.</summary>
+    public static ColorPaletteBuilder<ScrollbarThumbColorBuilder> Mist => new("mist", Token);
+
+    /// <summary>Selects the taupe palette for the next color.</summary>
+    public static ColorPaletteBuilder<ScrollbarThumbColorBuilder> Taupe => new("taupe", Token);
+
     /// <summary>Adds <c>scrollbar-thumb-primary</c>.</summary>
     public static ScrollbarThumbColorBuilder Primary => new(ScrollbarThumbColorEnum.Primary);
 
