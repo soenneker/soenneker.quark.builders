@@ -6,7 +6,7 @@ using Soenneker.Utils.PooledStringBuilders;
 namespace Soenneker.Quark;
 
 /// <summary>
-/// CSS isolation builder. Tailwind: isolation-auto, isolation-isolate.
+/// CSS isolation builder. Tailwind: isolation-auto, isolate.
 /// </summary>
 [TailwindPrefix("isolation-", Responsive = true)]
 public sealed class IsolationBuilder : CssBuilderBase<IsolationBuilder>

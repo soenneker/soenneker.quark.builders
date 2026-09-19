@@ -7,6 +7,13 @@ namespace Soenneker.Quark;
 [TailwindModifiers(typeof(MarginBuilder))]
 public static partial class Margin
 {
+    /// <summary>Selects the logical block start side.</summary>
+    public static MarginBuilder FromBlockStart => new(ElementSideEnum.BlockStart);
+
+    /// <summary>Selects the logical block end side.</summary>
+    public static MarginBuilder FromBlockEnd => new(ElementSideEnum.BlockEnd);
+
+
     /// <summary>
     /// Applies margin on the horizontal axis (left and right).
     /// </summary>

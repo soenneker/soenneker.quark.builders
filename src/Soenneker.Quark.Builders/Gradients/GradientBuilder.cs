@@ -3,7 +3,7 @@ namespace Soenneker.Quark;
 /// <summary>
 /// Represents the gradient builder.
 /// </summary>
-[TailwindPrefix("bg-gradient-to-", Responsive = true)]
+[TailwindPrefix("bg-linear-to-", Responsive = true)]
 public sealed class GradientBuilder : FinalClassUtilityBuilder<GradientBuilder>
 {
     internal GradientBuilder()
@@ -17,7 +17,7 @@ public sealed class GradientBuilder : FinalClassUtilityBuilder<GradientBuilder>
     /// </summary>
     /// <param name="value">CSS value used to construct the utility class.</param>
     /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
-    public GradientBuilder To(string value) => ChainClass($"bg-gradient-to-{value}");
+    public GradientBuilder To(string value) => ChainClass($"bg-linear-to-{value}");
     /// <summary>
     /// Adds the from Gradient utility to the class list.
     /// </summary>

@@ -201,14 +201,6 @@ public sealed class VariantBuilder : ICssBuilder
     /// </summary>
     public VariantBuilder OnContainerMaxMd => Chain("@max-md");
     /// <summary>
-    /// Gets or sets on container.
-    /// </summary>
-    public VariantBuilder OnContainer => Chain("@container");
-    /// <summary>
-    /// Gets or sets on container normal.
-    /// </summary>
-    public VariantBuilder OnContainerNormal => Chain("@container-normal");
-    /// <summary>
     /// Gets or sets focus within.
     /// </summary>
     public VariantBuilder FocusWithin => Chain("focus-within");

@@ -649,7 +649,7 @@ public sealed class QuarkBuildersTests : HostedUnitTest
     {
         string result = Isolation.Auto.OnLg.Isolate.ToClass();
 
-        result.Should().Be("isolation-auto lg:isolation-isolate");
+        result.Should().Be("isolation-auto lg:isolate");
     }
 
     [Test]
@@ -768,9 +768,9 @@ public sealed class QuarkBuildersTests : HostedUnitTest
     [Test]
     public void BackdropFilterBuilder_token_accepts_suffix_or_full_utility_tokens()
     {
-        BackdropFilter.Token("blur-xl").ToClass().Should().Be("backdrop-blur-xl");
-        BackdropFilter.Token("backdrop-blur-xl").ToClass().Should().Be("backdrop-blur-xl");
-        BackdropFilter.Blur.Token("brightness-95").ToClass().Should().Be("backdrop-blur backdrop-brightness-95");
+        BackdropBlur.Token("xl").ToClass().Should().Be("backdrop-blur-xl");
+        BackdropBlur.Token("backdrop-blur-xl").ToClass().Should().Be("backdrop-blur-xl");
+        BackdropFilter.None.OnHover.Token("[brightness(.95)]").ToClass().Should().Be("backdrop-filter-none hover:backdrop-filter-[brightness(.95)]");
     }
 
     [Test]
@@ -784,8 +784,8 @@ public sealed class QuarkBuildersTests : HostedUnitTest
         Right.Is1_5.ToClass().Should().Be("right-1.5");
         Bottom.Is1_5.ToClass().Should().Be("bottom-1.5");
         Left.Is1_5.ToClass().Should().Be("left-1.5");
-        Start.Is1_5.ToClass().Should().Be("start-1.5");
-        End.Is1_5.ToClass().Should().Be("end-1.5");
+        InsetStart.Is1_5.ToClass().Should().Be("inset-s-1.5");
+        InsetEnd.Is1_5.ToClass().Should().Be("inset-e-1.5");
         ScrollMargin.Is1_5.FromTop.Is1_5.ToClass().Should().Be("scroll-m-1.5 scroll-mt-1.5");
         ScrollPadding.Is1_5.FromTop.Is1_5.ToClass().Should().Be("scroll-p-1.5 scroll-pt-1.5");
         Size.Is1_5.Is3_5.Is4_5.Is6_5.ToClass().Should().Be("size-1.5 size-3.5 size-4.5 size-6.5");
@@ -1058,7 +1058,7 @@ public sealed class QuarkBuildersTests : HostedUnitTest
     public void Common_interaction_layout_builders_support_generated_static_variant_entrypoints()
     {
         Isolation.OnContainerMd.Isolate.OnMaxSm.Auto.ToClass()
-            .Should().Be("@md:isolation-isolate max-sm:isolation-auto");
+            .Should().Be("@md:isolate max-sm:isolation-auto");
 
         PointerEvents.OnDisabled.None.OnEnabled.Auto.ToClass()
             .Should().Be("disabled:pointer-events-none enabled:pointer-events-auto");
@@ -1082,7 +1082,7 @@ public sealed class QuarkBuildersTests : HostedUnitTest
             .Should().Be("max-lg:shrink-0 @sm:shrink");
 
         ZIndex.OnOpen.Is50.OnBackdrop.Negative1.ToClass()
-            .Should().Be("open:z-50 backdrop:z-n1");
+            .Should().Be("open:z-50 backdrop:-z-1");
     }
 
     [Test]
@@ -1098,16 +1098,16 @@ public sealed class QuarkBuildersTests : HostedUnitTest
     {
         Top.OnHover.Is4.ToClass().Should().Be("hover:top-4");
         Left.OnDisabled.Token("[2px]").ToClass().Should().Be("disabled:left-[2px]");
-        Start.OnFocus.Is2.ToClass().Should().Be("focus:start-2");
-        End.OnDark.Is5.ToClass().Should().Be("dark:end-5");
+        InsetStart.OnFocus.Is2.ToClass().Should().Be("focus:inset-s-2");
+        InsetEnd.OnDark.Is5.ToClass().Should().Be("dark:inset-e-5");
     }
 
     [Test]
     public void StrokeLineCapBuilder_builds_tailwind_stroke_cap_classes()
     {
-        string result = StrokeLineCap.Auto.OnSm.Butt.ToClass();
+        string result = StrokeLineCap.Round.OnSm.Butt.ToClass();
 
-        result.Should().Be("stroke-cap-auto sm:stroke-cap-butt");
+        result.Should().Be("[stroke-linecap:round] sm:[stroke-linecap:butt]");
     }
 
     [Test]

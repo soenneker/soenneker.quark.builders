@@ -6,9 +6,9 @@ using Soenneker.Utils.PooledStringBuilders;
 namespace Soenneker.Quark;
 
 /// <summary>
-/// Stroke line join builder. Tailwind: stroke-join-auto, stroke-join-round, stroke-join-bevel, stroke-join-miter.
+/// Stroke line join builder. Uses Tailwind arbitrary CSS properties.
 /// </summary>
-[TailwindPrefix("stroke-join-", Responsive = true)]
+[TailwindPrefix("[stroke-linejoin:", Responsive = true)]
 public sealed class StrokeLineJoinBuilder : CssBuilderBase<StrokeLineJoinBuilder>
 {
     private RuleList<StrokeLineJoinRule> _rules;
@@ -28,10 +28,6 @@ public sealed class StrokeLineJoinBuilder : CssBuilderBase<StrokeLineJoinBuilder
             _rules.AddRange(rules);
     }
 
-    /// <summary>
-    /// `auto` — browser-default sizing/behavior for the underlying utility.
-    /// </summary>
-    public StrokeLineJoinBuilder Auto => Chain(StrokeLineJoinEnum.Auto);
     /// <summary>
     /// Fluent step for `Round` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>

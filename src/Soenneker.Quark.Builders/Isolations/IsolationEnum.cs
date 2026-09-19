@@ -15,5 +15,5 @@ public sealed partial class IsolationEnum
     /// <summary>
     /// The isolate.
     /// </summary>
-    public static readonly IsolationEnum Isolate = new("isolation-isolate");
+    public static readonly IsolationEnum Isolate = new("isolate");
 }

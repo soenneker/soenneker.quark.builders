@@ -6,6 +6,13 @@ namespace Soenneker.Quark;
 [TailwindModifiers(typeof(ScrollMarginBuilder))]
 public static partial class ScrollMargin
 {
+    /// <summary>Selects the logical block start side.</summary>
+    public static ScrollMarginBuilder FromBlockStart => new(ElementSideEnum.BlockStart);
+
+    /// <summary>Selects the logical block end side.</summary>
+    public static ScrollMarginBuilder FromBlockEnd => new(ElementSideEnum.BlockEnd);
+
+
     /// <summary>
     /// Applies scroll margin on the horizontal axis (left and right).
     /// </summary>

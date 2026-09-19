@@ -1,7 +1,7 @@
 namespace Soenneker.Quark;
 
 /// <summary>
-/// Static utility for fill-rule (SVG). Tailwind: fill-rule-evenodd, fill-rule-nonzero.
+/// Static utility for fill-rule (SVG). Uses Tailwind arbitrary CSS properties.
 /// </summary>
 [TailwindModifiers(typeof(FillRuleBuilder))]
 public static partial class SvgFillRule

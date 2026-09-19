@@ -15,6 +15,13 @@ namespace Soenneker.Quark;
 [TailwindPrefix("border-", Responsive = true)]
 public sealed class BorderBuilder : CssBuilderBase<BorderBuilder>
 {
+    /// <summary>Selects the logical block start side.</summary>
+    public BorderBuilder FromBlockStart => AddRule(ElementSideEnum.BlockStart);
+
+    /// <summary>Selects the logical block end side.</summary>
+    public BorderBuilder FromBlockEnd => AddRule(ElementSideEnum.BlockEnd);
+
+
     private RuleList<BorderRule> _rules;
     private ElementSideEnum? _pendingSide;
 

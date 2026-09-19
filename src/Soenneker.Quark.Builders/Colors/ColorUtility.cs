@@ -73,7 +73,8 @@ internal static class ColorUtility
     {
         return family is "slate" or "gray" or "zinc" or "neutral" or "stone" or "red" or "orange" or "amber"
             or "yellow" or "lime" or "green" or "emerald" or "teal" or "cyan" or "sky" or "blue"
-            or "indigo" or "violet" or "purple" or "fuchsia" or "pink" or "rose";
+            or "indigo" or "violet" or "purple" or "fuchsia" or "pink" or "rose"
+            or "mauve" or "olive" or "mist" or "taupe";
     }
 
     private static bool IsPaletteShade(ReadOnlySpan<char> shade)

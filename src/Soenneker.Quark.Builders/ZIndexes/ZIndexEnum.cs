@@ -11,7 +11,7 @@ public sealed partial class ZIndexEnum
     /// <summary>
     /// The negative1.
     /// </summary>
-    public static readonly ZIndexEnum Negative1 = new("z-n1");
+    public static readonly ZIndexEnum Negative1 = new("-z-1");
     /// <summary>
     /// The is0.
     /// </summary>

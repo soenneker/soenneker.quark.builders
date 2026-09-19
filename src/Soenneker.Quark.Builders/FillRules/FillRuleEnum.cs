@@ -11,9 +11,9 @@ public sealed partial class FillRuleEnum
     /// <summary>
     /// The evenodd.
     /// </summary>
-    public static readonly FillRuleEnum Evenodd = new("fill-rule-evenodd");
+    public static readonly FillRuleEnum Evenodd = new("[fill-rule:evenodd]");
     /// <summary>
     /// The nonzero.
     /// </summary>
-    public static readonly FillRuleEnum Nonzero = new("fill-rule-nonzero");
+    public static readonly FillRuleEnum Nonzero = new("[fill-rule:nonzero]");
 }

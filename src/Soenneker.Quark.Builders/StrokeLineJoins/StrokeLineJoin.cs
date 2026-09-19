@@ -1,15 +1,11 @@
 namespace Soenneker.Quark;
 
 /// <summary>
-/// Static utility for stroke line join. Tailwind: stroke-join-*.
+/// Static utility for stroke line join. Uses Tailwind arbitrary CSS properties.
 /// </summary>
 [TailwindModifiers(typeof(StrokeLineJoinBuilder))]
 public static partial class StrokeLineJoin
 {
-    /// <summary>
-    /// `auto` — browser-default sizing/behavior for the underlying utility.
-    /// </summary>
-    public static StrokeLineJoinBuilder Auto => new(StrokeLineJoinEnum.Auto);
     /// <summary>
     /// Fluent step for `Round` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>

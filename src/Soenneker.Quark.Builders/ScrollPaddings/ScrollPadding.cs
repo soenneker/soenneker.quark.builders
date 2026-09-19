@@ -6,6 +6,13 @@ namespace Soenneker.Quark;
 [TailwindModifiers(typeof(ScrollPaddingBuilder))]
 public static partial class ScrollPadding
 {
+    /// <summary>Selects the logical block start side.</summary>
+    public static ScrollPaddingBuilder FromBlockStart => new(ElementSideEnum.BlockStart);
+
+    /// <summary>Selects the logical block end side.</summary>
+    public static ScrollPaddingBuilder FromBlockEnd => new(ElementSideEnum.BlockEnd);
+
+
     /// <summary>
     /// Applies scroll padding on the horizontal axis (left and right).
     /// </summary>

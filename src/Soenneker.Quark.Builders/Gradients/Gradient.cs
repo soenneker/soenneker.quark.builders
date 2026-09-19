@@ -11,7 +11,7 @@ public static partial class Gradient
     /// </summary>
     /// <param name="value">CSS value used to construct the utility class.</param>
     /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
-    public static GradientBuilder To(string value) => new($"bg-gradient-to-{value}");
+    public static GradientBuilder To(string value) => new($"bg-linear-to-{value}");
     /// <summary>
     /// Adds the from Gradient utility to the class list.
     /// </summary>

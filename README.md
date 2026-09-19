@@ -163,5 +163,35 @@ emits `-translate-x-[13px]`. `Translate.None` clears translation on every axis.
 
 Color builders follow the existing color API: `Token(...)` accepts a color suffix,
 while `Utility(...)` accepts a complete prefixed class. Semantic colors such as
-`Primary` require matching theme colors. The new filter builders provide strength
-values alongside the existing `Filter` and `BackdropFilter` APIs.
+`Primary` require matching theme colors. Filter strengths use dedicated builders;
+`Filter` and `BackdropFilter` provide resets and complete filter expressions.
+
+## Tailwind 4.3 coverage
+
+Additional families cover scrollbars (`ScrollbarWidth`, `ScrollbarGutter`,
+`ScrollbarThumbColor`, `ScrollbarTrackColor`), query container declarations
+(`ContainerType`), logical sizing (`InlineSize`, `BlockSize` and their min/max
+builders), logical positioning (`InsetStart`, `InsetEnd`, `InsetBlockStart`,
+`InsetBlockEnd`), `TabSize`, `Zoom`, and `FontFeatureSettings`.
+
+Masks are available through `MaskImage`, `MaskClip`, `MaskComposite`, `MaskMode`,
+`MaskOrigin`, `MaskPosition`, `MaskRepeat`, `MaskSize`, and `MaskType`.
+The remaining filter families are `DropShadow`, `DropShadowColor`, `Grayscale`,
+`HueRotate`, `Invert`, `Sepia`, their applicable backdrop counterparts, and
+`BackdropOpacity`.
+
+All palette-enabled color builders support `Mauve`, `Olive`, `Mist`, and `Taupe`.
+Padding, margin, scroll padding, scroll margin, border width, and inset builders
+support `FromBlockStart` and `FromBlockEnd`.
+
+```csharp
+ContainerType.SizeNamed("panel").ToClass(); // @container-size/panel
+InlineSize.IsFull.OnMd.Is1of2.ToClass(); // inline-full md:inline-1/2
+Padding.FromBlockStart.Is4.ToClass(); // pbs-4
+ScrollbarThumbColor.OnDark.Mauve.Is600.ToClass(); // dark:scrollbar-thumb-mauve-600
+MaskImage.Linear45.LinearFrom("20%").LinearTo("80%").ToClass();
+// mask-linear-45 mask-linear-from-20% mask-linear-to-80%
+```
+
+This update intentionally removes obsolete APIs. See [the migration and release
+notes](MIGRATION.md) before upgrading or publishing the coordinated packages.

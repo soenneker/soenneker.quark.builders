@@ -213,14 +213,6 @@ public abstract class CssBuilderBase<TBuilder> : CssBuilderBase where TBuilder :
     /// </summary>
     public TBuilder OnContainerMaxMd => SetPendingModifier("@max-md");
     /// <summary>
-    /// Gets or sets on container.
-    /// </summary>
-    public TBuilder OnContainer => SetPendingModifier("@container");
-    /// <summary>
-    /// Gets or sets on container normal.
-    /// </summary>
-    public TBuilder OnContainerNormal => SetPendingModifier("@container-normal");
-    /// <summary>
     /// Gets or sets on hover.
     /// </summary>
     public TBuilder OnHover => SetPendingModifier("hover");

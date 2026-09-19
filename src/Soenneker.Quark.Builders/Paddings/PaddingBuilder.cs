@@ -12,6 +12,13 @@ namespace Soenneker.Quark;
 [TailwindPrefix("p-", Responsive = true)]
 public sealed class PaddingBuilder : CssBuilderBase<PaddingBuilder>
 {
+    /// <summary>Selects the logical block start side.</summary>
+    public PaddingBuilder FromBlockStart => AddRule(ElementSideEnum.BlockStart);
+
+    /// <summary>Selects the logical block end side.</summary>
+    public PaddingBuilder FromBlockEnd => AddRule(ElementSideEnum.BlockEnd);
+
+
     private RuleList<PaddingRule> _rules;
     private ElementSideEnum? _pendingSide;
 

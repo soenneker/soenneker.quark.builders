@@ -6,9 +6,9 @@ using Soenneker.Utils.PooledStringBuilders;
 namespace Soenneker.Quark;
 
 /// <summary>
-/// Stroke line cap builder. Tailwind: stroke-cap-auto, stroke-cap-round, stroke-cap-square, stroke-cap-butt.
+/// Stroke line cap builder. Uses Tailwind arbitrary CSS properties.
 /// </summary>
-[TailwindPrefix("stroke-cap-", Responsive = true)]
+[TailwindPrefix("[stroke-linecap:", Responsive = true)]
 public sealed class StrokeLineCapBuilder : CssBuilderBase<StrokeLineCapBuilder>
 {
     private RuleList<StrokeLineCapRule> _rules;
@@ -28,10 +28,6 @@ public sealed class StrokeLineCapBuilder : CssBuilderBase<StrokeLineCapBuilder>
             _rules.AddRange(rules);
     }
 
-    /// <summary>
-    /// `auto` — browser-default sizing/behavior for the underlying utility.
-    /// </summary>
-    public StrokeLineCapBuilder Auto => Chain(StrokeLineCapEnum.Auto);
     /// <summary>
     /// Fluent step for `Round` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>

@@ -6,6 +6,13 @@ namespace Soenneker.Quark;
 [TailwindModifiers(typeof(BorderBuilder))]
 public static partial class Border
 {
+    /// <summary>Selects the logical block start side.</summary>
+    public static BorderBuilder FromBlockStart => new(ElementSideEnum.BlockStart);
+
+    /// <summary>Selects the logical block end side.</summary>
+    public static BorderBuilder FromBlockEnd => new(ElementSideEnum.BlockEnd);
+
+
     /// <summary>
     /// Applies border width on the horizontal axis (left and right).
     /// </summary>

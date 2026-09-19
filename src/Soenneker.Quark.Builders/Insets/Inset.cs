@@ -1,11 +1,18 @@
 namespace Soenneker.Quark;
 
 /// <summary>
-/// Static utility for inset (position offset) builders. Tailwind: inset-*, top-*, right-*, bottom-*, left-*, start-*, end-*.
+/// Static utility for inset (position offset) builders. Tailwind: inset-*, top-*, right-*, bottom-*, left-*, inset-s-*, inset-e-*, inset-bs-*, inset-be-*.
 /// </summary>
 [TailwindModifiers(typeof(InsetBuilder))]
 public static partial class Inset
 {
+    /// <summary>Selects the logical block start side.</summary>
+    public static InsetBuilder FromBlockStart => new(ElementSideEnum.BlockStart);
+
+    /// <summary>Selects the logical block end side.</summary>
+    public static InsetBuilder FromBlockEnd => new(ElementSideEnum.BlockEnd);
+
+
     /// <summary>
     /// Applies inset on the horizontal axis (left and right).
     /// </summary>

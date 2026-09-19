@@ -7,6 +7,15 @@ namespace Soenneker.Quark;
 public abstract class ColorBuilderBase<TBuilder> : CssBuilderBase<TBuilder>, IColorTokenFactory<TBuilder>
     where TBuilder : ColorBuilderBase<TBuilder>
 {
+    /// <summary>Selects the mauve palette for the next color.</summary>
+    public ColorPaletteBuilder<TBuilder> Mauve => new("mauve", this);
+    /// <summary>Selects the olive palette for the next color.</summary>
+    public ColorPaletteBuilder<TBuilder> Olive => new("olive", this);
+    /// <summary>Selects the mist palette for the next color.</summary>
+    public ColorPaletteBuilder<TBuilder> Mist => new("mist", this);
+    /// <summary>Selects the taupe palette for the next color.</summary>
+    public ColorPaletteBuilder<TBuilder> Taupe => new("taupe", this);
+
     /// <summary>
     /// Gets or sets slate.
     /// </summary>

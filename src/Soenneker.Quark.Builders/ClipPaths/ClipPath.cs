@@ -1,34 +1,35 @@
-
 namespace Soenneker.Quark;
 
-/// <summary>
-/// Simplified clip path utility with fluent API and Tailwind/shadcn-aligned fluent API.
-/// </summary>
+/// <summary>Builds clip paths using Tailwind arbitrary properties.</summary>
 [TailwindModifiers(typeof(ClipPathBuilder))]
 public static partial class ClipPath
 {
-    /// <summary>
-    /// No clip path (none).
-    /// </summary>
-    public static ClipPathBuilder None => new(ClipPathEnum.NoneValue);
+    /// <summary>Removes clipping.</summary>
+    public static ClipPathBuilder None => new("[clip-path:none]");
 
-    /// <summary>
-    /// Circle clip path (circle).
-    /// </summary>
-    public static ClipPathBuilder Circle => new(ClipPathEnum.CircleValue);
+    /// <summary>Sets the clip path using the circle() function.</summary>
+    /// <param name="value">The function arguments; use underscores for spaces in Tailwind tokens.</param>
+    /// <returns>A new builder.</returns>
+    public static ClipPathBuilder Circle(string value) => new(UtilityToken.ArbitraryProperty("clip-path", $"circle({value})"));
 
-    /// <summary>
-    /// Ellipse clip path (ellipse).
-    /// </summary>
-    public static ClipPathBuilder Ellipse => new(ClipPathEnum.EllipseValue);
+    /// <summary>Sets the clip path using the ellipse() function.</summary>
+    /// <param name="value">The function arguments; use underscores for spaces in Tailwind tokens.</param>
+    /// <returns>A new builder.</returns>
+    public static ClipPathBuilder Ellipse(string value) => new(UtilityToken.ArbitraryProperty("clip-path", $"ellipse({value})"));
 
-    /// <summary>
-    /// Inset clip path (inset).
-    /// </summary>
-    public static ClipPathBuilder Inset => new(ClipPathEnum.InsetValue);
+    /// <summary>Sets the clip path using the inset() function.</summary>
+    /// <param name="value">The function arguments; use underscores for spaces in Tailwind tokens.</param>
+    /// <returns>A new builder.</returns>
+    public static ClipPathBuilder Inset(string value) => new(UtilityToken.ArbitraryProperty("clip-path", $"inset({value})"));
 
-    /// <summary>
-    /// Polygon clip path (polygon).
-    /// </summary>
-    public static ClipPathBuilder Polygon => new(ClipPathEnum.PolygonValue);
+    /// <summary>Sets the clip path using the polygon() function.</summary>
+    /// <param name="value">The function arguments; use underscores for spaces in Tailwind tokens.</param>
+    /// <returns>A new builder.</returns>
+    public static ClipPathBuilder Polygon(string value) => new(UtilityToken.ArbitraryProperty("clip-path", $"polygon({value})"));
+
+    /// <summary>Sets the clip path using a CSS value.</summary>
+    /// <param name="value">The CSS value; use underscores for spaces in Tailwind tokens.</param>
+    /// <returns>A new builder.</returns>
+    public static ClipPathBuilder Token(string value) => new(UtilityToken.ArbitraryProperty("clip-path", value));
+
 }

@@ -6,6 +6,13 @@ namespace Soenneker.Quark;
 [TailwindModifiers(typeof(PaddingBuilder))]
 public static partial class Padding
 {
+    /// <summary>Selects the logical block start side.</summary>
+    public static PaddingBuilder FromBlockStart => new(ElementSideEnum.BlockStart);
+
+    /// <summary>Selects the logical block end side.</summary>
+    public static PaddingBuilder FromBlockEnd => new(ElementSideEnum.BlockEnd);
+
+
     /// <summary>
     /// Applies padding on the horizontal axis (left and right).
     /// </summary>

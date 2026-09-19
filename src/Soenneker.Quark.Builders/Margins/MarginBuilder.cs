@@ -12,6 +12,13 @@ namespace Soenneker.Quark;
 [TailwindPrefix("m-", Responsive = true)]
 public sealed class MarginBuilder : CssBuilderBase<MarginBuilder>
 {
+    /// <summary>Selects the logical block start side.</summary>
+    public MarginBuilder FromBlockStart => AddRule(ElementSideEnum.BlockStart);
+
+    /// <summary>Selects the logical block end side.</summary>
+    public MarginBuilder FromBlockEnd => AddRule(ElementSideEnum.BlockEnd);
+
+
     private RuleList<MarginRule> _rules;
     private ElementSideEnum? _pendingSide;
 

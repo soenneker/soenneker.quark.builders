@@ -1,15 +1,11 @@
 namespace Soenneker.Quark;
 
 /// <summary>
-/// Static utility for stroke line cap. Tailwind: stroke-cap-*.
+/// Static utility for stroke line cap. Uses Tailwind arbitrary CSS properties.
 /// </summary>
 [TailwindModifiers(typeof(StrokeLineCapBuilder))]
 public static partial class StrokeLineCap
 {
-    /// <summary>
-    /// `auto` — browser-default sizing/behavior for the underlying utility.
-    /// </summary>
-    public static StrokeLineCapBuilder Auto => new(StrokeLineCapEnum.Auto);
     /// <summary>
     /// Fluent step for `Round` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>

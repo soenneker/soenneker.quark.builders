@@ -12,6 +12,12 @@ public sealed partial class ElementSideEnum
     /// The all.
     /// </summary>
     public static readonly ElementSideEnum All = new("");
+    /// <summary>The logical block start.</summary>
+    public static readonly ElementSideEnum BlockStart = new("bs");
+
+    /// <summary>The logical block end.</summary>
+    public static readonly ElementSideEnum BlockEnd = new("be");
+
     /// <summary>
     /// The top.
     /// </summary>

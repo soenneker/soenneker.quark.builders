@@ -7,11 +7,18 @@ using Soenneker.Utils.PooledStringBuilders;
 namespace Soenneker.Quark;
 
 /// <summary>
-/// Inset (top/right/bottom/left) builder with fluent API. Tailwind: inset-*, top-*, right-*, bottom-*, left-*, start-*, end-*.
+/// Inset (top/right/bottom/left) builder with fluent API. Tailwind: inset-*, top-*, right-*, bottom-*, left-*, inset-s-*, inset-e-*, inset-bs-*, inset-be-*.
 /// </summary>
 [TailwindPrefix("inset-", Responsive = true)]
 public sealed class InsetBuilder : CssBuilderBase<InsetBuilder>
 {
+    /// <summary>Selects the logical block start side.</summary>
+    public InsetBuilder FromBlockStart => AddRule(ElementSideEnum.BlockStart);
+
+    /// <summary>Selects the logical block end side.</summary>
+    public InsetBuilder FromBlockEnd => AddRule(ElementSideEnum.BlockEnd);
+
+
     private RuleList<InsetRule> _rules;
     private ElementSideEnum? _pendingSide;
 
@@ -182,8 +189,10 @@ public sealed class InsetBuilder : CssBuilderBase<InsetBuilder>
         if (ReferenceEquals(side, ElementSideEnum.Left)) return string.Concat("left-", suffix);
         if (ReferenceEquals(side, ElementSideEnum.Horizontal) || ReferenceEquals(side, ElementSideEnum.LeftRight)) return string.Concat("inset-x-", suffix);
         if (ReferenceEquals(side, ElementSideEnum.Vertical) || ReferenceEquals(side, ElementSideEnum.TopBottom)) return string.Concat("inset-y-", suffix);
-        if (ReferenceEquals(side, ElementSideEnum.InlineStart)) return string.Concat("start-", suffix);
-        if (ReferenceEquals(side, ElementSideEnum.InlineEnd)) return string.Concat("end-", suffix);
+        if (ReferenceEquals(side, ElementSideEnum.InlineStart)) return string.Concat("inset-s-", suffix);
+        if (ReferenceEquals(side, ElementSideEnum.InlineEnd)) return string.Concat("inset-e-", suffix);
+        if (ReferenceEquals(side, ElementSideEnum.BlockStart)) return string.Concat("inset-bs-", suffix);
+        if (ReferenceEquals(side, ElementSideEnum.BlockEnd)) return string.Concat("inset-be-", suffix);
         return string.Empty;
     }
 
@@ -215,6 +224,8 @@ public sealed class InsetBuilder : CssBuilderBase<InsetBuilder>
         else if (ReferenceEquals(side, ElementSideEnum.Vertical) || ReferenceEquals(side, ElementSideEnum.TopBottom)) prop = "inset-block";
         else if (ReferenceEquals(side, ElementSideEnum.InlineStart)) prop = "inset-inline-start";
         else if (ReferenceEquals(side, ElementSideEnum.InlineEnd)) prop = "inset-inline-end";
+        else if (ReferenceEquals(side, ElementSideEnum.BlockStart)) prop = "inset-block-start";
+        else if (ReferenceEquals(side, ElementSideEnum.BlockEnd)) prop = "inset-block-end";
         return (prop, sizeVal);
     }
 }

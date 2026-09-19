@@ -6,9 +6,9 @@ using Soenneker.Utils.PooledStringBuilders;
 namespace Soenneker.Quark;
 
 /// <summary>
-/// SVG fill-rule builder. Tailwind: fill-rule-evenodd, fill-rule-nonzero.
+/// SVG fill-rule builder. Uses Tailwind arbitrary CSS properties.
 /// </summary>
-[TailwindPrefix("fill-rule-", Responsive = true)]
+[TailwindPrefix("[fill-rule:", Responsive = true)]
 public sealed class FillRuleBuilder : CssBuilderBase<FillRuleBuilder>
 {
     private RuleList<FillRuleRule> _rules;

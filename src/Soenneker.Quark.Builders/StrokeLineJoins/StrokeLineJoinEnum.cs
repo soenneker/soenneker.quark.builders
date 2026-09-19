@@ -9,19 +9,15 @@ namespace Soenneker.Quark;
 public sealed partial class StrokeLineJoinEnum
 {
     /// <summary>
-    /// The auto.
-    /// </summary>
-    public static readonly StrokeLineJoinEnum Auto = new("stroke-join-auto");
-    /// <summary>
     /// The round.
     /// </summary>
-    public static readonly StrokeLineJoinEnum Round = new("stroke-join-round");
+    public static readonly StrokeLineJoinEnum Round = new("[stroke-linejoin:round]");
     /// <summary>
     /// The bevel.
     /// </summary>
-    public static readonly StrokeLineJoinEnum Bevel = new("stroke-join-bevel");
+    public static readonly StrokeLineJoinEnum Bevel = new("[stroke-linejoin:bevel]");
     /// <summary>
     /// The miter.
     /// </summary>
-    public static readonly StrokeLineJoinEnum Miter = new("stroke-join-miter");
+    public static readonly StrokeLineJoinEnum Miter = new("[stroke-linejoin:miter]");
 }

@@ -12,6 +12,13 @@ namespace Soenneker.Quark;
 [TailwindPrefix("scroll-m", Responsive = true)]
 public sealed class ScrollMarginBuilder : CssBuilderBase<ScrollMarginBuilder>
 {
+    /// <summary>Selects the logical block start side.</summary>
+    public ScrollMarginBuilder FromBlockStart => AddRule(ElementSideEnum.BlockStart);
+
+    /// <summary>Selects the logical block end side.</summary>
+    public ScrollMarginBuilder FromBlockEnd => AddRule(ElementSideEnum.BlockEnd);
+
+
     private RuleList<ScrollMarginRule> _rules;
     private ElementSideEnum? _pendingSide;
 

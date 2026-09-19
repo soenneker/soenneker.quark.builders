@@ -12,6 +12,13 @@ namespace Soenneker.Quark;
 [TailwindPrefix("scroll-p", Responsive = true)]
 public sealed class ScrollPaddingBuilder : CssBuilderBase<ScrollPaddingBuilder>
 {
+    /// <summary>Selects the logical block start side.</summary>
+    public ScrollPaddingBuilder FromBlockStart => AddRule(ElementSideEnum.BlockStart);
+
+    /// <summary>Selects the logical block end side.</summary>
+    public ScrollPaddingBuilder FromBlockEnd => AddRule(ElementSideEnum.BlockEnd);
+
+
     private RuleList<ScrollPaddingRule> _rules;
     private ElementSideEnum? _pendingSide;
 
