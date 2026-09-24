@@ -1,10 +1,11 @@
+using Soenneker.Utils.File.Abstract;
 using System.Reflection;
 using System.Text.Json;
 using Soenneker.Quark;
 
 internal static class CompatibilitySnapshot
 {
-    public static void Write(string path)
+    public static async Task Write(string path, IFileUtil fileUtil)
     {
         var results = new SortedDictionary<string, string>(StringComparer.Ordinal);
         foreach (Type type in typeof(ICssBuilder).Assembly.GetExportedTypes())
@@ -37,7 +38,7 @@ internal static class CompatibilitySnapshot
             }
         }
         AuditCases.Add(results);
-        File.WriteAllText(path, JsonSerializer.Serialize(results));
+        await fileUtil.Write(path, JsonSerializer.Serialize(results));
         Console.WriteLine($"Wrote {results.Count} compatibility cases to {path}");
 
         void Capture(string key, Func<ICssBuilder> create)

@@ -1,9 +1,10 @@
+using Soenneker.Utils.File.Abstract;
 using System.Reflection;
 using Soenneker.Quark;
 
 internal static class PublicApi
 {
-    public static void Write(string path)
+    public static async Task Write(string path, IFileUtil fileUtil)
     {
         var members = new SortedSet<string>(StringComparer.Ordinal);
         foreach (Type type in typeof(ICssBuilder).Assembly.GetExportedTypes())
@@ -21,7 +22,7 @@ internal static class PublicApi
                 if (visible) members.Add($"{type} | {member.MemberType} | {member}");
             }
         }
-        File.WriteAllLines(path, members);
+        await fileUtil.WriteAllLines(path, members);
         Console.WriteLine($"Wrote {members.Count} public/protected API entries");
     }
 }

@@ -1,14 +1,16 @@
+using Soenneker.Utils.MemoryStream;
+using Microsoft.Extensions.Logging.Abstractions;
 using System.Diagnostics;
 using Soenneker.Quark;
 
 if (args is ["--snapshot", var path])
 {
-    CompatibilitySnapshot.Write(path);
+    await CompatibilitySnapshot.Write(path, new Soenneker.Utils.File.FileUtil(NullLogger<Soenneker.Utils.File.FileUtil>.Instance, new MemoryStreamUtil()));
     return;
 }
 if (args is ["--api", var apiPath])
 {
-    PublicApi.Write(apiPath);
+    await PublicApi.Write(apiPath, new Soenneker.Utils.File.FileUtil(NullLogger<Soenneker.Utils.File.FileUtil>.Instance, new MemoryStreamUtil()));
     return;
 }
 if (args is ["--cold", var scenario])

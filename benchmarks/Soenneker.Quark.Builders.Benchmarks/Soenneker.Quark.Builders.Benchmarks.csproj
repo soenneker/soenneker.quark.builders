@@ -9,4 +9,7 @@
     <ProjectReference Include="../../src/Soenneker.Quark.Builders/Soenneker.Quark.Builders.csproj" Condition="'$(BuildersAssembly)' == ''" />
     <Reference Include="Soenneker.Quark.Builders" HintPath="$(BuildersAssembly)" Condition="'$(BuildersAssembly)' != ''" />
   </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Soenneker.Utils.File" Version="4.0.2280" />
+  </ItemGroup>
 </Project>
