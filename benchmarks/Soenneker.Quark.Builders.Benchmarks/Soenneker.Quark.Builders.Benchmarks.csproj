@@ -10,6 +10,6 @@
     <Reference Include="Soenneker.Quark.Builders" HintPath="$(BuildersAssembly)" Condition="'$(BuildersAssembly)' != ''" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Soenneker.Utils.File" Version="4.0.2280" />
+    <PackageReference Include="Soenneker.Utils.File" Version="4.0.2289" />
   </ItemGroup>
 </Project>
