@@ -11,6 +11,15 @@ public sealed class QuarkBuildersTests : HostedUnitTest
     }
 
     [Test]
+    public void CssValue_style_only_contributors_are_not_empty()
+    {
+        var value = CssValue<WidthBuilder>.For(new AuditStyleBuilder("", "width:12px"));
+        value.IsEmpty.Should().BeFalse();
+        value.StyleValue.Should().Be("width:12px");
+        value.ToString().Should().BeEmpty();
+    }
+
+    [Test]
     public void CssValue_numeric_dimensions_emit_complete_style_declarations()
     {
         CssValue<WidthBuilder> width = 12;

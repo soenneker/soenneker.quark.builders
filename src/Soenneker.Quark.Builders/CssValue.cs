@@ -112,7 +112,7 @@ public readonly struct CssValue<TBuilder> : IEquatable<CssValue<TBuilder>> where
     /// <summary>
     /// Gets whether this CSS value is empty.
     /// </summary>
-    public bool IsEmpty => _value.IsNullOrEmpty();
+    public bool IsEmpty => _value.IsNullOrEmpty() && _styleValue.IsNullOrEmpty();
 
     /// <summary>
     /// Gets whether this CSS value represents an inline style.
