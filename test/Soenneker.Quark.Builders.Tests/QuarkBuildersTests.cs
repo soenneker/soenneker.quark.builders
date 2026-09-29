@@ -11,6 +11,49 @@ public sealed class QuarkBuildersTests : HostedUnitTest
     }
 
     [Test]
+    public void CssValue_numeric_dimensions_emit_complete_style_declarations()
+    {
+        CssValue<WidthBuilder> width = 12;
+        CssValue<HeightBuilder> height = 24;
+        width.ToString().Should().Be("12px");
+        width.StyleValue.Should().Be("width: 12px");
+        height.StyleValue.Should().Be("height: 24px");
+        CssValue<WidthBuilder>.For(12, 24).StyleValue.Should().Be("width: 12px; width: 24px");
+    }
+
+    [Test]
+    public void CssValue_equality_tracks_style_and_selector_and_supports_default_values()
+    {
+        CssValue<WidthBuilder> empty = default;
+        empty.ToString().Should().BeEmpty();
+        ((string)empty).Should().BeEmpty();
+        empty.Should().Be(CssValue<WidthBuilder>.For());
+        empty.GetHashCode().Should().Be(CssValue<WidthBuilder>.For().GetHashCode());
+
+        var first = CssValue<WidthBuilder>.For(new AuditStyleBuilder("same", "width:10px"));
+        var differentStyle = CssValue<WidthBuilder>.For(new AuditStyleBuilder("same", "width:20px"));
+        first.Should().NotBe(differentStyle);
+        first.Should().NotBe(first.WithSelector(".child"));
+        first.WithSelector(".child").Should().NotBe(first.WithSelector(".child", true));
+        var values = new System.Collections.Generic.HashSet<CssValue<WidthBuilder>>
+        {
+            first, differentStyle, first.WithSelector(".child"), first.WithSelector(".child", true)
+        };
+        values.Should().HaveCount(4);
+    }
+
+    [Test]
+    public void CssValue_array_append_preserves_seed_style_and_selector()
+    {
+        var seed = CssValue<WidthBuilder>.For(new AuditStyleBuilder(" base ", " color:red;; ")).WithSelector(".x", true);
+        object?[] values = [" next ", null, new AuditStyleBuilder("last", " display:block; ")];
+        AssertCssValue(seed.Add(values), CssValue<WidthBuilder>.For(new object?[] { seed, values[0], values[1], values[2] }));
+        AssertCssValue(seed.Add(new object?[] { "next" }), seed.Add((object)"next"));
+        System.Action conflict = () => seed.Add(new object?[] { "next", ((CssValue<WidthBuilder>)"last").WithSelector(".y") });
+        conflict.Should().Throw<System.InvalidOperationException>();
+    }
+
+    [Test]
     public void CssValue_scalar_overloads_match_array_composition()
     {
         AssertCssValue(CssValue<WidthBuilder>.For(), CssValue<WidthBuilder>.For(System.Array.Empty<object?>()));

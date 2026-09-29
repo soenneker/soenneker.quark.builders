@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using Soenneker.Extensions.String;
 using Soenneker.Utils.PooledStringBuilders;
 
@@ -90,10 +91,10 @@ public readonly struct CssValue<TBuilder> : IEquatable<CssValue<TBuilder>> where
     public static implicit operator CssValue<TBuilder>(int value)
     {
         if (!_isHeight && !_isWidth)
-            return new CssValue<TBuilder>(value.ToString());
+            return new CssValue<TBuilder>(value.ToString(CultureInfo.InvariantCulture));
 
-        string pixelValue = $"{value}px";
-        return new CssValue<TBuilder>(pixelValue, pixelValue);
+        string pixelValue = string.Create(CultureInfo.InvariantCulture, $"{value}px");
+        return new CssValue<TBuilder>(pixelValue, string.Concat(_isWidth ? "width: " : "height: ", pixelValue));
     }
 
     /// <summary>
@@ -101,12 +102,12 @@ public readonly struct CssValue<TBuilder> : IEquatable<CssValue<TBuilder>> where
     /// </summary>
     /// <param name="v">CSS value to convert to text.</param>
     /// <returns>The text produced by operator string.</returns>
-    public static implicit operator string(CssValue<TBuilder> v) => v._value;
+    public static implicit operator string(CssValue<TBuilder> v) => v._value ?? string.Empty;
 
     /// <summary>
     /// Returns the string representation of this CSS value.
     /// </summary>
-    public override string ToString() => _value;
+    public override string ToString() => _value ?? string.Empty;
 
     /// <summary>
     /// Gets whether this CSS value is empty.
@@ -188,7 +189,11 @@ public readonly struct CssValue<TBuilder> : IEquatable<CssValue<TBuilder>> where
     /// </summary>
     /// <param name="other">Value to compare with this instance.</param>
     /// <returns>true if this CssValue is equal to another CssValue; otherwise, false.</returns>
-    public bool Equals(CssValue<TBuilder> other) => _value == other._value;
+    public bool Equals(CssValue<TBuilder> other) =>
+        string.Equals(_value ?? string.Empty, other._value ?? string.Empty, StringComparison.Ordinal) &&
+        string.Equals(_styleValue ?? string.Empty, other._styleValue ?? string.Empty, StringComparison.Ordinal) &&
+        string.Equals(_cssSelector, other._cssSelector, StringComparison.Ordinal) &&
+        _selectorIsAbsolute == other._selectorIsAbsolute;
 
     /// <summary>
     /// Determines whether this CssValue is equal to the specified object.
@@ -198,7 +203,7 @@ public readonly struct CssValue<TBuilder> : IEquatable<CssValue<TBuilder>> where
     /// <summary>
     /// Returns the hash code for this CssValue.
     /// </summary>
-    public override int GetHashCode() => StringComparer.Ordinal.GetHashCode(_value);
+    public override int GetHashCode() => HashCode.Combine(_value ?? string.Empty, _styleValue ?? string.Empty, _cssSelector, _selectorIsAbsolute);
 
     /// <summary>
     /// Determines whether two CssValue instances are equal.
@@ -252,10 +257,15 @@ public readonly struct CssValue<TBuilder> : IEquatable<CssValue<TBuilder>> where
         return string.Concat(left, style ? "; " : " ", right);
     }
 
-    private static CssValue<TBuilder> Combine(IReadOnlyList<object?> values) => Combine(null, values);
+    private static CssValue<TBuilder> Combine(IReadOnlyList<object?> values) => Combine(default, values);
 
-    private static CssValue<TBuilder> Combine(object? first, IReadOnlyList<object?> values)
+    private static CssValue<TBuilder> Combine(CssValue<TBuilder> first, IReadOnlyList<object?> values)
     {
+        if (values.Count == 0)
+            return CombinePair(default, first);
+        if (values.Count == 1)
+            return CombinePair(first, ReadContributor(values[0]));
+
         var combinedValue = new PooledStringBuilder();
         var combinedStyle = new PooledStringBuilder();
         var hasValue = false;
@@ -265,7 +275,9 @@ public readonly struct CssValue<TBuilder> : IEquatable<CssValue<TBuilder>> where
 
         try
         {
-            AppendValue(first, ref combinedValue, ref combinedStyle, ref hasValue, ref hasStyle, ref combinedSelector, ref combinedSelectorIsAbsolute);
+            AppendSegment(ref combinedValue, ref hasValue, first._value, ' ');
+            AppendStyle(ref combinedStyle, ref hasStyle, first._styleValue);
+            MergeSelector(ref combinedSelector, ref combinedSelectorIsAbsolute, first._cssSelector, first._selectorIsAbsolute);
 
             for (var i = 0; i < values.Count; i++)
             {
