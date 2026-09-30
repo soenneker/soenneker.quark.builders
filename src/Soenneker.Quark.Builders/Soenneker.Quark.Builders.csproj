@@ -46,10 +46,10 @@
 
     <ItemGroup>
         <PackageReference Include="Soenneker.Extensions.String" Version="4.0.767" />
-        <PackageReference Include="Soenneker.Quark.Enums.Breakpoints" Version="4.0.69" />
+        <PackageReference Include="Soenneker.Quark.Enums.Breakpoints" Version="4.0.70" />
         <PackageReference Include="Soenneker.Quark.Enums.ColorPalettes" Version="4.0.29" />
-        <PackageReference Include="Soenneker.Quark.Enums.DisplayTypes" Version="4.0.80" />
-        <PackageReference Include="Soenneker.Quark.Enums.Overflows" Version="4.0.82" />
+        <PackageReference Include="Soenneker.Quark.Enums.DisplayTypes" Version="4.0.81" />
+        <PackageReference Include="Soenneker.Quark.Enums.Overflows" Version="4.0.83" />
         <PackageReference Include="Soenneker.Quark.Enums.Positions" Version="4.0.79" />
         <PackageReference Include="Soenneker.Quark.Enums.TextAlignments" Version="4.0.79" />
         <PackageReference Include="Soenneker.Quark.Enums.TextTransforms" Version="4.0.74" />
