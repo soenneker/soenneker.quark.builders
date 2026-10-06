@@ -139,7 +139,7 @@ public sealed class DivideBuilder : CssBuilderBase<DivideBuilder>
     /// </summary>
     /// <param name="utility">Utility name to append to the generated class list.</param>
     /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
-    public DivideBuilder Utility(string utility) => ChainClass(ColorUtility.CreateUtilityClass("divide-", utility));
+    public DivideBuilder Utility(string utility) => ChainClass(utility);
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private DivideBuilder Chain(DivideEnum value)
     {
@@ -180,11 +180,6 @@ public sealed class DivideBuilder : CssBuilderBase<DivideBuilder>
         }
     }
 
-    /// <summary>
-    /// Executes the to style operation.
-    /// </summary>
-    /// <returns>The result of the operation.</returns>
-    public override string ToStyle() => string.Empty;
 
     /// <summary>
     /// Returns a string representation of the current instance.

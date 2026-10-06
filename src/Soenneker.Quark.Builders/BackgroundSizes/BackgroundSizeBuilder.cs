@@ -27,5 +27,5 @@ public sealed class BackgroundSizeBuilder : FinalClassUtilityBuilder<BackgroundS
     /// </summary>
     /// <param name="value">Arbitrary utility value to append without predefined validation.</param>
     /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
-    public BackgroundSizeBuilder Token(string value) => ChainClass(value.StartsWith("bg-") ? value : $"bg-{value}");
+    public BackgroundSizeBuilder Token(string value) => ChainClass($"bg-{value}");
 }

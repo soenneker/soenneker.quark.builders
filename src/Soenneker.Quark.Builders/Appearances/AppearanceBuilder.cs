@@ -23,5 +23,5 @@ public sealed class AppearanceBuilder : FinalClassUtilityBuilder<AppearanceBuild
     /// </summary>
     /// <param name="value">Arbitrary utility value to append without predefined validation.</param>
     /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
-    public AppearanceBuilder Token(string value) => ChainClass(value.StartsWith("appearance-") ? value : $"appearance-{value}");
+    public AppearanceBuilder Token(string value) => ChainClass($"appearance-{value}");
 }

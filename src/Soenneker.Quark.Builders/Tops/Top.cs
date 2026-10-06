@@ -71,5 +71,5 @@ public static partial class Top
     /// </summary>
     /// <param name="value">Arbitrary utility value to append without predefined validation.</param>
     /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
-    public static TopBuilder Token(string value) => new(value.StartsWith("top-") ? value : "top-" + value);
+    public static TopBuilder Token(string value) => new("top-" + value);
 }

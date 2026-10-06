@@ -23,5 +23,5 @@ public static partial class OverflowWrap
     /// </summary>
     /// <param name="value">Arbitrary utility value to append without predefined validation.</param>
     /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
-    public static OverflowWrapBuilder Token(string value) => new(value.StartsWith("wrap-") ? value : $"wrap-{value}");
+    public static OverflowWrapBuilder Token(string value) => new($"wrap-{value}");
 }

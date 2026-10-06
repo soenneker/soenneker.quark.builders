@@ -91,10 +91,10 @@ public static partial class DecorationColor
     /// <summary>Creates a utility from a color suffix, including palette shades, opacity, or arbitrary values.</summary>
     /// <param name="token">A color suffix such as <c>red-500/50</c> or <c>[var(--brand)]</c>.</param>
     /// <returns>A new builder containing the color utility.</returns>
-    public static DecorationColorBuilder Token(string token) => new(ColorUtility.CreateClass("decoration-", token));
+    public static DecorationColorBuilder Token(string token) => new("decoration-" + token);
 
     /// <summary>Creates a utility from a complete class with the <c>decoration-</c> prefix.</summary>
     /// <param name="utility">The complete color utility.</param>
     /// <returns>A new builder containing the color utility.</returns>
-    public static DecorationColorBuilder Utility(string utility) => new(ColorUtility.CreateUtilityClass("decoration-", utility));
+    public static DecorationColorBuilder Utility(string utility) => new(utility);
 }

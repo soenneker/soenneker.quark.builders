@@ -49,5 +49,5 @@ public sealed class OrderBuilder : FinalClassUtilityBuilder<OrderBuilder>
     /// </summary>
     /// <param name="value">Arbitrary utility value to append without predefined validation.</param>
     /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
-    public OrderBuilder Token(string value) => ChainClass(value.StartsWith("order-") ? value : $"order-{value}");
+    public OrderBuilder Token(string value) => ChainClass($"order-{value}");
 }

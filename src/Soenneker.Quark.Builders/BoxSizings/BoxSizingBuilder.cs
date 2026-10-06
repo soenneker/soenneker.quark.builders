@@ -23,5 +23,5 @@ public sealed class BoxSizingBuilder : FinalClassUtilityBuilder<BoxSizingBuilder
     /// </summary>
     /// <param name="value">Arbitrary utility value to append without predefined validation.</param>
     /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
-    public BoxSizingBuilder Token(string value) => ChainClass(value.StartsWith("box-") ? value : $"box-{value}");
+    public BoxSizingBuilder Token(string value) => ChainClass($"box-{value}");
 }

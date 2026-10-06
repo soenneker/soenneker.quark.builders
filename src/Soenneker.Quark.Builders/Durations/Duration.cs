@@ -47,5 +47,5 @@ public static partial class Duration
     /// </summary>
     /// <param name="value">Arbitrary utility value to append without predefined validation.</param>
     /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
-    public static DurationBuilder Token(string value) => new(value.StartsWith("duration-") ? value : "duration-" + value);
+    public static DurationBuilder Token(string value) => new("duration-" + value);
 }

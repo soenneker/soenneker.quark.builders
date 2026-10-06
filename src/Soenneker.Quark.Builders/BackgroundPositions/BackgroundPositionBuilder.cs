@@ -51,5 +51,5 @@ public sealed class BackgroundPositionBuilder : FinalClassUtilityBuilder<Backgro
     /// </summary>
     /// <param name="value">Arbitrary utility value to append without predefined validation.</param>
     /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
-    public BackgroundPositionBuilder Token(string value) => ChainClass(value.StartsWith("bg-") ? value : $"bg-{value}");
+    public BackgroundPositionBuilder Token(string value) => ChainClass($"bg-{value}");
 }

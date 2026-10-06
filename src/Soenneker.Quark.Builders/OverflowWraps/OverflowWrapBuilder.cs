@@ -27,5 +27,5 @@ public sealed class OverflowWrapBuilder : FinalClassUtilityBuilder<OverflowWrapB
     /// </summary>
     /// <param name="value">Arbitrary utility value to append without predefined validation.</param>
     /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
-    public OverflowWrapBuilder Token(string value) => ChainClass(value.StartsWith("wrap-") ? value : $"wrap-{value}");
+    public OverflowWrapBuilder Token(string value) => ChainClass($"wrap-{value}");
 }

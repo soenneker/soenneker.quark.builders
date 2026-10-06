@@ -66,7 +66,7 @@ public sealed class LineClampBuilder : CssBuilderBase<LineClampBuilder>
     /// </summary>
     /// <param name="value">Arbitrary utility value to append without predefined validation.</param>
     /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
-    public LineClampBuilder Token(string value) => Chain(NormalizeLineClampClass(value));
+    public LineClampBuilder Token(string value) => Chain("line-clamp-" + value);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private LineClampBuilder Chain(string value)
@@ -108,11 +108,6 @@ public sealed class LineClampBuilder : CssBuilderBase<LineClampBuilder>
         }
     }
 
-    /// <summary>
-    /// Executes the to style operation.
-    /// </summary>
-    /// <returns>The result of the operation.</returns>
-    public override string ToStyle() => string.Empty;
 
     /// <summary>
     /// Returns a string representation of the current instance.
@@ -120,11 +115,4 @@ public sealed class LineClampBuilder : CssBuilderBase<LineClampBuilder>
     /// <returns>The result of the operation.</returns>
     public override string ToString() => ToClass();
 
-    private static string NormalizeLineClampClass(string value)
-    {
-        if (string.IsNullOrWhiteSpace(value))
-            return string.Empty;
-
-        return value.StartsWith("line-clamp-") ? value : "line-clamp-" + value;
-    }
 }

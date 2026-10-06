@@ -55,5 +55,5 @@ public static partial class MaxHeight
     /// </summary>
     /// <param name="value">Arbitrary utility value to append without predefined validation.</param>
     /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
-    public static MaxHeightBuilder Token(string value) => new(value.StartsWith("max-h-") ? value : "max-h-" + value);
+    public static MaxHeightBuilder Token(string value) => new("max-h-" + value);
 }

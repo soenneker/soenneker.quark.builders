@@ -227,5 +227,5 @@ public static partial class Width
     /// </summary>
     /// <param name="token">Arbitrary utility token to append.</param>
     /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
-    public static WidthBuilder Token(string token) => new(token.StartsWith("w-") ? token : "w-" + token);
+    public static WidthBuilder Token(string token) => new("w-" + token);
 }

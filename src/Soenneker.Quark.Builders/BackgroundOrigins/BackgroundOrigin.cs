@@ -16,7 +16,7 @@ public static partial class BackgroundOrigin
     public static BackgroundOriginBuilder Content => new("bg-origin-content");
 
     /// <summary>Adds an arbitrary utility. Apply variants with fluent modifiers.</summary>
-    /// <param name="value">A utility suffix or a complete utility with this family's prefix.</param>
+    /// <param name="value">The utility suffix, without the family prefix.</param>
     /// <returns>A new builder containing the utility.</returns>
     public static BackgroundOriginBuilder Token(string value) => new(UtilityToken.WithPrefix(value, "bg-origin-"));
 }

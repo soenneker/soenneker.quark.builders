@@ -47,5 +47,5 @@ public sealed class FlexBasisBuilder : FinalClassUtilityBuilder<FlexBasisBuilder
     /// </summary>
     /// <param name="value">Arbitrary utility value to append without predefined validation.</param>
     /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
-    public FlexBasisBuilder Token(string value) => ChainClass(value.StartsWith("basis-") ? value : $"basis-{value}");
+    public FlexBasisBuilder Token(string value) => ChainClass($"basis-{value}");
 }

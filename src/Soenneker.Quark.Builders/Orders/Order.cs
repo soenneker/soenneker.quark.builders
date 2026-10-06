@@ -37,5 +37,5 @@ public static partial class Order
     /// </summary>
     /// <param name="value">Arbitrary utility value to append without predefined validation.</param>
     /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
-    public static OrderBuilder Token(string value) => new(value.StartsWith("order-") ? value : $"order-{value}");
+    public static OrderBuilder Token(string value) => new($"order-{value}");
 }

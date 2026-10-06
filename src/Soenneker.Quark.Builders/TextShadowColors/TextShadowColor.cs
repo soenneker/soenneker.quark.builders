@@ -91,10 +91,10 @@ public static partial class TextShadowColor
     /// <summary>Creates a utility from a color suffix, including palette shades, opacity, or arbitrary values.</summary>
     /// <param name="token">A color suffix such as <c>red-500/50</c> or <c>[var(--brand)]</c>.</param>
     /// <returns>A new builder containing the color utility.</returns>
-    public static TextShadowColorBuilder Token(string token) => new(ColorUtility.CreateClass("text-shadow-", token));
+    public static TextShadowColorBuilder Token(string token) => new("text-shadow-" + token);
 
     /// <summary>Creates a utility from a complete class with the <c>text-shadow-</c> prefix.</summary>
     /// <param name="utility">The complete color utility.</param>
     /// <returns>A new builder containing the color utility.</returns>
-    public static TextShadowColorBuilder Utility(string utility) => new(ColorUtility.CreateUtilityClass("text-shadow-", utility));
+    public static TextShadowColorBuilder Utility(string utility) => new(utility);
 }

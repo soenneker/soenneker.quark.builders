@@ -104,12 +104,12 @@ public sealed class InsetRingColorBuilder : ColorBuilderBase<InsetRingColorBuild
     /// <summary>Adds <c>inset-ring-inherit</c>.</summary>
     public InsetRingColorBuilder Inherit => ChainClass(InsetRingColorEnum.Inherit.Value);
 
-    public override InsetRingColorBuilder Token(string token) => ChainClass(ColorUtility.CreateClass("inset-ring-", token));
+    public override InsetRingColorBuilder Token(string token) => ChainClass("inset-ring-" + token);
 
     /// <summary>Adds a complete color class with the <c>inset-ring-</c> prefix.</summary>
     /// <param name="utility">The complete color utility.</param>
     /// <returns>The current builder.</returns>
-    public InsetRingColorBuilder Utility(string utility) => ChainClass(ColorUtility.CreateUtilityClass("inset-ring-", utility));
+    public InsetRingColorBuilder Utility(string utility) => ChainClass(utility);
 
     private InsetRingColorBuilder ChainClass(string value)
     {

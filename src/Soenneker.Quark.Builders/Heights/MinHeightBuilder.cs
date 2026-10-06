@@ -66,7 +66,7 @@ public sealed class MinHeightBuilder : CssBuilderBase<MinHeightBuilder>
     /// </summary>
     /// <param name="value">Arbitrary utility value to append without predefined validation.</param>
     /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
-    public MinHeightBuilder Token(string value) => Chain(Normalize(value));
+    public MinHeightBuilder Token(string value) => Chain(("min-h-" + value));
 
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -104,6 +104,4 @@ public sealed class MinHeightBuilder : CssBuilderBase<MinHeightBuilder>
         }
     }
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static string Normalize(string value) => value.StartsWith("min-h-") ? value : "min-h-" + value;
 }

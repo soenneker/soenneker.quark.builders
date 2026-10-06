@@ -6,6 +6,11 @@ namespace Soenneker.Quark;
 [TailwindModifiers(typeof(GapBuilder))]
 public static partial class Gap
 {
+    /// <summary>Selects the horizontal axis for the next value.</summary>
+    public static GapBuilder X => new GapBuilder().X;
+    /// <summary>Selects the vertical axis for the next value.</summary>
+    public static GapBuilder Y => new GapBuilder().Y;
+
     /// <summary>
     /// No gap (0).
     /// </summary>

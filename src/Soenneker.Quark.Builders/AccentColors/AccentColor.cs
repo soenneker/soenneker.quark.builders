@@ -28,12 +28,12 @@ public static partial class AccentColor
     /// </summary>
     /// <param name="token">Arbitrary utility token to append.</param>
     /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
-    public static AccentColorBuilder Token(string token) => new(ColorUtility.CreateClass("accent-", token));
+    public static AccentColorBuilder Token(string token) => new("accent-" + token);
 
     /// <summary>
     /// Passes through a fully-prefixed Tailwind utility such as <c>accent-blue-500</c>.
     /// </summary>
     /// <param name="utility">Utility name to append to the generated class list.</param>
     /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
-    public static AccentColorBuilder Utility(string utility) => new(ColorUtility.CreateUtilityClass("accent-", utility));
+    public static AccentColorBuilder Utility(string utility) => new(utility);
 }

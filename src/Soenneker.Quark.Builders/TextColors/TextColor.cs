@@ -68,12 +68,12 @@ public static partial class TextColor
     /// </summary>
     /// <param name="token">Arbitrary utility token to append.</param>
     /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
-    public static TextColorBuilder Token(string token) => new(ColorUtility.CreateClass("text-", token));
+    public static TextColorBuilder Token(string token) => new("text-" + token);
 
     /// <summary>
     /// Passes through a fully-prefixed Tailwind utility such as <c>text-primary/80</c>.
     /// </summary>
     /// <param name="utility">Utility name to append to the generated class list.</param>
     /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
-    public static TextColorBuilder Utility(string utility) => new(ColorUtility.CreateUtilityClass("text-", utility));
+    public static TextColorBuilder Utility(string utility) => new(utility);
 }

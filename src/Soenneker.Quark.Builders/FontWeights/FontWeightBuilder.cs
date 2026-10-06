@@ -24,7 +24,7 @@ public sealed class FontWeightBuilder : CssBuilderBase<FontWeightBuilder>
 
     internal FontWeightBuilder(string value, BreakpointType? breakpoint = null)
     {
-        _rules.Add(new FontWeightRule(NormalizeFontWeightClass(value), breakpoint));
+        _rules.Add(new FontWeightRule(value, breakpoint));
     }
 
     internal FontWeightBuilder(List<FontWeightRule> rules)
@@ -62,11 +62,11 @@ public sealed class FontWeightBuilder : CssBuilderBase<FontWeightBuilder>
     /// </summary>
     public FontWeightBuilder Extrabold => Chain(FontWeightEnum.ExtraboldValue);
     /// <summary>
-    /// Sets an arbitrary font weight token such as [450] or font-[450].
+    /// Sets an arbitrary font weight token such as [450].
     /// </summary>
     /// <param name="value">Arbitrary utility value to append without predefined validation.</param>
     /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
-    public FontWeightBuilder Token(string value) => Chain(NormalizeFontWeightClass(value));
+    public FontWeightBuilder Token(string value) => Chain("font-" + value);
 
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -113,21 +113,9 @@ public sealed class FontWeightBuilder : CssBuilderBase<FontWeightBuilder>
     }
 
     /// <summary>
-    /// Gets the CSS style string for the current configuration.
-    /// </summary>
-    /// <returns>The CSS style string.</returns>
-    public override string ToStyle() => string.Empty;
-    /// <summary>
     /// Returns a string representation of the current instance.
     /// </summary>
     /// <returns>The result of the operation.</returns>
     public override string ToString() => ToClass();
 
-    private static string NormalizeFontWeightClass(string value)
-    {
-        if (string.IsNullOrWhiteSpace(value))
-            return string.Empty;
-
-        return value.StartsWith("font-") ? value : "font-" + value;
-    }
 }

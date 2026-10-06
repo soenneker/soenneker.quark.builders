@@ -103,16 +103,12 @@ public sealed class BorderSpacingBuilder : FinalClassUtilityBuilder<BorderSpacin
     public BorderSpacingBuilder Is96 => Token("96");
 
     /// <summary>Adds an arbitrary utility. Apply variants with fluent modifiers.</summary>
-    /// <param name="value">A utility suffix or a complete utility with this family's prefix.</param>
+    /// <param name="value">The utility suffix, without the family prefix.</param>
     /// <returns>The current builder.</returns>
     public BorderSpacingBuilder Token(string value)
     {
         string prefix = "border-spacing-" + _axis;
         _axis = "";
-        // Complete utilities retain their explicit axis; suffixes use the pending axis.
-        if (value.StartsWith("border-spacing-", System.StringComparison.Ordinal))
-            return ChainClass(value);
-
         return ChainClass(UtilityToken.WithPrefix(value, prefix));
     }
 }

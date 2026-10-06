@@ -30,18 +30,7 @@ public static class BreakpointUtil
     /// <param name="bp">The breakpoint token (e.g., "sm", "md", "lg", "xl", "2xl") or empty</param>
     /// <returns>The class with Tailwind responsive prefix, or the class unchanged if bp is empty</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static string ApplyTailwindBreakpoint(string className, string bp)
-    {
-        if (string.IsNullOrEmpty(bp))
-            return className;
-        return string.Create(bp.Length + 1 + className.Length, (className, bp), static (dst, s) =>
-        {
-            s.bp.AsSpan().CopyTo(dst);
-            int idx = s.bp.Length;
-            dst[idx++] = ':';
-            s.className.AsSpan().CopyTo(dst[idx..]);
-        });
-    }
+    public static string ApplyTailwindBreakpoint(string className, string bp) => ApplyTailwindModifiers(className, bp);
 
     /// <summary>
     /// Applies the specified Tailwind modifier to the pending utility.

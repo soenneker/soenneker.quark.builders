@@ -104,12 +104,12 @@ public sealed class TextShadowColorBuilder : ColorBuilderBase<TextShadowColorBui
     /// <summary>Adds <c>text-shadow-inherit</c>.</summary>
     public TextShadowColorBuilder Inherit => ChainClass(TextShadowColorEnum.Inherit.Value);
 
-    public override TextShadowColorBuilder Token(string token) => ChainClass(ColorUtility.CreateClass("text-shadow-", token));
+    public override TextShadowColorBuilder Token(string token) => ChainClass("text-shadow-" + token);
 
     /// <summary>Adds a complete color class with the <c>text-shadow-</c> prefix.</summary>
     /// <param name="utility">The complete color utility.</param>
     /// <returns>The current builder.</returns>
-    public TextShadowColorBuilder Utility(string utility) => ChainClass(ColorUtility.CreateUtilityClass("text-shadow-", utility));
+    public TextShadowColorBuilder Utility(string utility) => ChainClass(utility);
 
     private TextShadowColorBuilder ChainClass(string value)
     {

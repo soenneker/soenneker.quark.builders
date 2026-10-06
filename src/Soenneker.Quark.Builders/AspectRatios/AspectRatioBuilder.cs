@@ -93,11 +93,6 @@ public sealed class AspectRatioBuilder : CssBuilderBase<AspectRatioBuilder>
         }
     }
 
-    /// <summary>
-    /// Executes the to style operation.
-    /// </summary>
-    /// <returns>The result of the operation.</returns>
-    public override string ToStyle() => string.Empty;
 
     /// <summary>
     /// Returns the CSS class string representation of this aspect ratio builder.

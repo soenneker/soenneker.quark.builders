@@ -118,7 +118,7 @@ public static partial class MinBlockSize
     public static MinBlockSizeBuilder LargeViewport => new("min-block-lvh");
 
     /// <summary>Adds an arbitrary utility. Apply variants with fluent modifiers.</summary>
-    /// <param name="value">A utility suffix or a complete utility with this family's prefix.</param>
+    /// <param name="value">The utility suffix, without the family prefix.</param>
     /// <returns>A new builder containing the utility.</returns>
     public static MinBlockSizeBuilder Token(string value) => new(UtilityToken.WithPrefix(value, "min-block-"));
 }

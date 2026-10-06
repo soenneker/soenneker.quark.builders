@@ -71,5 +71,5 @@ public static partial class Bottom
     /// </summary>
     /// <param name="value">Arbitrary utility value to append without predefined validation.</param>
     /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
-    public static BottomBuilder Token(string value) => new(value.StartsWith("bottom-") ? value : "bottom-" + value);
+    public static BottomBuilder Token(string value) => new("bottom-" + value);
 }

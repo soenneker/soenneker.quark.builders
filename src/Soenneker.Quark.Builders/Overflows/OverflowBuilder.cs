@@ -110,8 +110,6 @@ public sealed class OverflowBuilder : CssBuilderBase
         }
     }
 
-    /// <summary>Gets the CSS style string for the current configuration.</summary>
-    public override string ToStyle() => string.Empty;
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private string GetOverflowClass(string overflow)

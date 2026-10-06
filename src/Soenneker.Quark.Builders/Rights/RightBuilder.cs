@@ -89,7 +89,7 @@ public sealed class RightBuilder : CssBuilderBase<RightBuilder>
     /// </summary>
     /// <param name="value">Arbitrary utility value to append without predefined validation.</param>
     /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
-    public RightBuilder Token(string value) => Chain(value.StartsWith("right-") ? value : "right-" + value);
+    public RightBuilder Token(string value) => Chain("right-" + value);
 
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -134,11 +134,6 @@ public sealed class RightBuilder : CssBuilderBase<RightBuilder>
         }
     }
 
-    /// <summary>
-    /// Executes the to style operation.
-    /// </summary>
-    /// <returns>The result of the operation.</returns>
-    public override string ToStyle() => string.Empty;
 
     /// <summary>
     /// Returns a string representation of the current instance.

@@ -27,7 +27,7 @@ public sealed class BreakInsideBuilder : FinalClassUtilityBuilder<BreakInsideBui
     public BreakInsideBuilder AvoidColumn => ChainClass("break-inside-avoid-column");
 
     /// <summary>Adds an arbitrary utility. Apply variants with fluent modifiers.</summary>
-    /// <param name="value">A utility suffix or a complete utility with this family's prefix.</param>
+    /// <param name="value">The utility suffix, without the family prefix.</param>
     /// <returns>The current builder.</returns>
     public BreakInsideBuilder Token(string value) => ChainClass(UtilityToken.WithPrefix(value, "break-inside-"));
 }

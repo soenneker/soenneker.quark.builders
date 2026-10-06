@@ -91,10 +91,10 @@ public static partial class ScrollbarTrackColor
     /// <summary>Creates a utility from a color suffix, including palette shades, opacity, or arbitrary values.</summary>
     /// <param name="token">A color suffix such as <c>red-500/50</c> or <c>[var(--brand)]</c>.</param>
     /// <returns>A new builder containing the color utility.</returns>
-    public static ScrollbarTrackColorBuilder Token(string token) => new(ColorUtility.CreateClass("scrollbar-track-", token));
+    public static ScrollbarTrackColorBuilder Token(string token) => new("scrollbar-track-" + token);
 
     /// <summary>Creates a utility from a complete class with the <c>scrollbar-track-</c> prefix.</summary>
     /// <param name="utility">The complete color utility.</param>
     /// <returns>A new builder containing the color utility.</returns>
-    public static ScrollbarTrackColorBuilder Utility(string utility) => new(ColorUtility.CreateUtilityClass("scrollbar-track-", utility));
+    public static ScrollbarTrackColorBuilder Utility(string utility) => new(utility);
 }

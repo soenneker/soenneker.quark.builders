@@ -112,7 +112,7 @@ public sealed class TranslateBuilder : FinalClassUtilityBuilder<TranslateBuilder
     public TranslateBuilder Full => Token("full");
 
     /// <summary>Adds <c>translate-none</c>, clearing translation on every axis.</summary>
-    public TranslateBuilder None => Token("translate-none");
+    public TranslateBuilder None { get { _axis = ""; return ChainClass("translate-none"); } }
 
     /// <summary>Adds <c>-translate-1</c> (or its selected axis variant).</summary>
     public TranslateBuilder Negative1 => Token("-1");
@@ -133,17 +133,12 @@ public sealed class TranslateBuilder : FinalClassUtilityBuilder<TranslateBuilder
     public TranslateBuilder NegativeFull => Token("-full");
 
     /// <summary>Adds an arbitrary utility. Apply variants with fluent modifiers.</summary>
-    /// <param name="value">A utility suffix or a complete utility with this family's prefix.</param>
+    /// <param name="value">The utility suffix, without the family prefix.</param>
     /// <returns>The current builder.</returns>
     public TranslateBuilder Token(string value)
     {
         string prefix = "translate-" + _axis;
         _axis = "";
-        // Complete utilities retain their explicit axis; suffixes use the pending axis.
-        if (value.StartsWith("translate-", System.StringComparison.Ordinal) ||
-            value.StartsWith("-translate-", System.StringComparison.Ordinal))
-            return ChainClass(value);
-
         return ChainClass(UtilityToken.WithSignedPrefix(value, prefix));
     }
 }

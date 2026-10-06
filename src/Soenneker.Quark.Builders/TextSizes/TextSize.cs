@@ -64,5 +64,5 @@ public static partial class TextSize
     /// </summary>
     /// <param name="value">Arbitrary utility value to append without predefined validation.</param>
     /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
-    public static TextSizeBuilder Token(string value) => new(value.StartsWith("text-") ? value : "text-" + value);
+    public static TextSizeBuilder Token(string value) => new("text-" + value);
 }

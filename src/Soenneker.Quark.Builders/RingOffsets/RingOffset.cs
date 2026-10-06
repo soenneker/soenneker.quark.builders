@@ -85,5 +85,5 @@ public static partial class RingOffset
     /// </summary>
     /// <param name="utility">Utility name to append to the generated class list.</param>
     /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
-    public static RingOffsetBuilder Utility(string utility) => new(ColorUtility.CreateUtilityClass("ring-offset-", utility));
+    public static RingOffsetBuilder Utility(string utility) => new(utility);
 }

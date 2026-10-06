@@ -33,7 +33,7 @@ public static partial class UnderlineOffset
     /// <summary>
     /// Adds an arbitrary underline offset utility token to the class list.
     /// </summary>
-    /// <param name="value">Utility suffix or complete utility with this builder's prefix. Apply variants with fluent modifiers.</param>
+    /// <param name="value">Utility suffix, without the family prefix. Apply variants with fluent modifiers.</param>
     /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public static UnderlineOffsetBuilder Token(string value) => new(UtilityToken.WithPrefix(value, "underline-offset-"));
 }

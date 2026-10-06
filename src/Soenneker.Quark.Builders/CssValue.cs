@@ -1,41 +1,17 @@
 using System;
-using System.Collections.Generic;
-using System.Globalization;
-using Soenneker.Extensions.String;
 using Soenneker.Utils.PooledStringBuilders;
 
 namespace Soenneker.Quark;
 
 /// <summary>
-/// Represents a CSS value that can be either a CSS class or inline style, generated from a builder.
+/// Represents utility classes generated from a builder.
 /// </summary>
 /// <typeparam name="TBuilder">The type of CSS builder used to generate the value.</typeparam>
 public readonly struct CssValue<TBuilder> : IEquatable<CssValue<TBuilder>> where TBuilder : class, ICssBuilder
 {
-    private readonly string _value;
-    private readonly string? _styleValue;
-    private readonly string? _cssSelector;
-    private readonly bool _selectorIsAbsolute;
+    private readonly string? _value;
 
-    // Cache generic-type checks per closed generic
-    private static readonly bool _isHeight = typeof(TBuilder) == typeof(HeightBuilder);
-    private static readonly bool _isWidth = typeof(TBuilder) == typeof(WidthBuilder);
-
-    private CssValue(string value, string? styleValue = null, string? cssSelector = null, bool selectorIsAbsolute = false)
-    {
-        _value = value ?? string.Empty;
-        _styleValue = styleValue;
-        _cssSelector = cssSelector;
-        _selectorIsAbsolute = selectorIsAbsolute;
-    }
-
-    private CssValue(CssValue<TBuilder> source, string selector, bool selectorIsAbsolute)
-    {
-        _value = source._value;
-        _styleValue = source._styleValue;
-        _cssSelector = selector;
-        _selectorIsAbsolute = selectorIsAbsolute;
-    }
+    private CssValue(string value) => _value = value;
 
     /// <summary>
     /// Creates a single CssValue from multiple CSS contributors while keeping the target slot typed to <typeparamref name="TBuilder"/>.
@@ -43,38 +19,46 @@ public readonly struct CssValue<TBuilder> : IEquatable<CssValue<TBuilder>> where
     /// </summary>
     /// <param name="values">CSS value contributors to combine, in order.</param>
     /// <returns>A CSS value containing the combined contributors.</returns>
-    public static CssValue<TBuilder> For(params object?[] values) => Combine(values);
+    public static CssValue<TBuilder> For(params ReadOnlySpan<CssValue<TBuilder>> values) => Combine(values);
 
     /// <summary>Creates an empty typed CSS value.</summary>
     /// <returns>An empty CSS value.</returns>
     public static CssValue<TBuilder> For() => new(string.Empty);
 
-    /// <summary>Creates a typed CSS value from one contributor without a parameter array.</summary>
+    /// <summary>Creates a typed CSS value from one contributor without boxing or a parameter array.</summary>
     /// <param name="value">The CSS contributor to convert.</param>
-    /// <returns>The normalized CSS value.</returns>
-    public static CssValue<TBuilder> For(object? value) => CombinePair(default, ReadContributor(value));
+    /// <returns>The supplied CSS value.</returns>
+    public static CssValue<TBuilder> For(CssValue<TBuilder> value) => value;
 
-    /// <summary>Combines two contributors without a parameter array.</summary>
+    /// <summary>Combines two contributors without boxing or a parameter array.</summary>
     /// <param name="first">The first CSS contributor.</param>
     /// <param name="second">The second CSS contributor.</param>
     /// <returns>The combined CSS value.</returns>
-    public static CssValue<TBuilder> For(object? first, object? second) => CombinePair(ReadContributor(first), ReadContributor(second));
+    public static CssValue<TBuilder> For(CssValue<TBuilder> first, CssValue<TBuilder> second) => CombinePair(first, second);
 
 
+    /// <summary>Snapshots the classes emitted by an explicitly supplied builder.</summary>
+    /// <param name="builder">The builder whose output should be used.</param>
+    /// <returns>The builder output without parsing or normalization.</returns>
+    public static CssValue<TBuilder> FromBuilder(ICssBuilder builder) => new(builder.ToClass());
+
+    /// <summary>Creates a typed value from complete classes without adding prefixes or interpreting tokens.</summary>
+    /// <param name="classes">The exact classes to emit.</param>
+    public static CssValue<TBuilder> Raw(string classes) => new(classes);
 
     /// <summary>
     /// Implicitly converts a CSS builder to a CssValue.
     /// </summary>
     /// <param name="builder">Builder to configure.</param>
     /// <returns>A CSS value containing the combined contributors.</returns>
-    public static implicit operator CssValue<TBuilder>(TBuilder builder) => new(builder.ToClass(), builder.ToStyle());
+    public static implicit operator CssValue<TBuilder>(TBuilder builder) => new(builder.ToClass());
 
     /// <summary>
     /// Implicitly converts a variant-wrapped builder to a CssValue for typed component slots.
     /// </summary>
     /// <param name="builder">Builder to configure.</param>
     /// <returns>A CSS value containing the combined contributors.</returns>
-    public static implicit operator CssValue<TBuilder>(VariantBuilder builder) => new(builder.ToClass(), builder.ToStyle());
+    public static implicit operator CssValue<TBuilder>(VariantBuilder builder) => new(builder.ToClass());
 
     /// <summary>
     /// Implicitly converts a string to a CssValue.
@@ -82,20 +66,6 @@ public readonly struct CssValue<TBuilder> : IEquatable<CssValue<TBuilder>> where
     /// <param name="value">CSS value used to construct the utility class.</param>
     /// <returns>A CSS value containing the combined contributors.</returns>
     public static implicit operator CssValue<TBuilder>(string value) => new(value);
-
-    /// <summary>
-    /// Implicitly converts an integer to a CssValue. For HeightBuilder and WidthBuilder, converts to pixel values.
-    /// </summary>
-    /// <param name="value">CSS value used to construct the utility class.</param>
-    /// <returns>A CSS value containing the combined contributors.</returns>
-    public static implicit operator CssValue<TBuilder>(int value)
-    {
-        if (!_isHeight && !_isWidth)
-            return new CssValue<TBuilder>(value.ToString(CultureInfo.InvariantCulture));
-
-        string pixelValue = string.Create(CultureInfo.InvariantCulture, $"{value}px");
-        return new CssValue<TBuilder>(pixelValue, string.Concat(_isWidth ? "width: " : "height: ", pixelValue));
-    }
 
     /// <summary>
     /// Converts the CSS Value to its string representation.
@@ -112,63 +82,16 @@ public readonly struct CssValue<TBuilder> : IEquatable<CssValue<TBuilder>> where
     /// <summary>
     /// Gets whether this CSS value is empty.
     /// </summary>
-    public bool IsEmpty => _value.IsNullOrEmpty() && _styleValue.IsNullOrEmpty();
-
-    /// <summary>
-    /// Gets whether this CSS value represents an inline style.
-    /// </summary>
-    public bool IsCssStyle => !string.IsNullOrEmpty(_styleValue);
-
-    /// <summary>
-    /// Gets whether this CSS value represents a CSS class (e.g., "bg-primary") rather than an inline style.
-    /// </summary>
-    public bool IsCssClass => !IsCssStyle && !IsEmpty;
-
-    /// <summary>
-    /// Gets or sets css selector.
-    /// </summary>
-    public string? CssSelector => _cssSelector;
-
-    /// <summary>
-    /// Gets or sets a value indicating whether selector is absolute.
-    /// </summary>
-    public bool SelectorIsAbsolute => _selectorIsAbsolute;
-
-    /// <summary>Gets the explicit style representation if available.</summary>
-    public string StyleValue
-    {
-        get
-        {
-            return _styleValue ?? string.Empty;
-        }
-    }
-
-    /// <summary>
-    /// Creates a new CssValue with the specified CSS selector.
-    /// </summary>
-    /// <param name="selector">The CSS selector to apply.</param>
-    /// <param name="absolute">Whether the selector is absolute (not relative to base selector).</param>
-    /// <returns>A new CssValue with the specified selector.</returns>
-    public CssValue<TBuilder> WithSelector(string selector, bool absolute = false)
-    {
-        if (selector.IsNullOrWhiteSpace())
-            return this;
-
-        ReadOnlySpan<char> trimmed = selector.AsSpan().Trim();
-        if (trimmed.Length != selector.Length)
-            return new CssValue<TBuilder>(this, trimmed.ToString(), absolute);
-
-        return new CssValue<TBuilder>(this, selector, absolute);
-    }
+    public bool IsEmpty => string.IsNullOrEmpty(_value);
 
     /// <summary>
     /// Returns a new CssValue with additional CSS contributors appended.
     /// </summary>
     /// <param name="values">CSS value contributors to combine, in order.</param>
     /// <returns>A CSS value containing the combined contributors.</returns>
-    public CssValue<TBuilder> Add(params object?[] values)
+    public CssValue<TBuilder> Add(params ReadOnlySpan<CssValue<TBuilder>> values)
     {
-        if (values is not { Length: > 0 })
+        if (values.IsEmpty)
             return this;
 
         return Combine(this, values);
@@ -177,10 +100,10 @@ public readonly struct CssValue<TBuilder> : IEquatable<CssValue<TBuilder>> where
     /// <summary>Appends one contributor without boxing this value or allocating a parameter array.</summary>
     /// <param name="value">The CSS contributor to append.</param>
     /// <returns>The combined CSS value.</returns>
-    public CssValue<TBuilder> Add(object? value) => CombinePair(this, ReadContributor(value));
+    public CssValue<TBuilder> Add(CssValue<TBuilder> value) => CombinePair(this, value);
 
     /// <summary>
-    /// Gets whether this non-empty value affects the generated markup (class or style).
+    /// Gets whether this non-empty value affects the generated markup (classes).
     /// </summary>
     public bool AffectsMarkup => !IsEmpty;
 
@@ -190,10 +113,7 @@ public readonly struct CssValue<TBuilder> : IEquatable<CssValue<TBuilder>> where
     /// <param name="other">Value to compare with this instance.</param>
     /// <returns>true if this CssValue is equal to another CssValue; otherwise, false.</returns>
     public bool Equals(CssValue<TBuilder> other) =>
-        string.Equals(_value ?? string.Empty, other._value ?? string.Empty, StringComparison.Ordinal) &&
-        string.Equals(_styleValue ?? string.Empty, other._styleValue ?? string.Empty, StringComparison.Ordinal) &&
-        string.Equals(_cssSelector, other._cssSelector, StringComparison.Ordinal) &&
-        _selectorIsAbsolute == other._selectorIsAbsolute;
+        string.Equals(_value ?? string.Empty, other._value ?? string.Empty, StringComparison.Ordinal);
 
     /// <summary>
     /// Determines whether this CssValue is equal to the specified object.
@@ -203,7 +123,7 @@ public readonly struct CssValue<TBuilder> : IEquatable<CssValue<TBuilder>> where
     /// <summary>
     /// Returns the hash code for this CssValue.
     /// </summary>
-    public override int GetHashCode() => HashCode.Combine(_value ?? string.Empty, _styleValue ?? string.Empty, _cssSelector, _selectorIsAbsolute);
+    public override int GetHashCode() => StringComparer.Ordinal.GetHashCode(_value ?? string.Empty);
 
     /// <summary>
     /// Determines whether two CssValue instances are equal.
@@ -221,161 +141,54 @@ public readonly struct CssValue<TBuilder> : IEquatable<CssValue<TBuilder>> where
     /// <returns>true if two CssValue instances are not equal; otherwise, false.</returns>
     public static bool operator !=(CssValue<TBuilder> a, CssValue<TBuilder> b) => !a.Equals(b);
 
-    private static CssValue<TBuilder> ReadContributor(object? value) => value switch
-    {
-        null => default,
-        CssValue<TBuilder> css => css,
-        ICssBuilder builder => new CssValue<TBuilder>(builder.ToClass(), builder.ToStyle()),
-        string text => new CssValue<TBuilder>(text),
-        int number => number,
-        _ => new CssValue<TBuilder>(value.ToString() ?? string.Empty)
-    };
+    private static CssValue<TBuilder> CombinePair(CssValue<TBuilder> first, CssValue<TBuilder> second) =>
+        new(JoinClasses(first._value, second._value));
 
-    private static CssValue<TBuilder> CombinePair(CssValue<TBuilder> first, CssValue<TBuilder> second)
+    private static string JoinClasses(string? first, string? second)
     {
-        string? selector = null;
-        bool absolute = false;
-        MergeSelector(ref selector, ref absolute, first._cssSelector, first._selectorIsAbsolute);
-        MergeSelector(ref selector, ref absolute, second._cssSelector, second._selectorIsAbsolute);
-        return new CssValue<TBuilder>(JoinSegments(first._value, second._value, false),
-            JoinSegments(first._styleValue, second._styleValue, true), selector, absolute);
+        if (string.IsNullOrEmpty(first))
+            return second ?? string.Empty;
+        if (string.IsNullOrEmpty(second))
+            return first;
+        return string.Concat(first, " ", second);
     }
 
-    private static string JoinSegments(string? first, string? second, bool style)
-    {
-        ReadOnlySpan<char> left = first.AsSpan().Trim();
-        ReadOnlySpan<char> right = second.AsSpan().Trim();
-        if (style)
-        {
-            left = left.TrimEnd(';');
-            right = right.TrimEnd(';');
-        }
-        if (left.IsEmpty)
-            return right.IsEmpty ? string.Empty : right.Length == second!.Length ? second : right.ToString();
-        if (right.IsEmpty)
-            return left.Length == first!.Length ? first : left.ToString();
-        return string.Concat(left, style ? "; " : " ", right);
-    }
+    private static CssValue<TBuilder> Combine(ReadOnlySpan<CssValue<TBuilder>> values) => Combine(default, values);
 
-    private static CssValue<TBuilder> Combine(IReadOnlyList<object?> values) => Combine(default, values);
-
-    private static CssValue<TBuilder> Combine(CssValue<TBuilder> first, IReadOnlyList<object?> values)
+    private static CssValue<TBuilder> Combine(CssValue<TBuilder> first, ReadOnlySpan<CssValue<TBuilder>> values)
     {
-        if (values.Count == 0)
-            return CombinePair(default, first);
-        if (values.Count == 1)
-            return CombinePair(first, ReadContributor(values[0]));
+        if (values.Length == 0)
+            return first;
+        if (values.Length == 1)
+            return CombinePair(first, values[0]);
 
         var combinedValue = new PooledStringBuilder();
-        var combinedStyle = new PooledStringBuilder();
         var hasValue = false;
-        var hasStyle = false;
-        string? combinedSelector = null;
-        var combinedSelectorIsAbsolute = false;
 
         try
         {
             AppendSegment(ref combinedValue, ref hasValue, first._value, ' ');
-            AppendStyle(ref combinedStyle, ref hasStyle, first._styleValue);
-            MergeSelector(ref combinedSelector, ref combinedSelectorIsAbsolute, first._cssSelector, first._selectorIsAbsolute);
 
-            for (var i = 0; i < values.Count; i++)
+
+            for (var i = 0; i < values.Length; i++)
             {
-                object? value = values[i];
-                AppendValue(value, ref combinedValue, ref combinedStyle, ref hasValue, ref hasStyle, ref combinedSelector, ref combinedSelectorIsAbsolute);
+                var value = values[i];
+                AppendSegment(ref combinedValue, ref hasValue, value._value, ' ');
+
             }
 
             return new CssValue<TBuilder>(
-                hasValue ? combinedValue.ToString() : string.Empty,
-                hasStyle ? combinedStyle.ToString() : null,
-                combinedSelector,
-                combinedSelectorIsAbsolute);
+                hasValue ? combinedValue.ToString() : string.Empty);
         }
         finally
         {
             combinedValue.Dispose();
-            combinedStyle.Dispose();
         }
-    }
-
-    private static void AppendValue(
-        object? value,
-        ref PooledStringBuilder combinedValue,
-        ref PooledStringBuilder combinedStyle,
-        ref bool hasValue,
-        ref bool hasStyle,
-        ref string? combinedSelector,
-        ref bool combinedSelectorIsAbsolute)
-    {
-        switch (value)
-        {
-            case null:
-                return;
-            case CssValue<TBuilder> cssValue:
-                AppendSegment(ref combinedValue, ref hasValue, cssValue._value, ' ');
-                AppendStyle(ref combinedStyle, ref hasStyle, cssValue._styleValue);
-                MergeSelector(ref combinedSelector, ref combinedSelectorIsAbsolute, cssValue._cssSelector, cssValue._selectorIsAbsolute);
-                return;
-            case ICssBuilder builder:
-                AppendSegment(ref combinedValue, ref hasValue, builder.ToClass(), ' ');
-                AppendStyle(ref combinedStyle, ref hasStyle, builder.ToStyle());
-                return;
-            case string str:
-                AppendSegment(ref combinedValue, ref hasValue, str, ' ');
-                return;
-            case int intValue:
-                CssValue<TBuilder> numeric = intValue;
-                AppendSegment(ref combinedValue, ref hasValue, numeric._value, ' ');
-                AppendStyle(ref combinedStyle, ref hasStyle, numeric._styleValue);
-                return;
-            default:
-                AppendSegment(ref combinedValue, ref hasValue, value.ToString(), ' ');
-                return;
-        }
-    }
-
-    private static void MergeSelector(ref string? currentSelector, ref bool currentAbsolute, string? nextSelector, bool nextAbsolute)
-    {
-        if (nextSelector.IsNullOrWhiteSpace())
-            return;
-
-        if (currentSelector.IsNullOrWhiteSpace())
-        {
-            currentSelector = nextSelector;
-            currentAbsolute = nextAbsolute;
-            return;
-        }
-
-        if (!string.Equals(currentSelector, nextSelector, StringComparison.Ordinal) || currentAbsolute != nextAbsolute)
-            throw new InvalidOperationException("Cannot combine CssValue instances with different CSS selectors.");
-    }
-
-    private static void AppendStyle(ref PooledStringBuilder current, ref bool hasValue, string? next)
-    {
-        if (next.IsNullOrWhiteSpace())
-            return;
-
-        ReadOnlySpan<char> trimmed = next.AsSpan().Trim().TrimEnd(';');
-
-        if (trimmed.Length == 0)
-            return;
-
-        if (hasValue)
-            current.Append("; ");
-        else
-            hasValue = true;
-
-        AppendSpan(ref current, trimmed);
     }
 
     private static void AppendSegment(ref PooledStringBuilder current, ref bool hasValue, string? next, char separator)
     {
-        if (next.IsNullOrWhiteSpace())
-            return;
-
-        ReadOnlySpan<char> trimmed = next.AsSpan().Trim();
-
-        if (trimmed.Length == 0)
+        if (string.IsNullOrEmpty(next))
             return;
 
         if (hasValue)
@@ -383,11 +196,6 @@ public readonly struct CssValue<TBuilder> : IEquatable<CssValue<TBuilder>> where
         else
             hasValue = true;
 
-        AppendSpan(ref current, trimmed);
-    }
-
-    private static void AppendSpan(ref PooledStringBuilder builder, ReadOnlySpan<char> value)
-    {
-        builder.Append(value);
+        current.Append(next);
     }
 }

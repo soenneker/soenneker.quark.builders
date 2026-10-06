@@ -75,11 +75,11 @@ CssValue<DisplayBuilder> combined = CssValue<DisplayBuilder>.For(
 string classValue = combined.ToString();
 ```
 
-Numeric `CssValue<WidthBuilder>` and `CssValue<HeightBuilder>` values are represented as pixel styles. `WithSelector` associates a generated value with a relative or absolute selector for consumers that support selector-aware styles.
+`CssValue<TBuilder>` contains classes only. For dimensions use `Width.Token("[120px]")`; for inline CSS use the component's `Style` property. Selectors and literal CSS declarations belong to Suite theme rules.
 
 ## Escape hatches
 
-Most utility families expose `Token(...)` for an exact or family-prefixed Tailwind token:
+Most utility families expose `Token(...)` for a utility suffix (without the family prefix):
 
 ```csharp
 string width = Width.Token("[42rem]").ToClass();
@@ -107,13 +107,20 @@ For responsive display changes, configure the matching modifier on `Display` exp
 `FlexDirection` also emits direction utilities only. For example, `FlexDirection.Col.OnMd.Row` emits `flex-col md:flex-row`; it does not enable flex display at either breakpoint.
 
 To verify Suite against the updated local Builders project before publishing the package,
-pass `-p:UseLocalQuarkBuildersProject=true` when building or testing Suite.
+pass `-p:UseLocalQuarkBuildersProject=true -p:UseLocalQuarkGenPresetsProject=true` when building or testing Suite. The preset generator must be upgraded with Builders because it emits fluent side selectors.
 Package consumers must upgrade to a release containing this change and migrate implicit display usage together.
 ## Arbitrary utility tokens
 
-Prefixed Token methods accept a suffix or a complete utility with that prefix:
-`GridCols.Token("3")` and `GridCols.Token("grid-cols-3")` both emit `grid-cols-3`.
-Use fluent modifiers for variants: `GridCols.OnMd.Token("grid-cols-3")` emits `md:grid-cols-3`.
+Prefixed `Token` methods concatenate the family prefix and your suffix directly:
+`GridCols.Token("3")` emits `grid-cols-3`. Use `CssValue<GridColsBuilder>.Raw("grid-cols-3")`
+for complete classes. Raw strings and duplicate classes are preserved.
+
+Side and axis selectors apply to the next value: `Padding.FromTop.Is2`,
+`Margin.OnX.Negative1`, and `Gap.X.Is4`. They never rewrite an earlier value.
+Modifiers retain their supplied order: `Width.OnHover.OnMd.Is4` emits `hover:md:w-4`.
+Repeated breakpoints remain in the chain; `OnBase` adds no modifier.
+Space tokens default to the X axis; use `Space.Y.Token("3")` for the Y axis.
+
 
 Layout properties such as direction and wrapping are independent of display.
 Composite presets are different: `ListVariant.Inline` deliberately applies

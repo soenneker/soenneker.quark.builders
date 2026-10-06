@@ -46,7 +46,7 @@ internal static class CompatibilitySnapshot
             try
             {
                 ICssBuilder builder = create();
-                results.Add(key, builder.ToClass() + "|" + builder.ToClass() + "|" + builder.ToStyle());
+                results.Add(key, builder.ToClass() + "|" + builder.ToClass());
             }
             catch (Exception exception)
             {

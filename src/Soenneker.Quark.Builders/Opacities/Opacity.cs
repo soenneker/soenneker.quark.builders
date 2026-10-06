@@ -97,5 +97,5 @@ public static partial class Opacity
     /// </summary>
     /// <param name="value">Arbitrary utility value to append without predefined validation.</param>
     /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
-    public static OpacityBuilder Token(string value) => new(value.StartsWith("opacity-") ? value : "opacity-" + value);
+    public static OpacityBuilder Token(string value) => new("opacity-" + value);
 }

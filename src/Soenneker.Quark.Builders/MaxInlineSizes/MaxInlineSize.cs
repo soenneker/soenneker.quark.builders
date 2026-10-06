@@ -118,7 +118,7 @@ public static partial class MaxInlineSize
     public static MaxInlineSizeBuilder None => new("max-inline-none");
 
     /// <summary>Adds an arbitrary utility. Apply variants with fluent modifiers.</summary>
-    /// <param name="value">A utility suffix or a complete utility with this family's prefix.</param>
+    /// <param name="value">The utility suffix, without the family prefix.</param>
     /// <returns>A new builder containing the utility.</returns>
     public static MaxInlineSizeBuilder Token(string value) => new(UtilityToken.WithPrefix(value, "max-inline-"));
 }

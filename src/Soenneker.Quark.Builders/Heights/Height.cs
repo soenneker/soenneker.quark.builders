@@ -207,5 +207,5 @@ public static partial class Height
     /// </summary>
     /// <param name="token">Arbitrary utility token to append.</param>
     /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
-    public static HeightBuilder Token(string token) => new(token.StartsWith("h-") ? token : "h-" + token);
+    public static HeightBuilder Token(string token) => new("h-" + token);
 }

@@ -35,5 +35,5 @@ public sealed class GridAutoFlowBuilder : FinalClassUtilityBuilder<GridAutoFlowB
     /// </summary>
     /// <param name="value">Arbitrary utility value to append without predefined validation.</param>
     /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
-    public GridAutoFlowBuilder Token(string value) => ChainClass(value.StartsWith("grid-flow-") ? value : $"grid-flow-{value}");
+    public GridAutoFlowBuilder Token(string value) => ChainClass($"grid-flow-{value}");
 }

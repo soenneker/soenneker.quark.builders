@@ -35,5 +35,5 @@ public static partial class BackgroundRepeat
     /// </summary>
     /// <param name="value">Arbitrary utility value to append without predefined validation.</param>
     /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
-    public static BackgroundRepeatBuilder Token(string value) => new(value.StartsWith("bg-") ? value : $"bg-{value}");
+    public static BackgroundRepeatBuilder Token(string value) => new($"bg-{value}");
 }

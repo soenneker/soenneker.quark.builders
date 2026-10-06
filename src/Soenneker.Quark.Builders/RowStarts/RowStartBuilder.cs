@@ -31,7 +31,7 @@ public sealed class RowStartBuilder : ResponsiveUtilityBuilder<RowStartBuilder>
     /// <summary>
     /// Adds an arbitrary row start utility token to the class list.
     /// </summary>
-    /// <param name="value">Utility suffix or complete utility with this builder's prefix. Apply variants with fluent modifiers.</param>
+    /// <param name="value">Utility suffix, without the family prefix. Apply variants with fluent modifiers.</param>
     /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public RowStartBuilder Token(string value) => ChainValue(UtilityToken.WithPrefix(value, "row-start-"));
 

@@ -19,5 +19,5 @@ public static partial class Appearance
     /// </summary>
     /// <param name="value">Arbitrary utility value to append without predefined validation.</param>
     /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
-    public static AppearanceBuilder Token(string value) => new(value.StartsWith("appearance-") ? value : $"appearance-{value}");
+    public static AppearanceBuilder Token(string value) => new($"appearance-{value}");
 }

@@ -27,7 +27,7 @@ public sealed class MaskCompositeBuilder : FinalClassUtilityBuilder<MaskComposit
     public MaskCompositeBuilder Exclude => ChainClass("mask-exclude");
 
     /// <summary>Adds an arbitrary utility. Apply variants with fluent modifiers.</summary>
-    /// <param name="value">A utility suffix or a complete utility with this family's prefix.</param>
+    /// <param name="value">The utility suffix, without the family prefix.</param>
     /// <returns>The current builder.</returns>
     public MaskCompositeBuilder Token(string value) => ChainClass(UtilityToken.WithPrefix(value, "mask-"));
 }

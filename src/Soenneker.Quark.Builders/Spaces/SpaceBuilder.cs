@@ -44,8 +44,7 @@ public sealed class SpaceBuilder : CssBuilderBase<SpaceBuilder>
     /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public SpaceBuilder Token(string value)
     {
-        bool preferY = _rules.Count > 0 && _rules[^1].Value.StartsWith("space-y", System.StringComparison.Ordinal);
-        return ChainClass(Space.NormalizeToken(value, preferY));
+        return ChainClass("space-x-" + value);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -89,11 +88,6 @@ public sealed class SpaceBuilder : CssBuilderBase<SpaceBuilder>
         }
     }
 
-    /// <summary>
-    /// Executes the to style operation.
-    /// </summary>
-    /// <returns>The result of the operation.</returns>
-    public override string ToStyle() => string.Empty;
 
     /// <summary>
     /// Returns a string representation of the current instance.

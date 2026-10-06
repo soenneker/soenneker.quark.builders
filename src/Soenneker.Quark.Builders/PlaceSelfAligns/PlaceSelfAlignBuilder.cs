@@ -35,5 +35,5 @@ public sealed class PlaceSelfAlignBuilder : FinalClassUtilityBuilder<PlaceSelfAl
     /// </summary>
     /// <param name="value">Arbitrary utility value to append without predefined validation.</param>
     /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
-    public PlaceSelfAlignBuilder Token(string value) => ChainClass(value.StartsWith("place-self-") ? value : $"place-self-{value}");
+    public PlaceSelfAlignBuilder Token(string value) => ChainClass($"place-self-{value}");
 }

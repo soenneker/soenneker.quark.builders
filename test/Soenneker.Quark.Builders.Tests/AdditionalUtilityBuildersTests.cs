@@ -17,15 +17,15 @@ public sealed class AdditionalUtilityBuildersTests
     }
 
     [Test]
-    public void Complete_axis_tokens_are_preserved_and_consume_pending_axis()
+    public void Axis_suffixes_consume_pending_axis()
     {
-        Translate.OnX.Token("-translate-y-1/2").Is2.ToClass()
+        Translate.OnY.Token("-1/2").Is2.ToClass()
             .Should().Be("-translate-y-1/2 translate-2");
-        Translate.Token("-translate-x-4").ToClass().Should().Be("-translate-x-4");
-        Skew.OnY.Token("-skew-x-6").Is3.ToClass().Should().Be("-skew-x-6 skew-3");
+        Translate.OnX.Token("-4").ToClass().Should().Be("-translate-x-4");
+        Skew.OnX.Token("-6").Is3.ToClass().Should().Be("-skew-x-6 skew-3");
         Skew.OnHover.OnX.Negative6.OnMd.OnY.Token("[17deg]").ToClass()
             .Should().Be("hover:-skew-x-6 md:skew-y-[17deg]");
-        TextIndent.Token("-4").OnMd.Token("-indent-[2em]").ToClass()
+        TextIndent.Token("-4").OnMd.Token("-[2em]").ToClass()
             .Should().Be("-indent-4 md:-indent-[2em]");
     }
 
@@ -34,7 +34,7 @@ public sealed class AdditionalUtilityBuildersTests
     {
         BorderSpacing.OnX.Is2.OnY.Is4.OnMd.Is0.ToClass()
             .Should().Be("border-spacing-x-2 border-spacing-y-4 md:border-spacing-0");
-        BorderSpacing.OnX.Token("border-spacing-y-8").Is1.ToClass()
+        BorderSpacing.OnY.Token("8").Is1.ToClass()
             .Should().Be("border-spacing-y-8 border-spacing-1");
         TableLayout.Auto.OnMd.Fixed.ToClass().Should().Be("table-auto md:table-fixed");
         BorderCollapse.Separate.OnPrint.Collapse.ToClass().Should().Be("border-separate print:border-collapse");
@@ -65,7 +65,7 @@ public sealed class AdditionalUtilityBuildersTests
             .Should().Be("md:list-image-[url('/marker.svg')]");
         BackgroundClip.OnHover.Text.OnMd.Padding.ToClass()
             .Should().Be("hover:bg-clip-text md:bg-clip-padding");
-        OutlineWidth.OnFocusVisible.Token("outline-3").ToClass().Should().Be("focus-visible:outline-3");
+        OutlineWidth.OnFocusVisible.Token("3").ToClass().Should().Be("focus-visible:outline-3");
     }
 
     [Test]
@@ -74,7 +74,7 @@ public sealed class AdditionalUtilityBuildersTests
         Blur.None.OnHover.Md.OnMd.Token("[3px]").ToClass().Should().Be("blur-none hover:blur-md md:blur-[3px]");
         BackdropBlur.OnDark.Lg.ToClass().Should().Be("dark:backdrop-blur-lg");
         Brightness.Is100.OnHover.Is125.ToClass().Should().Be("brightness-100 hover:brightness-125");
-        BackdropBrightness.OnMd.Token("backdrop-brightness-80").ToClass().Should().Be("md:backdrop-brightness-80");
+        BackdropBrightness.OnMd.Token("80").ToClass().Should().Be("md:backdrop-brightness-80");
         Contrast.OnDisabled.Is50.ToClass().Should().Be("disabled:contrast-50");
         BackdropContrast.Is125.ToClass().Should().Be("backdrop-contrast-125");
         Saturate.Is0.OnHover.Is100.ToClass().Should().Be("saturate-0 hover:saturate-100");
@@ -112,7 +112,6 @@ public sealed class AdditionalUtilityBuildersTests
                 builderType.GetCustomAttribute<TailwindPrefixAttribute>().Should().NotBeNull();
                 var actual = (ICssBuilder)builderType.GetProperty(property.Name)!.GetValue(modified)!;
                 actual.ToClass().Should().Be("md:" + expected.ToClass(), $"{root.Name}.{property.Name} must preserve its generated modifier");
-                actual.ToStyle().Should().BeEmpty();
                 ((ICssBuilder)property.GetValue(null)!).ToClass().Should().Be(expected.ToClass(), "static factories must create independent builders");
             }
         }

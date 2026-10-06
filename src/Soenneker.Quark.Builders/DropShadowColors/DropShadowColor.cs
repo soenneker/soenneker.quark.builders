@@ -91,10 +91,10 @@ public static partial class DropShadowColor
     /// <summary>Creates a utility from a color suffix, including palette shades, opacity, or arbitrary values.</summary>
     /// <param name="token">A color suffix such as <c>red-500/50</c> or <c>[var(--brand)]</c>.</param>
     /// <returns>A new builder containing the color utility.</returns>
-    public static DropShadowColorBuilder Token(string token) => new(ColorUtility.CreateClass("drop-shadow-", token));
+    public static DropShadowColorBuilder Token(string token) => new("drop-shadow-" + token);
 
     /// <summary>Creates a utility from a complete class with the <c>drop-shadow-</c> prefix.</summary>
     /// <param name="utility">The complete color utility.</param>
     /// <returns>A new builder containing the color utility.</returns>
-    public static DropShadowColorBuilder Utility(string utility) => new(ColorUtility.CreateUtilityClass("drop-shadow-", utility));
+    public static DropShadowColorBuilder Utility(string utility) => new(utility);
 }

@@ -19,5 +19,5 @@ public static partial class ForcedColorAdjust
     /// </summary>
     /// <param name="value">Arbitrary utility value to append without predefined validation.</param>
     /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
-    public static ForcedColorAdjustBuilder Token(string value) => new(value.StartsWith("forced-color-adjust-") ? value : $"forced-color-adjust-{value}");
+    public static ForcedColorAdjustBuilder Token(string value) => new($"forced-color-adjust-{value}");
 }

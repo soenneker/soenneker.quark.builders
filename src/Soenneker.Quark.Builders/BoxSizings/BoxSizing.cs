@@ -19,5 +19,5 @@ public static partial class BoxSizing
     /// </summary>
     /// <param name="value">Arbitrary utility value to append without predefined validation.</param>
     /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
-    public static BoxSizingBuilder Token(string value) => new(value.StartsWith("box-") ? value : $"box-{value}");
+    public static BoxSizingBuilder Token(string value) => new($"box-{value}");
 }

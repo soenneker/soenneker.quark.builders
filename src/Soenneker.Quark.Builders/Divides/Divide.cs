@@ -111,5 +111,5 @@ public static partial class Divide
     /// </summary>
     /// <param name="utility">Utility name to append to the generated class list.</param>
     /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
-    public static DivideBuilder Utility(string utility) => new(ColorUtility.CreateUtilityClass("divide-", utility));
+    public static DivideBuilder Utility(string utility) => new(utility);
 }

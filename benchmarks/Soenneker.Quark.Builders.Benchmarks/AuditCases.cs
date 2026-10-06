@@ -32,7 +32,7 @@ internal static class AuditCases
                                 modifier?.GetValue(builder);
                                 MethodInfo? token = builder.GetType().GetMethod("Token", [typeof(string)]);
                                 token?.Invoke(builder, ["3"]);
-                                return first + "|" + builder.ToClass() + "|" + builder.ToStyle();
+                                return first + "|" + builder.ToClass();
                             });
                         }
                     }
@@ -64,7 +64,7 @@ internal static class AuditCases
         var random = new Random(7419);
         for (var sample = 0; sample < 100; sample++)
         {
-            var variant = Variant.Of(new StyledBuilder(" a\tb ", ""));
+            var variant = Variant.Of(new ClassBuilder(" a\tb "));
             for (var step = 0; step < 24; step++)
             {
                 variant = random.Next(9) switch
@@ -83,16 +83,15 @@ internal static class AuditCases
             }
         }
 
-        object?[] contributors = [null, "", "  ", " a ", "b", 12, -12, (CssValue<WidthBuilder>)" a ",
-            ((CssValue<WidthBuilder>)"a").WithSelector(".x"), ((CssValue<WidthBuilder>)"b").WithSelector(".y"),
-            ((CssValue<WidthBuilder>)"b").WithSelector(".x", true), new StyledBuilder(" a ", " color:red;; "),
-            new StyledBuilder("", " ; "), new StyledBuilder("b", "height:1px; ;")];
+        CssValue<WidthBuilder>[] contributors = [default, "", "  ", " a ", "b", "w-[12px]", "w-[-12px]", (CssValue<WidthBuilder>)" a ",
+            ((CssValue<WidthBuilder>)"a"), ((CssValue<WidthBuilder>)"b"),
+            ((CssValue<WidthBuilder>)"b"), CssValue<WidthBuilder>.FromBuilder(new ClassBuilder(" a ")),
+            CssValue<WidthBuilder>.FromBuilder(new ClassBuilder("")), CssValue<WidthBuilder>.FromBuilder(new ClassBuilder("b"))];
         for (var i = 0; i < contributors.Length; i++)
             for (var j = 0; j < contributors.Length; j++)
             {
-                object? first = contributors[i];
-                object? second = contributors[j];
-                // Explicit arrays keep this harness binary-compatible with the pre-audit API.
+                var first = contributors[i];
+                var second = contributors[j];
                 Capture($"css/{i}/{j}", () => Describe(CssValue<WidthBuilder>.For(new[] { first, second })));
                 Capture($"css-add/{i}/{j}", () => Describe(((CssValue<WidthBuilder>)" base ").Add(new[] { first, second })));
                 Capture($"css-single/{i}/{j}", () => Describe(CssValue<WidthBuilder>.For(new[] { first }).Add(new[] { second })));
@@ -105,11 +104,10 @@ internal static class AuditCases
         }
     }
 
-    private static string Describe(CssValue<WidthBuilder> value) => $"{value}|{value.StyleValue}|{value.CssSelector}|{value.SelectorIsAbsolute}|{value.IsCssStyle}|{value.IsEmpty}";
+    private static string Describe(CssValue<WidthBuilder> value) => $"{value}|{value.IsEmpty}";
 
-    private sealed class StyledBuilder(string classes, string style) : CssBuilderBase
+    private sealed class ClassBuilder(string classes) : CssBuilderBase
     {
         public override string ToClass() => classes;
-        public override string ToStyle() => style;
     }
 }

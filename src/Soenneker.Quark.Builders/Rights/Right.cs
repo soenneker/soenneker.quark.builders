@@ -63,5 +63,5 @@ public static partial class Right
     /// </summary>
     /// <param name="value">Arbitrary utility value to append without predefined validation.</param>
     /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
-    public static RightBuilder Token(string value) => new(value.StartsWith("right-") ? value : "right-" + value);
+    public static RightBuilder Token(string value) => new("right-" + value);
 }

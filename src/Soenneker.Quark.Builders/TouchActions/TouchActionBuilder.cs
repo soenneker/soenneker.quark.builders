@@ -35,5 +35,5 @@ public sealed class TouchActionBuilder : FinalClassUtilityBuilder<TouchActionBui
     /// </summary>
     /// <param name="value">Arbitrary utility value to append without predefined validation.</param>
     /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
-    public TouchActionBuilder Token(string value) => ChainClass(value.StartsWith("touch-") ? value : $"touch-{value}");
+    public TouchActionBuilder Token(string value) => ChainClass($"touch-{value}");
 }

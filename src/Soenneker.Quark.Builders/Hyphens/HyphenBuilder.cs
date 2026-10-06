@@ -27,5 +27,5 @@ public sealed class HyphenBuilder : FinalClassUtilityBuilder<HyphenBuilder>
     /// </summary>
     /// <param name="value">Arbitrary utility value to append without predefined validation.</param>
     /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
-    public HyphenBuilder Token(string value) => ChainClass(value.StartsWith("hyphens-") ? value : $"hyphens-{value}");
+    public HyphenBuilder Token(string value) => ChainClass($"hyphens-{value}");
 }

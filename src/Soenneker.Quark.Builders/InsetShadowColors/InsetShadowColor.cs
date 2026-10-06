@@ -91,10 +91,10 @@ public static partial class InsetShadowColor
     /// <summary>Creates a utility from a color suffix, including palette shades, opacity, or arbitrary values.</summary>
     /// <param name="token">A color suffix such as <c>red-500/50</c> or <c>[var(--brand)]</c>.</param>
     /// <returns>A new builder containing the color utility.</returns>
-    public static InsetShadowColorBuilder Token(string token) => new(ColorUtility.CreateClass("inset-shadow-", token));
+    public static InsetShadowColorBuilder Token(string token) => new("inset-shadow-" + token);
 
     /// <summary>Creates a utility from a complete class with the <c>inset-shadow-</c> prefix.</summary>
     /// <param name="utility">The complete color utility.</param>
     /// <returns>A new builder containing the color utility.</returns>
-    public static InsetShadowColorBuilder Utility(string utility) => new(ColorUtility.CreateUtilityClass("inset-shadow-", utility));
+    public static InsetShadowColorBuilder Utility(string utility) => new(utility);
 }

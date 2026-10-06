@@ -34,7 +34,7 @@ public static partial class PerspectiveOrigin
     public static PerspectiveOriginBuilder TopLeft => new("perspective-origin-top-left");
 
     /// <summary>Adds an arbitrary utility. Apply variants with fluent modifiers.</summary>
-    /// <param name="value">A utility suffix or a complete utility with this family's prefix.</param>
+    /// <param name="value">The utility suffix, without the family prefix.</param>
     /// <returns>A new builder containing the utility.</returns>
     public static PerspectiveOriginBuilder Token(string value) => new(UtilityToken.WithPrefix(value, "perspective-origin-"));
 }

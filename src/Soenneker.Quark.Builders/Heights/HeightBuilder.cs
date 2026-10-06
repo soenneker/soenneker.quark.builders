@@ -235,7 +235,7 @@ public sealed class HeightBuilder : CssBuilderBase<HeightBuilder>
     /// </summary>
     /// <param name="token">Arbitrary utility token to append.</param>
     /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
-    public HeightBuilder Token(string token) => ChainWithSize(NormalizeHeightClass(token));
+    public HeightBuilder Token(string token) => ChainWithSize(("h-" + token));
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private HeightBuilder ChainWithSize(string size)
@@ -272,18 +272,6 @@ public sealed class HeightBuilder : CssBuilderBase<HeightBuilder>
         }
     }
 
-    /// <summary>
-    /// Executes the to style operation.
-    /// </summary>
-    /// <returns>The result of the operation.</returns>
-    public override string ToStyle() => string.Empty;
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static string NormalizeHeightClass(string size)
-    {
-        if (size.Length == 0)
-            return string.Empty;
 
-        return size.StartsWith("h-") ? size : "h-" + size;
-    }
 }

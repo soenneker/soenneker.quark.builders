@@ -64,12 +64,12 @@ public static partial class BackgroundColor
     /// </summary>
     /// <param name="token">Arbitrary utility token to append.</param>
     /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
-    public static BackgroundColorBuilder Token(string token) => new(ColorUtility.CreateClass("bg-", token));
+    public static BackgroundColorBuilder Token(string token) => new("bg-" + token);
 
     /// <summary>
     /// Passes through a fully-prefixed Tailwind utility such as <c>bg-primary/20</c>.
     /// </summary>
     /// <param name="utility">Utility name to append to the generated class list.</param>
     /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
-    public static BackgroundColorBuilder Utility(string utility) => new(ColorUtility.CreateUtilityClass("bg-", utility));
+    public static BackgroundColorBuilder Utility(string utility) => new(utility);
 }

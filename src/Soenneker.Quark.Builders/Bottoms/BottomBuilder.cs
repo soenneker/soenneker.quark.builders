@@ -97,7 +97,7 @@ public sealed class BottomBuilder : CssBuilderBase<BottomBuilder>
     /// </summary>
     /// <param name="value">Arbitrary utility value to append without predefined validation.</param>
     /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
-    public BottomBuilder Token(string value) => Chain(value.StartsWith("bottom-") ? value : "bottom-" + value);
+    public BottomBuilder Token(string value) => Chain("bottom-" + value);
 
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -142,11 +142,6 @@ public sealed class BottomBuilder : CssBuilderBase<BottomBuilder>
         }
     }
 
-    /// <summary>
-    /// Executes the to style operation.
-    /// </summary>
-    /// <returns>The result of the operation.</returns>
-    public override string ToStyle() => string.Empty;
 
     /// <summary>
     /// Returns a string representation of the current instance.

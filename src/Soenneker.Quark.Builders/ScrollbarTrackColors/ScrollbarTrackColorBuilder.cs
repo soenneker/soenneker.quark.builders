@@ -104,12 +104,12 @@ public sealed class ScrollbarTrackColorBuilder : ColorBuilderBase<ScrollbarTrack
     /// <summary>Adds <c>scrollbar-track-inherit</c>.</summary>
     public ScrollbarTrackColorBuilder Inherit => ChainClass(ScrollbarTrackColorEnum.Inherit.Value);
 
-    public override ScrollbarTrackColorBuilder Token(string token) => ChainClass(ColorUtility.CreateClass("scrollbar-track-", token));
+    public override ScrollbarTrackColorBuilder Token(string token) => ChainClass("scrollbar-track-" + token);
 
     /// <summary>Adds a complete color class with the <c>scrollbar-track-</c> prefix.</summary>
     /// <param name="utility">The complete color utility.</param>
     /// <returns>The current builder.</returns>
-    public ScrollbarTrackColorBuilder Utility(string utility) => ChainClass(ColorUtility.CreateUtilityClass("scrollbar-track-", utility));
+    public ScrollbarTrackColorBuilder Utility(string utility) => ChainClass(utility);
 
     private ScrollbarTrackColorBuilder ChainClass(string value)
     {

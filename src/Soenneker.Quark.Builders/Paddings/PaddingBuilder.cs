@@ -19,7 +19,7 @@ public sealed class PaddingBuilder : CssBuilderBase<PaddingBuilder>
     public PaddingBuilder FromBlockEnd => AddRule(ElementSideEnum.BlockEnd);
 
 
-    private RuleList<PaddingRule> _rules;
+    private RuleList<UtilityRule> _rules;
     private ElementSideEnum? _pendingSide;
 
     internal PaddingBuilder()
@@ -28,7 +28,7 @@ public sealed class PaddingBuilder : CssBuilderBase<PaddingBuilder>
 
     internal PaddingBuilder(string size, BreakpointType? breakpoint = null)
     {
-        _rules.Add(new PaddingRule(size, ElementSideEnum.All, breakpoint, CanRetargetSide: true));
+        _rules.Add(new UtilityRule(size, breakpoint));
     }
 
     internal PaddingBuilder(ElementSideEnum side)
@@ -36,7 +36,7 @@ public sealed class PaddingBuilder : CssBuilderBase<PaddingBuilder>
         _pendingSide = side;
     }
 
-    internal PaddingBuilder(List<PaddingRule> rules)
+    internal PaddingBuilder(List<UtilityRule> rules)
     {
         if (rules is { Count: > 0 })
             _rules.AddRange(rules);
@@ -165,23 +165,11 @@ public sealed class PaddingBuilder : CssBuilderBase<PaddingBuilder>
     /// </summary>
     /// <param name="value">Suffix/token after the utility prefix (see Tailwind docs for this family).</param>
     /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
-    public PaddingBuilder Token(string value) => ChainWithSize(NormalizePaddingClass(value));
+    public PaddingBuilder Token(string value) => ChainWithSize("p-" + value);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private PaddingBuilder AddRule(ElementSideEnum side)
     {
-        if (_pendingSide is null && _rules.Count > 0)
-        {
-            var lastIndex = _rules.Count - 1;
-            PaddingRule lastRule = _rules[lastIndex];
-
-            if (lastRule.CanRetargetSide && ReferenceEquals(lastRule.Side, ElementSideEnum.All))
-            {
-                _rules[lastIndex] = lastRule with { Side = side, CanRetargetSide = false };
-                return this;
-            }
-        }
-
         _pendingSide = side;
         return this;
     }
@@ -189,20 +177,18 @@ public sealed class PaddingBuilder : CssBuilderBase<PaddingBuilder>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private PaddingBuilder ChainWithSize(string size)
     {
-        var hadPendingSide = _pendingSide is not null;
         ElementSideEnum side = _pendingSide ?? ElementSideEnum.All;
         _pendingSide = null;
-        _rules.Add(new PaddingRule(size, side, null, ConsumePendingModifierChain(), ReferenceEquals(side, ElementSideEnum.All) && !hadPendingSide));
+        _rules.Add(new UtilityRule(CreateSideClass(size, side), null, ConsumePendingModifierChain()));
         return this;
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private PaddingBuilder ChainWithSize(PaddingScaleEnum scale)
     {
-        var hadPendingSide = _pendingSide is not null;
         ElementSideEnum side = _pendingSide ?? ElementSideEnum.All;
         _pendingSide = null;
-        _rules.Add(new PaddingRule(scale.Value, side, null, ConsumePendingModifierChain(), ReferenceEquals(side, ElementSideEnum.All) && !hadPendingSide));
+        _rules.Add(new UtilityRule(CreateSideClass(scale.Value, side), null, ConsumePendingModifierChain()));
         return this;
     }
 
@@ -212,8 +198,8 @@ public sealed class PaddingBuilder : CssBuilderBase<PaddingBuilder>
             return string.Empty;
         if (_rules.Count == 1)
         {
-            PaddingRule rule = _rules[0];
-            return ClassWriter.Render(ApplySide(rule.Size, rule.Side), BreakpointUtil.GetBreakpointToken(rule.Breakpoint), rule.ModifierChain);
+            UtilityRule rule = _rules[0];
+            return ClassWriter.Render(rule.Value, BreakpointUtil.GetBreakpointToken(rule.Breakpoint), rule.ModifierChain);
         }
 
         var writer = new ClassWriter();
@@ -221,8 +207,8 @@ public sealed class PaddingBuilder : CssBuilderBase<PaddingBuilder>
         {
             for (var i = 0; i < _rules.Count; i++)
             {
-                PaddingRule rule = _rules[i];
-                writer.Add(ApplySide(rule.Size, rule.Side), BreakpointUtil.GetBreakpointToken(rule.Breakpoint), rule.ModifierChain);
+                UtilityRule rule = _rules[i];
+                writer.Add(rule.Value, BreakpointUtil.GetBreakpointToken(rule.Breakpoint), rule.ModifierChain);
             }
             return writer.ToString();
         }
@@ -232,27 +218,9 @@ public sealed class PaddingBuilder : CssBuilderBase<PaddingBuilder>
         }
     }
 
-    /// <summary>Gets the CSS style string for the current configuration.</summary>
-    public override string ToStyle() => string.Empty;
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static string NormalizePaddingClass(string size)
+    private static string CreateSideClass(string value, ElementSideEnum side)
     {
-        if (size.Length == 0)
-            return string.Empty;
-
-        return size.StartsWith("p-") ? size : "p-" + size;
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static string ApplySide(string sizeClass, ElementSideEnum side)
-    {
-        if (sizeClass.Length == 0)
-            return string.Empty;
-
-        if (ReferenceEquals(side, ElementSideEnum.All))
-            return sizeClass;
-
-        return sizeClass.StartsWith("p-") ? string.Concat("p", side.Value, sizeClass.AsSpan(1)) : sizeClass;
+        return ReferenceEquals(side, ElementSideEnum.All) ? value : string.Concat("p", side.Value, value.AsSpan(1));
     }
 }

@@ -33,11 +33,6 @@ public sealed class ListStyleTypeBuilder : CssBuilderBase
         };
     }
 
-    /// <summary>
-    /// Gets the CSS style string for the current configuration.
-    /// </summary>
-    /// <returns>The CSS style string.</returns>
-    public override string ToStyle() => string.Empty;
 
     /// <summary>
     /// Returns the CSS class string representation of this list style type builder.

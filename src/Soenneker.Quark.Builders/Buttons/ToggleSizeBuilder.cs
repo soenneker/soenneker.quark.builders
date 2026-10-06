@@ -62,7 +62,7 @@ public sealed class ToggleSizeBuilder : CssBuilderBase<ToggleSizeBuilder>
         if (_rules.Count == 1)
         {
             ToggleSizeRule rule = _rules[0];
-            return ClassWriter.Render(rule.Size, BreakpointUtil.GetBreakpointToken(rule.Breakpoint), rule.ModifierChain, breakpointPerToken: true);
+            return ClassWriter.Render(rule.Size, BreakpointUtil.GetBreakpointToken(rule.Breakpoint), rule.ModifierChain);
         }
 
         var writer = new ClassWriter();
@@ -71,7 +71,7 @@ public sealed class ToggleSizeBuilder : CssBuilderBase<ToggleSizeBuilder>
             for (var i = 0; i < _rules.Count; i++)
             {
                 ToggleSizeRule rule = _rules[i];
-                writer.Add(rule.Size, BreakpointUtil.GetBreakpointToken(rule.Breakpoint), rule.ModifierChain, breakpointPerToken: true);
+                writer.Add(rule.Size, BreakpointUtil.GetBreakpointToken(rule.Breakpoint), rule.ModifierChain);
             }
             return writer.ToString();
         }
@@ -81,10 +81,5 @@ public sealed class ToggleSizeBuilder : CssBuilderBase<ToggleSizeBuilder>
         }
     }
 
-    /// <summary>
-    /// Executes the to style operation.
-    /// </summary>
-    /// <returns>The result of the operation.</returns>
-    public override string ToStyle() => string.Empty;
 
 }

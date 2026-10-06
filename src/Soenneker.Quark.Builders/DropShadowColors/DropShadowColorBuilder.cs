@@ -104,12 +104,12 @@ public sealed class DropShadowColorBuilder : ColorBuilderBase<DropShadowColorBui
     /// <summary>Adds <c>drop-shadow-inherit</c>.</summary>
     public DropShadowColorBuilder Inherit => ChainClass(DropShadowColorEnum.Inherit.Value);
 
-    public override DropShadowColorBuilder Token(string token) => ChainClass(ColorUtility.CreateClass("drop-shadow-", token));
+    public override DropShadowColorBuilder Token(string token) => ChainClass("drop-shadow-" + token);
 
     /// <summary>Adds a complete color class with the <c>drop-shadow-</c> prefix.</summary>
     /// <param name="utility">The complete color utility.</param>
     /// <returns>The current builder.</returns>
-    public DropShadowColorBuilder Utility(string utility) => ChainClass(ColorUtility.CreateUtilityClass("drop-shadow-", utility));
+    public DropShadowColorBuilder Utility(string utility) => ChainClass(utility);
 
     private DropShadowColorBuilder ChainClass(string value)
     {

@@ -87,5 +87,5 @@ public static partial class Border
     /// </summary>
     /// <param name="value">Arbitrary utility value to append without predefined validation.</param>
     /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
-    public static BorderBuilder Token(string value) => new(value == "border" || value.StartsWith("border-") ? value : "border-" + value);
+    public static BorderBuilder Token(string value) => new("border-" + value);
 }

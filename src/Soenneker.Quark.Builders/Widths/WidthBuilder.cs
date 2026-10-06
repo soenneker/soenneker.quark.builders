@@ -301,7 +301,7 @@ public sealed class WidthBuilder : CssBuilderBase<WidthBuilder>
     /// </summary>
     /// <param name="token">Arbitrary utility token to append.</param>
     /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
-    public WidthBuilder Token(string token) => ChainWithSize(NormalizeWidthClass(token));
+    public WidthBuilder Token(string token) => ChainWithSize(("w-" + token));
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private WidthBuilder ChainWithSize(string size)
@@ -338,18 +338,6 @@ public sealed class WidthBuilder : CssBuilderBase<WidthBuilder>
         }
     }
 
-    /// <summary>
-    /// Executes the to style operation.
-    /// </summary>
-    /// <returns>The result of the operation.</returns>
-    public override string ToStyle() => string.Empty;
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static string NormalizeWidthClass(string size)
-    {
-        if (size.Length == 0)
-            return string.Empty;
 
-        return size.StartsWith("w-") ? size : "w-" + size;
-    }
 }

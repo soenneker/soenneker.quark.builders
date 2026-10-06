@@ -21,7 +21,7 @@ public sealed class BoxDecorationBreakBuilder : FinalClassUtilityBuilder<BoxDeco
     public BoxDecorationBreakBuilder Slice => ChainClass("box-decoration-slice");
 
     /// <summary>Adds an arbitrary utility. Apply variants with fluent modifiers.</summary>
-    /// <param name="value">A utility suffix or a complete utility with this family's prefix.</param>
+    /// <param name="value">The utility suffix, without the family prefix.</param>
     /// <returns>The current builder.</returns>
     public BoxDecorationBreakBuilder Token(string value) => ChainClass(UtilityToken.WithPrefix(value, "box-decoration-"));
 }

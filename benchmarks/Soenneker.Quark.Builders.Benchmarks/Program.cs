@@ -22,6 +22,7 @@ if (args is ["--cold", var scenario])
 // Lightweight, dependency-free comparison harness. Run in Release without a debugger.
 // Timings are medians of seven samples; allocations exclude setup and warmup.
 CssValue<WidthBuilder> cssBase = "w-auto";
+var repeatedSide = Margin.FromTop.Is2;
 var repeated = Width.Auto.OnMd.Token("full").OnHover.Token("1/2");
 (string Name, Func<string> Run)[] cases =
 [
@@ -31,6 +32,7 @@ var repeated = Width.Auto.OnMd.Token("full").OnHover.Token("1/2");
     ("Responsive button", () => ButtonSize.Default.OnMd.IconSm.ToClass()),
     ("Long chain", () => Width.Auto.Token("1").Token("2").Token("3").Token("4").Token("5").Token("6").Token("7").ToClass()),
     ("Repeated render", repeated.ToClass),
+    ("Repeated side render", repeatedSide.ToClass),
     ("Modifier group", () => BreakpointUtil.ApplyTailwindModifiers("px-2 py-1 text-sm", "md:hover")),
     ("Variant group", () => Variant.Of(ButtonSize.Default).OnHover.ToClass()),
     ("Single check size", () => CheckSizes.Default.ToClass()),
@@ -38,17 +40,17 @@ var repeated = Width.Auto.OnMd.Token("full").OnHover.Token("1/2");
     ("Single input size", () => InputSizes.Default.ToClass()),
     ("Rounded default", () => Rounded.Default.ToClass()),
     ("Rounded chain", () => Rounded.Lg.OnMd.Top.Sm.OnHover.Full.ToClass()),
-    ("Margin side", () => Margin.Negative2.FromTop.ToClass()),
-    ("Margin responsive", () => Margin.Is2.FromTop.OnMd.Is4.FromBottom.ToClass()),
-    ("Padding responsive", () => Padding.Is2.FromTop.OnMd.Is4.FromBottom.ToClass()),
-    ("Gap axis", () => Gap.Is2.X.ToClass()),
+    ("Margin side", () => Margin.FromTop.Negative2.ToClass()),
+    ("Margin responsive", () => Margin.FromTop.Is2.OnMd.FromBottom.Is4.ToClass()),
+    ("Padding responsive", () => Padding.FromTop.Is2.OnMd.FromBottom.Is4.ToClass()),
+    ("Gap axis", () => Gap.X.Is2.ToClass()),
     ("Color palette", () => TextColor.Red.Is500.ToClass()),
     ("Color palette chain", () => TextColor.Primary.OnHover.Red.Is500.OnMd.Blue.Is600.ToClass()),
     ("Variant empty", () => Variant.Of(Width.Auto).ToClass()),
     ("Variant modifiers", () => Variant.Of(Width.Auto).OnHover.OnFocus.OnMd.ToClass()),
     ("CssValue empty", () => CssValue<WidthBuilder>.For().ToString()),
     ("CssValue single", () => CssValue<WidthBuilder>.For("w-auto").ToString()),
-    ("CssValue mixed", () => CssValue<WidthBuilder>.For(Width.Auto, "w-full", 12).ToString()),
+    ("CssValue mixed", () => CssValue<WidthBuilder>.For(Width.Auto, "w-full", "w-[12px]").ToString()),
     ("CssValue add", () => cssBase.Add("w-full").ToString()),
     ("Numeric factory", () => ColStart.At(12345).ToClass()),
     ("Pending chain", () => Width.OnHover.OnFocus.OnMd.OnDark.Token("full").ToClass())

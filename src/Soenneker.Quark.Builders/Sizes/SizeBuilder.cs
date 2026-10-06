@@ -138,7 +138,7 @@ public sealed class SizeBuilder : CssBuilderBase
     /// </summary>
     /// <param name="value">Arbitrary utility value to append without predefined validation.</param>
     /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
-    public SizeBuilder Token(string value) => ChainWithValue(NormalizeSizeClass(value));
+    public SizeBuilder Token(string value) => ChainWithValue(("size-" + value));
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private SizeBuilder ChainWithValue(string value)
@@ -173,20 +173,8 @@ public sealed class SizeBuilder : CssBuilderBase
         }
     }
 
-    /// <summary>
-    /// Executes the to style operation.
-    /// </summary>
-    /// <returns>The result of the operation.</returns>
-    public override string ToStyle() => string.Empty;
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static string NormalizeSizeClass(string value)
-    {
-        if (value.Length == 0)
-            return string.Empty;
 
-        return value.StartsWith("size-") ? value : "size-" + value;
-    }
 
     /// <summary>
     /// Returns a string representation of the current instance.

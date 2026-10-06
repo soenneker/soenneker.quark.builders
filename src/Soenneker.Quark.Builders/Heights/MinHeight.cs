@@ -51,5 +51,5 @@ public static partial class MinHeight
     /// </summary>
     /// <param name="value">Arbitrary utility value to append without predefined validation.</param>
     /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
-    public static MinHeightBuilder Token(string value) => new(value.StartsWith("min-h-") ? value : "min-h-" + value);
+    public static MinHeightBuilder Token(string value) => new("min-h-" + value);
 }

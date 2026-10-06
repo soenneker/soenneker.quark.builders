@@ -104,12 +104,12 @@ public sealed class OutlineColorBuilder : ColorBuilderBase<OutlineColorBuilder>
     /// <summary>Adds <c>outline-inherit</c>.</summary>
     public OutlineColorBuilder Inherit => ChainClass(OutlineColorEnum.Inherit.Value);
 
-    public override OutlineColorBuilder Token(string token) => ChainClass(ColorUtility.CreateClass("outline-", token));
+    public override OutlineColorBuilder Token(string token) => ChainClass("outline-" + token);
 
     /// <summary>Adds a complete color class with the <c>outline-</c> prefix.</summary>
     /// <param name="utility">The complete color utility.</param>
     /// <returns>The current builder.</returns>
-    public OutlineColorBuilder Utility(string utility) => ChainClass(ColorUtility.CreateUtilityClass("outline-", utility));
+    public OutlineColorBuilder Utility(string utility) => ChainClass(utility);
 
     private OutlineColorBuilder ChainClass(string value)
     {

@@ -43,5 +43,5 @@ public static partial class PlaceContentAlign
     /// </summary>
     /// <param name="value">Arbitrary utility value to append without predefined validation.</param>
     /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
-    public static PlaceContentAlignBuilder Token(string value) => new(value.StartsWith("place-content-") ? value : $"place-content-{value}");
+    public static PlaceContentAlignBuilder Token(string value) => new($"place-content-{value}");
 }

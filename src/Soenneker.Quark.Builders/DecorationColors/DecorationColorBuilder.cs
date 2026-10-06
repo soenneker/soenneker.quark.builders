@@ -104,12 +104,12 @@ public sealed class DecorationColorBuilder : ColorBuilderBase<DecorationColorBui
     /// <summary>Adds <c>decoration-inherit</c>.</summary>
     public DecorationColorBuilder Inherit => ChainClass(DecorationColorEnum.Inherit.Value);
 
-    public override DecorationColorBuilder Token(string token) => ChainClass(ColorUtility.CreateClass("decoration-", token));
+    public override DecorationColorBuilder Token(string token) => ChainClass("decoration-" + token);
 
     /// <summary>Adds a complete color class with the <c>decoration-</c> prefix.</summary>
     /// <param name="utility">The complete color utility.</param>
     /// <returns>The current builder.</returns>
-    public DecorationColorBuilder Utility(string utility) => ChainClass(ColorUtility.CreateUtilityClass("decoration-", utility));
+    public DecorationColorBuilder Utility(string utility) => ChainClass(utility);
 
     private DecorationColorBuilder ChainClass(string value)
     {

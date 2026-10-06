@@ -45,7 +45,7 @@ public sealed class Tailwind43Tests
         Border.FromBlockStart.Default.FromBlockEnd.Is2.ToClass().Should().Be("border-bs border-be-2");
         Inset.FromStart.Is2.FromEnd.Is4.OnMd.FromBlockStart.Is1.FromBlockEnd.Is5.ToClass()
             .Should().Be("inset-s-2 inset-e-4 md:inset-bs-1 inset-be-5");
-        InsetStart.NegativeHalf.OnMd.Token("-inset-s-4").ToClass().Should().Be("-inset-s-1/2 md:-inset-s-4");
+        InsetStart.NegativeHalf.OnMd.Token("-4").ToClass().Should().Be("-inset-s-1/2 md:-inset-s-4");
         InsetBlockEnd.Token("-[13px]").ToClass().Should().Be("-inset-be-[13px]");
     }
 
@@ -133,7 +133,6 @@ public sealed class Tailwind43Tests
                 actual.ToClass().Should().Be("md:" + plain.ToClass(), root.Name + "." + property.Name);
                 actual = (ICssBuilder)modified.GetType().GetProperty(property.Name)!.GetValue(modified)!;
                 actual.ToClass().Should().Be("md:" + plain.ToClass() + " " + plain.ToClass());
-                actual.ToStyle().Should().BeEmpty();
             }
         }
     }

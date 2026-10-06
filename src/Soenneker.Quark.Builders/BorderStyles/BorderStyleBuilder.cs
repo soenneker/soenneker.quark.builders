@@ -39,5 +39,5 @@ public sealed class BorderStyleBuilder : FinalClassUtilityBuilder<BorderStyleBui
     /// </summary>
     /// <param name="value">Arbitrary utility value to append without predefined validation.</param>
     /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
-    public BorderStyleBuilder Token(string value) => ChainClass(value.StartsWith("border-") ? value : $"border-{value}");
+    public BorderStyleBuilder Token(string value) => ChainClass($"border-{value}");
 }

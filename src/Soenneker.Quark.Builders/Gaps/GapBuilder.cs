@@ -13,7 +13,8 @@ namespace Soenneker.Quark;
 [TailwindPrefix("gap-", Responsive = true)]
 public sealed class GapBuilder : CssBuilderBase<GapBuilder>
 {
-    private RuleList<GapRule> _rules;
+    private RuleList<UtilityRule> _rules;
+    private GapAxisEnum _pendingAxis = GapAxisEnum.All;
 
     internal GapBuilder()
     {
@@ -22,10 +23,10 @@ public sealed class GapBuilder : CssBuilderBase<GapBuilder>
     internal GapBuilder(string size, BreakpointType? breakpoint = null, GapAxisEnum? axis = null)
     {
         if (size.Length != 0)
-            _rules.Add(new GapRule(size, axis ?? GapAxisEnum.All, breakpoint));
+            _rules.Add(new UtilityRule(CreateAxisClass(size, axis ?? GapAxisEnum.All), breakpoint));
     }
 
-    internal GapBuilder(List<GapRule> rules)
+    internal GapBuilder(List<UtilityRule> rules)
     {
         if (rules is { Count: > 0 })
             _rules.AddRange(rules);
@@ -131,25 +132,15 @@ public sealed class GapBuilder : CssBuilderBase<GapBuilder>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private GapBuilder ChainWithSize(string size)
     {
-        _rules.Add(new GapRule(size, GapAxisEnum.All, null, ConsumePendingModifierChain()));
+        _rules.Add(new UtilityRule(CreateAxisClass(size, _pendingAxis), null, ConsumePendingModifierChain()));
+        _pendingAxis = GapAxisEnum.All;
         return this;
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private GapBuilder ChainWithAxis(GapAxisEnum axis)
     {
-        if (_rules.Count == 0)
-        {
-            _rules.Add(new GapRule(GapScaleEnum.Is0Value, axis, null, ConsumePendingModifierChain()));
-            return this;
-        }
-
-        int lastIdx = _rules.Count - 1;
-        GapRule last = _rules[lastIdx];
-        string? modifierChain = ConsumePendingModifierChain();
-        if (modifierChain is not { Length: > 0 })
-            modifierChain = last.ModifierChain;
-        _rules[lastIdx] = new GapRule(last.Size, axis, last.Breakpoint, modifierChain);
+        _pendingAxis = axis;
         return this;
     }
 
@@ -159,8 +150,8 @@ public sealed class GapBuilder : CssBuilderBase<GapBuilder>
             return string.Empty;
         if (_rules.Count == 1)
         {
-            GapRule rule = _rules[0];
-            return ClassWriter.Render(BuildClass(rule), BreakpointUtil.GetBreakpointToken(rule.Breakpoint), rule.ModifierChain);
+            UtilityRule rule = _rules[0];
+            return ClassWriter.Render(rule.Value, BreakpointUtil.GetBreakpointToken(rule.Breakpoint), rule.ModifierChain);
         }
 
         var writer = new ClassWriter();
@@ -168,8 +159,8 @@ public sealed class GapBuilder : CssBuilderBase<GapBuilder>
         {
             for (var i = 0; i < _rules.Count; i++)
             {
-                GapRule rule = _rules[i];
-                writer.Add(BuildClass(rule), BreakpointUtil.GetBreakpointToken(rule.Breakpoint), rule.ModifierChain);
+                UtilityRule rule = _rules[i];
+                writer.Add(rule.Value, BreakpointUtil.GetBreakpointToken(rule.Breakpoint), rule.ModifierChain);
             }
             return writer.ToString();
         }
@@ -179,27 +170,7 @@ public sealed class GapBuilder : CssBuilderBase<GapBuilder>
         }
     }
 
-    /// <summary>
-    /// Executes the to style operation.
-    /// </summary>
-    /// <returns>The result of the operation.</returns>
-    public override string ToStyle() => string.Empty;
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static string BuildClass(GapRule rule)
-    {
-        if (rule.Size.Length == 0)
-            return string.Empty;
-
-        if (rule.Axis == GapAxisEnum.All)
-            return rule.Size;
-
-        const string defaultPrefix = "gap-";
-
-        if (rule.Size.StartsWith(defaultPrefix, System.StringComparison.Ordinal))
-            return string.Concat(rule.Axis.Value, rule.Size.AsSpan(defaultPrefix.Length));
-
-        return rule.Axis.Value + rule.Size;
-    }
-
+    private static string CreateAxisClass(string value, GapAxisEnum axis) =>
+        axis == GapAxisEnum.All ? value : string.Concat(axis.Value, value.AsSpan(4));
 }

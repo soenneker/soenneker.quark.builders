@@ -67,7 +67,7 @@ public sealed class TransitionBuilder : CssBuilderBase<TransitionBuilder>
     /// </summary>
     /// <param name="token">Arbitrary utility token to append.</param>
     /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
-    public TransitionBuilder Token(string token) => ChainWithTransition(token.StartsWith("transition") ? token : $"transition-{token}");
+    public TransitionBuilder Token(string token) => ChainWithTransition($"transition-{token}");
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private TransitionBuilder ChainWithTransition(TransitionEnum transition)
@@ -108,11 +108,6 @@ public sealed class TransitionBuilder : CssBuilderBase<TransitionBuilder>
         }
     }
 
-    /// <summary>
-    /// Executes the to style operation.
-    /// </summary>
-    /// <returns>The result of the operation.</returns>
-    public override string ToStyle() => string.Empty;
 
     /// <summary>
     /// Returns the CSS class string representation of this transition builder.

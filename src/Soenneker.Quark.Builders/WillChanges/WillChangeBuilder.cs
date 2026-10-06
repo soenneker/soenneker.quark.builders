@@ -31,5 +31,5 @@ public sealed class WillChangeBuilder : FinalClassUtilityBuilder<WillChangeBuild
     /// </summary>
     /// <param name="value">Arbitrary utility value to append without predefined validation.</param>
     /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
-    public WillChangeBuilder Token(string value) => ChainClass(value.StartsWith("will-change-") ? value : $"will-change-{value}");
+    public WillChangeBuilder Token(string value) => ChainClass($"will-change-{value}");
 }

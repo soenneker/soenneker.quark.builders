@@ -5,7 +5,7 @@ internal static class UtilityToken
     internal static string ArbitraryProperty(string property, string value) => "[" + property + ":" + value + "]";
 
     internal static string WithPrefix(string value, string prefix) =>
-        value.StartsWith(prefix, System.StringComparison.Ordinal) ? value : prefix + value;
+        prefix + value;
 
     internal static string WithSignedPrefix(string value, string prefix) =>
         value.StartsWith("-", System.StringComparison.Ordinal)

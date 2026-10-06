@@ -79,7 +79,7 @@ public static partial class BorderSpacing
     public static BorderSpacingBuilder Is96 => new("border-spacing-96");
 
     /// <summary>Adds an arbitrary utility. Apply variants with fluent modifiers.</summary>
-    /// <param name="value">A utility suffix or a complete utility with this family's prefix.</param>
+    /// <param name="value">The utility suffix, without the family prefix.</param>
     /// <returns>A new builder containing the utility.</returns>
     public static BorderSpacingBuilder Token(string value) => new(UtilityToken.WithPrefix(value, "border-spacing-"));
 }

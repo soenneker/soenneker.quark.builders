@@ -112,12 +112,12 @@ public static partial class RingColor
     /// </summary>
     /// <param name="token">Arbitrary utility token to append.</param>
     /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
-    public static RingColorBuilder Token(string token) => new(ColorUtility.CreateClass("ring-", token));
+    public static RingColorBuilder Token(string token) => new("ring-" + token);
 
     /// <summary>
     /// Passes through a fully-prefixed Tailwind utility such as <c>ring-foreground/10</c>.
     /// </summary>
     /// <param name="utility">Utility name to append to the generated class list.</param>
     /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
-    public static RingColorBuilder Utility(string utility) => new(ColorUtility.CreateUtilityClass("ring-", utility));
+    public static RingColorBuilder Utility(string utility) => new(utility);
 }

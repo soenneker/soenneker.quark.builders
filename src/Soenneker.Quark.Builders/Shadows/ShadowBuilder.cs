@@ -106,10 +106,4 @@ public sealed class ShadowBuilder : CssBuilderBase<ShadowBuilder>
         }
     }
 
-    /// <summary>
-    /// Gets the CSS style string for the current configuration.
-    /// Shadow utilities are class-first; no inline style mapping.
-    /// </summary>
-    /// <returns>An empty string as shadow utilities are class-first.</returns>
-    public override string ToStyle() => string.Empty;
 }

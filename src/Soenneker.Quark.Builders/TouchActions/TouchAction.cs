@@ -31,5 +31,5 @@ public static partial class TouchAction
     /// </summary>
     /// <param name="value">Arbitrary utility value to append without predefined validation.</param>
     /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
-    public static TouchActionBuilder Token(string value) => new(value.StartsWith("touch-") ? value : $"touch-{value}");
+    public static TouchActionBuilder Token(string value) => new($"touch-{value}");
 }

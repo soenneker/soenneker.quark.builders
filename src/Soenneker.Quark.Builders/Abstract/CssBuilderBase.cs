@@ -2,7 +2,6 @@ using System;
 
 namespace Soenneker.Quark;
 
-/// <inheritdoc cref="ICssBuilder" />
 public abstract class CssBuilderBase : ICssBuilder
 {
     /// <summary>
@@ -96,7 +95,6 @@ public abstract class CssBuilderBase : ICssBuilder
 
     public abstract string ToClass();
 
-    public virtual string ToStyle() => string.Empty;
 
     /// <summary>
     /// Returns a string representation of the current instance.
@@ -515,76 +513,12 @@ public abstract class CssBuilderBase<TBuilder> : CssBuilderBase where TBuilder :
 
     private TBuilder SetPendingModifier(string modifier)
     {
-        if (_pendingModifierChain is null)
-        {
-            _pendingModifierChain = modifier;
-            return (TBuilder)this;
-        }
-
-        if (IsBreakpointModifier(modifier))
-        {
-            _pendingModifierChain = AppendModifierChain(_pendingModifierChain, modifier);
-        }
-        else
-        {
-            _pendingModifierChain = $"{_pendingModifierChain}:{modifier}";
-        }
-
+        _pendingModifierChain = AppendModifierChain(_pendingModifierChain, modifier);
         return (TBuilder)this;
     }
 
-    protected static string AppendModifierChain(string? existingModifierChain, string modifier)
-    {
-        if (string.IsNullOrEmpty(existingModifierChain))
-            return modifier;
-
-        if (!IsBreakpointModifier(modifier))
-            return $"{existingModifierChain}:{modifier}";
-
-        int insertIndex = GetBreakpointPrefixLength(existingModifierChain);
-
-        if (insertIndex <= 0)
-            return $"{modifier}:{existingModifierChain}";
-
-        if (insertIndex >= existingModifierChain.Length)
-            return $"{existingModifierChain}:{modifier}";
-
-        return $"{existingModifierChain.AsSpan(0, insertIndex)}:{modifier}:{existingModifierChain.AsSpan(insertIndex + 1)}";
-    }
-
-    private static int GetBreakpointPrefixLength(string modifierChain)
-    {
-        var segmentStart = 0;
-        var prefixEnd = -1;
-
-        for (var i = 0; i <= modifierChain.Length; i++)
-        {
-            if (i < modifierChain.Length && modifierChain[i] != ':')
-                continue;
-
-            ReadOnlySpan<char> segment = modifierChain.AsSpan(segmentStart, i - segmentStart);
-
-            if (!IsBreakpointModifier(segment))
-                break;
-
-            prefixEnd = i;
-            segmentStart = i + 1;
-        }
-
-        return prefixEnd;
-    }
-
-    protected static bool IsBreakpointModifier(string modifier)
-    {
-        return modifier is "sm" or "md" or "lg" or "xl" or "2xl" or "max-sm" or "max-md" or "max-lg" or "max-xl"
-            or "@sm" or "@md" or "@lg" or "@xl" or "@2xl" or "@max-sm" or "@max-md";
-    }
-
-    protected static bool IsBreakpointModifier(ReadOnlySpan<char> modifier)
-    {
-        return modifier is "sm" or "md" or "lg" or "xl" or "2xl" or "max-sm" or "max-md" or "max-lg" or "max-xl"
-            or "@sm" or "@md" or "@lg" or "@xl" or "@2xl" or "@max-sm" or "@max-md";
-    }
+    protected static string AppendModifierChain(string? existingModifierChain, string modifier) =>
+        string.IsNullOrEmpty(existingModifierChain) ? modifier : string.Concat(existingModifierChain, ":", modifier);
 
     protected string? ConsumePendingModifierChain()
     {

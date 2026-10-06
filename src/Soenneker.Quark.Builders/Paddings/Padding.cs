@@ -139,5 +139,5 @@ public static partial class Padding
     /// </summary>
     /// <param name="value">Arbitrary utility value to append without predefined validation.</param>
     /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
-    public static PaddingBuilder Token(string value) => new(value.StartsWith("p-") ? value : "p-" + value);
+    public static PaddingBuilder Token(string value) => new("p-" + value);
 }

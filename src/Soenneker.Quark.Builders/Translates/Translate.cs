@@ -109,7 +109,7 @@ public static partial class Translate
     public static TranslateBuilder NegativeFull => new("-translate-full");
 
     /// <summary>Adds an arbitrary utility. Apply variants with fluent modifiers.</summary>
-    /// <param name="value">A utility suffix or a complete utility with this family's prefix.</param>
+    /// <param name="value">The utility suffix, without the family prefix.</param>
     /// <returns>A new builder containing the utility.</returns>
     public static TranslateBuilder Token(string value) => new(UtilityToken.WithSignedPrefix(value, "translate-"));
 }

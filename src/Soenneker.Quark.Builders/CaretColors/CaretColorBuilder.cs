@@ -54,14 +54,14 @@ public sealed class CaretColorBuilder : ColorBuilderBase<CaretColorBuilder>
     /// </summary>
     /// <param name="token">The token.</param>
     /// <returns>The result of the operation.</returns>
-    public override CaretColorBuilder Token(string token) => ChainClass(ColorUtility.CreateClass(Prefix, token));
+    public override CaretColorBuilder Token(string token) => ChainClass(Prefix + token);
 
     /// <summary>
     /// Adds the utility Caret Color utility to the class list.
     /// </summary>
     /// <param name="utility">Utility name to append to the generated class list.</param>
     /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
-    public CaretColorBuilder Utility(string utility) => ChainClass(ColorUtility.CreateUtilityClass(Prefix, utility));
+    public CaretColorBuilder Utility(string utility) => ChainClass(utility);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private CaretColorBuilder Chain(CaretColorEnum value)
@@ -107,11 +107,6 @@ public sealed class CaretColorBuilder : ColorBuilderBase<CaretColorBuilder>
         }
     }
 
-    /// <summary>
-    /// Executes the to style operation.
-    /// </summary>
-    /// <returns>The result of the operation.</returns>
-    public override string ToStyle() => string.Empty;
 
     /// <summary>
     /// Returns a string representation of the current instance.

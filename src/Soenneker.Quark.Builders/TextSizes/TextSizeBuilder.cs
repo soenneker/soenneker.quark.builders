@@ -87,7 +87,7 @@ public sealed class TextSizeBuilder : CssBuilderBase<TextSizeBuilder>
     /// </summary>
     /// <param name="value">Suffix/token after the utility prefix (see Tailwind docs for this family).</param>
     /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
-    public TextSizeBuilder Token(string value) => ChainSize(NormalizeTextSizeClass(value));
+    public TextSizeBuilder Token(string value) => ChainSize(("text-" + value));
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private TextSizeBuilder ChainSize(string size)
@@ -122,18 +122,6 @@ public sealed class TextSizeBuilder : CssBuilderBase<TextSizeBuilder>
         }
     }
 
-    /// <summary>
-    /// Executes the to style operation.
-    /// </summary>
-    /// <returns>The result of the operation.</returns>
-    public override string ToStyle() => string.Empty;
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static string NormalizeTextSizeClass(string size)
-    {
-        if (size.Length == 0)
-            return string.Empty;
 
-        return size.StartsWith("text-") ? size : "text-" + size;
-    }
 }

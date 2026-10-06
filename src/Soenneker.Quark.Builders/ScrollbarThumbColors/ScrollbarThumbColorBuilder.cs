@@ -104,12 +104,12 @@ public sealed class ScrollbarThumbColorBuilder : ColorBuilderBase<ScrollbarThumb
     /// <summary>Adds <c>scrollbar-thumb-inherit</c>.</summary>
     public ScrollbarThumbColorBuilder Inherit => ChainClass(ScrollbarThumbColorEnum.Inherit.Value);
 
-    public override ScrollbarThumbColorBuilder Token(string token) => ChainClass(ColorUtility.CreateClass("scrollbar-thumb-", token));
+    public override ScrollbarThumbColorBuilder Token(string token) => ChainClass("scrollbar-thumb-" + token);
 
     /// <summary>Adds a complete color class with the <c>scrollbar-thumb-</c> prefix.</summary>
     /// <param name="utility">The complete color utility.</param>
     /// <returns>The current builder.</returns>
-    public ScrollbarThumbColorBuilder Utility(string utility) => ChainClass(ColorUtility.CreateUtilityClass("scrollbar-thumb-", utility));
+    public ScrollbarThumbColorBuilder Utility(string utility) => ChainClass(utility);
 
     private ScrollbarThumbColorBuilder ChainClass(string value)
     {

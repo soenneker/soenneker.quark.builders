@@ -39,7 +39,7 @@ public sealed class BackdropHueRotateBuilder : FinalClassUtilityBuilder<Backdrop
     public BackdropHueRotateBuilder Negative180 => ChainClass("-backdrop-hue-rotate-180");
 
     /// <summary>Adds an arbitrary utility. Apply variants with fluent modifiers.</summary>
-    /// <param name="value">A utility suffix or a complete utility with this family's prefix.</param>
+    /// <param name="value">The utility suffix, without the family prefix.</param>
     /// <returns>The current builder.</returns>
     public BackdropHueRotateBuilder Token(string value) => ChainClass(UtilityToken.WithSignedPrefix(value, "backdrop-hue-rotate-"));
 }

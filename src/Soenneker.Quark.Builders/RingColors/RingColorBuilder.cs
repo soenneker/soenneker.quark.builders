@@ -142,14 +142,14 @@ public sealed class RingColorBuilder : ColorBuilderBase<RingColorBuilder>
     /// </summary>
     /// <param name="token">The token.</param>
     /// <returns>The result of the operation.</returns>
-    public override RingColorBuilder Token(string token) => ChainClass(ColorUtility.CreateClass("ring-", token));
+    public override RingColorBuilder Token(string token) => ChainClass("ring-" + token);
 
     /// <summary>
     /// Adds the utility Ring Color utility to the class list.
     /// </summary>
     /// <param name="utility">Utility name to append to the generated class list.</param>
     /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
-    public RingColorBuilder Utility(string utility) => ChainClass(ColorUtility.CreateUtilityClass("ring-", utility));
+    public RingColorBuilder Utility(string utility) => ChainClass(utility);
 
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -198,11 +198,6 @@ public sealed class RingColorBuilder : ColorBuilderBase<RingColorBuilder>
         }
     }
 
-    /// <summary>
-    /// Executes the to style operation.
-    /// </summary>
-    /// <returns>The result of the operation.</returns>
-    public override string ToStyle() => string.Empty;
 
     /// <summary>
     /// Returns a string representation of the current instance.

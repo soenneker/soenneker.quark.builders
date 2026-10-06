@@ -23,5 +23,5 @@ public sealed class ForcedColorAdjustBuilder : FinalClassUtilityBuilder<ForcedCo
     /// </summary>
     /// <param name="value">Arbitrary utility value to append without predefined validation.</param>
     /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
-    public ForcedColorAdjustBuilder Token(string value) => ChainClass(value.StartsWith("forced-color-adjust-") ? value : $"forced-color-adjust-{value}");
+    public ForcedColorAdjustBuilder Token(string value) => ChainClass($"forced-color-adjust-{value}");
 }

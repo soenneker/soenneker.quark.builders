@@ -55,9 +55,4 @@ public sealed class SliderSizeBuilder : CssBuilderBase
 
     public override string ToClass() => TokenRenderer.Render(_tokens, skipEmpty: false);
 
-    /// <summary>
-    /// Executes the to style operation.
-    /// </summary>
-    /// <returns>The result of the operation.</returns>
-    public override string ToStyle() => string.Empty;
 }

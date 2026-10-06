@@ -788,25 +788,10 @@ public sealed class VariantBuilder : ICssBuilder
         return this;
     }
 
-    private VariantBuilder ChainBreakpoint(BreakpointType breakpoint)
-    {
-        string token = BreakpointUtil.GetBreakpointToken(breakpoint);
-
-        for (var i = _modifiers.Count - 1; i >= 0; i--)
-        {
-            if (IsResponsiveModifier(_modifiers[i]))
-                _modifiers.RemoveAt(i);
-        }
-
-        if (token.Length > 0)
-            _modifiers.Insert(0, token);
-
-        return this;
-    }
+    private VariantBuilder ChainBreakpoint(BreakpointType breakpoint) => Chain(BreakpointUtil.GetBreakpointToken(breakpoint));
 
     public string ToClass() => BreakpointUtil.ApplyTailwindModifiers(_builder.ToClass(), _modifiers);
 
-    public string ToStyle() => string.Empty;
 
     /// <summary>
     /// Returns a string representation of the current instance.
@@ -814,8 +799,4 @@ public sealed class VariantBuilder : ICssBuilder
     /// <returns>The result of the operation.</returns>
     public override string ToString() => ToClass();
 
-    private static bool IsResponsiveModifier(string modifier)
-    {
-        return modifier is "sm" or "md" or "lg" or "xl" or "2xl";
-    }
 }

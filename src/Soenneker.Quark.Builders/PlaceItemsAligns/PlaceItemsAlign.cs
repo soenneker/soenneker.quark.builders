@@ -31,5 +31,5 @@ public static partial class PlaceItemsAlign
     /// </summary>
     /// <param name="value">Arbitrary utility value to append without predefined validation.</param>
     /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
-    public static PlaceItemsAlignBuilder Token(string value) => new(value.StartsWith("place-items-") ? value : $"place-items-{value}");
+    public static PlaceItemsAlignBuilder Token(string value) => new($"place-items-{value}");
 }

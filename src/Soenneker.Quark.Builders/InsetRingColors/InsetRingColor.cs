@@ -91,10 +91,10 @@ public static partial class InsetRingColor
     /// <summary>Creates a utility from a color suffix, including palette shades, opacity, or arbitrary values.</summary>
     /// <param name="token">A color suffix such as <c>red-500/50</c> or <c>[var(--brand)]</c>.</param>
     /// <returns>A new builder containing the color utility.</returns>
-    public static InsetRingColorBuilder Token(string token) => new(ColorUtility.CreateClass("inset-ring-", token));
+    public static InsetRingColorBuilder Token(string token) => new("inset-ring-" + token);
 
     /// <summary>Creates a utility from a complete class with the <c>inset-ring-</c> prefix.</summary>
     /// <param name="utility">The complete color utility.</param>
     /// <returns>A new builder containing the color utility.</returns>
-    public static InsetRingColorBuilder Utility(string utility) => new(ColorUtility.CreateUtilityClass("inset-ring-", utility));
+    public static InsetRingColorBuilder Utility(string utility) => new(utility);
 }

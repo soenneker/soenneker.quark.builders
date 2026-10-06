@@ -24,12 +24,12 @@ public static partial class CaretColor
     /// </summary>
     /// <param name="token">Arbitrary utility token to append.</param>
     /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
-    public static CaretColorBuilder Token(string token) => new(ColorUtility.CreateClass("caret-", token));
+    public static CaretColorBuilder Token(string token) => new("caret-" + token);
 
     /// <summary>
     /// Passes through a fully-prefixed Tailwind utility such as <c>caret-blue-500</c>.
     /// </summary>
     /// <param name="utility">Utility name to append to the generated class list.</param>
     /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
-    public static CaretColorBuilder Utility(string utility) => new(ColorUtility.CreateUtilityClass("caret-", utility));
+    public static CaretColorBuilder Utility(string utility) => new(utility);
 }

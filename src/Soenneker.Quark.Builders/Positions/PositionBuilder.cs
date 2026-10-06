@@ -76,8 +76,6 @@ public sealed class PositionBuilder : CssBuilderBase<PositionBuilder>
         }
     }
 
-    /// <summary>Gets the CSS style string for the current configuration.</summary>
-    public override string ToStyle() => string.Empty;
 
     /// <summary>
     /// Returns a string representation of the current instance.

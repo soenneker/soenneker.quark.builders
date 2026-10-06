@@ -104,12 +104,12 @@ public sealed class InsetShadowColorBuilder : ColorBuilderBase<InsetShadowColorB
     /// <summary>Adds <c>inset-shadow-inherit</c>.</summary>
     public InsetShadowColorBuilder Inherit => ChainClass(InsetShadowColorEnum.Inherit.Value);
 
-    public override InsetShadowColorBuilder Token(string token) => ChainClass(ColorUtility.CreateClass("inset-shadow-", token));
+    public override InsetShadowColorBuilder Token(string token) => ChainClass("inset-shadow-" + token);
 
     /// <summary>Adds a complete color class with the <c>inset-shadow-</c> prefix.</summary>
     /// <param name="utility">The complete color utility.</param>
     /// <returns>The current builder.</returns>
-    public InsetShadowColorBuilder Utility(string utility) => ChainClass(ColorUtility.CreateUtilityClass("inset-shadow-", utility));
+    public InsetShadowColorBuilder Utility(string utility) => ChainClass(utility);
 
     private InsetShadowColorBuilder ChainClass(string value)
     {

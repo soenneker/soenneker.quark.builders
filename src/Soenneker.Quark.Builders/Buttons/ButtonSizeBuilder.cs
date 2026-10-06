@@ -94,7 +94,7 @@ public sealed class ButtonSizeBuilder : CssBuilderBase<ButtonSizeBuilder>
         if (_rules.Count == 1)
         {
             ButtonSizeRule rule = _rules[0];
-            return ClassWriter.Render(rule.Size, BreakpointUtil.GetBreakpointToken(rule.Breakpoint), rule.ModifierChain, breakpointPerToken: true);
+            return ClassWriter.Render(rule.Size, BreakpointUtil.GetBreakpointToken(rule.Breakpoint), rule.ModifierChain);
         }
 
         var writer = new ClassWriter();
@@ -103,7 +103,7 @@ public sealed class ButtonSizeBuilder : CssBuilderBase<ButtonSizeBuilder>
             for (var i = 0; i < _rules.Count; i++)
             {
                 ButtonSizeRule rule = _rules[i];
-                writer.Add(rule.Size, BreakpointUtil.GetBreakpointToken(rule.Breakpoint), rule.ModifierChain, breakpointPerToken: true);
+                writer.Add(rule.Size, BreakpointUtil.GetBreakpointToken(rule.Breakpoint), rule.ModifierChain);
             }
             return writer.ToString();
         }
@@ -113,10 +113,5 @@ public sealed class ButtonSizeBuilder : CssBuilderBase<ButtonSizeBuilder>
         }
     }
 
-    /// <summary>
-    /// Executes the to style operation.
-    /// </summary>
-    /// <returns>The result of the operation.</returns>
-    public override string ToStyle() => string.Empty;
 
 }

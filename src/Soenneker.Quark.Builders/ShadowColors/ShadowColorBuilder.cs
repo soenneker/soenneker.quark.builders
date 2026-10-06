@@ -104,12 +104,12 @@ public sealed class ShadowColorBuilder : ColorBuilderBase<ShadowColorBuilder>
     /// <summary>Adds <c>shadow-inherit</c>.</summary>
     public ShadowColorBuilder Inherit => ChainClass(ShadowColorEnum.Inherit.Value);
 
-    public override ShadowColorBuilder Token(string token) => ChainClass(ColorUtility.CreateClass("shadow-", token));
+    public override ShadowColorBuilder Token(string token) => ChainClass("shadow-" + token);
 
     /// <summary>Adds a complete color class with the <c>shadow-</c> prefix.</summary>
     /// <param name="utility">The complete color utility.</param>
     /// <returns>The current builder.</returns>
-    public ShadowColorBuilder Utility(string utility) => ChainClass(ColorUtility.CreateUtilityClass("shadow-", utility));
+    public ShadowColorBuilder Utility(string utility) => ChainClass(utility);
 
     private ShadowColorBuilder ChainClass(string value)
     {

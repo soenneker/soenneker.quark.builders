@@ -19,7 +19,7 @@ public sealed class InsetBuilder : CssBuilderBase<InsetBuilder>
     public InsetBuilder FromBlockEnd => AddRule(ElementSideEnum.BlockEnd);
 
 
-    private RuleList<InsetRule> _rules;
+    private RuleList<UtilityRule> _rules;
     private ElementSideEnum? _pendingSide;
 
     internal InsetBuilder()
@@ -28,7 +28,7 @@ public sealed class InsetBuilder : CssBuilderBase<InsetBuilder>
 
     internal InsetBuilder(InsetScaleEnum size, BreakpointType? breakpoint = null)
     {
-        _rules.Add(new InsetRule(size, ElementSideEnum.All, breakpoint));
+        _rules.Add(new UtilityRule(size.Value, breakpoint));
     }
 
     internal InsetBuilder(ElementSideEnum side)
@@ -36,7 +36,7 @@ public sealed class InsetBuilder : CssBuilderBase<InsetBuilder>
         _pendingSide = side;
     }
 
-    internal InsetBuilder(List<InsetRule> rules)
+    internal InsetBuilder(List<UtilityRule> rules)
     {
         if (rules is { Count: > 0 })
             _rules.AddRange(rules);
@@ -128,7 +128,7 @@ public sealed class InsetBuilder : CssBuilderBase<InsetBuilder>
     {
         ElementSideEnum side = _pendingSide ?? ElementSideEnum.All;
         _pendingSide = null;
-        _rules.Add(new InsetRule(scale, side, null, ConsumePendingModifierChain()));
+        _rules.Add(new UtilityRule(CreateSideClass(scale.Value, side), null, ConsumePendingModifierChain()));
         return this;
     }
 
@@ -138,8 +138,8 @@ public sealed class InsetBuilder : CssBuilderBase<InsetBuilder>
             return string.Empty;
         if (_rules.Count == 1)
         {
-            InsetRule rule = _rules[0];
-            return ClassWriter.Render(ApplySide(rule.Size.Value, rule.Side), BreakpointUtil.GetBreakpointToken(rule.Breakpoint), rule.ModifierChain);
+            UtilityRule rule = _rules[0];
+            return ClassWriter.Render(rule.Value, BreakpointUtil.GetBreakpointToken(rule.Breakpoint), rule.ModifierChain);
         }
 
         var writer = new ClassWriter();
@@ -147,8 +147,8 @@ public sealed class InsetBuilder : CssBuilderBase<InsetBuilder>
         {
             for (var i = 0; i < _rules.Count; i++)
             {
-                InsetRule rule = _rules[i];
-                writer.Add(ApplySide(rule.Size.Value, rule.Side), BreakpointUtil.GetBreakpointToken(rule.Breakpoint), rule.ModifierChain);
+                UtilityRule rule = _rules[i];
+                writer.Add(rule.Value, BreakpointUtil.GetBreakpointToken(rule.Breakpoint), rule.ModifierChain);
             }
             return writer.ToString();
         }
@@ -158,11 +158,6 @@ public sealed class InsetBuilder : CssBuilderBase<InsetBuilder>
         }
     }
 
-    /// <summary>
-    /// Executes the to style operation.
-    /// </summary>
-    /// <returns>The result of the operation.</returns>
-    public override string ToStyle() => string.Empty;
 
     /// <summary>
     /// Returns a string representation of the current instance.
@@ -171,15 +166,9 @@ public sealed class InsetBuilder : CssBuilderBase<InsetBuilder>
     public override string ToString() => ToClass();
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static string ApplySide(string sizeClass, ElementSideEnum side)
+    private static string CreateSideClass(string sizeClass, ElementSideEnum side)
     {
-        if (sizeClass.Length == 0)
-            return string.Empty;
-
         if (ReferenceEquals(side, ElementSideEnum.All))
-            return sizeClass;
-
-        if (!sizeClass.StartsWith("inset-"))
             return sizeClass;
 
         ReadOnlySpan<char> suffix = sizeClass.AsSpan("inset-".Length);
@@ -196,36 +185,4 @@ public sealed class InsetBuilder : CssBuilderBase<InsetBuilder>
         return string.Empty;
     }
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static string? GetSizeValue(InsetScaleEnum size)
-    {
-        if (ReferenceEquals(size, InsetScaleEnum.Is0)) return "0";
-        if (ReferenceEquals(size, InsetScaleEnum.Is1)) return "0.25rem";
-        if (ReferenceEquals(size, InsetScaleEnum.Is1_5)) return "0.375rem";
-        if (ReferenceEquals(size, InsetScaleEnum.Is2)) return "0.5rem";
-        if (ReferenceEquals(size, InsetScaleEnum.Is3)) return "1rem";
-        if (ReferenceEquals(size, InsetScaleEnum.Is4)) return "1.5rem";
-        if (ReferenceEquals(size, InsetScaleEnum.Is5)) return "3rem";
-        if (ReferenceEquals(size, InsetScaleEnum.Auto)) return "auto";
-        if (ReferenceEquals(size, InsetScaleEnum.Px)) return "1px";
-        return null;
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static (string? prop, string? val) GetInsetStyle(ElementSideEnum side, string sizeVal)
-    {
-        string? prop = null;
-        if (ReferenceEquals(side, ElementSideEnum.All)) prop = "inset";
-        else if (ReferenceEquals(side, ElementSideEnum.Top)) prop = "top";
-        else if (ReferenceEquals(side, ElementSideEnum.Right)) prop = "right";
-        else if (ReferenceEquals(side, ElementSideEnum.Bottom)) prop = "bottom";
-        else if (ReferenceEquals(side, ElementSideEnum.Left)) prop = "left";
-        else if (ReferenceEquals(side, ElementSideEnum.Horizontal) || ReferenceEquals(side, ElementSideEnum.LeftRight)) prop = "inset-inline";
-        else if (ReferenceEquals(side, ElementSideEnum.Vertical) || ReferenceEquals(side, ElementSideEnum.TopBottom)) prop = "inset-block";
-        else if (ReferenceEquals(side, ElementSideEnum.InlineStart)) prop = "inset-inline-start";
-        else if (ReferenceEquals(side, ElementSideEnum.InlineEnd)) prop = "inset-inline-end";
-        else if (ReferenceEquals(side, ElementSideEnum.BlockStart)) prop = "inset-block-start";
-        else if (ReferenceEquals(side, ElementSideEnum.BlockEnd)) prop = "inset-block-end";
-        return (prop, sizeVal);
-    }
 }

@@ -46,5 +46,5 @@ public static partial class Transition
     /// </summary>
     /// <param name="token">Arbitrary utility token to append.</param>
     /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
-    public static TransitionBuilder Token(string token) => new(token.StartsWith("transition") ? token : $"transition-{token}");
+    public static TransitionBuilder Token(string token) => new($"transition-{token}");
 }

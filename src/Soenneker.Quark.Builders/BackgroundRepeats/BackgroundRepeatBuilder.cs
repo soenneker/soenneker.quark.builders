@@ -39,5 +39,5 @@ public sealed class BackgroundRepeatBuilder : FinalClassUtilityBuilder<Backgroun
     /// </summary>
     /// <param name="value">Arbitrary utility value to append without predefined validation.</param>
     /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
-    public BackgroundRepeatBuilder Token(string value) => ChainClass(value.StartsWith("bg-") ? value : $"bg-{value}");
+    public BackgroundRepeatBuilder Token(string value) => ChainClass($"bg-{value}");
 }

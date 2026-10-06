@@ -70,17 +70,12 @@ public sealed class SkewBuilder : FinalClassUtilityBuilder<SkewBuilder>
     public SkewBuilder Negative12 => Token("-12");
 
     /// <summary>Adds an arbitrary utility. Apply variants with fluent modifiers.</summary>
-    /// <param name="value">A utility suffix or a complete utility with this family's prefix.</param>
+    /// <param name="value">The utility suffix, without the family prefix.</param>
     /// <returns>The current builder.</returns>
     public SkewBuilder Token(string value)
     {
         string prefix = "skew-" + _axis;
         _axis = "";
-        // Complete utilities retain their explicit axis; suffixes use the pending axis.
-        if (value.StartsWith("skew-", System.StringComparison.Ordinal) ||
-            value.StartsWith("-skew-", System.StringComparison.Ordinal))
-            return ChainClass(value);
-
         return ChainClass(UtilityToken.WithSignedPrefix(value, prefix));
     }
 }

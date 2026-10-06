@@ -34,7 +34,7 @@ public static partial class FontStretch
     public static FontStretchBuilder UltraExpanded => new("font-stretch-ultra-expanded");
 
     /// <summary>Adds an arbitrary utility. Apply variants with fluent modifiers.</summary>
-    /// <param name="value">A utility suffix or a complete utility with this family's prefix.</param>
+    /// <param name="value">The utility suffix, without the family prefix.</param>
     /// <returns>A new builder containing the utility.</returns>
     public static FontStretchBuilder Token(string value) => new(UtilityToken.WithPrefix(value, "font-stretch-"));
 }

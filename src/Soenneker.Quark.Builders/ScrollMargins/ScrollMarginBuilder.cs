@@ -19,7 +19,7 @@ public sealed class ScrollMarginBuilder : CssBuilderBase<ScrollMarginBuilder>
     public ScrollMarginBuilder FromBlockEnd => AddRule(ElementSideEnum.BlockEnd);
 
 
-    private RuleList<ScrollMarginRule> _rules;
+    private RuleList<UtilityRule> _rules;
     private ElementSideEnum? _pendingSide;
 
     internal ScrollMarginBuilder()
@@ -28,7 +28,7 @@ public sealed class ScrollMarginBuilder : CssBuilderBase<ScrollMarginBuilder>
 
     internal ScrollMarginBuilder(string size, BreakpointType? breakpoint = null)
     {
-        _rules.Add(new ScrollMarginRule(size, ElementSideEnum.All, breakpoint));
+        _rules.Add(new UtilityRule(size, breakpoint));
     }
 
     internal ScrollMarginBuilder(ElementSideEnum side)
@@ -36,7 +36,7 @@ public sealed class ScrollMarginBuilder : CssBuilderBase<ScrollMarginBuilder>
         _pendingSide = side;
     }
 
-    internal ScrollMarginBuilder(List<ScrollMarginRule> rules)
+    internal ScrollMarginBuilder(List<UtilityRule> rules)
     {
         if (rules is { Count: > 0 })
             _rules.AddRange(rules);
@@ -128,7 +128,7 @@ public sealed class ScrollMarginBuilder : CssBuilderBase<ScrollMarginBuilder>
     {
         ElementSideEnum side = _pendingSide ?? ElementSideEnum.All;
         _pendingSide = null;
-        _rules.Add(new ScrollMarginRule(size, side, null, ConsumePendingModifierChain()));
+        _rules.Add(new UtilityRule(CreateSideClass(size, side), null, ConsumePendingModifierChain()));
         return this;
     }
 
@@ -137,7 +137,7 @@ public sealed class ScrollMarginBuilder : CssBuilderBase<ScrollMarginBuilder>
     {
         ElementSideEnum side = _pendingSide ?? ElementSideEnum.All;
         _pendingSide = null;
-        _rules.Add(new ScrollMarginRule(scale.Value, side, null, ConsumePendingModifierChain()));
+        _rules.Add(new UtilityRule(CreateSideClass(scale.Value, side), null, ConsumePendingModifierChain()));
         return this;
     }
 
@@ -147,8 +147,8 @@ public sealed class ScrollMarginBuilder : CssBuilderBase<ScrollMarginBuilder>
             return string.Empty;
         if (_rules.Count == 1)
         {
-            ScrollMarginRule rule = _rules[0];
-            return ClassWriter.Render(ApplySide(rule.Size, rule.Side), BreakpointUtil.GetBreakpointToken(rule.Breakpoint), rule.ModifierChain);
+            UtilityRule rule = _rules[0];
+            return ClassWriter.Render(rule.Value, BreakpointUtil.GetBreakpointToken(rule.Breakpoint), rule.ModifierChain);
         }
 
         var writer = new ClassWriter();
@@ -156,8 +156,8 @@ public sealed class ScrollMarginBuilder : CssBuilderBase<ScrollMarginBuilder>
         {
             for (var i = 0; i < _rules.Count; i++)
             {
-                ScrollMarginRule rule = _rules[i];
-                writer.Add(ApplySide(rule.Size, rule.Side), BreakpointUtil.GetBreakpointToken(rule.Breakpoint), rule.ModifierChain);
+                UtilityRule rule = _rules[i];
+                writer.Add(rule.Value, BreakpointUtil.GetBreakpointToken(rule.Breakpoint), rule.ModifierChain);
             }
             return writer.ToString();
         }
@@ -167,11 +167,6 @@ public sealed class ScrollMarginBuilder : CssBuilderBase<ScrollMarginBuilder>
         }
     }
 
-    /// <summary>
-    /// Executes the to style operation.
-    /// </summary>
-    /// <returns>The result of the operation.</returns>
-    public override string ToStyle() => string.Empty;
 
     /// <summary>
     /// Returns a string representation of the current instance.
@@ -179,15 +174,12 @@ public sealed class ScrollMarginBuilder : CssBuilderBase<ScrollMarginBuilder>
     /// <returns>The result of the operation.</returns>
     public override string ToString() => ToClass();
 
-    private static string ApplySide(string sizeClass, ElementSideEnum side)
+    private static string CreateSideClass(string sizeClass, ElementSideEnum side)
     {
-        if (sizeClass.Length == 0)
-            return string.Empty;
-
         if (ReferenceEquals(side, ElementSideEnum.All))
             return sizeClass;
 
-        return sizeClass.StartsWith("scroll-m-") ? string.Concat("scroll-m", side.Value, sizeClass.AsSpan("scroll-m".Length)) : sizeClass;
+        return string.Concat("scroll-m", side.Value, sizeClass.AsSpan(8));
     }
 
 }

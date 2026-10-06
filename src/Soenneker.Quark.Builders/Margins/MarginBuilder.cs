@@ -19,7 +19,7 @@ public sealed class MarginBuilder : CssBuilderBase<MarginBuilder>
     public MarginBuilder FromBlockEnd => AddRule(ElementSideEnum.BlockEnd);
 
 
-    private RuleList<MarginRule> _rules;
+    private RuleList<UtilityRule> _rules;
     private ElementSideEnum? _pendingSide;
 
     internal MarginBuilder()
@@ -28,7 +28,7 @@ public sealed class MarginBuilder : CssBuilderBase<MarginBuilder>
 
     internal MarginBuilder(string size, BreakpointType? breakpoint = null)
     {
-        _rules.Add(new MarginRule(size, ElementSideEnum.All, breakpoint, CanRetargetSide: true));
+        _rules.Add(new UtilityRule(size, breakpoint));
     }
 
     internal MarginBuilder(ElementSideEnum side)
@@ -36,7 +36,7 @@ public sealed class MarginBuilder : CssBuilderBase<MarginBuilder>
         _pendingSide = side;
     }
 
-    internal MarginBuilder(List<MarginRule> rules)
+    internal MarginBuilder(List<UtilityRule> rules)
     {
         if (rules is { Count: > 0 })
             _rules.AddRange(rules);
@@ -146,23 +146,11 @@ public sealed class MarginBuilder : CssBuilderBase<MarginBuilder>
 	/// </summary>
 	/// <param name="value">Arbitrary utility value to append without predefined validation.</param>
 	/// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
-    public MarginBuilder Token(string value) => ChainWithSize(NormalizeMarginClass(value));
+    public MarginBuilder Token(string value) => ChainWithSize(UtilityToken.WithSignedPrefix(value, "m-"));
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private MarginBuilder AddRule(ElementSideEnum side)
     {
-        if (_pendingSide is null && _rules.Count > 0)
-        {
-            var lastIndex = _rules.Count - 1;
-            MarginRule lastRule = _rules[lastIndex];
-
-            if (lastRule.CanRetargetSide && ReferenceEquals(lastRule.Side, ElementSideEnum.All))
-            {
-                _rules[lastIndex] = lastRule with { Side = side, CanRetargetSide = false };
-                return this;
-            }
-        }
-
         _pendingSide = side;
         return this;
     }
@@ -170,20 +158,18 @@ public sealed class MarginBuilder : CssBuilderBase<MarginBuilder>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private MarginBuilder ChainWithSize(string size)
     {
-        var hadPendingSide = _pendingSide is not null;
         ElementSideEnum side = _pendingSide ?? ElementSideEnum.All;
         _pendingSide = null;
-        _rules.Add(new MarginRule(size, side, null, ConsumePendingModifierChain(), ReferenceEquals(side, ElementSideEnum.All) && !hadPendingSide));
+        _rules.Add(new UtilityRule(CreateSideClass(size, side), null, ConsumePendingModifierChain()));
         return this;
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private MarginBuilder ChainWithSize(MarginScaleEnum scale)
     {
-        var hadPendingSide = _pendingSide is not null;
         ElementSideEnum side = _pendingSide ?? ElementSideEnum.All;
         _pendingSide = null;
-        _rules.Add(new MarginRule(scale.Value, side, null, ConsumePendingModifierChain(), ReferenceEquals(side, ElementSideEnum.All) && !hadPendingSide));
+        _rules.Add(new UtilityRule(CreateSideClass(scale.Value, side), null, ConsumePendingModifierChain()));
         return this;
     }
 
@@ -193,8 +179,8 @@ public sealed class MarginBuilder : CssBuilderBase<MarginBuilder>
             return string.Empty;
         if (_rules.Count == 1)
         {
-            MarginRule rule = _rules[0];
-            return ClassWriter.Render(ApplySide(rule.Size, rule.Side), BreakpointUtil.GetBreakpointToken(rule.Breakpoint), rule.ModifierChain);
+            UtilityRule rule = _rules[0];
+            return ClassWriter.Render(rule.Value, BreakpointUtil.GetBreakpointToken(rule.Breakpoint), rule.ModifierChain);
         }
 
         var writer = new ClassWriter();
@@ -202,8 +188,8 @@ public sealed class MarginBuilder : CssBuilderBase<MarginBuilder>
         {
             for (var i = 0; i < _rules.Count; i++)
             {
-                MarginRule rule = _rules[i];
-                writer.Add(ApplySide(rule.Size, rule.Side), BreakpointUtil.GetBreakpointToken(rule.Breakpoint), rule.ModifierChain);
+                UtilityRule rule = _rules[i];
+                writer.Add(rule.Value, BreakpointUtil.GetBreakpointToken(rule.Breakpoint), rule.ModifierChain);
             }
             return writer.ToString();
         }
@@ -213,37 +199,12 @@ public sealed class MarginBuilder : CssBuilderBase<MarginBuilder>
         }
     }
 
-    /// <summary>Gets the CSS style string for the current configuration.</summary>
-    public override string ToStyle() => string.Empty;
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static string NormalizeMarginClass(string size)
+    private static string CreateSideClass(string value, ElementSideEnum side)
     {
-        if (size.Length == 0)
-            return string.Empty;
-
-        if (size.StartsWith("-m-") || size.StartsWith("m-"))
-            return size;
-
-        return size[0] == '-' ? string.Concat("-m-", size.AsSpan(1)) : "m-" + size;
+        if (ReferenceEquals(side, ElementSideEnum.All)) return value;
+        return value[0] == '-'
+            ? string.Concat("-m", side.Value, value.AsSpan(2))
+            : string.Concat("m", side.Value, value.AsSpan(1));
     }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static string ApplySide(string sizeClass, ElementSideEnum side)
-    {
-        if (sizeClass.Length == 0)
-            return string.Empty;
-
-        if (ReferenceEquals(side, ElementSideEnum.All))
-            return sizeClass;
-
-        bool negative = sizeClass[0] == '-';
-        ReadOnlySpan<char> classWithoutNegative = sizeClass.AsSpan(negative ? 1 : 0);
-
-        if (!classWithoutNegative.StartsWith("m-", StringComparison.CurrentCulture))
-            return sizeClass;
-
-        return string.Concat(negative ? "-m" : "m", side.Value, classWithoutNegative[1..]);
-    }
-
 }

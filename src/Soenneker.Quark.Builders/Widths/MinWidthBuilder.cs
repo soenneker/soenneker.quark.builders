@@ -24,9 +24,4 @@ public sealed class MinWidthBuilder : CssBuilderBase
         return _token.Length == 0 ? string.Empty : _token;
     }
 
-    /// <summary>
-    /// Executes the to style operation.
-    /// </summary>
-    /// <returns>The result of the operation.</returns>
-    public override string ToStyle() => string.Empty;
 }

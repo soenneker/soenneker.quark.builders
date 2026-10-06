@@ -11,18 +11,7 @@ public static partial class Space
     /// </summary>
     /// <param name="value">Arbitrary utility value to append without predefined validation.</param>
     /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
-    public static SpaceBuilder Token(string value) => new(NormalizeToken(value, preferY: false));
-
-    internal static string NormalizeToken(string value, bool preferY)
-    {
-        if (value.Length == 0 || value.StartsWith("space-"))
-            return value;
-
-        if (value.StartsWith("x-") || value.StartsWith("y-"))
-            return "space-" + value;
-
-        return preferY ? "space-y-" + value : "space-x-" + value;
-    }
+    public static SpaceBuilder Token(string value) => new("space-x-" + value);
 
     /// <summary>
     /// Fluent step for `XReverse` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
@@ -94,7 +83,7 @@ public static partial class Space
         /// </summary>
         /// <param name="value">Suffix/token after the utility prefix (see Tailwind docs for this family).</param>
         /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
-        public static SpaceBuilder Token(string value) => new(NormalizeToken(value, preferY: false));
+        public static SpaceBuilder Token(string value) => new("space-x-" + value);
     }
 
     /// <summary>
@@ -157,6 +146,6 @@ public static partial class Space
         /// </summary>
         /// <param name="value">Suffix/token after the utility prefix (see Tailwind docs for this family).</param>
         /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
-        public static SpaceBuilder Token(string value) => new(NormalizeToken(value, preferY: true));
+        public static SpaceBuilder Token(string value) => new("space-y-" + value);
     }
 }

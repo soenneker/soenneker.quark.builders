@@ -81,7 +81,6 @@ public sealed class VisibilityBuilder : CssBuilderBase<VisibilityBuilder>
 	/// Gets the CSS style string for the current configuration.
 	/// </summary>
 	/// <returns>The CSS style string.</returns>
-    public override string ToStyle() => string.Empty;
     /// <summary>
     /// Returns a string representation of the current instance.
     /// </summary>
