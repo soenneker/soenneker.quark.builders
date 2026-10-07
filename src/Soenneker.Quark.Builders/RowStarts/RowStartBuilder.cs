@@ -4,35 +4,35 @@ namespace Soenneker.Quark;
 /// Represents the row start builder.
 /// </summary>
 [TailwindPrefix("row-start-", Responsive = true)]
-public sealed class RowStartBuilder : ResponsiveUtilityBuilder<RowStartBuilder>
+public sealed class RowStartBuilder : FinalClassUtilityBuilder<RowStartBuilder>
 {
     internal RowStartBuilder()
     {
     }
 
-    internal RowStartBuilder(string value, BreakpointType? breakpoint = null) : base("", value, breakpoint)
+    internal RowStartBuilder(string value, BreakpointType? breakpoint = null) : base(value, breakpoint)
     {
     }
 
     /// <summary>
     /// Gets or sets is1.
     /// </summary>
-    public RowStartBuilder Is1 => ChainValue("row-start-1");
+    public RowStartBuilder Is1 => ChainClass("row-start-1");
     /// <summary>
     /// Gets or sets auto.
     /// </summary>
-    public RowStartBuilder Auto => ChainValue("auto");
+    public RowStartBuilder Auto => ChainClass("row-start-auto");
     /// <summary>
     /// Adds the at Row Start utility to the class list.
     /// </summary>
     /// <param name="value">CSS value used to construct the utility class.</param>
     /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
-    public RowStartBuilder At(int value) => ChainValue(value.ToString());
+    public RowStartBuilder At(int value) => ChainClass("row-start-" + value);
     /// <summary>
     /// Adds an arbitrary row start utility token to the class list.
     /// </summary>
     /// <param name="value">Utility suffix, without the family prefix. Apply variants with fluent modifiers.</param>
     /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
-    public RowStartBuilder Token(string value) => ChainValue(UtilityToken.WithPrefix(value, "row-start-"));
+    public RowStartBuilder Token(string value) => ChainClass(UtilityToken.WithPrefix(value, "row-start-"));
 
 }

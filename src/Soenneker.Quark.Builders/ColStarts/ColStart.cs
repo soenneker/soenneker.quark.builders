@@ -23,7 +23,7 @@ public static partial class ColStart
     /// </summary>
     /// <param name="value">CSS value used to construct the utility class.</param>
     /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
-    public static ColStartBuilder At(int value) => new(value.ToString());
+    public static ColStartBuilder At(int value) => new("col-start-" + value);
     /// <summary>
     /// Adds an arbitrary col start utility token to the class list.
     /// </summary>

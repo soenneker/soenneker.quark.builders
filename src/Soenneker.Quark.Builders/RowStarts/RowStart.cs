@@ -19,7 +19,7 @@ public static partial class RowStart
     /// </summary>
     /// <param name="value">CSS value used to construct the utility class.</param>
     /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
-    public static RowStartBuilder At(int value) => new(value.ToString());
+    public static RowStartBuilder At(int value) => new("row-start-" + value);
     /// <summary>
     /// Adds an arbitrary row start utility token to the class list.
     /// </summary>

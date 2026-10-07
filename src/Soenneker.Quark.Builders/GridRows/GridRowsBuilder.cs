@@ -4,59 +4,59 @@ namespace Soenneker.Quark;
 /// Represents the grid rows builder.
 /// </summary>
 [TailwindPrefix("grid-rows-", Responsive = true)]
-public sealed class GridRowsBuilder : ResponsiveUtilityBuilder<GridRowsBuilder>
+public sealed class GridRowsBuilder : FinalClassUtilityBuilder<GridRowsBuilder>
 {
     internal GridRowsBuilder()
     {
     }
 
-    internal GridRowsBuilder(string value, BreakpointType? breakpoint = null) : base("", value, breakpoint)
+    internal GridRowsBuilder(string value, BreakpointType? breakpoint = null) : base(value, breakpoint)
     {
     }
 
     /// <summary>
     /// Gets or sets is1.
     /// </summary>
-    public GridRowsBuilder Is1 => ChainValue("grid-rows-1");
+    public GridRowsBuilder Is1 => ChainClass("grid-rows-1");
     /// <summary>
     /// Gets or sets is2.
     /// </summary>
-    public GridRowsBuilder Is2 => ChainValue("grid-rows-2");
+    public GridRowsBuilder Is2 => ChainClass("grid-rows-2");
     /// <summary>
     /// Gets or sets is3.
     /// </summary>
-    public GridRowsBuilder Is3 => ChainValue("grid-rows-3");
+    public GridRowsBuilder Is3 => ChainClass("grid-rows-3");
     /// <summary>
     /// Gets or sets is4.
     /// </summary>
-    public GridRowsBuilder Is4 => ChainValue("grid-rows-4");
+    public GridRowsBuilder Is4 => ChainClass("grid-rows-4");
     /// <summary>
     /// Gets or sets is5.
     /// </summary>
-    public GridRowsBuilder Is5 => ChainValue("grid-rows-5");
+    public GridRowsBuilder Is5 => ChainClass("grid-rows-5");
     /// <summary>
     /// Gets or sets is6.
     /// </summary>
-    public GridRowsBuilder Is6 => ChainValue("grid-rows-6");
+    public GridRowsBuilder Is6 => ChainClass("grid-rows-6");
     /// <summary>
     /// Gets or sets none.
     /// </summary>
-    public GridRowsBuilder None => ChainValue("grid-rows-none");
+    public GridRowsBuilder None => ChainClass("grid-rows-none");
     /// <summary>
     /// Gets or sets subgrid.
     /// </summary>
-    public GridRowsBuilder Subgrid => ChainValue("grid-rows-subgrid");
+    public GridRowsBuilder Subgrid => ChainClass("grid-rows-subgrid");
     /// <summary>
     /// Adds the count Grid Rows utility to the class list.
     /// </summary>
     /// <param name="value">CSS value used to construct the utility class.</param>
     /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
-    public GridRowsBuilder Count(int value) => ChainValue("grid-rows-" + value);
+    public GridRowsBuilder Count(int value) => ChainClass("grid-rows-" + value);
     /// <summary>
     /// Adds an arbitrary grid rows utility token to the class list.
     /// </summary>
     /// <param name="value">Utility suffix, without the family prefix. Apply variants with fluent modifiers.</param>
     /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
-    public GridRowsBuilder Token(string value) => ChainValue(UtilityToken.WithPrefix(value, "grid-rows-"));
+    public GridRowsBuilder Token(string value) => ChainClass(UtilityToken.WithPrefix(value, "grid-rows-"));
 
 }

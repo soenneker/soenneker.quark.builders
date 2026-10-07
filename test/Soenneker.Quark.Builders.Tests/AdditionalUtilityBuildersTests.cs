@@ -7,6 +7,16 @@ namespace Soenneker.Quark.Builders.Tests;
 public sealed class AdditionalUtilityBuildersTests
 {
     [Test]
+    public void Grid_positions_emit_complete_classes_for_numeric_and_chained_values()
+    {
+        ColEnd.At(3).ToClass().Should().Be("col-end-3");
+        ColEnd.Auto.OnMd.Auto.ToClass().Should().Be("col-end-auto md:col-end-auto");
+        ColStart.At(2).OnHover.Auto.ToClass().Should().Be("col-start-2 hover:col-start-auto");
+        RowStart.At(2).OnMd.At(4).ToClass().Should().Be("row-start-2 md:row-start-4");
+        RowEnd.Auto.OnLg.Auto.ToClass().Should().Be("row-end-auto lg:row-end-auto");
+    }
+
+    [Test]
     public void Translation_axes_and_modifiers_apply_to_the_next_value_only()
     {
         Translate.OnMd.OnX.NegativeHalf.OnY.Full.Is4.OnHover.OnX.Token("-[13px]").ToClass()

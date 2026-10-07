@@ -6,7 +6,7 @@ namespace Soenneker.Quark;
 
 // Most fluent builders contain one rule. Keep it inside the builder and allocate
 // overflow storage only when a second rule is added. Never pool retained state.
-internal struct RuleList<T>
+internal struct RuleList<T> : IReadOnlyList<T>
 {
     private T _first;
     private T[]? _remaining;
@@ -48,6 +48,13 @@ internal struct RuleList<T>
         }
         Count++;
     }
+
+    public IEnumerator<T> GetEnumerator()
+    {
+        for (int i = 0; i < Count; i++) yield return this[i];
+    }
+
+    System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => GetEnumerator();
 
     public void AddRange(List<T> values)
     {

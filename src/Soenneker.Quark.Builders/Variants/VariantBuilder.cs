@@ -1,12 +1,10 @@
-using System.Collections.Generic;
-
 namespace Soenneker.Quark;
 
 /// <inheritdoc cref="ICssBuilder"/>
 public sealed class VariantBuilder : ICssBuilder
 {
     private readonly ICssBuilder _builder;
-    private readonly List<string> _modifiers = new(4);
+    private RuleList<string> _modifiers;
     internal VariantBuilder(ICssBuilder builder)
     {
         _builder = builder;
@@ -790,7 +788,16 @@ public sealed class VariantBuilder : ICssBuilder
 
     private VariantBuilder ChainBreakpoint(BreakpointType breakpoint) => Chain(BreakpointUtil.GetBreakpointToken(breakpoint));
 
-    public string ToClass() => BreakpointUtil.ApplyTailwindModifiers(_builder.ToClass(), _modifiers);
+    public string ToClass()
+    {
+        string classes = _builder.ToClass();
+        return _modifiers.Count switch
+        {
+            0 => classes,
+            1 => BreakpointUtil.ApplyTailwindModifiers(classes, _modifiers[0]),
+            _ => BreakpointUtil.ApplyTailwindModifiers(classes, _modifiers)
+        };
+    }
 
 
     /// <summary>

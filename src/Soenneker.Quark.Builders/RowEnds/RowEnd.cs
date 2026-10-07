@@ -15,7 +15,7 @@ public static partial class RowEnd
     /// </summary>
     /// <param name="value">CSS value used to construct the utility class.</param>
     /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
-    public static RowEndBuilder At(int value) => new(value.ToString());
+    public static RowEndBuilder At(int value) => new("row-end-" + value);
     /// <summary>
     /// Adds an arbitrary row end utility token to the class list.
     /// </summary>

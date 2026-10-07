@@ -59,7 +59,7 @@ public static class BreakpointUtil
     /// <param name="classGroup">Class Group for the apply tailwind modifiers operation.</param>
     /// <param name="modifiers">Modifiers to append to the pending utility, in order.</param>
     /// <returns>The text produced by apply Tailwind Modifiers.</returns>
-    public static string ApplyTailwindModifiers(string classGroup, IReadOnlyList<string> modifiers)
+    internal static string ApplyTailwindModifiers<TModifiers>(string classGroup, TModifiers modifiers) where TModifiers : IReadOnlyList<string>
     {
         if (string.IsNullOrEmpty(classGroup) || modifiers.Count == 0)
             return classGroup;
@@ -67,7 +67,10 @@ public static class BreakpointUtil
         if (modifiers.Count == 1 && !string.IsNullOrEmpty(modifiers[0]))
             return ApplyTailwindModifiers(classGroup, modifiers[0]);
 
-        int prefixLength = EstimateModifierLength(modifiers);
+        int prefixLength = 0;
+        for (int i = 0; i < modifiers.Count; i++)
+            if (!string.IsNullOrEmpty(modifiers[i]))
+                prefixLength = checked(prefixLength + modifiers[i].Length + 1);
         int length = GetModifiedLength(classGroup, prefixLength, out Range singleToken);
         if (singleToken.Start.Value == 0 && singleToken.End.Value == classGroup.Length)
         {
@@ -118,6 +121,9 @@ public static class BreakpointUtil
         });
     }
 
+    public static string ApplyTailwindModifiers(string classGroup, IReadOnlyList<string> modifiers) =>
+        ApplyTailwindModifiers<IReadOnlyList<string>>(classGroup, modifiers);
+
     /// <summary>
     /// Applies the specified Tailwind modifiers to the pending utility, in order.
     /// </summary>
@@ -129,7 +135,9 @@ public static class BreakpointUtil
         if (string.IsNullOrEmpty(classGroup) || string.IsNullOrEmpty(modifierChain))
             return classGroup;
 
-        int length = GetModifiedLength(classGroup, modifierChain.Length + 1);
+        int length = GetModifiedLength(classGroup, modifierChain.Length + 1, out Range singleToken);
+        if (singleToken.Start.Value == 0 && singleToken.End.Value == classGroup.Length)
+            return string.Concat(modifierChain, ":", classGroup);
         return string.Create(length, (classGroup, modifierChain), static (destination, state) =>
         {
             int position = 0;
@@ -145,14 +153,6 @@ public static class BreakpointUtil
                 position += token.Length;
             }
         });
-    }
-
-    private static int GetModifiedLength(string classGroup, int prefixLength)
-    {
-        int length = 0;
-        foreach (Range range in new ClassTokens(classGroup))
-            length = checked(length + (length == 0 ? 0 : 1) + prefixLength + range.End.Value - range.Start.Value);
-        return length;
     }
 
     private static int GetModifiedLength(string classGroup, int prefixLength, out Range singleToken)
@@ -209,18 +209,4 @@ public static class BreakpointUtil
         }
     }
 
-    private static int EstimateModifierLength(IReadOnlyList<string> modifiers)
-    {
-        var length = 0;
-
-        for (var i = 0; i < modifiers.Count; i++)
-        {
-            string modifier = modifiers[i];
-
-            if (!string.IsNullOrEmpty(modifier))
-                length = checked(length + modifier.Length + 1);
-        }
-
-        return length;
-    }
 }

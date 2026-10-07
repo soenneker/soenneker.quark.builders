@@ -4,45 +4,45 @@ namespace Soenneker.Quark;
 /// Represents the justify items align builder.
 /// </summary>
 [TailwindPrefix("justify-items-", Responsive = true)]
-public sealed class JustifyItemsAlignBuilder : ResponsiveUtilityBuilder<JustifyItemsAlignBuilder>
+public sealed class JustifyItemsAlignBuilder : FinalClassUtilityBuilder<JustifyItemsAlignBuilder>
 {
     internal JustifyItemsAlignBuilder()
     {
     }
 
-    internal JustifyItemsAlignBuilder(JustifyItemsAlignEnum value, BreakpointType? breakpoint = null) : base("", value.Value, breakpoint)
+    internal JustifyItemsAlignBuilder(JustifyItemsAlignEnum value, BreakpointType? breakpoint = null) : base(value.Value, breakpoint)
     {
     }
 
-    internal JustifyItemsAlignBuilder(string value, BreakpointType? breakpoint = null) : base("", value, breakpoint)
+    internal JustifyItemsAlignBuilder(string value, BreakpointType? breakpoint = null) : base(value, breakpoint)
     {
     }
 
     /// <summary>
     /// Gets or sets normal.
     /// </summary>
-    public JustifyItemsAlignBuilder Normal => ChainValue(JustifyItemsAlignEnum.NormalValue);
+    public JustifyItemsAlignBuilder Normal => ChainClass(JustifyItemsAlignEnum.NormalValue);
     /// <summary>
     /// Gets or sets start.
     /// </summary>
-    public JustifyItemsAlignBuilder Start => ChainValue(JustifyItemsAlignEnum.StartValue);
+    public JustifyItemsAlignBuilder Start => ChainClass(JustifyItemsAlignEnum.StartValue);
     /// <summary>
     /// Gets or sets end.
     /// </summary>
-    public JustifyItemsAlignBuilder End => ChainValue(JustifyItemsAlignEnum.EndValue);
+    public JustifyItemsAlignBuilder End => ChainClass(JustifyItemsAlignEnum.EndValue);
     /// <summary>
     /// Gets or sets center.
     /// </summary>
-    public JustifyItemsAlignBuilder Center => ChainValue(JustifyItemsAlignEnum.CenterValue);
+    public JustifyItemsAlignBuilder Center => ChainClass(JustifyItemsAlignEnum.CenterValue);
     /// <summary>
     /// Gets or sets stretch.
     /// </summary>
-    public JustifyItemsAlignBuilder Stretch => ChainValue(JustifyItemsAlignEnum.StretchValue);
+    public JustifyItemsAlignBuilder Stretch => ChainClass(JustifyItemsAlignEnum.StretchValue);
     /// <summary>
     /// Adds an arbitrary justify items align utility token to the class list.
     /// </summary>
     /// <param name="value">Utility suffix, without the family prefix. Apply variants with fluent modifiers.</param>
     /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
-    public JustifyItemsAlignBuilder Token(string value) => ChainValue(UtilityToken.WithPrefix(value, "justify-items-"));
+    public JustifyItemsAlignBuilder Token(string value) => ChainClass(UtilityToken.WithPrefix(value, "justify-items-"));
 
 }
