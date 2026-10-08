@@ -19,7 +19,7 @@ public sealed partial class OutlineStyleEnum
     /// <summary>
     /// The solid.
     /// </summary>
-    public static readonly OutlineStyleEnum Solid = new("outline");
+    public static readonly OutlineStyleEnum Solid = new("outline-solid");
     /// <summary>
     /// The dashed.
     /// </summary>
