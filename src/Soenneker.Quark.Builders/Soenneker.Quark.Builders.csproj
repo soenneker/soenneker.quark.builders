@@ -51,7 +51,7 @@
         <PackageReference Include="Soenneker.Quark.Enums.ColorPalettes" Version="4.0.43" />
         <PackageReference Include="Soenneker.Quark.Enums.DisplayTypes" Version="4.0.95" />
         <PackageReference Include="Soenneker.Quark.Enums.Overflows" Version="4.0.98" />
-        <PackageReference Include="Soenneker.Quark.Enums.Positions" Version="4.0.93" />
+        <PackageReference Include="Soenneker.Quark.Enums.Positions" Version="4.0.95" />
         <PackageReference Include="Soenneker.Quark.Enums.TextAlignments" Version="4.0.93" />
         <PackageReference Include="Soenneker.Quark.Enums.TextTransforms" Version="4.0.88" />
         <PackageReference Include="Soenneker.Quark.Gen.Tailwind.Modifiers" Version="4.0.32">
