@@ -78,7 +78,9 @@ public sealed class MinHeightBuilder : CssBuilderBase<MinHeightBuilder>
 
 
 
-    public override string ToClass()
+    public override string ToClass() => _rules.CachedClass ??= BuildClass();
+
+    private string BuildClass()
     {
         if (_rules.Count == 0)
             return string.Empty;

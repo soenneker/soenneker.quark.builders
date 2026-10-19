@@ -11,6 +11,8 @@ namespace Soenneker.Quark;
 public abstract class ResponsiveUtilityBuilder<TBuilder> : CssBuilderBase<TBuilder> where TBuilder : ResponsiveUtilityBuilder<TBuilder>
 {
     protected readonly List<UtilityRule> Rules = new(4);
+    private UtilityRule[]? _cachedRules;
+    private string? _cachedClass;
     private BreakpointType? _pendingBreakpoint;
 
     protected ResponsiveUtilityBuilder()
@@ -49,6 +51,21 @@ public abstract class ResponsiveUtilityBuilder<TBuilder> : CssBuilderBase<TBuild
 
     public override string ToClass()
     {
+        // Derived builders can mutate the protected list directly. Compare its exact
+        // contents so replacements and removals invalidate the serialized value too.
+        if (_cachedClass is not null && _cachedRules is not null && _cachedRules.Length == Rules.Count)
+        {
+            bool equal = true;
+            for (int i = 0; i < Rules.Count; i++)
+                if (_cachedRules[i] != Rules[i]) { equal = false; break; }
+            if (equal) return _cachedClass;
+        }
+        _cachedRules = Rules.ToArray();
+        return _cachedClass = BuildClass();
+    }
+
+    private string BuildClass()
+    {
         if (Rules.Count == 0)
             return string.Empty;
         if (Rules.Count == 1)
@@ -80,11 +97,3 @@ public abstract class ResponsiveUtilityBuilder<TBuilder> : CssBuilderBase<TBuild
     /// <returns>The result of the operation.</returns>
     public override string ToString() => ToClass();
 }
-
-/// <summary>
-/// Represents the utility rule record structure.
-/// </summary>
-/// <param name="Value">The value.</param>
-/// <param name="Breakpoint">The breakpoint.</param>
-/// <param name="ModifierChain">The modifier chain.</param>
-public readonly record struct UtilityRule(string Value, BreakpointType? Breakpoint, string? ModifierChain = null);

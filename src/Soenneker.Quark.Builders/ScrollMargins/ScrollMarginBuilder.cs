@@ -141,7 +141,9 @@ public sealed class ScrollMarginBuilder : CssBuilderBase<ScrollMarginBuilder>
         return this;
     }
 
-    public override string ToClass()
+    public override string ToClass() => _rules.CachedClass ??= BuildClass();
+
+    private string BuildClass()
     {
         if (_rules.Count == 0)
             return string.Empty;

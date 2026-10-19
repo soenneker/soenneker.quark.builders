@@ -8,6 +8,7 @@ namespace Soenneker.Quark;
 // overflow storage only when a second rule is added. Never pool retained state.
 internal struct RuleList<T> : IReadOnlyList<T>
 {
+    internal string? CachedClass;
     private T _first;
     private T[]? _remaining;
     public int Count { get; private set; }
@@ -23,6 +24,7 @@ internal struct RuleList<T> : IReadOnlyList<T>
         }
         set
         {
+            CachedClass = null;
             if ((uint)index >= (uint)Count)
                 throw new ArgumentOutOfRangeException(nameof(index));
             if (index == 0)
@@ -35,6 +37,7 @@ internal struct RuleList<T> : IReadOnlyList<T>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void Add(T value)
     {
+        CachedClass = null;
         if (Count == 0)
             _first = value;
         else
@@ -58,6 +61,7 @@ internal struct RuleList<T> : IReadOnlyList<T>
 
     public void AddRange(List<T> values)
     {
+        CachedClass = null;
         if (values.Count == 0)
             return;
         int start = 0;
