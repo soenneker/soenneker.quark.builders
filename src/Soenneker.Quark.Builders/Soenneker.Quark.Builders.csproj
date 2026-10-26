@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <TargetFramework>net10.0</TargetFramework>
+        <TargetFramework>net11.0</TargetFramework>
         <IsAotCompatible>true</IsAotCompatible>
         <EnumValuesInlining>NoInlining</EnumValuesInlining>
         <Nullable>enable</Nullable>
@@ -12,7 +12,7 @@
 
     <PropertyGroup>
         <Description>Builders that allow for Quark fluent chaining of Shadcn and Tailwind classes</Description>
-        <Version Condition="'$(BUILD_VERSION)' == ''">4.0.0</Version>
+        <Version Condition="'$(BUILD_VERSION)' == ''">11.0.0</Version>
         <Version Condition="'$(BUILD_VERSION)' != ''">$(BUILD_VERSION)</Version>
         <AssemblyName>Soenneker.Quark.Builders</AssemblyName>
         <PackageId>Soenneker.Quark.Builders</PackageId>
@@ -46,7 +46,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Soenneker.Extensions.String" Version="4.0.799" />
+        <PackageReference Include="Soenneker.Extensions.String" Version="4.0.800" />
         <PackageReference Include="Soenneker.Quark.Enums.Breakpoints" Version="4.0.85" />
         <PackageReference Include="Soenneker.Quark.Enums.ColorPalettes" Version="4.0.44" />
         <PackageReference Include="Soenneker.Quark.Enums.DisplayTypes" Version="4.0.96" />
