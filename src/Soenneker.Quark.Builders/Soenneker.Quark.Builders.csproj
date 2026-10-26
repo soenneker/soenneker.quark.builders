@@ -54,7 +54,7 @@
         <PackageReference Include="Soenneker.Quark.Enums.Positions" Version="4.0.97" />
         <PackageReference Include="Soenneker.Quark.Enums.TextAlignments" Version="4.0.94" />
         <PackageReference Include="Soenneker.Quark.Enums.TextTransforms" Version="4.0.89" />
-        <PackageReference Include="Soenneker.Quark.Gen.Tailwind.Modifiers" Version="4.0.32">
+        <PackageReference Include="Soenneker.Quark.Gen.Tailwind.Modifiers" Version="11.0.33">
           <PrivateAssets>all</PrivateAssets>
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
