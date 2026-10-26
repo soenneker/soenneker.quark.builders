@@ -47,13 +47,13 @@
 
     <ItemGroup>
         <PackageReference Include="Soenneker.Extensions.String" Version="4.0.800" />
-        <PackageReference Include="Soenneker.Quark.Enums.Breakpoints" Version="11.0.86" />
-        <PackageReference Include="Soenneker.Quark.Enums.ColorPalettes" Version="4.0.44" />
-        <PackageReference Include="Soenneker.Quark.Enums.DisplayTypes" Version="4.0.96" />
-        <PackageReference Include="Soenneker.Quark.Enums.Overflows" Version="4.0.100" />
-        <PackageReference Include="Soenneker.Quark.Enums.Positions" Version="4.0.97" />
-        <PackageReference Include="Soenneker.Quark.Enums.TextAlignments" Version="4.0.94" />
-        <PackageReference Include="Soenneker.Quark.Enums.TextTransforms" Version="4.0.89" />
+        <PackageReference Include="Soenneker.Quark.Enums.Breakpoints" Version="11.0.87" />
+        <PackageReference Include="Soenneker.Quark.Enums.ColorPalettes" Version="11.0.46" />
+        <PackageReference Include="Soenneker.Quark.Enums.DisplayTypes" Version="11.0.98" />
+        <PackageReference Include="Soenneker.Quark.Enums.Overflows" Version="11.0.103" />
+        <PackageReference Include="Soenneker.Quark.Enums.Positions" Version="11.0.100" />
+        <PackageReference Include="Soenneker.Quark.Enums.TextAlignments" Version="11.0.96" />
+        <PackageReference Include="Soenneker.Quark.Enums.TextTransforms" Version="11.0.91" />
         <PackageReference Include="Soenneker.Quark.Gen.Tailwind.Modifiers" Version="11.0.33">
           <PrivateAssets>all</PrivateAssets>
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
