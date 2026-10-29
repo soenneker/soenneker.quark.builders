@@ -3,7 +3,8 @@ namespace Soenneker.Quark;
 /// <summary>
 /// Min-width utility with fluent API. Tailwind-first (min-w-*).
 /// </summary>
-public static class MinWidth
+[TailwindModifiers(typeof(MinWidthBuilder))]
+public static partial class MinWidth
 {
     /// <summary>
     /// Spacing/sizing scale step `0` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 0` for integer spacing utilities unless overridden).

@@ -9,9 +9,11 @@ namespace Soenneker.Quark;
 /// Builder for Tailwind <c>size-*</c> utilities.
 /// </summary>
 [TailwindPrefix("size-", Responsive = true)]
-public sealed class SizeBuilder : CssBuilderBase
+public sealed class SizeBuilder : CssBuilderBase<SizeBuilder>
 {
     private RuleList<SizeRule> _rules;
+
+    internal SizeBuilder() { }
 
     internal SizeBuilder(string value)
     {
@@ -143,7 +145,7 @@ public sealed class SizeBuilder : CssBuilderBase
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private SizeBuilder ChainWithValue(string value)
     {
-        _rules.Add(new SizeRule(value));
+        _rules.Add(new SizeRule(value, ConsumePendingModifierChain()));
         return this;
     }
 
@@ -156,7 +158,7 @@ public sealed class SizeBuilder : CssBuilderBase
         if (_rules.Count == 1)
         {
             SizeRule rule = _rules[0];
-            return ClassWriter.Render(rule.Value);
+            return ClassWriter.Render(rule.Value, modifiers: rule.ModifierChain);
         }
 
         var writer = new ClassWriter();
@@ -165,7 +167,7 @@ public sealed class SizeBuilder : CssBuilderBase
             for (var i = 0; i < _rules.Count; i++)
             {
                 SizeRule rule = _rules[i];
-                writer.Add(rule.Value);
+                writer.Add(rule.Value, modifiers: rule.ModifierChain);
             }
             return writer.ToString();
         }
@@ -174,9 +176,6 @@ public sealed class SizeBuilder : CssBuilderBase
             writer.Dispose();
         }
     }
-
-
-
 
     /// <summary>
     /// Returns a string representation of the current instance.

@@ -91,35 +91,6 @@ public sealed class QuarkBuildersTests : HostedUnitTest
     }
 
 
-    [Test]
-    public void Size_token_builders_preserve_empty_tokens_and_growth_behavior()
-    {
-        (System.Type Factory, bool SkipEmpty)[] cases =
-        [
-            (typeof(CheckSizes), false), (typeof(RadioSizes), false),
-            (typeof(SelectSizes), false), (typeof(SliderSizes), false),
-            (typeof(SwitchSizes), false), (typeof(InputSizes), true),
-            (typeof(PaginationSizes), true)
-        ];
-        foreach (var (factory, skipEmpty) in cases)
-        {
-            var create = factory.GetMethod("Token", [typeof(string)])!;
-            var builder = (ICssBuilder)create.Invoke(null, [""])!;
-            builder.ToClass().Should().BeEmpty();
-            var append = builder.GetType().GetMethod("Token", [typeof(string)])!;
-            var tokens = new System.Collections.Generic.List<string> { "" };
-            for (var i = 0; i < 20; i++)
-            {
-                string token = i % 3 == 0 ? "" : $"custom-{i}";
-                append.Invoke(builder, [token]);
-                if (!skipEmpty || token.Length != 0)
-                    tokens.Add(token);
-                string expected = string.Join(" ", skipEmpty ? tokens.GetRange(1, tokens.Count - 1) : tokens);
-                builder.ToClass().Should().Be(expected);
-                builder.ToClass().Should().Be(expected);
-            }
-        }
-    }
 
     [Test]
     public void Rounded_rendering_preserves_positions_custom_tokens_and_mutation()

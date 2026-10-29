@@ -3,7 +3,8 @@ namespace Soenneker.Quark;
 /// <summary>
 /// Simplified overflow utility with fluent API and Tailwind/shadcn-aligned fluent API.
 /// </summary>
-public static class Overflow
+[TailwindModifiers(typeof(OverflowBuilder))]
+public static partial class Overflow
 {
     /// <summary>
     /// Overflow auto.
@@ -24,6 +25,9 @@ public static class Overflow
     /// Overflow scroll.
     /// </summary>
     public static OverflowBuilder Scroll => new(OverflowKeyword.ScrollValue);
+
+    /// <summary>Clips overflowing content without creating a scroll container.</summary>
+    public static OverflowBuilder Clip => new("clip");
 
     // ----- Axis builders -----
     /// <summary>

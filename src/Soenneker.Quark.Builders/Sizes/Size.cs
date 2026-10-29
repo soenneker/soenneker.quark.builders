@@ -3,7 +3,8 @@ namespace Soenneker.Quark;
 /// <summary>
 /// Tailwind <c>size-*</c> utility with fluent API.
 /// </summary>
-public static class Size
+[TailwindModifiers(typeof(SizeBuilder))]
+public static partial class Size
 {
     /// <summary>
     /// Spacing/sizing scale step `0` — uses Tailwind’s default spacing scale (each step is typically `0.25rem × 0` for integer spacing utilities unless overridden).

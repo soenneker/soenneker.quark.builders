@@ -7,14 +7,17 @@ namespace Soenneker.Quark;
 /// <summary>
 /// High-performance overflow builder with fluent API for chaining overflow rules.
 /// </summary>
-public sealed class OverflowBuilder : CssBuilderBase
+[TailwindPrefix("overflow-", Responsive = true)]
+public sealed class OverflowBuilder : CssBuilderBase<OverflowBuilder>
 {
     private RuleList<OverflowRule> _rules;
     private string _axis = "";
 
+    internal OverflowBuilder() { }
+
     internal OverflowBuilder(string overflow)
     {
-        _rules.Add(new OverflowRule(overflow, null));
+        _rules.Add(new OverflowRule(overflow));
     }
 
     internal OverflowBuilder(List<OverflowRule> rules)
@@ -44,9 +47,10 @@ public sealed class OverflowBuilder : CssBuilderBase
 	/// Sets the overflow to visible.
 	/// </summary>
     public OverflowBuilder Visible => Chain(OverflowKeyword.VisibleValue);
-	/// <summary>
-	/// Sets the overflow to scroll.
-	/// </summary>
+    /// <summary>Clips overflowing content without creating a scroll container.</summary>
+    public OverflowBuilder Clip => Chain("clip");
+
+    /// <summary>Sets the overflow to scroll.</summary>
     public OverflowBuilder Scroll => Chain(OverflowKeyword.ScrollValue);
 
 	/// <summary>
@@ -65,15 +69,8 @@ public sealed class OverflowBuilder : CssBuilderBase
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private OverflowBuilder Chain(string overflow)
     {
-        // Replace the last rule instead of adding a new one
-        if (_rules.Count > 0)
-        {
-            _rules[_rules.Count - 1] = new OverflowRule(overflow, null);
-        }
-        else
-        {
-            _rules.Add(new OverflowRule(overflow, null));
-        }
+        _rules.Add(new OverflowRule(overflow, _axis, ConsumePendingModifierChain()));
+        _axis = "";
         return this;
     }
 
@@ -93,7 +90,7 @@ public sealed class OverflowBuilder : CssBuilderBase
         if (_rules.Count == 1)
         {
             OverflowRule rule = _rules[0];
-            return ClassWriter.Render(GetOverflowClass(rule.Overflow));
+            return ClassWriter.Render(GetOverflowClass(rule), modifiers: rule.ModifierChain);
         }
 
         var writer = new ClassWriter();
@@ -102,7 +99,7 @@ public sealed class OverflowBuilder : CssBuilderBase
             for (var i = 0; i < _rules.Count; i++)
             {
                 OverflowRule rule = _rules[i];
-                writer.Add(GetOverflowClass(rule.Overflow));
+                writer.Add(GetOverflowClass(rule), modifiers: rule.ModifierChain);
             }
             return writer.ToString();
         }
@@ -112,16 +109,15 @@ public sealed class OverflowBuilder : CssBuilderBase
         }
     }
 
-
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private string GetOverflowClass(string overflow)
+    private static string GetOverflowClass(OverflowRule rule)
     {
-        if (string.IsNullOrEmpty(overflow))
+        if (string.IsNullOrEmpty(rule.Overflow))
             return string.Empty;
 
-        return string.IsNullOrEmpty(_axis)
-            ? $"overflow-{overflow}"
-            : $"overflow{_axis}-{overflow}";
+        return string.IsNullOrEmpty(rule.Axis)
+            ? $"overflow-{rule.Overflow}"
+            : $"overflow{rule.Axis}-{rule.Overflow}";
     }
 
     /// <summary>Gets the string representation of the builder (same as ToClass).</summary>

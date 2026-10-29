@@ -3,4 +3,4 @@ namespace Soenneker.Quark;
 /// <summary>
 /// Represents a single size rule.
 /// </summary>
-internal readonly record struct SizeRule(string Value);
+internal readonly record struct SizeRule(string Value, string? ModifierChain = null);

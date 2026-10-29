@@ -3,7 +3,8 @@ namespace Soenneker.Quark;
 /// <summary>
 /// CSS list-style-type property builder with fluent API.
 /// </summary>
-public static class ListStyleType
+[TailwindModifiers(typeof(ListStyleTypeBuilder))]
+public static partial class ListStyleType
 {
     /// <summary>
     /// Gets a list style type builder with none value (no marker).
@@ -69,5 +70,7 @@ public static class ListStyleType
     /// Gets a list style type builder with unset keyword.
     /// </summary>
     public static ListStyleTypeBuilder Unset => new(ListStyleTypeValue.Unset);
+    /// <summary>Adds an arbitrary Tailwind list-style token.</summary>
+    public static ListStyleTypeBuilder Token(string value) => new ListStyleTypeBuilder().Token(value);
 }
 
