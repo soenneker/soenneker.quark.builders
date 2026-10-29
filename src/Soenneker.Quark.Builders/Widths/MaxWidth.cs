@@ -3,7 +3,8 @@ namespace Soenneker.Quark;
 /// <summary>
 /// Max-width utility with fluent API. Tailwind-first (max-w-*).
 /// </summary>
-public static class MaxWidth
+[TailwindModifiers(typeof(MaxWidthBuilder))]
+public static partial class MaxWidth
 {
     /// <summary>
     /// Fluent step for `Is None` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
