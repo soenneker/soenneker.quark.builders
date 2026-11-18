@@ -8,7 +8,7 @@ internal static class UtilityToken
         prefix + value;
 
     internal static string WithSignedPrefix(string value, string prefix) =>
-        value.StartsWith("-", System.StringComparison.Ordinal)
+        value.StartsWith('-')
             ? "-" + WithPrefix(value[1..], prefix)
             : WithPrefix(value, prefix);
 }
