@@ -4,6 +4,21 @@ namespace Soenneker.Quark;
 
 public abstract class CssBuilderBase : ICssBuilder
 {
+    /// <summary>Targets descendants matching a Tailwind arbitrary selector. Encode embedded spaces as underscores.</summary>
+    public VariantBuilder Descendant(string selector) => Variant.Of(this).Descendant(selector);
+
+    /// <summary>Targets descendants with the specified data-slot value.</summary>
+    public VariantBuilder DescendantSlot(string slot) => Variant.Of(this).DescendantSlot(slot);
+
+    /// <summary>Applies when the enclosing group has the specified data attribute value.</summary>
+    public VariantBuilder GroupData(string attribute, string value) => Variant.Of(this).GroupData(attribute, value);
+
+    /// <summary>Applies when the named enclosing group has the specified data attribute value.</summary>
+    public VariantBuilder GroupData(string attribute, string value, string name) => Variant.Of(this).GroupData(attribute, value, name);
+
+    /// <summary>Marks only the final utility in the class list as important.</summary>
+    public VariantBuilder Important => Variant.Of(this).Important;
+
     /// <summary>
     /// Adds a Tailwind data-attribute variant for the specified attribute and value.
     /// </summary>

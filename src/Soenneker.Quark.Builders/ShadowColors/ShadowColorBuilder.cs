@@ -114,7 +114,7 @@ public sealed class ShadowColorBuilder : ColorBuilderBase<ShadowColorBuilder>
     private ShadowColorBuilder ChainClass(string value)
     {
         if (value.Length != 0)
-            _rules.Add(new ShadowColorRule(value, null, ConsumePendingModifierChain()));
+            _rules.Add(new ShadowColorRule(ApplyPendingOpacity(value), null, ConsumePendingModifierChain()));
 
         return this;
     }

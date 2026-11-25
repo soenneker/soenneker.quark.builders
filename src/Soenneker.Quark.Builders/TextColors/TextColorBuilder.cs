@@ -110,7 +110,7 @@ public sealed class TextColorBuilder : ColorBuilderBase<TextColorBuilder>
     private TextColorBuilder ChainValue(TextColorEnum value)
     {
         BreakpointType? bp = null;
-        _rules.Add(new TextColorRule(value.Value, bp, ConsumePendingModifierChain()));
+        _rules.Add(new TextColorRule(ApplyPendingOpacity(value.Value), bp, ConsumePendingModifierChain()));
         return this;
     }
 
@@ -119,7 +119,7 @@ public sealed class TextColorBuilder : ColorBuilderBase<TextColorBuilder>
     {
         BreakpointType? bp = null;
         if (value.Length != 0)
-            _rules.Add(new TextColorRule(value, bp, ConsumePendingModifierChain()));
+            _rules.Add(new TextColorRule(ApplyPendingOpacity(value), bp, ConsumePendingModifierChain()));
         return this;
     }
 

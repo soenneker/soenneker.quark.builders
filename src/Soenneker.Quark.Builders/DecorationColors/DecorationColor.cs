@@ -4,6 +4,33 @@ namespace Soenneker.Quark;
 [TailwindModifiers(typeof(DecorationColorBuilder), IncludeColorPalettes = true)]
 public static partial class DecorationColor
 {
+    /// <summary>Applies a percentage from 0 through 100 to the next color utility.</summary>
+    public static DecorationColorBuilder WithOpacity(int percent) => new DecorationColorBuilder().WithOpacity(percent);
+
+    /// <summary>Uses the <c>sidebar</c> theme color.</summary>
+    public static DecorationColorBuilder Sidebar => Token("sidebar");
+
+    /// <summary>Uses the <c>sidebar-foreground</c> theme color.</summary>
+    public static DecorationColorBuilder SidebarForeground => Token("sidebar-foreground");
+
+    /// <summary>Uses the <c>sidebar-primary</c> theme color.</summary>
+    public static DecorationColorBuilder SidebarPrimary => Token("sidebar-primary");
+
+    /// <summary>Uses the <c>sidebar-primary-foreground</c> theme color.</summary>
+    public static DecorationColorBuilder SidebarPrimaryForeground => Token("sidebar-primary-foreground");
+
+    /// <summary>Uses the <c>sidebar-accent</c> theme color.</summary>
+    public static DecorationColorBuilder SidebarAccent => Token("sidebar-accent");
+
+    /// <summary>Uses the <c>sidebar-accent-foreground</c> theme color.</summary>
+    public static DecorationColorBuilder SidebarAccentForeground => Token("sidebar-accent-foreground");
+
+    /// <summary>Uses the <c>sidebar-border</c> theme color.</summary>
+    public static DecorationColorBuilder SidebarBorder => Token("sidebar-border");
+
+    /// <summary>Uses the <c>sidebar-ring</c> theme color.</summary>
+    public static DecorationColorBuilder SidebarRing => Token("sidebar-ring");
+
     /// <summary>Adds <c>decoration-primary</c>.</summary>
     public static DecorationColorBuilder Primary => new(DecorationColorEnum.Primary);
 

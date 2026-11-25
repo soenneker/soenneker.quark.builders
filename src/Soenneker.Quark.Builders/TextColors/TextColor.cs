@@ -6,6 +6,33 @@ namespace Soenneker.Quark;
 [TailwindModifiers(typeof(TextColorBuilder), IncludeColorPalettes = true)]
 public static partial class TextColor
 {
+    /// <summary>Applies a percentage from 0 through 100 to the next color utility.</summary>
+    public static TextColorBuilder WithOpacity(int percent) => new TextColorBuilder().WithOpacity(percent);
+
+    /// <summary>Uses the <c>sidebar</c> theme color.</summary>
+    public static TextColorBuilder Sidebar => Token("sidebar");
+
+    /// <summary>Uses the <c>sidebar-foreground</c> theme color.</summary>
+    public static TextColorBuilder SidebarForeground => Token("sidebar-foreground");
+
+    /// <summary>Uses the <c>sidebar-primary</c> theme color.</summary>
+    public static TextColorBuilder SidebarPrimary => Token("sidebar-primary");
+
+    /// <summary>Uses the <c>sidebar-primary-foreground</c> theme color.</summary>
+    public static TextColorBuilder SidebarPrimaryForeground => Token("sidebar-primary-foreground");
+
+    /// <summary>Uses the <c>sidebar-accent</c> theme color.</summary>
+    public static TextColorBuilder SidebarAccent => Token("sidebar-accent");
+
+    /// <summary>Uses the <c>sidebar-accent-foreground</c> theme color.</summary>
+    public static TextColorBuilder SidebarAccentForeground => Token("sidebar-accent-foreground");
+
+    /// <summary>Uses the <c>sidebar-border</c> theme color.</summary>
+    public static TextColorBuilder SidebarBorder => Token("sidebar-border");
+
+    /// <summary>Uses the <c>sidebar-ring</c> theme color.</summary>
+    public static TextColorBuilder SidebarRing => Token("sidebar-ring");
+
     /// <summary>
     /// Gets or sets primary.
     /// </summary>

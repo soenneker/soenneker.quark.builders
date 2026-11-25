@@ -114,7 +114,7 @@ public sealed class InsetShadowColorBuilder : ColorBuilderBase<InsetShadowColorB
     private InsetShadowColorBuilder ChainClass(string value)
     {
         if (value.Length != 0)
-            _rules.Add(new InsetShadowColorRule(value, null, ConsumePendingModifierChain()));
+            _rules.Add(new InsetShadowColorRule(ApplyPendingOpacity(value), null, ConsumePendingModifierChain()));
 
         return this;
     }

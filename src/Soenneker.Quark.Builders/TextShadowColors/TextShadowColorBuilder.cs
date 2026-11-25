@@ -114,7 +114,7 @@ public sealed class TextShadowColorBuilder : ColorBuilderBase<TextShadowColorBui
     private TextShadowColorBuilder ChainClass(string value)
     {
         if (value.Length != 0)
-            _rules.Add(new TextShadowColorRule(value, null, ConsumePendingModifierChain()));
+            _rules.Add(new TextShadowColorRule(ApplyPendingOpacity(value), null, ConsumePendingModifierChain()));
 
         return this;
     }

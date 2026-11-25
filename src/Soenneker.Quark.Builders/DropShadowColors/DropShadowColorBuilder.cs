@@ -114,7 +114,7 @@ public sealed class DropShadowColorBuilder : ColorBuilderBase<DropShadowColorBui
     private DropShadowColorBuilder ChainClass(string value)
     {
         if (value.Length != 0)
-            _rules.Add(new DropShadowColorRule(value, null, ConsumePendingModifierChain()));
+            _rules.Add(new DropShadowColorRule(ApplyPendingOpacity(value), null, ConsumePendingModifierChain()));
 
         return this;
     }

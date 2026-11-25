@@ -6,6 +6,33 @@ namespace Soenneker.Quark;
 [TailwindModifiers(typeof(RingColorBuilder), IncludeColorPalettes = true)]
 public static partial class RingColor
 {
+    /// <summary>Applies a percentage from 0 through 100 to the next color utility.</summary>
+    public static RingColorBuilder WithOpacity(int percent) => new RingColorBuilder().WithOpacity(percent);
+
+    /// <summary>Uses the <c>sidebar</c> theme color.</summary>
+    public static RingColorBuilder Sidebar => Token("sidebar");
+
+    /// <summary>Uses the <c>sidebar-foreground</c> theme color.</summary>
+    public static RingColorBuilder SidebarForeground => Token("sidebar-foreground");
+
+    /// <summary>Uses the <c>sidebar-primary</c> theme color.</summary>
+    public static RingColorBuilder SidebarPrimary => Token("sidebar-primary");
+
+    /// <summary>Uses the <c>sidebar-primary-foreground</c> theme color.</summary>
+    public static RingColorBuilder SidebarPrimaryForeground => Token("sidebar-primary-foreground");
+
+    /// <summary>Uses the <c>sidebar-accent</c> theme color.</summary>
+    public static RingColorBuilder SidebarAccent => Token("sidebar-accent");
+
+    /// <summary>Uses the <c>sidebar-accent-foreground</c> theme color.</summary>
+    public static RingColorBuilder SidebarAccentForeground => Token("sidebar-accent-foreground");
+
+    /// <summary>Uses the <c>sidebar-border</c> theme color.</summary>
+    public static RingColorBuilder SidebarBorder => Token("sidebar-border");
+
+    /// <summary>Uses the <c>sidebar-ring</c> theme color.</summary>
+    public static RingColorBuilder SidebarRing => Token("sidebar-ring");
+
     /// <summary>
     /// Fluent step for `Primary` in this Tailwind/shadcn-aligned builder. See the corresponding `-*` utility in the Tailwind docs for exact CSS.
     /// </summary>

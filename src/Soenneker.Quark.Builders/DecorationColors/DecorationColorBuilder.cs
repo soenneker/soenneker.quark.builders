@@ -114,7 +114,7 @@ public sealed class DecorationColorBuilder : ColorBuilderBase<DecorationColorBui
     private DecorationColorBuilder ChainClass(string value)
     {
         if (value.Length != 0)
-            _rules.Add(new DecorationColorRule(value, null, ConsumePendingModifierChain()));
+            _rules.Add(new DecorationColorRule(ApplyPendingOpacity(value), null, ConsumePendingModifierChain()));
 
         return this;
     }

@@ -7,6 +7,51 @@ namespace Soenneker.Quark;
 public abstract class ColorBuilderBase<TBuilder> : CssBuilderBase<TBuilder>, IColorTokenFactory<TBuilder>
     where TBuilder : ColorBuilderBase<TBuilder>
 {
+    private int? _pendingOpacity;
+
+    /// <summary>Applies a percentage from 0 through 100 to the next color utility.</summary>
+    public TBuilder WithOpacity(int percent)
+    {
+        System.ArgumentOutOfRangeException.ThrowIfNegative(percent);
+        System.ArgumentOutOfRangeException.ThrowIfGreaterThan(percent, 100);
+        _pendingOpacity = percent;
+        return (TBuilder)this;
+    }
+
+    /// <summary>Consumes the selected opacity when recording a color rule.</summary>
+    protected string ApplyPendingOpacity(string value)
+    {
+        if (_pendingOpacity is not int percent)
+            return value;
+
+        _pendingOpacity = null;
+        return value + "/" + percent.ToString(System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    /// <summary>Uses the <c>sidebar</c> theme color.</summary>
+    public TBuilder Sidebar => Token("sidebar");
+
+    /// <summary>Uses the <c>sidebar-foreground</c> theme color.</summary>
+    public TBuilder SidebarForeground => Token("sidebar-foreground");
+
+    /// <summary>Uses the <c>sidebar-primary</c> theme color.</summary>
+    public TBuilder SidebarPrimary => Token("sidebar-primary");
+
+    /// <summary>Uses the <c>sidebar-primary-foreground</c> theme color.</summary>
+    public TBuilder SidebarPrimaryForeground => Token("sidebar-primary-foreground");
+
+    /// <summary>Uses the <c>sidebar-accent</c> theme color.</summary>
+    public TBuilder SidebarAccent => Token("sidebar-accent");
+
+    /// <summary>Uses the <c>sidebar-accent-foreground</c> theme color.</summary>
+    public TBuilder SidebarAccentForeground => Token("sidebar-accent-foreground");
+
+    /// <summary>Uses the <c>sidebar-border</c> theme color.</summary>
+    public TBuilder SidebarBorder => Token("sidebar-border");
+
+    /// <summary>Uses the <c>sidebar-ring</c> theme color.</summary>
+    public TBuilder SidebarRing => Token("sidebar-ring");
+
     /// <summary>Selects the mauve palette for the next color.</summary>
     public ColorPaletteBuilder<TBuilder> Mauve => new("mauve", this);
     /// <summary>Selects the olive palette for the next color.</summary>

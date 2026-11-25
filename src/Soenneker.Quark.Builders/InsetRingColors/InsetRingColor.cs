@@ -4,6 +4,33 @@ namespace Soenneker.Quark;
 [TailwindModifiers(typeof(InsetRingColorBuilder), IncludeColorPalettes = true)]
 public static partial class InsetRingColor
 {
+    /// <summary>Applies a percentage from 0 through 100 to the next color utility.</summary>
+    public static InsetRingColorBuilder WithOpacity(int percent) => new InsetRingColorBuilder().WithOpacity(percent);
+
+    /// <summary>Uses the <c>sidebar</c> theme color.</summary>
+    public static InsetRingColorBuilder Sidebar => Token("sidebar");
+
+    /// <summary>Uses the <c>sidebar-foreground</c> theme color.</summary>
+    public static InsetRingColorBuilder SidebarForeground => Token("sidebar-foreground");
+
+    /// <summary>Uses the <c>sidebar-primary</c> theme color.</summary>
+    public static InsetRingColorBuilder SidebarPrimary => Token("sidebar-primary");
+
+    /// <summary>Uses the <c>sidebar-primary-foreground</c> theme color.</summary>
+    public static InsetRingColorBuilder SidebarPrimaryForeground => Token("sidebar-primary-foreground");
+
+    /// <summary>Uses the <c>sidebar-accent</c> theme color.</summary>
+    public static InsetRingColorBuilder SidebarAccent => Token("sidebar-accent");
+
+    /// <summary>Uses the <c>sidebar-accent-foreground</c> theme color.</summary>
+    public static InsetRingColorBuilder SidebarAccentForeground => Token("sidebar-accent-foreground");
+
+    /// <summary>Uses the <c>sidebar-border</c> theme color.</summary>
+    public static InsetRingColorBuilder SidebarBorder => Token("sidebar-border");
+
+    /// <summary>Uses the <c>sidebar-ring</c> theme color.</summary>
+    public static InsetRingColorBuilder SidebarRing => Token("sidebar-ring");
+
     /// <summary>Adds <c>inset-ring-primary</c>.</summary>
     public static InsetRingColorBuilder Primary => new(InsetRingColorEnum.Primary);
 

@@ -5,6 +5,8 @@ public sealed class VariantBuilder : ICssBuilder
 {
     private readonly ICssBuilder _builder;
     private RuleList<string> _modifiers;
+    private bool _important;
+
     internal VariantBuilder(ICssBuilder builder)
     {
         _builder = builder;
@@ -679,6 +681,28 @@ public sealed class VariantBuilder : ICssBuilder
     /// </summary>
     public VariantBuilder OnAriaSelected => Chain("aria-selected");
 
+    /// <summary>Targets descendants matching a Tailwind arbitrary selector. Encode embedded spaces as underscores.</summary>
+    public VariantBuilder Descendant(string selector) => Chain($"[&_{selector}]");
+
+    /// <summary>Targets descendants with the specified data-slot value.</summary>
+    public VariantBuilder DescendantSlot(string slot) => Descendant($"[data-slot={slot}]");
+
+    /// <summary>Applies when the enclosing group has the specified data attribute value.</summary>
+    public VariantBuilder GroupData(string attribute, string value) => Group($"data-[{attribute}={value}]");
+
+    /// <summary>Applies when the named enclosing group has the specified data attribute value.</summary>
+    public VariantBuilder GroupData(string attribute, string value, string name) => Group($"data-[{attribute}={value}]", name);
+
+    /// <summary>Marks only the final utility in the class list as important.</summary>
+    public VariantBuilder Important
+    {
+        get
+        {
+            _important = true;
+            return this;
+        }
+    }
+
     /// <summary>
     /// Adds a Tailwind data-attribute variant for the specified attribute and value.
     /// </summary>
@@ -791,6 +815,15 @@ public sealed class VariantBuilder : ICssBuilder
     public string ToClass()
     {
         string classes = _builder.ToClass();
+        if (_important)
+        {
+            int end = classes.Length;
+            while (end > 0 && char.IsWhiteSpace(classes[end - 1]))
+                end--;
+            if (end > 0 && classes[end - 1] != '!')
+                classes = classes.Insert(end, "!");
+        }
+
         return _modifiers.Count switch
         {
             0 => classes,

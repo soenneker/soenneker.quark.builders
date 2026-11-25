@@ -4,6 +4,33 @@ namespace Soenneker.Quark;
 [TailwindModifiers(typeof(ScrollbarTrackColorBuilder), IncludeColorPalettes = true)]
 public static partial class ScrollbarTrackColor
 {
+    /// <summary>Applies a percentage from 0 through 100 to the next color utility.</summary>
+    public static ScrollbarTrackColorBuilder WithOpacity(int percent) => new ScrollbarTrackColorBuilder().WithOpacity(percent);
+
+    /// <summary>Uses the <c>sidebar</c> theme color.</summary>
+    public static ScrollbarTrackColorBuilder Sidebar => Token("sidebar");
+
+    /// <summary>Uses the <c>sidebar-foreground</c> theme color.</summary>
+    public static ScrollbarTrackColorBuilder SidebarForeground => Token("sidebar-foreground");
+
+    /// <summary>Uses the <c>sidebar-primary</c> theme color.</summary>
+    public static ScrollbarTrackColorBuilder SidebarPrimary => Token("sidebar-primary");
+
+    /// <summary>Uses the <c>sidebar-primary-foreground</c> theme color.</summary>
+    public static ScrollbarTrackColorBuilder SidebarPrimaryForeground => Token("sidebar-primary-foreground");
+
+    /// <summary>Uses the <c>sidebar-accent</c> theme color.</summary>
+    public static ScrollbarTrackColorBuilder SidebarAccent => Token("sidebar-accent");
+
+    /// <summary>Uses the <c>sidebar-accent-foreground</c> theme color.</summary>
+    public static ScrollbarTrackColorBuilder SidebarAccentForeground => Token("sidebar-accent-foreground");
+
+    /// <summary>Uses the <c>sidebar-border</c> theme color.</summary>
+    public static ScrollbarTrackColorBuilder SidebarBorder => Token("sidebar-border");
+
+    /// <summary>Uses the <c>sidebar-ring</c> theme color.</summary>
+    public static ScrollbarTrackColorBuilder SidebarRing => Token("sidebar-ring");
+
     /// <summary>Adds <c>scrollbar-track-primary</c>.</summary>
     public static ScrollbarTrackColorBuilder Primary => new(ScrollbarTrackColorEnum.Primary);
 

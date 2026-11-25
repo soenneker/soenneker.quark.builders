@@ -114,7 +114,7 @@ public sealed class ScrollbarThumbColorBuilder : ColorBuilderBase<ScrollbarThumb
     private ScrollbarThumbColorBuilder ChainClass(string value)
     {
         if (value.Length != 0)
-            _rules.Add(new ScrollbarThumbColorRule(value, null, ConsumePendingModifierChain()));
+            _rules.Add(new ScrollbarThumbColorRule(ApplyPendingOpacity(value), null, ConsumePendingModifierChain()));
 
         return this;
     }

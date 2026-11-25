@@ -156,7 +156,7 @@ public sealed class RingColorBuilder : ColorBuilderBase<RingColorBuilder>
     private RingColorBuilder ChainValue(RingColorEnum value)
     {
         BreakpointType? breakpoint = null;
-        _rules.Add(new RingColorRule(value.Value, breakpoint, ConsumePendingModifierChain()));
+        _rules.Add(new RingColorRule(ApplyPendingOpacity(value.Value), breakpoint, ConsumePendingModifierChain()));
         return this;
     }
 
@@ -166,7 +166,7 @@ public sealed class RingColorBuilder : ColorBuilderBase<RingColorBuilder>
         BreakpointType? breakpoint = null;
 
         if (value.HasContent())
-            _rules.Add(new RingColorRule(value, breakpoint, ConsumePendingModifierChain()));
+            _rules.Add(new RingColorRule(ApplyPendingOpacity(value), breakpoint, ConsumePendingModifierChain()));
 
         return this;
     }

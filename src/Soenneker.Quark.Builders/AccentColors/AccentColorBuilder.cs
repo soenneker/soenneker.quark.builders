@@ -71,7 +71,7 @@ public sealed class AccentColorBuilder : ColorBuilderBase<AccentColorBuilder>
     private AccentColorBuilder Chain(AccentColorEnum value)
     {
         BreakpointType? breakpoint = null;
-        _rules.Add(new AccentColorRule(value.Value, breakpoint, ConsumePendingModifierChain()));
+        _rules.Add(new AccentColorRule(ApplyPendingOpacity(value.Value), breakpoint, ConsumePendingModifierChain()));
         return this;
     }
 
@@ -82,7 +82,7 @@ public sealed class AccentColorBuilder : ColorBuilderBase<AccentColorBuilder>
             return this;
 
         BreakpointType? breakpoint = null;
-        _rules.Add(new AccentColorRule(value, breakpoint, ConsumePendingModifierChain()));
+        _rules.Add(new AccentColorRule(ApplyPendingOpacity(value), breakpoint, ConsumePendingModifierChain()));
         return this;
     }
 

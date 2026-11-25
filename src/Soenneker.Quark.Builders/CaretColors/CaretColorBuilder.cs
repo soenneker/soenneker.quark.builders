@@ -66,7 +66,7 @@ public sealed class CaretColorBuilder : ColorBuilderBase<CaretColorBuilder>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private CaretColorBuilder Chain(CaretColorEnum value)
     {
-        _rules.Add(new CaretColorRule(value.Value, null, ConsumePendingModifierChain()));
+        _rules.Add(new CaretColorRule(ApplyPendingOpacity(value.Value), null, ConsumePendingModifierChain()));
         return this;
     }
 
@@ -75,7 +75,7 @@ public sealed class CaretColorBuilder : ColorBuilderBase<CaretColorBuilder>
     {
         BreakpointType? breakpoint = null;
         if (value.Length != 0)
-            _rules.Add(new CaretColorRule(value, breakpoint, ConsumePendingModifierChain()));
+            _rules.Add(new CaretColorRule(ApplyPendingOpacity(value), breakpoint, ConsumePendingModifierChain()));
         return this;
     }
 

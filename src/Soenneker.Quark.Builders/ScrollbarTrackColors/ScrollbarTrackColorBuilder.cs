@@ -114,7 +114,7 @@ public sealed class ScrollbarTrackColorBuilder : ColorBuilderBase<ScrollbarTrack
     private ScrollbarTrackColorBuilder ChainClass(string value)
     {
         if (value.Length != 0)
-            _rules.Add(new ScrollbarTrackColorRule(value, null, ConsumePendingModifierChain()));
+            _rules.Add(new ScrollbarTrackColorRule(ApplyPendingOpacity(value), null, ConsumePendingModifierChain()));
 
         return this;
     }

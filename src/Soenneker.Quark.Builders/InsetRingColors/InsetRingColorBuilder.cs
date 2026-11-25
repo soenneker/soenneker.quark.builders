@@ -114,7 +114,7 @@ public sealed class InsetRingColorBuilder : ColorBuilderBase<InsetRingColorBuild
     private InsetRingColorBuilder ChainClass(string value)
     {
         if (value.Length != 0)
-            _rules.Add(new InsetRingColorRule(value, null, ConsumePendingModifierChain()));
+            _rules.Add(new InsetRingColorRule(ApplyPendingOpacity(value), null, ConsumePendingModifierChain()));
 
         return this;
     }

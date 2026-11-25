@@ -107,7 +107,7 @@ public sealed class BackgroundColorBuilder : ColorBuilderBase<BackgroundColorBui
     private BackgroundColorBuilder ChainValue(BackgroundColorEnum value)
     {
         BreakpointType? bp = null;
-        _rules.Add(new BackgroundColorRule(value.Value, bp, ConsumePendingModifierChain()));
+        _rules.Add(new BackgroundColorRule(ApplyPendingOpacity(value.Value), bp, ConsumePendingModifierChain()));
         return this;
     }
 
@@ -116,7 +116,7 @@ public sealed class BackgroundColorBuilder : ColorBuilderBase<BackgroundColorBui
     {
         BreakpointType? bp = null;
         if (value.Length != 0)
-            _rules.Add(new BackgroundColorRule(value, bp, ConsumePendingModifierChain()));
+            _rules.Add(new BackgroundColorRule(ApplyPendingOpacity(value), bp, ConsumePendingModifierChain()));
         return this;
     }
 

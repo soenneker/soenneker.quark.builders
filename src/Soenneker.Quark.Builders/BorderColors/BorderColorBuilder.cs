@@ -116,7 +116,7 @@ public sealed class BorderColorBuilder : ColorBuilderBase<BorderColorBuilder>
     private BorderColorBuilder ChainValue(BorderColorEnum value)
     {
         BreakpointType? bp = null;
-        _rules.Add(new BorderColorRule(value.Value, bp, ConsumePendingModifierChain()));
+        _rules.Add(new BorderColorRule(ApplyPendingOpacity(value.Value), bp, ConsumePendingModifierChain()));
         return this;
     }
 
@@ -125,7 +125,7 @@ public sealed class BorderColorBuilder : ColorBuilderBase<BorderColorBuilder>
     {
         BreakpointType? bp = null;
         if (value.Length != 0)
-            _rules.Add(new BorderColorRule(value, bp, ConsumePendingModifierChain()));
+            _rules.Add(new BorderColorRule(ApplyPendingOpacity(value), bp, ConsumePendingModifierChain()));
         return this;
     }
 

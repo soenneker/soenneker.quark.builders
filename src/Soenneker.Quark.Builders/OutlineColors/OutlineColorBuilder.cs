@@ -114,7 +114,7 @@ public sealed class OutlineColorBuilder : ColorBuilderBase<OutlineColorBuilder>
     private OutlineColorBuilder ChainClass(string value)
     {
         if (value.Length != 0)
-            _rules.Add(new OutlineColorRule(value, null, ConsumePendingModifierChain()));
+            _rules.Add(new OutlineColorRule(ApplyPendingOpacity(value), null, ConsumePendingModifierChain()));
 
         return this;
     }
